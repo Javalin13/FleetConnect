@@ -140,6 +140,16 @@
         .content { padding: 32px; }
         
         .filter-bar { background: white; padding: 8px 16px; border-radius: 48px; margin-bottom: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border: 1px solid #e2e8f0; }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
+        .filter-group label { font-size: 0.65rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; padding-left: 16px; }
+        .filter-group input, .filter-group select { padding: 8px 14px; border: 1px solid #e2e8f0; border-radius: 24px; font-size: 0.85rem; outline: none; background: #f8fafc; min-width: 200px; }
+        .filter-group input:focus, .filter-group select:focus { border-color: var(--primary); background: white; }
+        .filter-actions { margin-left: auto; display: flex; gap: 8px; }
+        .mailbox-nav-item { padding: 10px 14px; border-radius: 8px; cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #475569; }
+        .mailbox-nav-item:hover { background: #f1f5f9; }
+        .mailbox-nav-item.active { background: var(--primary); color: white; font-weight: 600; }
+        .mailbox-nav-item.active i { color: var(--accent-gold); }
+        .order-count { background: var(--primary); color: white; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-left: 6px; }
         .filter-group { display: flex; align-items: center; gap: 6px; background: #f8fafc; padding: 4px 12px; border-radius: 32px; border: 1px solid #e2e8f0; }
         .filter-group label { font-size: 0.7rem; font-weight: 600; color: #475569; }
         .filter-group input { border: none; background: transparent; padding: 6px 0; font-family: 'Inter', sans-serif; font-size: 0.8rem; width: 120px; outline: none; }
@@ -288,6 +298,7 @@
             </div>
             <div class="nav-section">
                 <div class="nav-section-title" id="navInfo">INFORMATIE</div>
+                <div class="nav-item" data-tab="mailbox"><i class="fas fa-inbox"></i><span id="navMailbox">Mailbox</span></div>
                 <div class="nav-item" data-tab="wiki"><i class="fas fa-robot"></i><span id="navWiki">Wiki Agent</span></div>
             </div>
             <div class="nav-item switch-item" id="switchWoningenBtn"><i class="fas fa-home"></i><span id="switchWoningenText">Switch naar Woningen</span></div>
@@ -362,7 +373,7 @@
             nl: {
                 sidebarSubtitle: "Operator Paneel", navBookings: "BOEKINGEN", navNewOrders: "New Orders", navOrders: "Orders", navHistory: "History", navAgenda: "Agenda",
                 navManagement: "BEHEER", navDrivers: "Drivers", navPartners: "Mijn Partners", navAccountRequests: "Accountaanvragen", navFinance: "FINANCIËN", navFinancial: "Financieel", navSettlements: "Settlements",
-                navInfo: "INFORMATIE", navWiki: "Wiki Agent", switchWoningenText: "Switch naar Woningen", switchDealerText: "Switch naar Operations", logoutText: "Uitloggen",
+                navInfo: "INFORMATIE", navMailbox: "Mailbox", navWiki: "Wiki Agent", switchWoningenText: "Switch naar Woningen", switchDealerText: "Switch naar Operations", logoutText: "Uitloggen",
                 backText: "Terug naar overzicht", headerWoningenText: "Woningen Paneel", headerDealerText: "Switch naar Operations", refreshText: "Vernieuwen",
                 filterOrderId: "Order ID", filterName: "Naam", btnSearch: "Zoeken", btnReset: "Reset", tableId: "ID", tableDatetime: "Datum/Tijd", tableCustomer: "Klant",
                 tableRoute: "Route", tableVehicle: "Voertuig", tableAmount: "Bedrag", tableAction: "Actie", tableDriver: "Driver", btnViewFiche: "Bekijk Fiche",
@@ -628,15 +639,594 @@
             changeMonth(delta) { this.currentMonth.setMonth(this.currentMonth.getMonth() + delta); this.renderSimpleCalendar(); },
             goToToday() { this.currentMonth = new Date(); this.selectedDate = new Date(); this.renderSimpleCalendar(); },
             selectDate(day, month, year) { this.selectedDate = new Date(year, month-1, day); this.currentMonth = new Date(year, month-1, 1); this.renderSimpleCalendar(); setTimeout(() => { const pc = document.querySelector('.planning-container'); if (pc) pc.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100); },
-            renderDrivers() { let t = translations[currentLang]; let myDrivers = this.drivers.filter(c => { let partner = this.partners.find(p => p.id === c.partner_id); return partner && partner.is_hoofd === true; }); const activeDrivers = myDrivers.filter(c => c.is_active !== false); const archivedDrivers = myDrivers.filter(c => c.is_active === false); const renderDriverCard = (c, archived = false) => { const partner = this.partners.find(p => p.id === c.partner_id) || {}; return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; gap:12px;"><div><strong>${this.escapeHtml(c.driver_code || String(c.id))}</strong> - ${this.escapeHtml(c.name || "-")}<br><small>Email: ${this.escapeHtml(c.email || "-")} | Phone: ${this.escapeHtml(c.phone || "-")}</small><br><small>Partner: ${this.escapeHtml(partner.name || "-")} | Status: ${archived ? 'archived' : 'active'}</small><br><small>Vehicle: ${this.escapeHtml(c.vehicle || "-")} | Plate: ${this.escapeHtml(c.license_plate || "-")}</small></div><div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;"><button class="action-btn" onclick="app.editDriver('${c.id}')">${t.btnEdit}</button>${archived ? `<button class="action-btn" onclick="app.reactivateDriver('${c.id}')">Heractiveren</button>` : `<button class="delete-btn" onclick="app.deleteDriver('${c.id}')">${t.btnArchive}</button>`}</div></div>`; }; let html = `<div class="people-card"><h3><i class="fas fa-id-card"></i> ${t.driversTitle}</h3><button class="add-btn" onclick="app.showAddDriverForm()">+ ${t.btnAddDriver}</button><div style="margin-top:20px;">`; if (activeDrivers.length === 0) html += `<div class="empty-planning">${t.noDrivers}</div>`; else activeDrivers.forEach(c => { html += renderDriverCard(c, false); }); if (archivedDrivers.length) html += `<details style="margin-top:18px;"><summary style="cursor:pointer; font-weight:700;">Gearchiveerde chauffeurs (${archivedDrivers.length})</summary><div style="margin-top:12px;">${archivedDrivers.map(c => renderDriverCard(c, true)).join('')}</div></details>`; html += `</div></div>`; document.getElementById('contentArea').innerHTML = html; document.getElementById('pageTitle').innerHTML = t.driversTitle; },
-            renderPartners() { let t = translations[currentLang]; let html = `<div class="people-card"><h3><i class="fas fa-handshake"></i> ${t.partnersTitle}</h3><button class="add-btn" onclick="app.showAddPartnerForm()">+ ${t.btnAddPartner}</button><div style="margin-top:20px;">`; if (this.partners.length === 0) html += `<div class="empty-planning">${t.noPartners}</div>`; else this.partners.forEach(p => { html += `<div class="partner-card"><div class="partner-header"><div class="partner-name">${this.escapeHtml(p.name)}</div><button class="delete-btn" onclick="app.deletePartner(${p.id})">${t.btnDelete}</button></div><div><small>${t.partnerContact}: ${this.escapeHtml(p.contact)} | ${p.email} | ${p.phone}</small></div></div>`; }); html += `</div></div>`; document.getElementById('contentArea').innerHTML = html; document.getElementById('pageTitle').innerHTML = t.partnersTitle; },
+            renderDrivers() {
+                let t = translations[currentLang];
+                let myDrivers = this.drivers.filter(c => { let partner = this.partners.find(p => p.id === c.partner_id); return partner && partner.is_hoofd === true; });
+                const activeDrivers = myDrivers.filter(c => c.is_active !== false && !c.archived_at);
+                const archivedDrivers = myDrivers.filter(c => c.is_active === false || c.archived_at);
+                const renderDriverCard = (c, archived = false) => {
+                    const partner = this.partners.find(p => p.id === c.partner_id) || {};
+                    const ridesCount = (this.allBookings || []).filter(b => b.assigned_driver_id === c.id && b.status !== 'cancelled').length;
+                    return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+                        <div style="flex:1; min-width:240px;">
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                                <strong>${this.escapeHtml(c.driver_code || String(c.id))}</strong> · ${this.escapeHtml(c.name || '-')}
+                                ${c.user_id ? '<span class="status-badge status-completed"><i class="fas fa-key"></i></span>' : '<span class="status-badge status-pending">Geen login</span>'}
+                                ${archived ? '<span class="status-badge status-cancelled">Gearchiveerd</span>' : '<span class="status-badge status-completed">Actief</span>'}
+                            </div>
+                            <div style="color:#64748b; font-size:0.85rem; line-height:1.6;">
+                                <div><strong>Email:</strong> ${this.escapeHtml(c.email || '-')}</div>
+                                <div><strong>Tel:</strong> ${this.escapeHtml(c.phone || '-')}</div>
+                                <div><strong>Partner:</strong> ${this.escapeHtml(partner.name || '-')}</div>
+                                <div><strong>Voertuig:</strong> ${this.escapeHtml(c.vehicle || '-')} ${c.license_plate ? '(' + this.escapeHtml(c.license_plate) + ')' : ''}</div>
+                                <div><strong>Ritten:</strong> ${ridesCount}</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                            <button class="action-btn" onclick="app.editDriver('${c.id}')" title="Bewerken"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" onclick="app.showDriverDetails('${c.id}')" title="Details"><i class="fas fa-eye"></i></button>
+                            ${archived ? `<button class="action-btn" onclick="app.reactivateDriver('${c.id}')"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.deleteDriver('${c.id}')" title="Archiveren"><i class="fas fa-archive"></i></button>`}
+                        </div>
+                    </div>`;
+                };
+                let html = `<div class="people-card"><h3><i class="fas fa-id-card"></i> ${t.driversTitle} <span class="order-count">${activeDrivers.length}</span></h3>
+                <button class="add-btn" onclick="app.showAddDriverForm()">+ ${t.btnAddDriver}</button>
+                <div class="filter-bar" style="margin-top:16px;">
+                    <div class="filter-group">
+                        <label>Zoeken</label>
+                        <input type="text" id="filterDrivers" placeholder="Naam, code, email, voertuig…" oninput="app.applyFiltersDrivers()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Sorteer</label>
+                        <select id="sortDrivers" onchange="app.applyFiltersDrivers()">
+                            <option value="name">Naam (A→Z)</option>
+                            <option value="name_desc">Naam (Z→A)</option>
+                            <option value="code">Code</option>
+                            <option value="vehicle">Voertuig</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn-reset" onclick="document.getElementById('filterDrivers').value=''; document.getElementById('sortDrivers').value='name'; app.renderDrivers();">Reset</button>
+                    </div>
+                </div>
+                <div id="driversList" style="margin-top:16px;">`;
+                if (activeDrivers.length === 0) html += `<div class="empty-planning">${t.noDrivers}</div>`;
+                else activeDrivers.forEach(c => { html += renderDriverCard(c, false); });
+                if (archivedDrivers.length) html += `<details style="margin-top:18px;"><summary style="cursor:pointer; font-weight:700;">Gearchiveerde chauffeurs (${archivedDrivers.length})</summary><div style="margin-top:12px;">${archivedDrivers.map(c => renderDriverCard(c, true)).join('')}</div></details>`;
+                html += `</div></div>`;
+                document.getElementById('contentArea').innerHTML = html;
+                document.getElementById('pageTitle').innerHTML = `${t.driversTitle} <span class="order-count">${activeDrivers.length}</span>`;
+            },
+
+            applyFiltersDrivers() {
+                const q = (document.getElementById('filterDrivers')?.value || '').toLowerCase();
+                const sort = document.getElementById('sortDrivers')?.value || 'name';
+                let filtered = this.drivers.filter(c => !q ||
+                    (c.name || '').toLowerCase().includes(q) ||
+                    (c.driver_code || '').toLowerCase().includes(q) ||
+                    (c.email || '').toLowerCase().includes(q) ||
+                    (c.vehicle || '').toLowerCase().includes(q)
+                );
+                filtered.sort((a, b) => {
+                    if (sort === 'name') return (a.name || '').localeCompare(b.name || '');
+                    if (sort === 'name_desc') return (b.name || '').localeCompare(a.name || '');
+                    if (sort === 'code') return (a.driver_code || '').localeCompare(b.driver_code || '');
+                    if (sort === 'vehicle') return (a.vehicle || '').localeCompare(b.vehicle || '');
+                    return 0;
+                });
+                const list = document.getElementById('driversList');
+                if (!list) { this.renderDrivers(); return; }
+                const renderDriverCard = (c, archived = false) => {
+                    const partner = this.partners.find(p => p.id === c.partner_id) || {};
+                    const ridesCount = (this.allBookings || []).filter(b => b.assigned_driver_id === c.id && b.status !== 'cancelled').length;
+                    return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+                        <div style="flex:1; min-width:240px;">
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                                <strong>${this.escapeHtml(c.driver_code || String(c.id))}</strong> · ${this.escapeHtml(c.name || '-')}
+                                ${archived ? '<span class="status-badge status-cancelled">Gearchiveerd</span>' : ''}
+                            </div>
+                            <div style="color:#64748b; font-size:0.85rem;">${this.escapeHtml(c.email || '-')} · ${this.escapeHtml(c.vehicle || '-')} · ${ridesCount} rit${ridesCount !== 1 ? 'ten' : ''}</div>
+                        </div>
+                        <div style="display:flex; gap:6px;">
+                            <button class="action-btn" onclick="app.editDriver('${c.id}')"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" onclick="app.showDriverDetails('${c.id}')"><i class="fas fa-eye"></i></button>
+                            ${archived ? `<button class="action-btn" onclick="app.reactivateDriver('${c.id}')"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.deleteDriver('${c.id}')"><i class="fas fa-archive"></i></button>`}
+                        </div>
+                    </div>`;
+                };
+                list.innerHTML = filtered.length ? filtered.map(c => renderDriverCard(c, false)).join('') : `<div class="empty-planning">Geen chauffeurs gevonden voor deze filter.</div>`;
+            },
+
+            async showDriverDetails(driverId) {
+                const d = this.drivers.find(x => String(x.id) === String(driverId));
+                if (!d) return;
+                const partner = this.partners.find(p => p.id === d.partner_id) || {};
+                const rides = (this.allBookings || []).filter(b => b.assigned_driver_id === d.id).slice(0, 10);
+                const html = `
+                    <div class="fiche-section"><h4>Chauffeurgegevens</h4>
+                        <div class="fiche-row"><span class="fiche-label">Code:</span><span class="fiche-value"><code>${this.escapeHtml(d.driver_code || String(d.id))}</code></span></div>
+                        <div class="fiche-row"><span class="fiche-label">Naam:</span><span class="fiche-value">${this.escapeHtml(d.name)}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Email:</span><span class="fiche-value">${this.escapeHtml(d.email || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Telefoon:</span><span class="fiche-value">${this.escapeHtml(d.phone || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Partner:</span><span class="fiche-value">${this.escapeHtml(partner.name || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Voertuig:</span><span class="fiche-value">${this.escapeHtml(d.vehicle || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Kenteken:</span><span class="fiche-value">${this.escapeHtml(d.license_plate || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Kleur:</span><span class="fiche-value">${this.escapeHtml(d.color || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Auth login:</span><span class="fiche-value">${d.user_id ? 'Gekoppeld' : 'Niet gekoppeld'}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Status:</span><span class="fiche-value">${d.is_active !== false ? 'Actief' : 'Inactief/Gearchiveerd'}</span></div>
+                    </div>
+                    <div class="fiche-section"><h4>Recente ritten (${rides.length})</h4>
+                        ${rides.length === 0 ? '<p style="color:#94a3b8;">Geen ritten</p>' :
+                          rides.map(b => `<div style="padding:6px 0; border-bottom:1px solid #f1f5f9; font-size:0.85rem;"><strong>${b.id}</strong> · ${b.datetime || '-'} ${b.time || ''} · ${this.escapeHtml(b.name || '-')}</div>`).join('')}
+                    </div>
+                    <div class="fiche-actions">
+                        <button class="fiche-btn confirm" onclick="app.closeModal(); app.editDriver('${d.id}');">Bewerken</button>
+                        <button class="fiche-btn close" onclick="app.closeModal()">Sluiten</button>
+                    </div>
+                `;
+                document.getElementById('ficheBody').innerHTML = html;
+                document.getElementById('bookingModal').style.display = 'flex';
+            },
+            renderPartners() {
+                let t = translations[currentLang];
+                const active = this.partners.filter(p => !p.archived_at);
+                const archived = this.partners.filter(p => p.archived_at);
+                const renderPartner = (p) => {
+                    const driversCount = (this.drivers || []).filter(d => d.partner_id === p.id && !d.archived_at).length;
+                    const ordersCount = (this.allBookings || []).filter(b => b.partner_id === p.id).length;
+                    return `<div class="partner-card" data-partner-id="${p.id}" style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;">
+                        <div style="flex:1; min-width:240px;">
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                                <strong>${this.escapeHtml(p.name)}</strong>
+                                ${p.is_hoofd ? '<span class="status-badge status-completed">Hoofdpartner</span>' : '<span class="status-badge status-pending">Sub-partner</span>'}
+                                ${p.archived_at ? '<span class="status-badge status-cancelled">Gearchiveerd</span>' : ''}
+                                ${p.user_id ? '<span class="status-badge status-completed" title="Heeft FleetConnect login"><i class="fas fa-key"></i></span>' : '<span class="status-badge status-pending" title="Geen login">Geen login</span>'}
+                            </div>
+                            <div style="color:#64748b; font-size:0.85rem;">
+                                ${this.escapeHtml(p.contact || '-')} · ${this.escapeHtml(p.email || '-')} · ${this.escapeHtml(p.phone || '-')}
+                            </div>
+                            <div style="color:#94a3b8; font-size:0.8rem; margin-top:4px;">
+                                <strong>${driversCount}</strong> chauffeur${driversCount !== 1 ? 's' : ''} · <strong>${ordersCount}</strong> rit${ordersCount !== 1 ? 'ten' : ''} · Prefix: <code>${this.escapeHtml(p.prefix || '-')}</code>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:6px; align-items:center;">
+                            <button class="action-btn" onclick="app.editPartner(${p.id})" title="Bewerken"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" onclick="app.showPartnerDetails(${p.id})" title="Details"><i class="fas fa-eye"></i></button>
+                            ${p.archived_at ? `<button class="action-btn" onclick="app.unarchivePartner(${p.id})" title="Heractiveren"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.archivePartner(${p.id})" title="Archiveren"><i class="fas fa-archive"></i></button>`}
+                            <button class="delete-btn" onclick="app.deletePartner(${p.id})" title="Verwijderen"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>`;
+                };
+                let html = `<div class="people-card"><h3><i class="fas fa-handshake"></i> ${t.partnersTitle} <span class="order-count">${active.length}</span></h3>
+                <button class="add-btn" onclick="app.showAddPartnerForm()">+ ${t.btnAddPartner}</button>
+                <div class="filter-bar" style="margin-top:16px;">
+                    <div class="filter-group">
+                        <label>Zoeken</label>
+                        <input type="text" id="filterPartners" placeholder="Naam, contact, email, prefix…" oninput="app.applyFiltersPartners()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Sorteer</label>
+                        <select id="sortPartners" onchange="app.applyFiltersPartners()">
+                            <option value="name">Naam (A→Z)</option>
+                            <option value="name_desc">Naam (Z→A)</option>
+                            <option value="hoofd">Hoofdpartner eerst</option>
+                            <option value="email">Email</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn-reset" onclick="document.getElementById('filterPartners').value=''; document.getElementById('sortPartners').value='name'; app.renderPartners();">Reset</button>
+                    </div>
+                </div>
+                <div id="partnersList" style="margin-top:16px;">`;
+                if (!active.length) html += `<div class="empty-planning">${t.noPartners}</div>`;
+                else active.forEach(p => { html += renderPartner(p); });
+                if (archived.length) {
+                    html += `<details style="margin-top:20px;"><summary style="cursor:pointer; font-weight:700;">Gearchiveerde partners (${archived.length})</summary><div style="margin-top:12px;">${archived.map(renderPartner).join('')}</div></details>`;
+                }
+                html += `</div></div>`;
+                document.getElementById('contentArea').innerHTML = html;
+                document.getElementById('pageTitle').innerHTML = `${t.partnersTitle} <span class="order-count">${active.length}</span>`;
+            },
+
+            applyFiltersPartners() {
+                const q = (document.getElementById('filterPartners')?.value || '').toLowerCase();
+                const sort = document.getElementById('sortPartners')?.value || 'name';
+                let filtered = this.partners.filter(p => !q ||
+                    (p.name || '').toLowerCase().includes(q) ||
+                    (p.contact || '').toLowerCase().includes(q) ||
+                    (p.email || '').toLowerCase().includes(q) ||
+                    (p.prefix || '').toLowerCase().includes(q)
+                );
+                filtered.sort((a, b) => {
+                    if (sort === 'name') return (a.name || '').localeCompare(b.name || '');
+                    if (sort === 'name_desc') return (b.name || '').localeCompare(a.name || '');
+                    if (sort === 'hoofd') return (b.is_hoofd ? 1 : 0) - (a.is_hoofd ? 1 : 0);
+                    if (sort === 'email') return (a.email || '').localeCompare(b.email || '');
+                    return 0;
+                });
+                const list = document.getElementById('partnersList');
+                if (!list) { this.renderPartners(); return; }
+                const archived = this.partners.filter(p => p.archived_at);
+                const renderPartner = (p) => {
+                    const driversCount = (this.drivers || []).filter(d => d.partner_id === p.id && !d.archived_at).length;
+                    const ordersCount = (this.allBookings || []).filter(b => b.partner_id === p.id).length;
+                    return `<div class="partner-card" data-partner-id="${p.id}" style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;">
+                        <div style="flex:1; min-width:240px;">
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                                <strong>${this.escapeHtml(p.name)}</strong>
+                                ${p.is_hoofd ? '<span class="status-badge status-completed">Hoofdpartner</span>' : '<span class="status-badge status-pending">Sub-partner</span>'}
+                                ${p.user_id ? '<span class="status-badge status-completed"><i class="fas fa-key"></i></span>' : '<span class="status-badge status-pending">Geen login</span>'}
+                            </div>
+                            <div style="color:#64748b; font-size:0.85rem;">${this.escapeHtml(p.contact || '-')} · ${this.escapeHtml(p.email || '-')} · ${this.escapeHtml(p.phone || '-')}</div>
+                            <div style="color:#94a3b8; font-size:0.8rem; margin-top:4px;"><strong>${driversCount}</strong> chauffeur${driversCount !== 1 ? 's' : ''} · <strong>${ordersCount}</strong> rit${ordersCount !== 1 ? 'ten' : ''} · Prefix: <code>${this.escapeHtml(p.prefix || '-')}</code></div>
+                        </div>
+                        <div style="display:flex; gap:6px; align-items:center;">
+                            <button class="action-btn" onclick="app.editPartner(${p.id})"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" onclick="app.showPartnerDetails(${p.id})"><i class="fas fa-eye"></i></button>
+                            <button class="delete-btn" onclick="app.archivePartner(${p.id})"><i class="fas fa-archive"></i></button>
+                            <button class="delete-btn" onclick="app.deletePartner(${p.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>`;
+                };
+                list.innerHTML = filtered.length
+                    ? filtered.map(renderPartner).join('')
+                    : `<div class="empty-planning">Geen partners gevonden voor deze filter.</div>`;
+            },
+
+            async editPartner(partnerId) {
+                const p = this.partners.find(x => String(x.id) === String(partnerId));
+                if (!p) return;
+                const t = translations[currentLang];
+                const name = prompt('Bedrijfsnaam:', p.name || '');
+                if (name === null) return;
+                const contact = prompt('Contactpersoon:', p.contact || '');
+                if (contact === null) return;
+                const email = prompt('Email:', p.email || '');
+                if (email === null) return;
+                const phone = prompt('Telefoon:', p.phone || '');
+                if (phone === null) return;
+                const prefix = prompt('Prefix (2-4 letters):', p.prefix || '');
+                if (prefix === null) return;
+                const isHoofdStr = prompt('Hoofdpartner? (ja/nee):', p.is_hoofd ? 'ja' : 'nee');
+                if (isHoofdStr === null) return;
+                const is_hoofd = String(isHoofdStr).toLowerCase().startsWith('j');
+                const { error } = await supabase.rpc('update_partner', {
+                    p_partner_id: p.id,
+                    p_name: name || null,
+                    p_email: email || null,
+                    p_phone: phone || null,
+                    p_prefix: prefix || null,
+                    p_is_hoofd: is_hoofd
+                });
+                if (error) { this.showToast('Bewerken mislukt: ' + error.message, true); return; }
+                this.showToast(`${name} bijgewerkt`);
+                await this.loadPartners();
+                if (this.currentTab === 'partners') this.renderPartners();
+            },
+
+            async archivePartner(partnerId) {
+                if (!confirm('Partner archiveren?')) return;
+                const { error } = await supabase.rpc('update_partner', { p_partner_id: partnerId, p_archived: true });
+                if (error) { this.showToast('Archiveren mislukt: ' + error.message, true); return; }
+                this.showToast('Partner gearchiveerd');
+                await this.loadPartners();
+                if (this.currentTab === 'partners') this.renderPartners();
+            },
+
+            async unarchivePartner(partnerId) {
+                const { error } = await supabase.rpc('update_partner', { p_partner_id: partnerId, p_archived: false });
+                if (error) { this.showToast('Heractiveren mislukt: ' + error.message, true); return; }
+                this.showToast('Partner heractief');
+                await this.loadPartners();
+                if (this.currentTab === 'partners') this.renderPartners();
+            },
+
+            async showPartnerDetails(partnerId) {
+                const p = this.partners.find(x => String(x.id) === String(partnerId));
+                if (!p) return;
+                const drivers = (this.drivers || []).filter(d => d.partner_id === p.id);
+                const orders = (this.allBookings || []).filter(b => b.partner_id === p.id).slice(0, 10);
+                const html = `
+                    <div class="fiche-section"><h4>Bedrijfsgegevens</h4>
+                        <div class="fiche-row"><span class="fiche-label">Naam:</span><span class="fiche-value">${this.escapeHtml(p.name)}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Contact:</span><span class="fiche-value">${this.escapeHtml(p.contact || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Email:</span><span class="fiche-value">${this.escapeHtml(p.email || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Telefoon:</span><span class="fiche-value">${this.escapeHtml(p.phone || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Prefix:</span><span class="fiche-value"><code>${this.escapeHtml(p.prefix || '-')}</code></span></div>
+                        <div class="fiche-row"><span class="fiche-label">Type:</span><span class="fiche-value">${p.is_hoofd ? 'Hoofdpartner' : 'Sub-partner'}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Auth login:</span><span class="fiche-value">${p.user_id ? 'Ja' : 'Nee'}</span></div>
+                    </div>
+                    <div class="fiche-section"><h4>Chauffeurs (${drivers.length})</h4>
+                        ${drivers.length === 0 ? '<p style="color:#94a3b8;">Geen chauffeurs</p>' :
+                          drivers.map(d => `<div style="padding:8px 0; border-bottom:1px solid #f1f5f9;"><strong>${this.escapeHtml(d.name)}</strong> · ${this.escapeHtml(d.email || '-')} · ${this.escapeHtml(d.vehicle || '-')} ${d.is_active ? '' : '<span class="status-badge status-cancelled">Inactief</span>'}</div>`).join('')}
+                    </div>
+                    <div class="fiche-section"><h4>Recente ritten (${orders.length})</h4>
+                        ${orders.length === 0 ? '<p style="color:#94a3b8;">Geen ritten</p>' :
+                          orders.map(b => `<div style="padding:6px 0; border-bottom:1px solid #f1f5f9; font-size:0.85rem;"><strong>${b.id}</strong> · ${b.datetime || '-'} ${b.time || ''} · ${this.escapeHtml(b.name || '-')} · ${this.escapeHtml(b.pickup?.substring(0,30) || '-')}</div>`).join('')}
+                    </div>
+                    <div class="fiche-actions">
+                        <button class="fiche-btn confirm" onclick="app.closeModal(); app.editPartner(${p.id});">Bewerken</button>
+                        <button class="fiche-btn close" onclick="app.closeModal()">Sluiten</button>
+                    </div>
+                `;
+                document.getElementById('ficheBody').innerHTML = html;
+                document.getElementById('bookingModal').style.display = 'flex';
+            },
             renderCustomers() { const active = this.customers.filter(c => c.is_active !== false); const archived = this.customers.filter(c => c.is_active === false); const renderCustomer = (c, archivedMode = false) => `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(c.name || '-')}</strong> <span class="status-badge ${archivedMode ? 'status-cancelled' : 'status-completed'}">${archivedMode ? 'Gearchiveerd' : 'Actief'}</span><br><small>${this.escapeHtml(c.email || '-')} | ${this.escapeHtml(c.phone || '-')}</small><br><small>Standaard ophaaladres: ${this.escapeHtml(c.default_pickup_address || '-')}</small><br><small>Aangemaakt: ${this.escapeHtml(c.created_at || '-')} | Auth gekoppeld: ${c.user_id ? 'ja' : 'nee'}</small></div><div style="display:flex; gap:8px; align-items:center;">${archivedMode ? '' : `<button class="delete-btn" onclick="app.archiveCustomer('${this.escapeHtml(c.id)}')">Archiveren</button>`}</div></div>`; let html = `<div class="people-card"><h3><i class="fas fa-users"></i> Klanten</h3><div class="filter-bar"><div class="filter-group"><label>Zoeken</label><input type="text" id="filterCustomers" placeholder="Naam of email"></div><div class="filter-actions"><button class="btn-filter" onclick="app.applyFiltersCustomers()">Zoeken</button><button class="btn-reset" onclick="app.renderCustomers()">Reset</button></div></div><div id="customersList">`; if (!active.length) html += `<div class="empty-planning">Geen klanten gevonden</div>`; else active.forEach(c => { html += renderCustomer(c, false); }); if (archived.length) html += `<details style="margin-top:18px;"><summary style="cursor:pointer; font-weight:700;">Gearchiveerde klanten (${archived.length})</summary><div style="margin-top:12px;">${archived.map(c => renderCustomer(c, true)).join('')}</div></details>`; html += `</div></div>`; document.getElementById('contentArea').innerHTML = html; document.getElementById('pageTitle').innerHTML = `Klanten <span class="order-count">${active.length}</span>`; },
             renderCustomersList(customers) { const list = document.getElementById('customersList'); if (!list) return; if (!customers.length) { list.innerHTML = `<div class="empty-planning">Geen klanten gevonden</div>`; return; } list.innerHTML = customers.map(c => `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(c.name || '-')}</strong><br><small>${this.escapeHtml(c.email || '-')} | ${this.escapeHtml(c.phone || '-')}</small><br><small>Standaard ophaaladres: ${this.escapeHtml(c.default_pickup_address || '-')}</small><br><small>Aangemaakt: ${this.escapeHtml(c.created_at || '-')} | Auth gekoppeld: ${c.user_id ? 'ja' : 'nee'}</small></div><div>${c.is_active === false ? '<span class="status-badge status-cancelled">Gearchiveerd</span>' : `<button class="delete-btn" onclick="app.archiveCustomer('${this.escapeHtml(c.id)}')">Archiveren</button>`}</div></div>`).join(''); },
             applyFiltersCustomers() { const q = document.getElementById('filterCustomers')?.value.toLowerCase() || ''; const filtered = this.customers.filter(c => !q || String(c.name || '').toLowerCase().includes(q) || String(c.email || '').toLowerCase().includes(q)); this.renderCustomersList(filtered); },
-            renderAccountRequests() { const t = translations[currentLang]; const requests = this.accountRequests.filter(r => !this.isCustomerAccountRequest(r)); const pending = requests.filter(r => r.status === 'pending'); const decided = requests.filter(r => r.status !== 'pending').slice(0, 25); const title = t.accountRequestsTitle; let html = `<div class="people-card"><h3><i class="fas fa-user-check"></i> ${title}</h3><p style="color:#64748b; margin-bottom:16px;">Dashboard/operator access requests only. Customer registrations are shown under Klanten and do not require approval.</p><div style="margin-top:10px;">`; if (!pending.length) html += `<div class="empty-planning">${t.accountRequestsEmpty}</div>`; pending.forEach(r => { html += `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px;"><div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(r.name)}</strong> <span class="status-badge status-pending">${this.getAccountRequestStatusText(r.status)}</span> <span class="status-badge status-pending">${this.escapeHtml(r.account_type)}</span><br><small>${this.escapeHtml(r.email)} | ${this.escapeHtml(r.phone || '-')}</small><br><small>${this.escapeHtml(r.company || '-')}</small><br><small>${this.escapeHtml(r.notes || '')}</small></div><div style="display:flex; gap:8px; align-items:center;"><button class="action-btn" onclick="app.approveAccountRequest('${r.id}')">${t.accountRequestsApprove}</button><button class="delete-btn" onclick="app.rejectAccountRequest('${r.id}')">${t.accountRequestsReject}</button></div></div></div>`; }); if (decided.length) { html += `<h4 style="margin-top:20px;">${t.accountRequestsRecent}</h4>`; decided.forEach(r => { html += `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:10px; margin-bottom:8px;"><strong>${this.escapeHtml(r.name)}</strong> - ${this.getAccountRequestStatusText(r.status)}<br><small>${this.escapeHtml(r.email)} | ${this.escapeHtml(r.account_type)}</small><br><small>${t.accountRequestsProfile}: ${this.escapeHtml(r.customer_id || '-')} | ${t.accountRequestsAuthLinked}: ${r.user_id ? t.accountRequestsYes : t.accountRequestsNo}</small></div>`; }); } html += `</div></div>`; document.getElementById('contentArea').innerHTML = html; document.getElementById('pageTitle').innerHTML = `${title} <span class="order-count">${pending.length}</span>`; },
+            renderAccountRequests() {
+                const t = translations[currentLang];
+                const requests = this.accountRequests.filter(r => !this.isCustomerAccountRequest(r));
+                const pending = requests.filter(r => r.status === 'pending');
+                const decided = requests.filter(r => r.status !== 'pending').slice(0, 50);
+                const title = t.accountRequestsTitle;
+                const fmtDate = (d) => {
+                    if (!d) return '—';
+                    try {
+                        const dt = new Date(d);
+                        return dt.toLocaleString('nl-BE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    } catch { return d; }
+                };
+                const renderRequest = (r) => {
+                    const created = fmtDate(r.created_at);
+                    const isRecent = r.created_at && (Date.now() - new Date(r.created_at).getTime()) < 86400000;
+                    return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:12px; ${isRecent ? 'border-left:4px solid var(--accent-gold);' : ''}">
+                        <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                            <div style="flex:1; min-width:280px;">
+                                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                                    <strong>${this.escapeHtml(r.name)}</strong>
+                                    <span class="status-badge status-pending">${this.getAccountRequestStatusText(r.status)}</span>
+                                    <span class="status-badge" style="background:#dbeafe; color:#1e40af;">${this.escapeHtml(r.account_type)}</span>
+                                    <small style="color:#94a3b8; font-weight:600;">📅 ${created}</small>
+                                    ${isRecent ? '<span style="background:var(--accent-gold); color:white; padding:2px 8px; border-radius:12px; font-size:0.7rem; font-weight:700;">NIEUW</span>' : ''}
+                                </div>
+                                <div style="color:#475569; font-size:0.9rem;">
+                                    <strong>Email:</strong> ${this.escapeHtml(r.email)} ·
+                                    <strong>Tel:</strong> ${this.escapeHtml(r.phone || '-')}
+                                    ${r.company ? ` · <strong>Bedrijf:</strong> ${this.escapeHtml(r.company)}` : ''}
+                                </div>
+                                ${r.notes ? `<div style="color:#64748b; font-size:0.85rem; margin-top:6px; padding:8px; background:#f8fafc; border-radius:6px;"><strong>Notities:</strong> ${this.escapeHtml(r.notes)}</div>` : ''}
+                                <div style="color:#94a3b8; font-size:0.75rem; margin-top:6px;">
+                                    ${t.accountRequestsProfile || 'Profiel'}: ${this.escapeHtml(r.customer_id || '-')} · ${t.accountRequestsAuthLinked || 'Auth'}: ${r.user_id ? (t.accountRequestsYes || 'ja') : (t.accountRequestsNo || 'nee')}
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:6px; align-items:flex-start; flex-wrap:wrap;">
+                                <button class="action-btn" onclick="app.editAccountRequest('${r.id}')" title="Bewerken"><i class="fas fa-edit"></i> Bewerken</button>
+                                <button class="action-btn" onclick="app.showAccountRequestDetails('${r.id}')" title="Details"><i class="fas fa-eye"></i></button>
+                                ${r.status === 'pending' ? `
+                                    <button class="action-btn" onclick="app.approveAccountRequest('${r.id}')" style="background:var(--success); color:white;">${t.accountRequestsApprove}</button>
+                                    <button class="delete-btn" onclick="app.rejectAccountRequest('${r.id}')">${t.accountRequestsReject}</button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>`;
+                };
+                let html = `<div class="people-card"><h3><i class="fas fa-user-check"></i> ${title} <span class="order-count">${pending.length} open</span></h3>
+                <p style="color:#64748b; margin-bottom:16px;">Dashboard/operator access requests only. Customer registrations are shown under Klanten and do not require approval.</p>
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label>Zoeken</label>
+                        <input type="text" id="filterAccountRequests" placeholder="Naam, email, bedrijf…" oninput="app.applyFiltersAccountRequests()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="filterAccountRequestStatus" onchange="app.applyFiltersAccountRequests()">
+                            <option value="all">Alle</option>
+                            <option value="pending" selected>In behandeling</option>
+                            <option value="approved">Goedgekeurd</option>
+                            <option value="rejected">Afgewezen</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sorteer</label>
+                        <select id="sortAccountRequests" onchange="app.applyFiltersAccountRequests()">
+                            <option value="newest">Nieuwste eerst</option>
+                            <option value="oldest">Oudste eerst</option>
+                            <option value="name">Naam</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn-reset" onclick="document.getElementById('filterAccountRequests').value=''; document.getElementById('filterAccountRequestStatus').value='pending'; document.getElementById('sortAccountRequests').value='newest'; app.renderAccountRequests();">Reset</button>
+                    </div>
+                </div>
+                <div id="accountRequestsList" style="margin-top:16px;">`;
+                if (!pending.length) html += `<div class="empty-planning">${t.accountRequestsEmpty}</div>`;
+                else pending.forEach(r => { html += renderRequest(r); });
+                if (decided.length) {
+                    html += `<h4 style="margin-top:24px;">${t.accountRequestsRecent} (${decided.length})</h4>`;
+                    decided.forEach(r => { html += renderRequest(r); });
+                }
+                html += `</div></div>`;
+                document.getElementById('contentArea').innerHTML = html;
+                document.getElementById('pageTitle').innerHTML = `${title} <span class="order-count">${pending.length}</span>`;
+            },
+
+            applyFiltersAccountRequests() {
+                const q = (document.getElementById('filterAccountRequests')?.value || '').toLowerCase();
+                const status = document.getElementById('filterAccountRequestStatus')?.value || 'all';
+                const sort = document.getElementById('sortAccountRequests')?.value || 'newest';
+                const all = this.accountRequests.filter(r => !this.isCustomerAccountRequest(r));
+                let filtered = all.filter(r =>
+                    (status === 'all' || r.status === status) &&
+                    (!q || (r.name || '').toLowerCase().includes(q) || (r.email || '').toLowerCase().includes(q) || (r.company || '').toLowerCase().includes(q) || (r.account_type || '').toLowerCase().includes(q))
+                );
+                filtered.sort((a, b) => {
+                    if (sort === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+                    if (sort === 'oldest') return new Date(a.created_at || 0) - new Date(b.created_at || 0);
+                    if (sort === 'name') return (a.name || '').localeCompare(b.name || '');
+                    return 0;
+                });
+                const list = document.getElementById('accountRequestsList');
+                if (!list) { this.renderAccountRequests(); return; }
+                const fmtDate = (d) => {
+                    if (!d) return '—';
+                    try { return new Date(d).toLocaleString('nl-BE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); } catch { return d; }
+                };
+                const renderRequest = (r) => {
+                    const created = fmtDate(r.created_at);
+                    const isRecent = r.created_at && (Date.now() - new Date(r.created_at).getTime()) < 86400000;
+                    return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:12px; ${isRecent ? 'border-left:4px solid var(--accent-gold);' : ''}">
+                        <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                            <div style="flex:1; min-width:280px;">
+                                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                                    <strong>${this.escapeHtml(r.name)}</strong>
+                                    <span class="status-badge status-pending">${this.getAccountRequestStatusText(r.status)}</span>
+                                    <span class="status-badge" style="background:#dbeafe; color:#1e40af;">${this.escapeHtml(r.account_type)}</span>
+                                    <small style="color:#94a3b8; font-weight:600;">📅 ${created}</small>
+                                </div>
+                                <div style="color:#475569; font-size:0.9rem;">${this.escapeHtml(r.email)} · ${this.escapeHtml(r.phone || '-')}${r.company ? ' · ' + this.escapeHtml(r.company) : ''}</div>
+                            </div>
+                            <div style="display:flex; gap:6px; align-items:flex-start;">
+                                <button class="action-btn" onclick="app.editAccountRequest('${r.id}')"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn" onclick="app.showAccountRequestDetails('${r.id}')"><i class="fas fa-eye"></i></button>
+                                ${r.status === 'pending' ? `<button class="action-btn" onclick="app.approveAccountRequest('${r.id}')" style="background:var(--success); color:white;">Goedkeuren</button><button class="delete-btn" onclick="app.rejectAccountRequest('${r.id}')">Afwijzen</button>` : ''}
+                            </div>
+                        </div>
+                    </div>`;
+                };
+                list.innerHTML = filtered.length ? filtered.map(renderRequest).join('') : `<div class="empty-planning">Geen accountaanvragen gevonden voor deze filter.</div>`;
+            },
+
+            async editAccountRequest(requestId) {
+                const r = this.accountRequests.find(x => String(x.id) === String(requestId));
+                if (!r) return;
+                const name = prompt('Naam:', r.name || '');
+                if (name === null) return;
+                const email = prompt('Email:', r.email || '');
+                if (email === null) return;
+                const phone = prompt('Telefoon:', r.phone || '');
+                if (phone === null) return;
+                const company = prompt('Bedrijf:', r.company || '');
+                if (company === null) return;
+                const notes = prompt('Notities:', r.notes || '');
+                if (notes === null) return;
+                const { error } = await supabase.rpc('update_account_request', {
+                    p_request_id: r.id,
+                    p_name: name || null,
+                    p_email: email || null,
+                    p_phone: phone || null,
+                    p_company: company || null,
+                    p_notes: notes || null
+                });
+                if (error) { this.showToast('Bewerken mislukt: ' + error.message, true); return; }
+                this.showToast('Accountaanvraag bijgewerkt');
+                await this.loadAccountRequests();
+                if (this.currentTab === 'accountrequests') this.renderAccountRequests();
+            },
+
+            async showAccountRequestDetails(requestId) {
+                const r = this.accountRequests.find(x => String(x.id) === String(requestId));
+                if (!r) return;
+                const html = `
+                    <div class="fiche-section"><h4>Aanvraaggegevens</h4>
+                        <div class="fiche-row"><span class="fiche-label">Naam:</span><span class="fiche-value">${this.escapeHtml(r.name)}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Email:</span><span class="fiche-value">${this.escapeHtml(r.email)}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Telefoon:</span><span class="fiche-value">${this.escapeHtml(r.phone || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Bedrijf:</span><span class="fiche-value">${this.escapeHtml(r.company || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Type:</span><span class="fiche-value">${this.escapeHtml(r.account_type)}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Status:</span><span class="fiche-value">${this.getAccountRequestStatusText(r.status)}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Aangevraagd op:</span><span class="fiche-value">${r.created_at ? new Date(r.created_at).toLocaleString('nl-BE') : '—'}</span></div>
+                        ${r.notes ? `<div class="fiche-row"><span class="fiche-label">Notities:</span><span class="fiche-value">${this.escapeHtml(r.notes)}</span></div>` : ''}
+                    </div>
+                    <div class="fiche-section"><h4>Systeem</h4>
+                        <div class="fiche-row"><span class="fiche-label">ID:</span><span class="fiche-value"><code>${r.id}</code></span></div>
+                        <div class="fiche-row"><span class="fiche-label">Klantprofiel:</span><span class="fiche-value">${this.escapeHtml(r.customer_id || '-')}</span></div>
+                        <div class="fiche-row"><span class="fiche-label">Auth login:</span><span class="fiche-value">${r.user_id ? 'Gekoppeld' : 'Niet gekoppeld'}</span></div>
+                    </div>
+                    <div class="fiche-actions">
+                        <button class="fiche-btn confirm" onclick="app.closeModal(); app.editAccountRequest('${r.id}');">Bewerken</button>
+                        ${r.status === 'pending' ? `<button class="fiche-btn confirm" onclick="app.closeModal(); app.approveAccountRequest('${r.id}');" style="background:var(--success); color:white;">Goedkeuren</button>` : ''}
+                        <button class="fiche-btn close" onclick="app.closeModal()">Sluiten</button>
+                    </div>
+                `;
+                document.getElementById('ficheBody').innerHTML = html;
+                document.getElementById('bookingModal').style.display = 'flex';
+            },
             renderFinance() { let t = translations[currentLang]; let totalRevenue = this.allBookings.reduce((sum, b) => sum + (b.amount || 0), 0); let html = `<div class="kpi-grid"><div class="kpi-card"><div class="value">EUR ${totalRevenue.toFixed(2)}</div><div class="label">${t.financialTotalRevenue}</div></div><div class="kpi-card"><div class="value">${this.allBookings.length}</div><div class="label">${t.financialTotalRides}</div></div><div class="kpi-card"><div class="value">${this.newOrders.length}</div><div class="label">${t.financialNewOrders}</div></div><div class="kpi-card"><div class="value">${this.ordersList.length}</div><div class="label">${t.financialActiveOrders}</div></div><div class="kpi-card"><div class="value">${this.historyOrders.length}</div><div class="label">${t.financialHistory}</div></div></div>`; document.getElementById('contentArea').innerHTML = html; document.getElementById('pageTitle').innerHTML = t.navFinancial; },
             renderSettlements() { let t = translations[currentLang]; document.getElementById('contentArea').innerHTML = `<div class="people-card"><h3>${t.settlementsTitle}</h3><p>${t.settlementsText}</p></div>`; document.getElementById('pageTitle').innerHTML = t.navSettlements; },
             renderWiki() { let t = translations[currentLang]; document.getElementById('contentArea').innerHTML = `<div class="wiki-container"><div class="wiki-content"><h2><i class="fas fa-robot"></i> ${t.navWiki}</h2><p>${t.wikiWelcome}</p><h3> ${t.navNewOrders}</h3><p>${t.wikiNewOrdersText}</p><h3> ${t.navOrders}</h3><p>${t.wikiOrdersText}</p><h3> ${t.navHistory}</h3><p>${t.wikiHistoryText}</p><h3> ${t.navAgenda}</h3><p>${t.wikiAgendaText}</p><h3> ${t.driversTitle} & ${t.partnersTitle}</h3><p>${t.wikiDriversText}</p></div></div>`; document.getElementById('pageTitle').innerHTML = t.navWiki; },
+
+            renderMailbox() {
+                const mailboxes = [
+                    { id: 'all', label: 'Alle mailboxen', icon: 'fa-inbox' },
+                    { id: 'info', label: 'info@fleetconnect.be', icon: 'fa-info-circle' },
+                    { id: 'support', label: 'support@fleetconnect.be', icon: 'fa-headset' },
+                    { id: 'operations', label: 'operations@fleetconnect.be', icon: 'fa-cogs' },
+                    { id: 'dispatch', label: 'dispatch@fleetconnect.be', icon: 'fa-route' }
+                ];
+                const mailboxNavHtml = mailboxes.map(m =>
+                    `<div class="mailbox-nav-item" data-mailbox="${m.id}" onclick="app.selectMailbox('${m.id}')"><i class="fas ${m.icon}"></i> ${m.label}</div>`
+                ).join('');
+                const html = `
+                    <div class="mailbox-container" style="display:grid; grid-template-columns:240px 1fr; gap:16px; min-height:60vh;">
+                        <div class="mailbox-sidebar" style="background:white; border-radius:12px; padding:16px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                            <h3 style="font-size:1rem; color:var(--primary); margin-bottom:12px;"><i class="fas fa-inbox"></i> Mailboxen</h3>
+                            <div id="mailboxNavList">${mailboxNavHtml}</div>
+                        </div>
+                        <div class="mailbox-content" style="background:white; border-radius:12px; padding:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                            <h2 style="color:var(--primary); margin-bottom:16px;"><i class="fas fa-envelope-open-text"></i> Gecentraliseerd e-mailoverzicht</h2>
+                            <p style="color:var(--text-light); margin-bottom:16px;">Alle communicatie via @fleetconnect.be mailboxen op één plek. Selecteer een mailbox links om de berichten te bekijken.</p>
+                            <div id="mailboxList">${this.renderMailboxList('all')}</div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('contentArea').innerHTML = html;
+                document.getElementById('pageTitle').innerHTML = 'Mailbox';
+                // Highlight 'all' by default
+                const firstMailbox = document.querySelector('.mailbox-nav-item');
+                if (firstMailbox) firstMailbox.classList.add('active');
+            },
+
+            selectMailbox(mailboxId) {
+                document.querySelectorAll('.mailbox-nav-item').forEach(el => el.classList.toggle('active', el.dataset.mailbox === mailboxId));
+                document.getElementById('mailboxList').innerHTML = this.renderMailboxList(mailboxId);
+            },
+
+            renderMailboxList(mailboxId) {
+                // Use the most recent account_requests and bookings as placeholder content
+                const messages = [];
+                for (const r of this.accountRequests.slice(0, 25)) {
+                    messages.push({
+                        from: r.email,
+                        fromName: r.name,
+                        subject: `Accountaanvraag: ${r.account_type || 'Onbekend'}`,
+                        snippet: r.notes || `Bedrijf: ${r.company || '-'} | Status: ${r.status}`,
+                        date: r.created_at,
+                        read: r.status !== 'pending',
+                        mailbox: 'info',
+                        kind: 'request'
+                    });
+                }
+                const filtered = mailboxId === 'all' ? messages : messages.filter(m => m.mailbox === mailboxId);
+                if (!filtered.length) {
+                    return `<div class="empty-state" style="text-align:center; padding:48px; color:var(--text-light);">
+                        <i class="fas fa-inbox" style="font-size:3rem; color:#e2edf7; margin-bottom:16px;"></i>
+                        <p>Geen berichten in deze mailbox.</p>
+                        <p style="font-size:0.85rem; margin-top:8px;">Mailbox-architectuur is geconfigureerd. Echte IMAP/SMTP-integratie volgt in een volgende fase.</p>
+                    </div>`;
+                }
+                return `<div class="mailbox-message-list">${filtered.map(m => `
+                    <div style="border-bottom:1px solid #e2edf7; padding:14px 8px; display:flex; gap:12px; align-items:flex-start; ${m.read ? '' : 'background:#fef9e7;'}">
+                        <div style="width:8px; height:8px; border-radius:50%; margin-top:8px; ${m.read ? 'background:transparent;' : 'background:var(--accent-gold);'} flex-shrink:0;"></div>
+                        <div style="flex:1;">
+                            <div style="display:flex; justify-content:space-between; gap:12px;">
+                                <strong style="color:${m.read ? '#94a3b8' : 'var(--primary)'};">${this.escapeHtml(m.fromName || m.from)}</strong>
+                                <small style="color:var(--text-light);">${m.date ? new Date(m.date).toLocaleString('nl-BE', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—'}</small>
+                            </div>
+                            <div style="font-size:0.9rem; color:#475569; margin-top:2px;">${this.escapeHtml(m.subject)}</div>
+                            <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">${this.escapeHtml(m.snippet)}</div>
+                        </div>
+                        <div style="display:flex; gap:4px;">
+                            <button onclick="app.viewMailboxMessage('${m.kind}')" title="Openen" style="background:transparent; border:none; color:var(--primary); cursor:pointer;"><i class="fas fa-external-link-alt"></i></button>
+                        </div>
+                    </div>
+                `).join('')}</div>`;
+            },
+
+            viewMailboxMessage(kind) {
+                if (kind === 'request') { this.currentTab = 'accountrequests'; this.refreshCurrentTab(); }
+            },
             applyFiltersNew() { let orderFilter = document.getElementById("filterOrderNew")?.value.toLowerCase() || ""; let nameFilter = document.getElementById("filterNameNew")?.value.toLowerCase() || ""; let filtered = this.newOrders.filter(o => (orderFilter === "" || o.id?.toLowerCase().includes(orderFilter)) && (nameFilter === "" || o.name?.toLowerCase().includes(nameFilter))); this.renderNewOrdersTable(filtered); },
             resetFiltersNew() { this.renderNewOrdersTable(this.newOrders); },
             applyFiltersOrders() { let orderFilter = document.getElementById("filterOrderOrders")?.value.toLowerCase() || ""; let nameFilter = document.getElementById("filterNameOrders")?.value.toLowerCase() || ""; let filtered = this.ordersList.filter(o => (orderFilter === "" || o.id?.toLowerCase().includes(orderFilter)) && (nameFilter === "" || o.name?.toLowerCase().includes(nameFilter))); this.renderOrdersTable(filtered); },
