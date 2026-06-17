@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Verificatie | FleetConnect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <style>
-        :root { --primary: #2c6e9e; --primary-dark: #1e4a6e; --success: #10b981; --bg-body: #f4f7fc; --text-dark: #1a2a3a; --text-light: #4a627a; }
+        :root {
+            --fc-primary: #2c6e9e;
+            --fc-primary-dark: #1e4a6e;
+            --fc-accent-gold: #c9a03d;
+            --fc-bg: #f4f7fc;
+            --fc-text: #1a2a3a;
+            --fc-text-light: #4a627a;
+            --fc-success: #10b981;
+            --fc-warning: #f59e0b;
+            --fc-danger: #ef4444;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-body);
-            color: var(--text-dark);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--fc-bg);
+            color: var(--fc-text);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -21,102 +30,88 @@
         }
         .card {
             background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
             max-width: 480px;
             width: 100%;
             padding: 48px 40px;
-            border-radius: 32px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
             text-align: center;
         }
-        .icon { font-size: 4rem; margin-bottom: 20px; display: block; }
-        .icon.loading { color: var(--primary); }
-        .icon.success { color: var(--success); }
-        .icon.error { color: #ef4444; }
-        .spinner { animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        h1 { font-size: 1.6rem; color: var(--text-dark); margin-bottom: 12px; }
-        p { color: var(--text-light); font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
-        .btn-primary {
+        .icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2.5rem;
+        }
+        .icon.success { background: #d1fae5; color: var(--fc-success); }
+        .icon.check { background: #dbeafe; color: var(--fc-primary); }
+        .icon.error { background: #fee2e2; color: var(--fc-danger); }
+        h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--fc-text); }
+        p { color: var(--fc-text-light); line-height: 1.6; margin-bottom: 20px; }
+        .email-highlight { color: var(--fc-primary-dark); font-weight: 600; word-break: break-all; }
+        .btn {
             display: inline-block;
-            background: var(--primary);
+            padding: 14px 32px;
+            background: var(--fc-primary);
             color: white;
             text-decoration: none;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 700;
-            margin-top: 8px;
-        }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-secondary {
-            display: inline-block;
-            background: transparent;
-            color: var(--primary);
-            text-decoration: none;
-            padding: 12px 24px;
             border-radius: 12px;
             font-weight: 600;
-            margin-top: 8px;
-            border: 1px solid var(--primary);
+            transition: 0.2s;
+            border: none;
             cursor: pointer;
+            font-size: 1rem;
         }
-        .info-list {
-            text-align: left;
-            background: #f0f7fb;
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin: 20px 0;
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-        .info-list li { margin-bottom: 6px; }
-        .hidden { display: none !important; }
+        .btn:hover { background: var(--fc-primary-dark); transform: translateY(-1px); }
+        .btn-ghost { background: transparent; color: var(--fc-primary); border: 2px solid var(--fc-primary); margin-left: 8px; }
+        .btn-ghost:hover { background: var(--fc-primary); color: white; }
+        .spinner { width: 24px; height: 24px; border: 3px solid #e5e7eb; border-top-color: var(--fc-primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .hidden { display: none; }
+        .redirect-msg { font-size: 0.85rem; color: var(--fc-text-light); margin-top: 12px; }
     </style>
 </head>
 <body>
     <div class="card">
-        <div id="loading">
-            <span class="icon loading"><i class="fas fa-circle-notch spinner"></i></span>
-            <h1>Verificatie wordt verwerkt...</h1>
-            <p>Een ogenblik geduld terwijl wij uw e-mailadres bevestigen.</p>
+        <!-- Loading state -->
+        <div id="state-loading">
+            <div class="spinner"></div>
+            <h1>Verificatie verwerken…</h1>
+            <p>Even geduld, we bevestigen uw e-mailadres.</p>
         </div>
 
-        <div id="success" class="hidden">
-            <span class="icon success"><i class="fas fa-check-circle"></i></span>
-            <h1>✓ Uw account is succesvol geverifieerd.</h1>
-            <p>U kunt nu inloggen.</p>
-            <a id="loginLink" href="/PV/index.html" class="btn-primary">Naar inloggen</a>
+        <!-- Success state — email verified, user is now active -->
+        <div id="state-success" class="hidden">
+            <div class="icon success">✓</div>
+            <h1>Uw account is succesvol geverifieerd</h1>
+            <p>Welkom bij FleetConnect! U kunt nu inloggen en direct een rit boeken.</p>
+            <p id="successEmailDisplay" class="email-highlight"></p>
+            <a id="loginLink" href="/PV/index.html" class="btn">Naar inloggen</a>
+            <p class="redirect-msg">U wordt automatisch doorgestuurd in <span id="countdown">5</span> seconden…</p>
         </div>
 
-        <div id="needsLogin" class="hidden">
-            <span class="icon success"><i class="fas fa-check-circle"></i></span>
-            <h1>✓ Uw account is succesvol geverifieerd.</h1>
-            <p>Uw e-mailadres is bevestigd. Log in met uw e-mailadres en wachtwoord om verder te gaan.</p>
-            <a id="loginLink2" href="/PV/index.html" class="btn-primary">Naar inloggen</a>
-        </div>
-
-        <div id="error" class="hidden">
-            <span class="icon error"><i class="fas fa-times-circle"></i></span>
-            <h1>Verificatie kon niet worden afgerond</h1>
-            <p id="errorMsg"></p>
-            <div class="info-list">
-                <strong>Wat kunt u doen?</strong>
-                <ul>
-                    <li>Klik opnieuw op de link in de verificatiemail.</li>
-                    <li>Open de link in dezelfde browser waarin u zich heeft geregistreerd.</li>
-                    <li>Controleer of de link nog geldig is (24 uur geldig).</li>
-                    <li>Neem contact op met support@fleetconnect.be als het probleem blijft bestaan.</li>
-                </ul>
-            </div>
-            <a href="/PV/index.html" class="btn-primary">Naar inloggen</a>
-            <a href="/PV/register.html" class="btn-secondary">Opnieuw registreren</a>
-        </div>
-
-        <div id="directVisit" class="hidden">
-            <span class="icon loading"><i class="fas fa-envelope"></i></span>
+        <!-- Email-sent state — user just registered, hasn't clicked link yet -->
+        <div id="state-sent" class="hidden">
+            <div class="icon check">📧</div>
             <h1>Controleer uw e-mail</h1>
-            <p>Wij hebben u een verificatiemail gestuurd. Klik op de link in die e-mail om uw account te bevestigen.</p>
-            <p id="emailHint" style="font-size:0.85rem;"></p>
-            <a href="/PV/index.html" class="btn-primary">Naar inloggen</a>
+            <p>We hebben een verificatielink gestuurd naar:</p>
+            <p id="sentEmailDisplay" class="email-highlight"></p>
+            <p>Klik op de link in de e-mail om uw account te activeren. De link is 24 uur geldig.</p>
+            <a id="resendLink" href="#" class="btn">Verstuur opnieuw</a>
+            <a id="sentLoginLink" href="/PV/index.html" class="btn btn-ghost">Naar inloggen</a>
+        </div>
+
+        <!-- Error state — token expired, invalid, or already used -->
+        <div id="state-error" class="hidden">
+            <div class="icon error">✕</div>
+            <h1 id="errorTitle">Verificatie mislukt</h1>
+            <p id="errorMessage">De verificatielink is verlopen of al gebruikt.</p>
+            <a id="errorRegisterLink" href="/PV/register.html" class="btn">Opnieuw registreren</a>
+            <a id="errorLoginLink" href="/PV/index.html" class="btn btn-ghost">Naar inloggen</a>
         </div>
     </div>
 
@@ -124,85 +119,107 @@
         import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
         const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbG...8MTA';
-
-        // createClient with detectSessionInUrl=true (default) will auto-parse:
-        //   - ?code=xxx              (PKCE flow)
-        //   - #access_token=xxx      (implicit flow — Supabase default for signUp)
-        //   - #error_description=xxx (auth error)
-        // It will create a session from the URL params if valid.
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA'; // Injected at deploy time
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: { detectSessionInUrl: true, persistSession: true, autoRefreshToken: true }
         });
 
-        function show(id) {
-            for (const elId of ['loading', 'success', 'needsLogin', 'error', 'directVisit']) {
-                document.getElementById(elId).classList.add('hidden');
+        const $ = id => document.getElementById(id);
+        const show = name => { ['loading', 'success', 'sent', 'error'].forEach(s => $(`state-${s}`).classList.toggle('hidden', s !== name)); };
+
+        const queryEmail = new URLSearchParams(window.location.search).get('email') || '';
+        const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+        const hashError = hashParams.get('error_description') || hashParams.get('error') || '';
+        const hashAccessToken = hashParams.get('access_token') || '';
+
+        // ============ Verify on load ============
+        async function verify() {
+            try {
+                // Wait for Supabase to finish processing URL hash (if any)
+                await new Promise(r => setTimeout(r, 200));
+
+                // Case 1: URL has #access_token=... (the normal implicit flow)
+                // Supabase has already consumed it and stored the session
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session?.user) {
+                    if (session.user.email_confirmed_at) {
+                        // Success
+                        const email = session.user.email || queryEmail;
+                        $('successEmailDisplay').textContent = email;
+                        const loginUrl = buildLoginLink();
+                        $('loginLink').href = loginUrl;
+                        show('success');
+                        startCountdown(5, loginUrl);
+                        return;
+                    }
+                }
+
+                // Case 2: URL has #error_description=... (token expired, already used, etc.)
+                if (hashError) {
+                    $('errorTitle').textContent = 'Verificatie mislukt';
+                    $('errorMessage').textContent = humanizeError(hashError);
+                    show('error');
+                    return;
+                }
+
+                // Case 3: No token in URL, no session — this is a direct visit (user just registered)
+                if (queryEmail) {
+                    $('sentEmailDisplay').textContent = queryEmail;
+                    $('resendLink').onclick = async (e) => {
+                        e.preventDefault();
+                        try {
+                            const { error } = await supabase.auth.resend({ type: 'signup', email: queryEmail, options: { emailRedirectTo: window.location.origin + '/PV/verificatiepv.html?email=' + encodeURIComponent(queryEmail) } });
+                            if (error) throw error;
+                            $('resendLink').textContent = '✓ Verstuurd — controleer uw inbox';
+                            setTimeout(() => { $('resendLink').textContent = 'Verstuur opnieuw'; }, 4000);
+                        } catch (err) {
+                            $('resendLink').textContent = 'Fout: ' + err.message;
+                        }
+                    };
+                    show('sent');
+                    return;
+                }
+
+                // Case 4: No email, no token, no error — totally empty URL
+                $('errorTitle').textContent = 'Geen verificatie gestart';
+                $('errorMessage').textContent = 'Open deze pagina via de link in uw verificatiemail.';
+                show('error');
+            } catch (err) {
+                $('errorTitle').textContent = 'Onverwachte fout';
+                $('errorMessage').textContent = err.message || String(err);
+                show('error');
             }
-            document.getElementById(id).classList.remove('hidden');
         }
 
         function buildLoginLink() {
-            const params = new URLSearchParams(window.location.search);
-            const booking = params.get('booking') || params.get('booking_id') || '';
-            const email = params.get('email') || '';
-            const next = new URLSearchParams();
-            next.set('reason', 'verified');
-            if (booking) next.set('booking', booking);
-            if (email) next.set('email', email);
-            return '/PV/index.html?' + next.toString();
+            const params = new URLSearchParams();
+            params.set('reason', 'verified');
+            if (queryEmail) params.set('email', queryEmail);
+            return '/PV/index.html?' + params.toString();
         }
 
-        async function verify() {
-            try {
-                // Wait a tick for Supabase JS to finish processing the URL hash/query
-                // (the createClient call above triggers auto-detection asynchronously)
-                await new Promise(r => setTimeout(r, 100));
-
-                // Check the current session — Supabase should have already created it
-                // from the URL hash/query on createClient()
-                const { data: { session }, error: sessError } = await supabase.auth.getSession();
-
-                if (sessError) {
-                    document.getElementById('errorMsg').textContent = sessError.message;
-                    show('error');
-                    return;
-                }
-
-                if (session?.user) {
-                    // We have a session — the email was verified!
-                    // Update the link in both success states
-                    const loginLink = buildLoginLink();
-                    document.getElementById('loginLink').href = loginLink;
-                    document.getElementById('loginLink2').href = loginLink;
-                    show('success');
-                    // Auto-redirect after 3s
-                    setTimeout(() => {
-                        window.location.href = loginLink;
-                    }, 3000);
-                    return;
-                }
-
-                // No session — check if there was an error in the URL hash
-                const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
-                const errorDescription = hashParams.get('error_description') || hashParams.get('error');
-                if (errorDescription) {
-                    document.getElementById('errorMsg').textContent = errorDescription.replace(/\+/g, ' ');
-                    show('error');
-                    return;
-                }
-
-                // No session and no error — this is a direct visit (no email link clicked).
-                // Show the "check your email" message instead of a scary error.
-                const queryEmail = new URLSearchParams(window.location.search).get('email');
-                if (queryEmail) {
-                    document.getElementById('emailHint').textContent = 'Email verzonden naar: ' + queryEmail;
-                }
-                show('directVisit');
-            } catch (err) {
-                document.getElementById('errorMsg').textContent = err.message || String(err);
-                show('error');
+        function humanizeError(raw) {
+            const lower = raw.toLowerCase();
+            if (lower.includes('expired') || lower.includes('otp_expired')) {
+                return 'De verificatielink is verlopen (geldig 24 uur). Registreer opnieuw om een nieuwe link te ontvangen.';
             }
+            if (lower.includes('already') || lower.includes('confirmed')) {
+                return 'Dit e-mailadres is al geverifieerd. U kunt direct inloggen.';
+            }
+            if (lower.includes('invalid')) {
+                return 'De verificatielink is ongeldig. Gebruik de link uit uw verificatiemail of registreer opnieuw.';
+            }
+            return raw.replace(/\+/g, ' ');
+        }
+
+        function startCountdown(n, url) {
+            let s = n;
+            const el = $('countdown');
+            const t = setInterval(() => {
+                s--;
+                if (el) el.textContent = s;
+                if (s <= 0) { clearInterval(t); window.location.href = url; }
+            }, 1000);
         }
 
         verify();

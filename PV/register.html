@@ -133,17 +133,37 @@
         function initAddressAutocomplete() {
             const input = document.getElementById('pickupInput');
             if (!input) return;
+            const hint = document.getElementById('addressHint');
+            // Always check if Google Maps will actually work, not just if it's loaded
+            // Set a watchdog: if no Pac container appears after 1.5s, the API is broken
+            setTimeout(() => {
+                if (document.querySelectorAll('.pac-container').length === 0) {
+                    // No autocomplete dropdown appeared — Places isn't working
+                    if (hint) hint.style.display = 'block';
+                }
+            }, 1500);
             if (!window.google?.maps?.places?.Autocomplete) {
-                markRegistrationPlacesUnavailable('Places library missing');
+                if (hint) hint.style.display = 'block';
                 return;
             }
             try {
-                new google.maps.places.Autocomplete(input, {
+                const ac = new google.maps.places.Autocomplete(input, {
                     fields: ['formatted_address', 'geometry', 'name'],
                     componentRestrictions: { country: ['be'] }
                 });
+                // Listen for the API error event
+                if (google.maps.event) {
+                    google.maps.event.addDomListener(input, 'keydown', () => {
+                        // If the API errors out, the pac-container won't appear
+                        setTimeout(() => {
+                            if (document.querySelectorAll('.pac-container').length === 0 && input.value.length > 3) {
+                                if (hint) hint.style.display = 'block';
+                            }
+                        }, 800);
+                    });
+                }
             } catch (err) {
-                markRegistrationPlacesUnavailable(err.message);
+                if (hint) hint.style.display = 'block';
             }
         }
 
@@ -211,6 +231,19 @@
             if (password !== repeatPassword) {
                 showError('De wachtwoorden komen niet overeen.');
                 return;
+            }
+
+            // DEDUP CHECK: same email cannot register twice
+            try {
+                const dedup = await supabase.rpc('check_duplicate_registration', { p_email: email });
+                if (dedup?.data && dedup.data.exists) {
+                    const reason = dedup.data.reason || 'Dit e-mailadres is al geregistreerd.';
+                    showError(reason + ' Ga naar de inlogpagina of gebruik een ander e-mailadres.');
+                    return;
+                }
+            } catch (dedupErr) {
+                // If the RPC doesn't exist yet, continue (don't block registration)
+                console.warn('Dedup check skipped:', dedupErr.message);
             }
 
             try {
