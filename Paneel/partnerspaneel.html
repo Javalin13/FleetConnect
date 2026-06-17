@@ -4,758 +4,303 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>FleetConnect - Partnerportaal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --fc-primary: #2c6e9e;
             --fc-primary-dark: #1e4a6e;
             --fc-accent-gold: #c9a03d;
-            --fc-sidebar-bg: #1e4a6e;
-            --fc-sidebar-hover: #2c6e9e;
-            --fc-sidebar-text: #e2edf7;
-            --fc-sidebar-section: #6b8caf;
-            --fc-sidebar-active-bg: rgba(201,160,61,0.18);
-            --fc-sidebar-active-text: #c9a03d;
             --fc-bg-body: #f4f7fc;
-            --fc-border-light: #e2edf7;
+            --fc-bg-card: #ffffff;
+            --fc-border: #e2edf7;
             --fc-text-dark: #1a2a3a;
             --fc-text-light: #4a627a;
+            --fc-success: #10b981;
+            --fc-warning: #f59e0b;
+            --fc-danger: #ef4444;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--fc-bg-body); height: 100vh; display: flex; }
-        .sidebar { width: 280px; background: var(--fc-sidebar-bg); color: var(--fc-sidebar-text); overflow-y: auto; display: flex; flex-direction: column; flex-shrink: 0; transition: width 0.3s ease; }
-        .sidebar.collapsed { width: 80px; }
-        .sidebar.collapsed .logo .logo-text, .sidebar.collapsed .logo small, .sidebar.collapsed .nav-item span, .sidebar.collapsed .nav-section-title { display: none; }
-        .sidebar.collapsed .nav-item { justify-content: center; }
-        .logo { padding: 24px 20px; font-size: 1.3rem; font-weight: 700; border-bottom: 1px solid var(--fc-sidebar-hover); display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .logo i.fa-bars { color: var(--fc-sidebar-text); font-size: 1.3rem; }
-        .logo .logo-text { flex: 1; color: var(--fc-sidebar-text); }
-        .logo small { color: var(--fc-accent-gold); font-size: 0.7rem; font-weight: 500; letter-spacing: 1px; }
-        .nav-menu { padding: 20px 16px; flex: 1; }
-        .nav-section { margin-bottom: 20px; }
-        .nav-section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--fc-sidebar-section); padding: 8px 12px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 12px; font-weight: 500; font-size: 0.9rem; color: var(--fc-sidebar-text); cursor: pointer; transition: all 0.2s; }
-        .nav-item:hover { background: var(--fc-sidebar-hover); }
-        .nav-item.active { background: var(--fc-sidebar-active-bg); color: var(--fc-sidebar-active-text); }
-        .nav-item i { width: 22px; }
-        .nav-item.logout-item { margin-top: 16px; border-top: 1px solid #1e293b; padding-top: 16px; color: #f87171; }
-        .main { flex: 1; display: flex; flex-direction: column; overflow: auto; }
-        .header { background: white; padding: 20px 32px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .header h1 { font-size: 1.5rem; font-weight: 600; }
-        .header-right { display: flex; gap: 12px; align-items: center; }
-        .refresh-btn { background: #2dd4bf; color: #0f172a; border: none; padding: 8px 16px; border-radius: 40px; cursor: pointer; font-weight: 600; }
-        .refresh-btn:hover { background: #14b8a6; }
-        .user-info { font-size: 0.8rem; color: #64748b; }
-        .content { padding: 32px; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px; }
-        .info-card { background: white; border-radius: 24px; padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .info-card:hover { transform: translateY(-4px); }
-        .info-card .value { font-size: 1.8rem; font-weight: 700; color: #0f172a; margin: 8px 0; }
-        .calendar-container { background: white; border-radius: 24px; padding: 24px; margin-bottom: 32px; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
-        .calendar-header h2 { font-size: 1.3rem; font-weight: 600; }
-        .calendar-nav button { background: #f1f5f9; border: none; padding: 8px 16px; border-radius: 40px; font-weight: 500; cursor: pointer; }
-        .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: 600; padding: 12px 0; border-bottom: 2px solid #e2e8f0; margin-bottom: 8px; }
-        .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-        .calendar-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; cursor: pointer; background: white; border: 1px solid #e2e8f0; font-weight: 500; transition: all 0.2s; position: relative; }
-        .calendar-day:hover { background: #f1f5f9; }
-        .calendar-day.selected { background: #2dd4bf; color: #0f172a; border: 2px solid #f59e0b; transform: scale(1.02); }
-        .calendar-day.today { border: 2px solid #2dd4bf; background: #f0fdfa; }
-        .calendar-day.has-rides { background: #dbeafe; border-color: #3b82f6; }
-        .calendar-day.has-rides .ride-dot { display: inline-block; }
-        .ride-dot { width: 8px; height: 8px; background-color: #2563eb; border-radius: 50%; margin-top: 4px; display: none; }
-        .settlements-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-        .settlement-card { background: white; border-radius: 16px; padding: 16px; text-align: center; border: 1px solid #e2e8f0; }
-        .settlement-card i { font-size: 1.5rem; color: #2dd4bf; margin-bottom: 8px; }
-        .finance-kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 32px; }
-        .finance-kpi-card { background: white; border-radius: 20px; padding: 20px; text-align: center; }
-        .finance-kpi-card .value { font-size: 1.6rem; font-weight: 700; }
-        .finance-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
-        .finance-stat-card { background: white; border-radius: 16px; padding: 16px; text-align: center; }
-        .finance-stat-card .value { font-size: 1.5rem; font-weight: 700; }
-        .chart-container { background: white; border-radius: 20px; padding: 20px; margin-top: 24px; }
-        .filter-bar { background: white; padding: 8px 16px; border-radius: 48px; margin-bottom: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border: 1px solid #e2e8f0; }
-        .filter-group { display: flex; align-items: center; gap: 6px; background: #f8fafc; padding: 4px 12px; border-radius: 32px; border: 1px solid #e2e8f0; }
-        .filter-group label { font-size: 0.7rem; font-weight: 600; }
-        .filter-group input, .filter-group select { border: none; background: transparent; padding: 6px 0; font-size: 0.8rem; width: 120px; outline: none; }
-        .filter-actions button { padding: 6px 14px; border-radius: 32px; border: none; cursor: pointer; font-weight: 500; font-size: 0.75rem; }
-        .btn-filter { background: #0f172a; color: white; }
-        .btn-reset { background: #e2e8f0; color: #1e293b; }
-        .orders-table-wrapper { overflow-x: auto; background: white; border-radius: 16px; padding: 20px; }
-        .orders-table { width: 100%; border-collapse: collapse; }
-        .orders-table th, .orders-table td { padding: 12px 8px; border-bottom: 1px solid #e2e8f0; font-size: 0.8rem; text-align: left; white-space: nowrap; }
-        
-        /* Route kolom styling - ingekort met tooltip */
-        .route-cell {
-            max-width: 250px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            cursor: help;
-            border-bottom: 1px dotted #cbd5e1;
-        }
-        .route-cell:hover {
-            background-color: #f1f5f9;
-        }
-        
-        .status-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--fc-bg-body); color: var(--fc-text-dark); min-height: 100vh; }
+
+        .header { background: var(--fc-primary-dark); color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 1.4rem; font-weight: 600; }
+        .header h1 .small { font-size: 0.85rem; color: var(--fc-accent-gold); margin-left: 8px; font-weight: 400; }
+        .header .user-info { display: flex; align-items: center; gap: 16px; }
+        .header button { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 6px; cursor: pointer; }
+        .header button:hover { background: rgba(255,255,255,0.1); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: var(--fc-bg-card); border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border-left: 4px solid var(--fc-primary); }
+        .kpi-card.success { border-left-color: var(--fc-success); }
+        .kpi-card.warning { border-left-color: var(--fc-warning); }
+        .kpi-card .value { font-size: 2rem; font-weight: 700; color: var(--fc-primary-dark); }
+        .kpi-card .label { font-size: 0.85rem; color: var(--fc-text-light); margin-top: 4px; }
+
+        .card { background: var(--fc-bg-card); border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 24px; }
+        .card h2 { font-size: 1.1rem; margin-bottom: 16px; color: var(--fc-primary-dark); }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 8px; border-bottom: 2px solid var(--fc-border); font-size: 0.8rem; color: var(--fc-text-light); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        td { padding: 12px 8px; border-bottom: 1px solid var(--fc-border); font-size: 0.9rem; }
+        tr:hover { background: var(--fc-bg-body); }
+
+        .status { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
         .status-pending { background: #fef3c7; color: #92400e; }
         .status-accepted { background: #dbeafe; color: #1e40af; }
         .status-assigned { background: #e0f2fe; color: #0369a1; }
         .status-completed { background: #d1fae5; color: #065f46; }
         .status-cancelled { background: #fee2e2; color: #991b1b; }
-        .action-btn { background: #2dd4bf; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 500; margin: 0 4px; }
-        .delete-btn { background: #ef4444; color: white; border: none; padding: 4px 12px; border-radius: 6px; cursor: pointer; }
-        .add-btn { background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 16px; }
-        .people-card { background: white; border-radius: 20px; padding: 24px; }
-        .planning-container { background: white; border-radius: 20px; padding: 24px; margin-top: 24px; }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
-        .modal-content { background: white; border-radius: 20px; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; }
-        .fiche-header { background: #0f172a; color: white; padding: 20px; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; }
-        .close-modal { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-        .fiche-body { padding: 24px; }
-        .fiche-section { margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; }
-        .fiche-row { display: flex; padding: 6px 0; }
-        .fiche-label { width: 140px; font-weight: 600; color: #475569; }
-        .fiche-value { flex: 1; color: #1e293b; word-break: break-word; }
-        .driver-assign-section { background: #fef3c7; padding: 12px 16px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #f59e0b; }
-        .driver-assign-section select { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; }
-        .driver-assign-section button { background: #f59e0b; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; width: 100%; }
-        .fiche-total { background: #f0fdf4; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
-        .fiche-total .amount { font-size: 1.5rem; font-weight: 700; color: #2dd4bf; }
-        .fiche-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
-        .fiche-btn { padding: 8px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 500; }
-        .fiche-btn.confirm { background: #10b981; color: white; }
-        .fiche-btn.danger { background: #ef4444; color: white; }
-        .fiche-btn.close { background: #64748b; color: white; }
-        .toast { position: fixed; bottom: 20px; right: 20px; background: #10b981; color: white; padding: 12px 24px; border-radius: 40px; z-index: 2000; opacity: 0; transition: opacity 0.3s; }
+        .status-active { background: #d1fae5; color: #065f46; }
+        .status-inactive { background: #f3f4f6; color: #4b5563; }
+
+        .empty-state { text-align: center; padding: 48px 24px; color: var(--fc-text-light); }
+        .empty-state i { font-size: 3rem; color: var(--fc-border); margin-bottom: 16px; }
+
+        .loading { text-align: center; padding: 48px 24px; color: var(--fc-text-light); }
+        .loading i { font-size: 2rem; animation: spin 1s linear infinite; color: var(--fc-primary); }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .toast { position: fixed; bottom: 24px; right: 24px; background: var(--fc-success); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s; z-index: 9999; }
         .toast.show { opacity: 1; }
-        .demo-badge { background: #f59e0b; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
-        .language-switch { display: flex; gap: 6px; background: #f1f5f9; padding: 4px 10px; border-radius: 40px; margin-right: 8px; }
-        .lang-btn { background: none; border: none; font-size: 0.75rem; font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: 30px; transition: 0.2s; color: #475569; }
-        .lang-btn.active { background: #2dd4bf; color: #0f172a; }
-        @media (max-width: 768px) { .content { padding: 16px; } .dashboard-grid, .finance-kpi-grid, .finance-stats-grid, .settlements-grid { grid-template-columns: repeat(2,1fr); } }
+        .toast.error { background: var(--fc-danger); }
     </style>
 </head>
 <body>
-<div class="sidebar collapsed" id="sidebar">
-    <div class="logo" onclick="app.toggleSidebar()">
-        <i class="fas fa-bars"></i>
-        <div class="logo-text">
-            <i class="fas fa-car"></i> FleetConnect
-            <br><small id="logoSubtext">Partnerportaal</small>
-        </div>
-    </div>
-    <div class="nav-menu">
-        <div class="nav-section"><div class="nav-section-title" id="navBookings">📋 BOEKINGEN</div>
-            <div class="nav-item active" data-tab="neworders"><i class="fas fa-clipboard-list"></i><span id="navNewOrders">New Orders</span></div>
-            <div class="nav-item" data-tab="orders"><i class="fas fa-box"></i><span id="navOrders">Orders</span></div>
-            <div class="nav-item" data-tab="history"><i class="fas fa-history"></i><span id="navHistory">History</span></div>
-            <div class="nav-item" data-tab="agenda"><i class="fas fa-calendar-alt"></i><span id="navAgenda">Agenda</span></div>
-        </div>
-        <div class="nav-section"><div class="nav-section-title" id="navManagement">👥 BEHEER</div>
-            <div class="nav-item" data-tab="drivers"><i class="fas fa-id-card"></i><span id="navDrivers">Drivers</span></div>
-            <div class="nav-item" data-tab="partners"><i class="fas fa-handshake"></i><span id="navPartners">Mijn Partners</span></div>
-        </div>
-        <div class="nav-section"><div class="nav-section-title" id="navFinance">💰 FINANCIËN</div>
-            <div class="nav-item" data-tab="financieel"><i class="fas fa-chart-line"></i><span id="navFinancial">Financieel</span></div>
-            <div class="nav-item" data-tab="settlements"><i class="fas fa-university"></i><span id="navSettlements">Settlements</span></div>
-        </div>
-        <div class="nav-section"><div class="nav-section-title" id="navInfo">ℹ️ INFO</div>
-            <div class="nav-item" data-tab="wiki"><i class="fas fa-robot"></i><span id="navWiki">Wiki Agent</span></div>
-        </div>
-        <div class="nav-item logout-item" onclick="app.logout()"><i class="fas fa-sign-out-alt"></i><span id="logoutText">Uitloggen</span></div>
-    </div>
-</div>
-<div class="main">
     <div class="header">
-        <h1 id="pageTitle">New Orders <span class="demo-badge">DEMO MODE</span></h1>
-        <div class="header-right">
-            <div class="language-switch">
-                <button class="lang-btn" data-lang="nl">NL</button>
-                <button class="lang-btn" data-lang="fr">FR</button>
-                <button class="lang-btn" data-lang="en">EN</button>
-                <button class="lang-btn" data-lang="de">DE</button>
-            </div>
-            <button class="refresh-btn" onclick="app.refreshAllData()"><i class="fas fa-sync-alt"></i> <span id="refreshText">Vernieuwen</span></button>
-            <span class="user-info"><i class="fas fa-user-circle"></i> <span id="userRole">Hoofdpartner</span></span>
+        <h1><i class="fas fa-handshake"></i> FleetConnect <span class="small">Partnerportaal</span></h1>
+        <div class="user-info">
+            <span id="userEmail"></span>
+            <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Uitloggen</button>
         </div>
     </div>
-    <div class="content" id="contentArea"></div>
-</div>
 
-<!-- Rit fiche modal met alle velden -->
-<div id="bookingModal" class="modal">
-    <div class="modal-content">
-        <div class="fiche-header"><h3 id="ficheTitle">Rit Fiche</h3><button class="close-modal" onclick="app.closeModal()">&times;</button></div>
-        <div class="fiche-body" id="ficheBody"></div>
+    <div class="container">
+        <div id="loadingState" class="loading">
+            <i class="fas fa-spinner"></i>
+            <p>Partnergegevens laden...</p>
+        </div>
+
+        <div id="contentArea" style="display: none;">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="value" id="kpiBookings">0</div>
+                    <div class="label">Totaal boekingen</div>
+                </div>
+                <div class="kpi-card success">
+                    <div class="value" id="kpiActive">0</div>
+                    <div class="label">Actieve boekingen</div>
+                </div>
+                <div class="kpi-card warning">
+                    <div class="value" id="kpiDrivers">0</div>
+                    <div class="label">Drivers</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value" id="kpiPartners">0</div>
+                    <div class="label">Sub-partners</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-clipboard-list"></i> Recente boekingen</h2>
+                <div id="bookingsContainer"></div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-id-card"></i> Mijn drivers</h2>
+                <div id="driversContainer"></div>
+            </div>
+
+            <div class="card" id="subPartnersCard" style="display: none;">
+                <h2><i class="fas fa-handshake"></i> Mijn sub-partners</h2>
+                <div id="subPartnersContainer"></div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-user-circle"></i> Partnergegevens</h2>
+                <div id="partnerInfo"></div>
+            </div>
+        </div>
     </div>
-</div>
-<div id="toast" class="toast"></div>
 
-<script>
-    // ==================== DEMO DATA (met ALLE velden uit de echte tabel) ====================
-    let allBookings = [
-        { 
-            id: "T-PV-20260601-001", datetime: "01-06-2026", time: "09:30", name: "Mevr. De Vries",
-            email: "devries@example.com", phone: "+32 471 12 34 56",
-            pickup: "Antwerpen Centraal, Antwerpen, Vlaanderen, 2000, België", 
-            destination: "Brussels Airport, Zaventem, Vlaams-Brabant, 1930, België", 
-            flight_number: "KL1704",
-            vehicle: "Standaard", extras: "Meet & Greet, Waterfles",
-            amount: 45.00, payment: "Cash", status: "pending",
-            customer_id: "CUST-devries", form_data: '{"source":"web-booking"}', created_at: "2026-06-01T10:00:00Z",
-            partner_id: 1, assigned_driver_id: null
-        },
-        { 
-            id: "T-PV-20260601-002", datetime: "01-06-2026", time: "14:15", name: "Dhr. Peeters",
-            email: "peeters@example.com", phone: "+32 478 98 76 54",
-            pickup: "Mechelen Nekkerhal, Mechelen, Antwerpen, 2800, België", 
-            destination: "Antwerpen Haven, Antwerpen, 2000, België", 
-            flight_number: "",
-            vehicle: "Break", extras: "",
-            amount: 32.50, payment: "Factuur", status: "pending",
-            customer_id: "CUST-peeters", form_data: '{"source":"web-booking"}', created_at: "2026-06-01T11:00:00Z",
-            partner_id: 1, assigned_driver_id: null
-        },
-        { 
-            id: "T-PV-20260602-003", datetime: "02-06-2026", time: "08:00", name: "Mevr. Claes",
-            email: "claes@example.com", phone: "+32 495 33 22 11",
-            pickup: "Leuven Station, Leuven, Vlaams-Brabant, 3000, België", 
-            destination: "Zaventem Brussels Airport, Zaventem, Vlaams-Brabant, 1930, België", 
-            flight_number: "BA039",
-            vehicle: "Exclusieve", extras: "Kiss & Ride, WiFi",
-            amount: 67.00, payment: "Cash", status: "accepted",
-            customer_id: "CUST-claes", form_data: '{"source":"web-booking"}', created_at: "2026-06-01T12:00:00Z",
-            partner_id: 1, assigned_driver_id: null
-        },
-        { 
-            id: "T-PV-20260602-004", datetime: "02-06-2026", time: "18:30", name: "Dhr. Janssens",
-            email: "janssens@example.com", phone: "+32 477 55 66 77",
-            pickup: "Brussel Zuid, Brussel, 1060, België", 
-            destination: "Luik, Liège, 4000, België", 
-            flight_number: "",
-            vehicle: "Mini Van", extras: "Meet & Greet",
-            amount: 87.50, payment: "Kaart", status: "assigned",
-            customer_id: "CUST-janssens", form_data: '{"source":"web-booking"}', created_at: "2026-06-01T13:00:00Z",
-            partner_id: 1, assigned_driver_id: "DRV-001"
-        },
-        { 
-            id: "T-PV-20260530-045", datetime: "30-05-2026", time: "11:20", name: "Dhr. Willems",
-            email: "willems@example.com", phone: "+32 473 44 55 66",
-            pickup: "Gent Sint-Pieters, Gent, Oost-Vlaanderen, 9000, België", 
-            destination: "Oostende, West-Vlaanderen, 8400, België", 
-            flight_number: "",
-            vehicle: "Standaard", extras: "Waterfles",
-            amount: 64.00, payment: "Cash", status: "completed",
-            customer_id: "CUST-willems", form_data: '{"source":"web-booking"}', created_at: "2026-05-29T09:00:00Z",
-            partner_id: 1, assigned_driver_id: "DRV-002"
-        },
-        { 
-            id: "T-PV-20260529-032", datetime: "29-05-2026", time: "07:30", name: "Mevr. Maes",
-            email: "maes@example.com", phone: "+32 479 11 22 33",
-            pickup: "Hasselt, Limburg, 3500, België", 
-            destination: "Eindhoven Airport, Eindhoven, Nederland", 
-            flight_number: "KL1708",
-            vehicle: "Break", extras: "Meet & Greet, WiFi",
-            amount: 112.00, payment: "Factuur", status: "completed",
-            customer_id: "CUST-maes", form_data: '{"source":"web-booking"}', created_at: "2026-05-28T14:00:00Z",
-            partner_id: 1, assigned_driver_id: "DRV-001"
-        },
-        { 
-            id: "T-PV-20260528-021", datetime: "28-05-2026", time: "20:00", name: "Dhr. Verlinden",
-            email: "verlinden@example.com", phone: "+32 474 88 99 00",
-            pickup: "Leuven, Vlaams-Brabant, 3000, België", 
-            destination: "Brussels Airport, Zaventem, 1930, België", 
-            flight_number: "SN123",
-            vehicle: "Exclusieve", extras: "",
-            amount: 78.00, payment: "Cash", status: "cancelled",
-            customer_id: "CUST-verlinden", form_data: '{"source":"web-booking"}', created_at: "2026-05-27T18:00:00Z",
-            partner_id: 1, assigned_driver_id: null
+    <div id="toast" class="toast"></div>
+
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+        const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';
+
+        const supabase = createClient(SUPABASE_URL, ANON_KEY, {
+            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+        });
+
+        function showToast(msg, isError = false) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (isError ? ' error' : '');
+            setTimeout(() => t.className = 'toast', 4000);
         }
-    ];
 
-    let drivers = [
-        { id: "DRV-001", driver_code: "DRV-001", name: "Jan Janssens", email: "jan@example.com", vehicle: "Tesla Model 3", license_plate: "1-ABC-123", partner_id: 1, color: "Zwart" },
-        { id: "DRV-002", driver_code: "DRV-002", name: "Sofie Claes", email: "sofie@example.com", vehicle: "Mercedes E", license_plate: "1-DEF-456", partner_id: 1, color: "Wit" }
-    ];
-    let partners = [
-        { id: 1, name: "Eigen onderneming", is_hoofd: true, prefix: "DFC", contact: "Jan", email: "info@fleetconnect.be", phone: "0470123456" }
-    ];
+        function fmtDate(iso) {
+            if (!iso) return '—';
+            try {
+                return new Date(iso).toLocaleString('nl-BE', {
+                    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+            } catch { return iso; }
+        }
 
-    let nextDriverIdCounter = 3;
-    function generateDriverId() { return `DRV-${String(nextDriverIdCounter++).padStart(3,'0')}`; }
+        function fmtStatus(s) {
+            const cls = {
+                'pending': 'status-pending', 'accepted': 'status-accepted', 'assigned': 'status-assigned',
+                'completed': 'status-completed', 'cancelled': 'status-cancelled',
+                'active': 'status-active', 'inactive': 'status-inactive',
+                'true': 'status-active', 'false': 'status-inactive',
+            }[String(s).toLowerCase()] || 'status-pending';
+            return `<span class="status ${cls}">${String(s).replace(/^./, c => c.toUpperCase())}</span>`;
+        }
 
-    function updateFilteredArrays() {
-        app.newOrders = allBookings.filter(b => b.status === 'pending');
-        app.ordersList = allBookings.filter(b => b.status === 'accepted' || b.status === 'assigned');
-        app.historyOrders = allBookings.filter(b => b.status === 'completed' || b.status === 'cancelled');
-    }
-
-    // Helper functie om route in te korten
-    function shortenRoute(pickup, destination) {
-        const shortenAddress = (address) => {
-            if (!address) return '';
-            const parts = address.split(',').map(p => p.trim());
-            if (parts.length <= 2) return address;
-            let result = parts[0];
-            if (parts.length >= 2 && parts[1].length < 50) result += ', ' + parts[1];
-            else if (parts.length >= 3 && parts[2].length < 50) result += ', ' + parts[2];
-            if (result.length > 55) result = result.substring(0, 52) + '...';
-            return result;
-        };
-        return `${shortenAddress(pickup)} → ${shortenAddress(destination)}`;
-    }
-    
-    function getFullRoute(pickup, destination) {
-        return `${pickup || ''} → ${destination || ''}`;
-    }
-
-    // ==================== VERTALINGEN (interface, niet data) ====================
-    const translations = {
-        nl: {
-            logoSubtext: "Partner Paneel", navBookings: "📋 BOEKINGEN", navNewOrders: "New Orders", navOrders: "Orders",
-            navHistory: "History", navAgenda: "Agenda", navManagement: "👥 BEHEER", navDrivers: "Drivers",
-            navPartners: "Mijn Partners", navFinance: "💰 FINANCIËN", navFinancial: "Financieel", navSettlements: "Settlements",
-            navInfo: "ℹ️ INFO", navWiki: "Wiki Agent", logoutText: "Uitloggen", refreshText: "Vernieuwen",
-            userRole: "Hoofdpartner", ficheTitle: "Rit Fiche", toastRefresh: "Gegevens vernieuwd",
-            pageTitleNew: "New Orders", pageTitleOrders: "Orders", pageTitleHistory: "History", pageTitleAgenda: "Agenda",
-            pageTitleDrivers: "Drivers", pageTitlePartners: "Mijn Partners", pageTitleFinance: "Financieel Overzicht",
-            pageTitleSettlements: "Settlements", pageTitleWiki: "Wiki Agent",
-            filterOrderId: "Order ID", filterName: "Naam", filterDriver: "Driver", search: "Zoeken", reset: "Reset",
-            tableId: "ID", tableDateTime: "Datum/Tijd", tableCustomer: "Klant", tableRoute: "Route", tableVehicle: "Voertuig",
-            tableAmount: "Bedrag", tableDriver: "Driver", tableAction: "Actie", actionView: "Bekijk", noData: "Geen ritten gevonden",
-            turnoverToday: "Omzet vandaag", commission: "Commissie", cashToday: "Cash vandaag", completedCancelled: "Voltooid / Geannuleerd",
-            futureRides: "Toekomstige ritten", prevMonth: "Vorige", today: "Vandaag", nextMonth: "Volgende",
-            noRidesPlanning: "Geen ritten op deze dag", driversTitle: "Drivers", addDriver: "+ Nieuwe Driver",
-            noDrivers: "Geen drivers gevonden", partnersTitle: "Mijn Partners", addPartner: "+ Nieuwe Partner",
-            noPartners: "Geen partners gevonden", turnover: "Omzet", cash: "Cash", invoice: "Factuur", rides: "Ritten",
-            commissionLabel: "Commissie", newOrdersStat: "New Orders", activeOrdersStat: "Actieve Orders", historyStat: "History",
-            chartLabel: "Omzet (€)", gross: "Bruto omzet", refunded: "Terugbetaald", stripeFees: "Stripe kosten",
-            net: "Netto", recentPayments: "Recente betalingen", noPayments: "Geen betalingen", wikiText: "Partnerpaneel met alle velden zichtbaar.",
-            btnAccept: "Accepteren", btnAssign: "Toewijzen", btnCancel: "Annuleren", btnClose: "Sluiten",
-            toastAccept: "Rit geaccepteerd", toastAssign: "Rit toegewezen", toastCancel: "Rit geannuleerd",
-            assignDriver: "Driver toewijzen", customerInfo: "Klantgegevens", rideInfo: "Ritgegevens", extraInfo: "Extra informatie"
-        },
-        fr: { assignDriver: "Attribuer chauffeur", btnAssign: "Attribuer", btnAccept: "Accepter", btnCancel: "Annuler", btnClose: "Fermer", customerInfo: "Coordonnées client", rideInfo: "Détails course", extraInfo: "Infos supplémentaires" },
-        en: { assignDriver: "Assign driver", btnAssign: "Assign", btnAccept: "Accept", btnCancel: "Cancel", btnClose: "Close", customerInfo: "Customer info", rideInfo: "Ride details", extraInfo: "Extra info" },
-        de: { assignDriver: "Fahrer zuweisen", btnAssign: "Zuweisen", btnAccept: "Akzeptieren", btnCancel: "Stornieren", btnClose: "Schließen", customerInfo: "Kundendaten", rideInfo: "Fahrtdetails", extraInfo: "Zusatzinfo" }
-    };
-    for (let lang in translations) {
-        if (!translations[lang].assignDriver) translations[lang].assignDriver = translations.nl.assignDriver;
-        if (!translations[lang].customerInfo) translations[lang].customerInfo = translations.nl.customerInfo;
-        if (!translations[lang].rideInfo) translations[lang].rideInfo = translations.nl.rideInfo;
-        if (!translations[lang].extraInfo) translations[lang].extraInfo = translations.nl.extraInfo;
-    }
-    let currentLang = 'nl';
-    function t(key) { return translations[currentLang]?.[key] !== undefined ? translations[currentLang][key] : (translations.nl[key] || key); }
-
-    const app = {
-        currentTab: 'neworders',
-        newOrders: [], ordersList: [], historyOrders: [],
-        selectedDate: new Date(), currentMonth: new Date(),
-        revenueChart: null,
-
-        toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); },
-        showToast(msg, isError) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.style.backgroundColor = isError ? '#ef4444' : '#10b981';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        },
-        refreshAllData() { updateFilteredArrays(); this.refreshCurrentTab(); this.showToast(t('toastRefresh')); },
-        closeModal() { document.getElementById('bookingModal').style.display = 'none'; },
-        logout() { if(confirm('Weet u zeker dat u wilt uitloggen?')) { window.location.href = 'partner-login.html'; } },
-        
-        acceptBooking(bookingId) {
-            const booking = allBookings.find(b => b.id === bookingId);
-            if (booking && booking.status === 'pending') {
-                booking.status = 'accepted';
-                updateFilteredArrays();
-                this.refreshCurrentTab();
-                this.showToast(`${t('toastAccept')}: ${bookingId}`);
-                this.closeModal();
+        async function ensureAuth() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error || !session) {
+                window.location.replace('partner-login.html');
+                return null;
             }
-        },
-        assignDriverToBooking(bookingId, driverId) {
-            if (!driverId) { this.showToast('Selecteer een driver', true); return; }
-            const booking = allBookings.find(b => b.id === bookingId);
-            if (booking && (booking.status === 'accepted' || booking.status === 'assigned')) {
-                booking.status = 'assigned';
-                booking.assigned_driver_id = driverId;
-                updateFilteredArrays();
-                this.refreshCurrentTab();
-                this.showToast(`${t('toastAssign')}: ${bookingId} -> ${drivers.find(d=>d.id===driverId)?.name}`);
-                this.showBookingFiche(booking);
+            return session;
+        }
+
+        async function loadSnapshot() {
+            const session = await ensureAuth();
+            if (!session) return;
+
+            document.getElementById('userEmail').textContent = session.user.email;
+
+            const { data, error } = await supabase.rpc('get_partner_dashboard_snapshot');
+            if (error) {
+                showToast('Fout bij laden: ' + error.message, true);
+                document.getElementById('loadingState').innerHTML =
+                    '<p style="color: var(--fc-danger);">Partnergegevens konden niet worden geladen.</p>';
+                return;
             }
-        },
-        cancelRide(bookingId) {
-            const booking = allBookings.find(b => b.id === bookingId);
-            if (booking && (booking.status === 'accepted' || booking.status === 'assigned')) {
-                booking.status = 'cancelled';
-                updateFilteredArrays();
-                this.refreshCurrentTab();
-                this.showToast(`${t('toastCancel')}: ${bookingId}`);
-                this.closeModal();
-            }
-        },
-        
-        showBookingFiche(booking) {
-            const driverOptions = drivers.map(d => `<option value="${d.id}" ${booking.assigned_driver_id === d.id ? 'selected' : ''}>${d.name} (${d.vehicle})</option>`).join('');
-            const currentDriver = drivers.find(d => d.id === booking.assigned_driver_id);
-            const currentDriverName = currentDriver ? `${currentDriver.name} (${currentDriver.vehicle})` : 'Niet toegewezen';
-            const fullRoute = getFullRoute(booking.pickup, booking.destination);
-            
-            let bodyHtml = `
-                <div class="fiche-section">
-                    <h4>📋 ${t('customerInfo')}</h4>
-                    <div class="fiche-row"><span class="fiche-label">Naam:</span><span class="fiche-value">${booking.name}</span></div>
-                    <div class="fiche-row"><span class="fiche-label">E-mail:</span><span class="fiche-value">${booking.email || '-'}</span></div>
-                    <div class="fiche-row"><span class="fiche-label">Telefoon:</span><span class="fiche-value">${booking.phone || '-'}</span></div>
-                </div>
-                <div class="fiche-section">
-                    <h4>🚖 ${t('rideInfo')}</h4>
-                    <div class="fiche-row"><span class="fiche-label">Boekingsnummer:</span><span class="fiche-value">${booking.id}</span></div>
-                    <div class="fiche-row"><span class="fiche-label">Datum & Tijd:</span><span class="fiche-value">${booking.datetime} om ${booking.time} uur</span></div>
-                    <div class="fiche-row"><span class="fiche-label">Ophalen:</span><span class="fiche-value">${booking.pickup}</span></div>
-                    <div class="fiche-row"><span class="fiche-label">Bestemming:</span><span class="fiche-value">${booking.destination}</span></div>
-                    <div class="fiche-row"><span class="fiche-label">Voertuig:</span><span class="fiche-value">${booking.vehicle}</span></div>
-                    ${booking.flight_number ? `<div class="fiche-row"><span class="fiche-label">✈️ Vluchtnummer:</span><span class="fiche-value">${booking.flight_number}</span></div>` : ''}
-                </div>
-                <div class="fiche-section">
-                    <h4>➕ ${t('extraInfo')}</h4>
-                    <div class="fiche-row"><span class="fiche-label">Extra opties:</span><span class="fiche-value">${booking.extras || 'Geen'}</span></div>
-                    <div class="fiche-row"><span class="fiche-label">Huidige driver:</span><span class="fiche-value">${currentDriverName}</span></div>
-                </div>
-            `;
-            if (booking.status === 'accepted' || booking.status === 'assigned') {
-                bodyHtml += `
-                    <div class="driver-assign-section">
-                        <strong><i class="fas fa-user-plus"></i> ${t('assignDriver')}</strong>
-                        <select id="driverSelectFiche">${driverOptions}</select>
-                        <button class="fiche-btn" style="background:#f59e0b; color:white;" onclick="app.assignDriverToBooking('${booking.id}', document.getElementById('driverSelectFiche').value)">${t('btnAssign')}</button>
-                    </div>
+
+            renderDashboard(data);
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('contentArea').style.display = 'block';
+
+            // KPIs
+            const bookings = data.bookings || [];
+            const drivers = data.drivers || [];
+            const subPartners = data.sub_partners || [];
+            const activeBookings = bookings.filter(b => ['pending', 'accepted', 'assigned'].includes(b.status));
+
+            document.getElementById('kpiBookings').textContent = bookings.length;
+            document.getElementById('kpiActive').textContent = activeBookings.length;
+            document.getElementById('kpiDrivers').textContent = drivers.length;
+            document.getElementById('kpiPartners').textContent = subPartners.length;
+
+            // Bookings table
+            const bContainer = document.getElementById('bookingsContainer');
+            if (bookings.length === 0) {
+                bContainer.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Nog geen boekingen.</p></div>';
+            } else {
+                const recent = bookings.slice(0, 20);
+                bContainer.innerHTML = `
+                    <table>
+                        <thead><tr>
+                            <th>Datum</th><th>Klant</th><th>Van</th><th>Naar</th>
+                            <th>Bedrag</th><th>Status</th>
+                        </tr></thead>
+                        <tbody>${recent.map(b => `
+                            <tr>
+                                <td>${fmtDate(b.created_at)}</td>
+                                <td>${(b.name || '—')}</td>
+                                <td>${(b.pickup || '—').substring(0, 40)}</td>
+                                <td>${(b.destination || '—').substring(0, 40)}</td>
+                                <td>€${Number(b.amount || 0).toFixed(2)}</td>
+                                <td>${fmtStatus(b.status)}</td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
                 `;
             }
-            bodyHtml += `
-                <div class="fiche-total">
-                    <div class="amount">€ ${booking.amount.toFixed(2)}</div>
-                    <div>Betaling: ${booking.payment}</div>
-                </div>
+
+            // Drivers table
+            const dContainer = document.getElementById('driversContainer');
+            if (drivers.length === 0) {
+                dContainer.innerHTML = '<div class="empty-state"><i class="fas fa-id-card"></i><p>Nog geen drivers. Vraag de operator om drivers toe te wijzen.</p></div>';
+            } else {
+                dContainer.innerHTML = `
+                    <table>
+                        <thead><tr>
+                            <th>Naam</th><th>Code</th><th>Voertuig</th><th>Telefoon</th><th>Status</th>
+                        </tr></thead>
+                        <tbody>${drivers.map(d => `
+                            <tr>
+                                <td>${d.name || '—'}</td>
+                                <td>${d.driver_code || '—'}</td>
+                                <td>${d.vehicle || '—'}</td>
+                                <td>${d.phone || '—'}</td>
+                                <td>${fmtStatus(d.is_active ? 'active' : 'inactive')}</td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                `;
+            }
+
+            // Sub-partners (only for hoofd-partners)
+            if (data.is_hoofd && subPartners.length > 0) {
+                document.getElementById('subPartnersCard').style.display = 'block';
+                document.getElementById('subPartnersContainer').innerHTML = `
+                    <table>
+                        <thead><tr><th>Naam</th><th>Email</th><th>Prefix</th><th>Telefoon</th></tr></thead>
+                        <tbody>${subPartners.map(p => `
+                            <tr>
+                                <td>${p.name || '—'}</td>
+                                <td>${p.email || '—'}</td>
+                                <td>${p.prefix || '—'}</td>
+                                <td>${p.phone || '—'}</td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                `;
+            }
+
+            // Partner info
+            const p = data.partner || {};
+            document.getElementById('partnerInfo').innerHTML = `
+                <table>
+                    <tr><th>Bedrijf</th><td>${p.name || '—'}</td></tr>
+                    <tr><th>Type</th><td>${p.is_hoofd ? 'Hoofdpartner (Operator)' : 'Sub-partner'}</td></tr>
+                    <tr><th>Prefix</th><td>${p.prefix || '—'}</td></tr>
+                    <tr><th>Email</th><td>${p.email || '—'}</td></tr>
+                    <tr><th>Telefoon</th><td>${p.phone || '—'}</td></tr>
+                    <tr><th>Aangemaakt</th><td>${fmtDate(p.created_at)}</td></tr>
+                </table>
             `;
-            let actionsHtml = '';
-            if (booking.status === 'pending') {
-                actionsHtml = `<button class="fiche-btn confirm" onclick="app.acceptBooking('${booking.id}')">${t('btnAccept')}</button>`;
-            } else if (booking.status === 'accepted' || booking.status === 'assigned') {
-                actionsHtml = `<button class="fiche-btn danger" onclick="app.cancelRide('${booking.id}')">${t('btnCancel')}</button>`;
-            }
-            actionsHtml += `<button class="fiche-btn close" onclick="app.closeModal()">${t('btnClose')}</button>`;
-            bodyHtml += `<div class="fiche-actions">${actionsHtml}</div>`;
-            
-            document.getElementById('ficheBody').innerHTML = bodyHtml;
-            document.getElementById('bookingModal').style.display = 'flex';
-        },
-        
-        switchTab(tabName) {
-            this.currentTab = tabName;
-            document.querySelectorAll('.nav-item').forEach(item => {
-                if (item.getAttribute('data-tab') === tabName) item.classList.add('active');
-                else item.classList.remove('active');
-            });
-            this.refreshCurrentTab();
-        },
-        refreshCurrentTab() {
-            switch(this.currentTab) {
-                case 'neworders': this.renderNewOrders(); break;
-                case 'orders': this.renderOrders(); break;
-                case 'history': this.renderHistory(); break;
-                case 'agenda': this.renderAgenda(); break;
-                case 'drivers': this.renderDrivers(); break;
-                case 'partners': this.renderPartners(); break;
-                case 'financieel': this.renderFinance(); break;
-                case 'settlements': this.renderSettlements(); break;
-                case 'wiki': this.renderWiki(); break;
-                default: this.renderNewOrders();
-            }
-        },
-        
-        renderNewOrders() { this.genericTableRender('neworders', this.newOrders, true); document.getElementById('pageTitle').innerHTML = t('pageTitleNew') + ' <span class="demo-badge">DEMO MODE</span>'; },
-        renderOrders() { this.genericTableRender('orders', this.ordersList, true); document.getElementById('pageTitle').innerHTML = t('pageTitleOrders') + ' <span class="demo-badge">DEMO MODE</span>'; },
-        renderHistory() { this.genericTableRender('history', this.historyOrders, false); document.getElementById('pageTitle').innerHTML = t('pageTitleHistory') + ' <span class="demo-badge">DEMO MODE</span>'; },
-        
-        genericTableRender(type, orders, showAction) {
-            let html = `<div class="filter-bar"><div class="filter-group"><label>${t('filterOrderId')}</label><input type="text" id="filterOrder${type}" placeholder="${t('search')}"></div>
-                        <div class="filter-group"><label>${t('filterName')}</label><input type="text" id="filterName${type}" placeholder="${t('search')}"></div>`;
-            if (type !== 'neworders') html += `<div class="filter-group"><label>${t('filterDriver')}</label><select id="filterDriver${type}"><option value="">${t('filterDriver')}</option>${drivers.map(d => `<option value="${d.id}">${d.name}</option>`).join('')}</select></div>`;
-            html += `<div class="filter-actions"><button class="btn-filter" onclick="app.applyFilters('${type}')">${t('search')}</button>
-                     <button class="btn-reset" onclick="app.resetFilters('${type}')">${t('reset')}</button></div></div>
-                    <div class="orders-table-wrapper"><table class="orders-table"><thead>`;
-            if (type === 'neworders') html += `<tr><th>${t('tableId')}</th><th>${t('tableDateTime')}</th><th>${t('tableCustomer')}</th><th>${t('tableRoute')}</th><th>${t('tableVehicle')}</th><th>${t('tableAmount')}</th><th>${t('tableAction')}</th></tr>`;
-            else html += `<tr><th>${t('tableId')}</th><th>${t('tableDateTime')}</th><th>${t('tableCustomer')}</th><th>${t('tableRoute')}</th><th>${t('tableVehicle')}</th><th>${t('tableAmount')}</th><th>${t('tableDriver')}</th><th>${t('tableAction')}</th></tr>`;
-            html += `</thead><tbody id="${type}TableBody"></tbody>}</div>`;
-            document.getElementById('contentArea').innerHTML = html;
-            this.renderTableBody(type, orders, showAction);
-        },
-        
-        renderTableBody(type, orders, showAction) {
-            const tbody = document.getElementById(`${type}TableBody`);
-            if (!tbody) return;
-            if (orders.length === 0) { tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:40px;">${t('noData')}</td></tr>`; return; }
-            tbody.innerHTML = orders.map(r => {
-                const driverName = drivers.find(d => d.id === r.assigned_driver_id)?.name || '—';
-                let statusText = r.status === 'pending' ? 'Nieuw' : (r.status === 'accepted' ? 'Geaccepteerd' : (r.status === 'assigned' ? 'Toegewezen' : (r.status === 'completed' ? 'Voltooid' : 'Geannuleerd')));
-                const shortRoute = shortenRoute(r.pickup, r.destination);
-                const fullRoute = getFullRoute(r.pickup, r.destination);
-                let row = `<tr>
-                    <td style="white-space: nowrap;"><strong>${r.id}</strong><br><span class="status-badge status-${r.status}">${statusText}</span></td>
-                    <td style="white-space: nowrap;">${r.datetime} ${r.time}</td>
-                    <td style="white-space: nowrap;">${r.name}</td>
-                    <td class="route-cell" title="${fullRoute.replace(/"/g, '&quot;')}" style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: help;">${shortRoute}</span></td>
-                    <td style="white-space: nowrap;">${r.vehicle}</td>
-                    <td style="white-space: nowrap;">€${r.amount.toFixed(2)}</span></td>`;
-                if (type !== 'neworders') row += `<td style="white-space: nowrap;">${driverName}</td>`;
-                if (showAction) row += `<td style="white-space: nowrap;"><button class="action-btn" onclick='app.showBookingFiche(${JSON.stringify(r).replace(/'/g, "&#39;")})'>${t('actionView')}</button></td>`;
-                row += `</tr>`;
-                return row;
-            }).join('');
-        },
-        
-        applyFilters(type) {
-            let orderFilter = document.getElementById(`filterOrder${type}`)?.value.toLowerCase() || '';
-            let nameFilter = document.getElementById(`filterName${type}`)?.value.toLowerCase() || '';
-            let driverFilter = document.getElementById(`filterDriver${type}`)?.value || '';
-            let rides = type === 'neworders' ? this.newOrders : (type === 'orders' ? this.ordersList : this.historyOrders);
-            let filtered = rides.filter(r => (!orderFilter || r.id.toLowerCase().includes(orderFilter)) && (!nameFilter || r.name.toLowerCase().includes(nameFilter)) && (!driverFilter || r.assigned_driver_id === driverFilter));
-            this.renderTableBody(type, filtered, type !== 'history');
-        },
-        resetFilters(type) {
-            document.getElementById(`filterOrder${type}`).value = '';
-            document.getElementById(`filterName${type}`).value = '';
-            if (document.getElementById(`filterDriver${type}`)) document.getElementById(`filterDriver${type}`).value = '';
-            this.renderTableBody(type, type === 'neworders' ? this.newOrders : (type === 'orders' ? this.ordersList : this.historyOrders), type !== 'history');
-        },
-        
-        renderAgenda() {
-            const stats = this.getTodayStats();
-            let html = `
-                <div class="dashboard-grid">
-                    <div class="info-card"><div>${t('turnoverToday')}</div><div class="value">€${stats.total.toFixed(2)}</div><div class="sub">${t('commission')}: €${stats.commission.toFixed(2)}</div></div>
-                    <div class="info-card"><div>${t('cashToday')}</div><div class="value">€${stats.cash.toFixed(2)}</div></div>
-                    <div class="info-card"><div>${t('completedCancelled')}</div><div class="value">${stats.completed} / ${stats.cancelled}</div></div>
-                    <div class="info-card"><div>${t('futureRides')}</div><div class="value">${stats.futureRides}</div></div>
-                </div>
-                <div class="calendar-container"><div class="calendar-header"><h2>${this.currentMonth.toLocaleDateString(currentLang === 'nl' ? 'nl-NL' : (currentLang === 'fr' ? 'fr-FR' : (currentLang === 'de' ? 'de-DE' : 'en-US')), {month:'long', year:'numeric'})}</h2><div class="calendar-nav"><button onclick="app.changeMonth(-1)"><i class="fas fa-chevron-left"></i> ${t('prevMonth')}</button><button onclick="app.goToToday()">${t('today')}</button><button onclick="app.changeMonth(1)">${t('nextMonth')} <i class="fas fa-chevron-right"></i></button></div></div><div class="calendar-weekdays"><div>Ma</div><div>Di</div><div>Wo</div><div>Do</div><div>Vr</div><div>Za</div><div>Zo</div></div><div class="calendar-days" id="calendarDays"></div></div>
-                <div class="planning-container"><h3>${t('pageTitleAgenda')}</h3><div class="planning-list" id="planningList">${t('noRidesPlanning')}</div></div>
-            `;
-            document.getElementById('contentArea').innerHTML = html;
-            this.renderCalendar();
-            document.getElementById('pageTitle').innerHTML = t('pageTitleAgenda') + ' <span class="demo-badge">DEMO MODE</span>';
-        },
-        getTodayStats() {
-            const todayStr = new Date().toISOString().slice(0,10).split('-').reverse().join('-');
-            const todayRides = allBookings.filter(b => b.datetime === todayStr);
-            const total = todayRides.reduce((s,r)=> s+r.amount,0);
-            const cash = todayRides.filter(r=> r.payment==='Cash').reduce((s,r)=> s+r.amount,0);
-            const completed = todayRides.filter(r=> r.status==='completed').length;
-            const cancelled = todayRides.filter(r=> r.status==='cancelled').length;
-            const futureRides = todayRides.filter(r=> r.status==='accepted' || r.status==='assigned').length;
-            return { total, cash, commission: total*0.1, completed, cancelled, futureRides };
-        },
-        renderCalendar() {
-            let container = document.getElementById('calendarDays');
-            if (!container) return;
-            let year = this.currentMonth.getFullYear(), month = this.currentMonth.getMonth();
-            let firstDay = new Date(year, month, 1);
-            let startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-            let daysInMonth = new Date(year, month+1, 0).getDate();
-            let prevDays = new Date(year, month, 0).getDate();
-            let html = '';
-            for (let i=startDay-1; i>=0; i--) {
-                let prevDate = new Date(year, month, -i);
-                let prevDateStr = `${prevDate.getDate().toString().padStart(2,'0')}-${(prevDate.getMonth()+1).toString().padStart(2,'0')}-${prevDate.getFullYear()}`;
-                let hasRidesPrev = allBookings.some(b => b.datetime === prevDateStr);
-                html += `<div class="calendar-day other-month ${hasRidesPrev ? 'has-rides' : ''}" onclick="app.selectDate(${prevDays-i}, ${month-1}, ${year})">${prevDays-i}${hasRidesPrev ? '<div class="ride-dot"></div>' : ''}</div>`;
-            }
-            for (let d=1; d<=daysInMonth; d++) {
-                let dateStr = `${d.toString().padStart(2,'0')}-${(month+1).toString().padStart(2,'0')}-${year}`;
-                let rides = allBookings.filter(b => b.datetime === dateStr);
-                let hasRides = rides.length > 0;
-                let isToday = (d===new Date().getDate() && month===new Date().getMonth() && year===new Date().getFullYear());
-                let isSelected = (this.selectedDate && d===this.selectedDate.getDate() && month===this.selectedDate.getMonth() && year===this.selectedDate.getFullYear());
-                let classes = 'calendar-day';
-                if (isToday) classes += ' today';
-                if (isSelected) classes += ' selected';
-                if (hasRides) classes += ' has-rides';
-                html += `<div class="${classes}" onclick="app.selectDate(${d}, ${month+1}, ${year})">${d}${hasRides ? '<div class="ride-dot"></div>' : ''}</div>`;
-            }
-            let remaining = 42 - (startDay + daysInMonth);
-            for (let d=1; d<=remaining; d++) {
-                let nextDate = new Date(year, month+1, d);
-                let nextDateStr = `${nextDate.getDate().toString().padStart(2,'0')}-${(nextDate.getMonth()+1).toString().padStart(2,'0')}-${nextDate.getFullYear()}`;
-                let hasRidesNext = allBookings.some(b => b.datetime === nextDateStr);
-                html += `<div class="calendar-day other-month ${hasRidesNext ? 'has-rides' : ''}" onclick="app.selectDate(${d}, ${month+2}, ${year})">${d}${hasRidesNext ? '<div class="ride-dot"></div>' : ''}</div>`;
-            }
-            container.innerHTML = html;
-            this.renderPlanning();
-        },
-        renderPlanning() {
-            let container = document.getElementById('planningList');
-            if (!container) return;
-            let dateStr = `${this.selectedDate.getDate().toString().padStart(2,'0')}-${(this.selectedDate.getMonth()+1).toString().padStart(2,'0')}-${this.selectedDate.getFullYear()}`;
-            let rides = allBookings.filter(b => b.datetime === dateStr).sort((a,b)=>a.time.localeCompare(b.time));
-            if (rides.length === 0) { container.innerHTML = `<div class="empty-planning">${t('noRidesPlanning')}</div>`; return; }
-            container.innerHTML = rides.map(r => {
-                const shortPickup = shortenRoute(r.pickup, r.destination).split('→')[0];
-                const shortDest = shortenRoute(r.pickup, r.destination).split('→')[1];
-                return `<div class="planning-item"><div class="planning-time"><i class="fas fa-clock"></i> ${r.time} uur</div><div class="planning-ride"><strong>${r.name}</strong> - ${shortPickup} → ${shortDest}</div><div class="planning-ride"><i class="fas fa-car"></i> ${r.vehicle}</div></div>`;
-            }).join('');
-        },
-        selectDate(day, month, year) { this.selectedDate = new Date(year, month-1, day); this.currentMonth = new Date(year, month-1, 1); this.renderCalendar(); },
-        changeMonth(delta) { this.currentMonth.setMonth(this.currentMonth.getMonth()+delta); this.renderAgenda(); },
-        goToToday() { this.currentMonth = new Date(); this.selectedDate = new Date(); this.renderAgenda(); },
-        
-        renderDrivers() {
-            let html = `<div class="people-card"><h3>${t('driversTitle')}</h3><button class="add-btn" onclick="app.showAddDriverForm()">${t('addDriver')}</button><div>`;
-            if (drivers.length === 0) html += `<div>${t('noDrivers')}</div>`;
-            else drivers.forEach(d => {
-                html += `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px; display:flex; justify-content:space-between;">
-                            <div><strong>${d.driver_code}</strong> – ${d.name}<br><small>🚗 ${d.vehicle} | ${d.license_plate}</small></div>
-                            <button class="delete-btn" onclick="app.deleteDriver('${d.id}')">${t('btnCancel')}</button>
-                        </div>`;
-            });
-            html += `</div></div>`;
-            document.getElementById('contentArea').innerHTML = html;
-            document.getElementById('pageTitle').innerHTML = t('pageTitleDrivers') + ' <span class="demo-badge">DEMO MODE</span>';
-        },
-        showAddDriverForm() {
-            let name = prompt(t('addDriver') + ' - Naam:');
-            if (!name) return;
-            let email = prompt('E-mail:');
-            if (!email) return;
-            let vehicle = prompt('Voertuig:') || 'Standaard';
-            let plate = prompt('Nummerplaat:') || 'Onbekend';
-            const newId = generateDriverId();
-            drivers.push({ id: newId, driver_code: newId, name, email, vehicle, license_plate: plate, partner_id: 1, color: 'Zwart' });
-            this.showToast(`Driver ${name} toegevoegd met ID ${newId}`);
-            this.renderDrivers();
-        },
-        deleteDriver(id) { if(confirm('Driver verwijderen?')) { drivers = drivers.filter(d => d.id !== id); this.renderDrivers(); this.showToast('Driver verwijderd'); } },
-        
-        renderPartners() {
-            let html = `<div class="people-card"><h3>${t('partnersTitle')}</h3><button class="add-btn" onclick="app.showAddPartnerForm()">${t('addPartner')}</button><div>`;
-            if (partners.length === 0) html += `<div>${t('noPartners')}</div>`;
-            else partners.forEach(p => {
-                html += `<div style="border:1px solid #e2e8f0; border-radius:16px; padding:16px; margin-bottom:16px;">
-                            <div><strong>${p.name}</strong> ${p.is_hoofd ? '(Hoofdpartner)' : ''}</div>
-                            <div><small>Contact: ${p.contact} | ${p.email}</small></div>
-                            <button class="delete-btn" onclick="app.deletePartner(${p.id})">${t('btnCancel')}</button>
-                         </div>`;
-            });
-            html += `</div></div>`;
-            document.getElementById('contentArea').innerHTML = html;
-            document.getElementById('pageTitle').innerHTML = t('pageTitlePartners') + ' <span class="demo-badge">DEMO MODE</span>';
-        },
-        showAddPartnerForm() { this.showToast('Demo: partner toevoegen'); },
-        deletePartner(id) { this.showToast('Demo: partner verwijderen'); },
-        
-        renderFinance() {
-            let completedRides = allBookings.filter(b => b.status === 'completed');
-            let totalRevenue = completedRides.reduce((s,r)=>s+r.amount,0);
-            let cashRevenue = completedRides.filter(r=> r.payment === 'Cash').reduce((s,r)=>s+r.amount,0);
-            let factuurRevenue = completedRides.filter(r=> r.payment === 'Factuur').reduce((s,r)=>s+r.amount,0);
-            let commission = totalRevenue * 0.1;
-            let html = `<div class="finance-kpi-grid"><div class="finance-kpi-card"><div class="value">€${totalRevenue.toFixed(2)}</div><div class="label">${t('turnover')}</div></div>
-                        <div class="finance-kpi-card"><div class="value">€${cashRevenue.toFixed(2)}</div><div class="label">${t('cash')}</div></div>
-                        <div class="finance-kpi-card"><div class="value">€${factuurRevenue.toFixed(2)}</div><div class="label">${t('invoice')}</div></div>
-                        <div class="finance-kpi-card"><div class="value">${completedRides.length}</div><div class="label">${t('rides')}</div></div>
-                        <div class="finance-kpi-card"><div class="value">€${commission.toFixed(2)}</div><div class="label">${t('commissionLabel')}</div></div></div>
-                        <div class="finance-stats-grid"><div class="finance-stat-card"><h4>${t('newOrdersStat')}</h4><div class="value">${this.newOrders.length}</div></div>
-                        <div class="finance-stat-card"><h4>${t('activeOrdersStat')}</h4><div class="value">${this.ordersList.length}</div></div>
-                        <div class="finance-stat-card"><h4>${t('historyStat')}</h4><div class="value">${this.historyOrders.length}</div></div></div>
-                        <div class="chart-container"><canvas id="revenueChart" width="400" height="200"></canvas></div>`;
-            document.getElementById('contentArea').innerHTML = html;
-            document.getElementById('pageTitle').innerHTML = t('pageTitleFinance') + ' <span class="demo-badge">DEMO MODE</span>';
-            const ctx = document.getElementById('revenueChart')?.getContext('2d');
-            if (ctx) {
-                if (this.revenueChart) this.revenueChart.destroy();
-                this.revenueChart = new Chart(ctx, { type: 'bar', data: { labels: ['Mei 2026', 'Jun 2026'], datasets: [{ label: t('chartLabel'), data: [176, 144.5], backgroundColor: '#2dd4bf' }] } });
-            }
-        },
-        renderSettlements() {
-            let gross = 320.50, net = 288.45;
-            let html = `<div class="settlements-grid"><div class="settlement-card"><i class="fas fa-chart-line"></i><h4>${t('gross')}</h4><div class="value">€${gross.toFixed(2)}</div></div>
-                        <div class="settlement-card"><i class="fas fa-undo-alt"></i><h4>${t('refunded')}</h4><div class="value">€0,00</div></div>
-                        <div class="settlement-card"><i class="fab fa-stripe"></i><h4>${t('stripeFees')}</h4><div class="value">€${(gross-net).toFixed(2)}</div></div>
-                        <div class="settlement-card"><i class="fas fa-coins"></i><h4>${t('net')}</h4><div class="value">€${net.toFixed(2)}</div></div></div>
-                        <div class="orders-table-wrapper"><h3>${t('recentPayments')}</h3><table class="orders-table"><thead><tr><th>Booking</th><th>${t('tableDateTime')}</th><th>${t('tableAmount')}</th></tr></thead><tbody><tr><td>T-PV-20260530-045</span></span><td>30-05-2026</span></span><td>€64,00</span></span></tr>\n                        <tr><td>T-PV-20260529-032</td><td>29-05-2026</td><td>€112,00</td></tr>\n                    </tbody>\n                </div>`;
-            document.getElementById('contentArea').innerHTML = html;
-            document.getElementById('pageTitle').innerHTML = t('pageTitleSettlements') + ' <span class="demo-badge">DEMO MODE</span>';
-        },
-        
-        renderWiki() {
-            document.getElementById('contentArea').innerHTML = `
-            <div class="wiki-container" style="background:white; border-radius:24px; padding:24px;">
-                <h2><i class="fas fa-robot"></i> ${t('wikiTitle')}</h2>
-                <p>${t('wikiText')}</p>
-                <h3>📋 ${t('navNewOrders')}</h3><p>${t('btnAccept')}</p>
-                <h3>📦 ${t('navOrders')}</h3><p>${t('btnAssign')}, ${t('btnCancel')}</p>
-                <h3>📅 ${t('navAgenda')}</h3><p>${t('noRidesPlanning')}</p>
-                <h3>👥 ${t('navDrivers')}</h3><p>${t('addDriver')}</p>
-                <h3>💰 ${t('navFinancial')}</h3><p>${t('chartLabel')}</p>
-                <hr><p style="text-align:center;">© 2026 FleetConnect — Partnerportaal</p>
-            </div>`;
-            document.getElementById('pageTitle').innerHTML = t('pageTitleWiki') + ' <span class="demo-badge">DEMO MODE</span>';
         }
-    };
 
-    function updateStaticTexts() {
-        document.getElementById('logoSubtext').innerText = t('logoSubtext');
-        document.getElementById('navBookings').innerText = t('navBookings');
-        document.getElementById('navNewOrders').innerText = t('navNewOrders');
-        document.getElementById('navOrders').innerText = t('navOrders');
-        document.getElementById('navHistory').innerText = t('navHistory');
-        document.getElementById('navAgenda').innerText = t('navAgenda');
-        document.getElementById('navManagement').innerText = t('navManagement');
-        document.getElementById('navDrivers').innerText = t('navDrivers');
-        document.getElementById('navPartners').innerText = t('navPartners');
-        document.getElementById('navFinance').innerText = t('navFinance');
-        document.getElementById('navFinancial').innerText = t('navFinancial');
-        document.getElementById('navSettlements').innerText = t('navSettlements');
-        document.getElementById('navInfo').innerText = t('navInfo');
-        document.getElementById('navWiki').innerText = t('navWiki');
-        document.getElementById('logoutText').innerText = t('logoutText');
-        document.getElementById('refreshText').innerText = t('refreshText');
-        document.getElementById('userRole').innerText = t('userRole');
-        document.getElementById('ficheTitle').innerText = t('ficheTitle');
-        app.refreshCurrentTab();
-    }
-    function setLanguage(lang) {
-        currentLang = lang;
-        updateStaticTexts();
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-            else btn.classList.remove('active');
+        // Logout handler
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            showToast('Uitgelogd');
+            setTimeout(() => window.location.replace('partner-login.html'), 800);
         });
-        app.showToast(`Taal gewijzigd naar ${lang.toUpperCase()}`);
-    }
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
-    });
 
-    updateFilteredArrays();
-    setLanguage('nl');
-    document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const tab = item.getAttribute('data-tab');
-            if (tab) app.switchTab(tab);
+        // Init
+        loadSnapshot();
+
+        // Listen for auth state changes (e.g., if session expires)
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_OUT' || !session) {
+                window.location.replace('partner-login.html');
+            }
         });
-    });
-    app.switchTab('neworders');
-    window.app = app;
-</script>
+    </script>
 </body>
 </html>
