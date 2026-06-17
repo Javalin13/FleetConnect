@@ -357,7 +357,35 @@
 
     <script type="module">
         import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-        import { CommunicationService } from '../src/modules/communication/index.js';
+
+        // comms (CommunicationService) is optional — wrap import in try/catch so the dashboard
+        // still works even if the communication module fails to load
+        let comms = null;
+        try {
+            const mod = await import('../src/modules/communication/index.js');
+            const CS = mod.CommunicationService || mod.default;
+            if (CS) comms = new CS();
+            else comms = mod.comms || null;
+            // Wrap comms methods so calls never throw ReferenceError
+            if (comms && !comms.__fcSafeWrapped) {
+                const safeCall = (name) => async (...args) => {
+                    try { if (typeof comms[name] === 'function') return await comms[name](...args); }
+                    catch (e) { console.warn(`[dashboard] comms.${name} failed:`, e?.message || e); }
+                    return { success: false, error: 'comms unavailable' };
+                };
+                comms.trigger = safeCall('trigger');
+                comms.sendAccountDecisionEmail = safeCall('sendAccountDecisionEmail');
+                comms.activeProvider = comms.activeProvider || { send: safeCall('send') };
+                comms.__fcSafeWrapped = true;
+            }
+        } catch (commsErr) {
+            console.warn('[dashboard] comms module unavailable, emails disabled:', commsErr?.message || commsErr);
+            comms = {
+                trigger: async () => ({ success: false, error: 'comms unavailable' }),
+                sendAccountDecisionEmail: async () => ({ success: false, error: 'comms unavailable' }),
+                activeProvider: { send: async () => ({ success: false, error: 'comms unavailable' }) }
+            };
+        }
 
         (function checkAuthentication() {
             const isLoggedIn = sessionStorage.getItem('horizon_logged_in') === 'true';
@@ -367,8 +395,6 @@
         const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        const comms = new CommunicationService();
-
         const translations = {
             nl: {
                 sidebarSubtitle: "Operator Paneel", navBookings: "BOEKINGEN", navNewOrders: "New Orders", navOrders: "Orders", navHistory: "History", navAgenda: "Agenda",

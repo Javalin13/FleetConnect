@@ -70,7 +70,20 @@
 
     <script type="module">
         import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-        import { comms } from '../src/modules/communication/index.js';
+
+        // comms is optional — wrap import in try/catch so registration still works
+        // even if the communication module fails to load
+        let comms = null;
+        try {
+            const mod = await import('../src/modules/communication/index.js');
+            comms = mod.comms || mod.default || null;
+        } catch (commsErr) {
+            console.warn('[register] comms module unavailable, registration emails disabled:', commsErr?.message || commsErr);
+            comms = {
+                activeProvider: { send: async () => ({ success: false, error: 'comms module unavailable' }) },
+                sendAccountWelcome: async () => ({ success: false, error: 'comms module unavailable' })
+            };
+        }
      
         const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';
@@ -305,23 +318,27 @@
                         const reviewUrl = `${window.location.origin}/Paneel/admin-index.html`;
                         const subject = 'Nieuwe FleetConnect klantregistratie';
                         const html = `<div style="font-family: Inter, Arial, sans-serif; color:#0f172a;"><h2>Nieuwe klantregistratie</h2><p>Deze klantregistratie vereist geen operator-goedkeuring.</p><p><strong>Naam:</strong> ${fullName}</p><p><strong>Email:</strong> ${email}</p><p><strong>Telefoon:</strong> ${phone}</p><p><strong>Standaard ophaaladres:</strong> ${pickup}</p>${requestedBookingId ? `<p><strong>Boeking:</strong> ${requestedBookingId}</p>` : ''}<p><a href="${reviewUrl}" style="display:inline-block; background:#0f172a; color:#ffffff; padding:12px 18px; border-radius:8px; text-decoration:none; font-weight:700;">Dashboard openen</a></p></div>`;
-                        const notifyResult = await comms.activeProvider.send('support@fleetconnect.be', subject, html, {
+                        const notifyResult = await (comms?.activeProvider?.send ? comms.activeProvider.send('support@fleetconnect.be', subject, html, {
                             trigger: 'CUSTOMER_REGISTRATION_NOTICE',
                             bookingId: customerId,
                             supabaseUrl: SUPABASE_URL,
                             supabaseKey: SUPABASE_ANON_KEY
-                        });
+                        }) : Promise.resolve({ success: false, error: 'no comms' }));
                         if (!notifyResult.success) console.warn('Customer registration notification failed:', notifyResult.error);
                     } catch (notifyError) {
                         console.warn('Customer registration notification unavailable:', notifyError.message);
                     }
 
-                    await comms.sendAccountWelcome({
-                        id: customerId,
-                        name: fullName,
-                        email,
-                        phone
-                    }, supabase);
+                    try {
+                        await (coms?.sendAccountWelcome ? comms.sendAccountWelcome({
+                            id: customerId,
+                            name: fullName,
+                            email,
+                            phone
+                        }, supabase) : Promise.resolve({ success: false, error: 'no comms' }));
+                    } catch (welcomeErr) {
+                        console.warn('Welcome email skipped:', welcomeErr.message);
+                    }
 
                     showSuccess('✓ Account aangemaakt. We hebben u een verificatiemail gestuurd. Klik op de link in die email om uw account te bevestigen — daarna kunt u inloggen.');
                     setTimeout(() => {
