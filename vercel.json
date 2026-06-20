@@ -26,6 +26,8 @@
     { "source": "/en", "destination": "/PV/PV_en.html" },
     { "source": "/booking", "destination": "/PV/PV.html" },
     { "source": "/booking/:path*", "destination": "/PV/:path*" },
+    { "source": "/b2b", "destination": "/b2b/index.html" },
+    { "source": "/b2b/webbooker", "destination": "/b2b/webbooker.html" },
     { "source": "/dashboard", "destination": "/Paneel/admin-index.html" },
     { "source": "/operator", "destination": "/Paneel/admin-index.html" },
     { "source": "/login", "destination": "/PV/index.html" },
