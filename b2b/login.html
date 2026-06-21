@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FleetConnect B2B Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--ink:#102033;--muted:#5b7088;--line:#dfe9f2;--bg:#eef4f9}
+        *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:linear-gradient(180deg,rgba(44,110,158,.15),rgba(255,255,255,.85)),url("https://images.unsplash.com/photo-1494526585095-c41746248156?w=1800&q=80") center/cover fixed;color:var(--ink);min-height:100vh} body[dir="rtl"]{direction:rtl}
+        .wrap{min-height:100vh;background:rgba(245,248,252,.9);display:flex;align-items:center;justify-content:center;padding:24px}
+        .card{width:min(520px,100%);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px rgba(20,48,77,.12);padding:28px}
+        .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:22px}.brand{font-size:1.45rem;font-weight:900;color:var(--primary);display:flex;gap:10px;align-items:center}.lang-select{border:1px solid var(--line);border-radius:999px;padding:9px 12px;font-weight:800;background:#fff}
+        h1{margin:0 0 8px;font-size:1.55rem}.lead{margin:0 0 24px;color:var(--muted);line-height:1.55}.field{margin-bottom:14px}label{display:block;font-size:.78rem;text-transform:uppercase;font-weight:800;color:var(--muted);margin-bottom:7px}input{width:100%;border:1px solid var(--line);border-radius:8px;padding:13px 14px;font:inherit}
+        .btn{width:100%;border:0;background:var(--primary);color:#fff;border-radius:999px;padding:14px 18px;font-weight:900;cursor:pointer}.btn:disabled{opacity:.65}.links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px}.links a{color:var(--primary);font-weight:800;text-decoration:none}.message{display:none;margin-top:16px;padding:12px 14px;border-radius:8px;font-weight:700;line-height:1.45}.message.ok{display:block;background:#dcfce7;color:#166534}.message.err{display:block;background:#fee2e2;color:#b42318}
+    </style>
+</head>
+<body>
+<div class="wrap"><section class="card">
+    <div class="top"><div class="brand"><i class="fas fa-building"></i> FleetConnect B2B</div><select id="languageSelect" class="lang-select"><option value="en">English</option><option value="fr">Français</option><option value="nl">Nederlands</option><option value="es">Español</option><option value="ar">العربية</option></select></div>
+    <h1 data-i18n="title">B2B portal login</h1>
+    <p class="lead" data-i18n="lead">For approved hotels, companies, congress centers and event partners.</p>
+    <form id="loginForm">
+        <div class="field"><label for="email" data-i18n="email">Email</label><input id="email" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="password" data-i18n="password">Password</label><input id="password" type="password" required autocomplete="current-password"></div>
+        <button class="btn" id="loginBtn" type="submit" data-i18n="signIn">Sign in</button>
+    </form>
+    <div class="links"><a href="/b2b/webbooker" data-i18n="webbooker">Open WebBooker</a><a href="/partner-login" data-i18n="request">Request partner access</a></div>
+    <div id="message" class="message"></div>
+</section></div>
+<script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    const supabase = createClient('https://rreqjjrmvytnwnsidmqi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA');
+    const order=['en','fr','nl','es','ar'];
+    const t={en:{title:'B2B portal login',lead:'For approved hotels, companies, congress centers and event partners.',email:'Email',password:'Password',signIn:'Sign in',webbooker:'Open WebBooker',request:'Request partner access',failed:'Login failed. Check your credentials or approval status.',working:'Signing in...'},fr:{title:'Connexion portail B2B',lead:'Pour hôtels, entreprises, centres de congrès et partenaires événementiels approuvés.',email:'E-mail',password:'Mot de passe',signIn:'Se connecter',webbooker:'Ouvrir WebBooker',request:'Demander un accès partenaire',failed:'Connexion impossible. Vérifiez vos identifiants ou le statut d’approbation.',working:'Connexion...'},nl:{title:'B2B portaal login',lead:'Voor goedgekeurde hotels, bedrijven, congrescentra en eventpartners.',email:'E-mail',password:'Wachtwoord',signIn:'Inloggen',webbooker:'Open WebBooker',request:'Partner toegang aanvragen',failed:'Login mislukt. Controleer uw gegevens of goedkeuringsstatus.',working:'Inloggen...'},es:{title:'Login portal B2B',lead:'Para hoteles, empresas, centros de congresos y socios de eventos aprobados.',email:'Email',password:'Contraseña',signIn:'Iniciar sesión',webbooker:'Abrir WebBooker',request:'Solicitar acceso partner',failed:'No se pudo iniciar sesión. Revise credenciales o aprobación.',working:'Entrando...'},ar:{title:'تسجيل دخول B2B',lead:'للفنادق والشركات ومراكز المؤتمرات وشركاء الفعاليات المعتمدين.',email:'البريد',password:'كلمة المرور',signIn:'دخول',webbooker:'فتح WebBooker',request:'طلب وصول شريك',failed:'فشل تسجيل الدخول. تحقق من البيانات أو حالة الموافقة.',working:'جار الدخول...'}};
+    let lang=[new URLSearchParams(location.search).get('lang'),localStorage.getItem('fleetconnect_language'),(navigator.language||'en').slice(0,2).toLowerCase(),'en'].find(x=>order.includes(x))||'en';
+    function apply(){ localStorage.setItem('fleetconnect_language',lang); localStorage.setItem('nh_language',lang); document.documentElement.lang=lang; document.body.dir=lang==='ar'?'rtl':'ltr'; languageSelect.value=lang; document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t[lang][el.dataset.i18n]||t.en[el.dataset.i18n]); }
+    function msg(type,text){ message.className=`message ${type}`; message.textContent=text; }
+    languageSelect.addEventListener('change',()=>{lang=languageSelect.value; apply();});
+    loginForm.addEventListener('submit',async e=>{e.preventDefault(); loginBtn.disabled=true; loginBtn.textContent=t[lang].working; const {error}=await supabase.auth.signInWithPassword({email:email.value.trim(),password:password.value}); if(error){msg('err',t[lang].failed); loginBtn.disabled=false; loginBtn.textContent=t[lang].signIn; return;} location.href='/b2b/portal';});
+    apply();
+</script>
+</body>
+</html>

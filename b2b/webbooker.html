@@ -8,281 +8,119 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent:#c9a03d;--ink:#102033;--muted:#5b7088;--bg:#eef4f9;--card:#fff;--line:#dfe9f2;--ok:#0f9f6e;--err:#b42318}
-        *{box-sizing:border-box}
-        body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-        body[dir="rtl"]{direction:rtl}
+        *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)} body[dir="rtl"]{direction:rtl}
         .shell{min-height:100vh;background:linear-gradient(180deg,rgba(44,110,158,.12),rgba(255,255,255,.8)),url("https://images.unsplash.com/photo-1494526585095-c41746248156?w=1800&q=80") center/cover fixed}
-        .overlay{min-height:100vh;background:rgba(245,248,252,.88)}
+        .overlay{min-height:100vh;background:rgba(245,248,252,.9)}
         .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px clamp(16px,4vw,44px)}
-        .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--primary);font-size:1.15rem}
-        .brand i{font-size:1.35rem}
-        .langs{display:flex;gap:6px;background:rgba(255,255,255,.9);border:1px solid var(--line);padding:5px;border-radius:999px}
-        .langs button{border:0;background:transparent;color:var(--muted);font-weight:800;border-radius:999px;padding:7px 10px;cursor:pointer}
-        .langs button.active{background:var(--primary);color:white}
-        main{max-width:1180px;margin:0 auto;padding:18px clamp(14px,4vw,36px) 44px}
-        .hero{display:grid;grid-template-columns:minmax(0,.9fr) minmax(320px,1.1fr);gap:24px;align-items:start}
-        .intro{padding:28px 0}
-        h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:0 0 14px;color:var(--primary-dark);letter-spacing:0}
-        .lead{font-size:1.1rem;line-height:1.65;color:var(--muted);max-width:620px}
-        .proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}
-        .proof span{display:flex;gap:8px;align-items:center;background:white;border:1px solid var(--line);border-radius:8px;padding:12px;font-weight:700;color:var(--primary-dark)}
-        .card{background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px rgba(20,48,77,.12);overflow:hidden}
-        .card-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}
-        .card-head h2{margin:0;font-size:1.25rem}
-        .badge{background:#e8f7f4;color:#0b6f60;border-radius:999px;padding:6px 10px;font-size:.75rem;font-weight:800}
-        form{padding:24px}
-        .section{margin-bottom:24px}
-        .section h3{font-size:.85rem;text-transform:uppercase;color:var(--primary);letter-spacing:.04em;margin:0 0 14px}
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-        .field{display:flex;flex-direction:column;gap:7px}
-        .field.full{grid-column:1/-1}
-        label{font-size:.78rem;text-transform:uppercase;font-weight:800;color:var(--muted)}
-        input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:13px 14px;font:inherit;color:var(--ink);background:#fff}
-        textarea{min-height:94px;resize:vertical}
-        input:focus,select:focus,textarea:focus{outline:2px solid rgba(44,110,158,.18);border-color:var(--primary)}
-        .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px}
-        .submit{border:0;background:var(--primary);color:white;border-radius:999px;padding:14px 22px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
-        .submit:disabled{opacity:.65;cursor:not-allowed}
-        .help{color:var(--muted);font-size:.9rem;line-height:1.5;max-width:420px}
-        .message{display:none;margin:0 24px 24px;padding:14px 16px;border-radius:8px;font-weight:700;line-height:1.5}
-        .message.ok{display:block;background:#dcfce7;color:#166534}
-        .message.err{display:block;background:#fee2e2;color:var(--err)}
-        footer{max-width:1180px;margin:0 auto;padding:0 clamp(14px,4vw,36px) 30px;color:var(--muted);font-size:.85rem}
-        @media(max-width:900px){.hero{grid-template-columns:1fr}.intro{padding:8px 0}.proof{grid-template-columns:1fr}}
-        @media(max-width:640px){.topbar{align-items:flex-start}.langs{flex-wrap:wrap;justify-content:flex-end}.grid{grid-template-columns:1fr}form{padding:18px}.card-head{padding:18px}.actions{align-items:stretch}.submit{width:100%;justify-content:center}}
+        .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--primary);font-size:1.15rem}.brand i{font-size:1.35rem}
+        .top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.lang-select,.portal-link{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:10px 14px;font-weight:800;text-decoration:none}.portal-link{background:var(--primary);color:#fff}
+        main{max-width:1220px;margin:0 auto;padding:18px clamp(14px,4vw,36px) 44px}
+        .hero{display:grid;grid-template-columns:minmax(0,.85fr) minmax(360px,1.15fr);gap:24px;align-items:start}.intro{padding:28px 0}
+        h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:0 0 14px;color:var(--primary-dark);letter-spacing:0}.lead{font-size:1.08rem;line-height:1.65;color:var(--muted);max-width:620px}
+        .proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}.proof span{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;font-weight:700;color:var(--primary-dark)}
+        .card{background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px rgba(20,48,77,.12);overflow:hidden}.card-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}.card-head h2{margin:0;font-size:1.25rem}.badge{background:#e8f7f4;color:#0b6f60;border-radius:999px;padding:6px 10px;font-size:.75rem;font-weight:800}
+        form{padding:24px}.section{margin-bottom:24px}.section h3{font-size:.85rem;text-transform:uppercase;color:var(--primary);letter-spacing:.04em;margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
+        label{font-size:.78rem;text-transform:uppercase;font-weight:800;color:var(--muted)}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:13px 14px;font:inherit;color:var(--ink);background:#fff}textarea{min-height:94px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid rgba(44,110,158,.18);border-color:var(--primary)}
+        #map{width:100%;height:330px;border-radius:8px;border:1px solid var(--line);background:#eef4f9}.route-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.route-card{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}.route-card strong{display:block;color:var(--primary);font-size:1.55rem}.route-card span{font-size:.78rem;color:var(--muted);font-weight:800;text-transform:uppercase}.route-note{margin-top:10px;color:var(--muted);font-size:.88rem}
+        .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px}.submit{border:0;background:var(--primary);color:#fff;border-radius:999px;padding:14px 22px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:8px}.submit:disabled{opacity:.65;cursor:not-allowed}.help{color:var(--muted);font-size:.9rem;line-height:1.5;max-width:420px}.message{display:none;margin:0 24px 24px;padding:14px 16px;border-radius:8px;font-weight:700;line-height:1.5}.message.ok{display:block;background:#dcfce7;color:#166534}.message.err{display:block;background:#fee2e2;color:var(--err)}
+        footer{max-width:1220px;margin:0 auto;padding:0 clamp(14px,4vw,36px) 30px;color:var(--muted);font-size:.85rem}
+        gmp-place-autocomplete.fleetconnect-place-autocomplete{display:block;width:100%}gmp-place-autocomplete.fleetconnect-place-autocomplete::part(input){width:100%;box-sizing:border-box;font:inherit}input.fleetconnect-place-source{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+        @media(max-width:920px){.hero{grid-template-columns:1fr}.intro{padding:8px 0}.proof{grid-template-columns:1fr}.route-strip{grid-template-columns:1fr}}
+        @media(max-width:640px){.topbar{align-items:flex-start}.top-actions{justify-content:flex-end}.grid{grid-template-columns:1fr}form{padding:18px}.card-head{padding:18px}.actions{align-items:stretch}.submit{width:100%;justify-content:center}}
     </style>
 </head>
 <body>
-<div class="shell">
-    <div class="overlay">
-        <header class="topbar">
-            <div class="brand"><i class="fas fa-car-side"></i><span>FleetConnect B2B</span></div>
-            <nav class="langs" aria-label="Language">
-                <button type="button" data-lang="en">EN</button>
-                <button type="button" data-lang="fr">FR</button>
-                <button type="button" data-lang="nl">NL</button>
-                <button type="button" data-lang="es">ES</button>
-                <button type="button" data-lang="ar">AR</button>
-            </nav>
-        </header>
-        <main>
-            <div class="hero">
-                <section class="intro">
-                    <h1 data-i18n="title">B2B WebBooker</h1>
-                    <p class="lead" data-i18n="lead">Book airport transfers and business rides for hotel guests, company visitors, event speakers and relocation clients. Every request enters the existing FleetConnect dispatch lifecycle.</p>
-                    <div class="proof">
-                        <span><i class="fas fa-hotel"></i><span data-i18n="proofHotel">Hotel ready</span></span>
-                        <span><i class="fas fa-briefcase"></i><span data-i18n="proofCorporate">Company ready</span></span>
-                        <span><i class="fas fa-route"></i><span data-i18n="proofDispatch">Dispatch connected</span></span>
-                    </div>
-                </section>
-                <section class="card">
-                    <div class="card-head">
-                        <h2 data-i18n="formTitle">Create booking request</h2>
-                        <span class="badge" data-i18n="badge">MVP intake</span>
-                    </div>
-                    <form id="webbookerForm" novalidate>
-                        <div class="section">
-                            <h3 data-i18n="rideSection">Ride details</h3>
-                            <div class="grid">
-                                <div class="field"><label for="pickup" data-i18n="pickup">Pickup address</label><input id="pickup" required minlength="3" autocomplete="street-address"></div>
-                                <div class="field"><label for="destination" data-i18n="destination">Destination address</label><input id="destination" required minlength="3" autocomplete="off"></div>
-                                <div class="field"><label for="date" data-i18n="date">Date</label><input id="date" type="date" required></div>
-                                <div class="field"><label for="time" data-i18n="time">Time</label><input id="time" type="time" required></div>
-                                <div class="field"><label for="passengerName" data-i18n="passengerName">Passenger name</label><input id="passengerName" required autocomplete="name"></div>
-                                <div class="field"><label for="passengerPhone" data-i18n="passengerPhone">Passenger phone</label><input id="passengerPhone" required autocomplete="tel"></div>
-                                <div class="field"><label for="passengerEmail" data-i18n="passengerEmail">Passenger email</label><input id="passengerEmail" type="email" autocomplete="email"></div>
-                                <div class="field"><label for="flightNumber" data-i18n="flightNumber">Flight number</label><input id="flightNumber" autocomplete="off"></div>
-                            </div>
-                        </div>
-                        <div class="section">
-                            <h3 data-i18n="companySection">Company attribution</h3>
-                            <div class="grid">
-                                <div class="field"><label for="companyName" data-i18n="companyName">Company / hotel name</label><input id="companyName" required autocomplete="organization"></div>
-                                <div class="field"><label for="businessType" data-i18n="businessType">Business type</label><select id="businessType" required></select></div>
-                                <div class="field"><label for="contactPerson" data-i18n="contactPerson">Contact person</label><input id="contactPerson" required autocomplete="name"></div>
-                                <div class="field"><label for="contactEmail" data-i18n="contactEmail">Contact email</label><input id="contactEmail" required type="email" autocomplete="email"></div>
-                                <div class="field"><label for="contactPhone" data-i18n="contactPhone">Contact phone</label><input id="contactPhone" required autocomplete="tel"></div>
-                                <div class="field"><label for="paymentMethod" data-i18n="paymentMethod">Payment method</label><select id="paymentMethod" required></select></div>
-                                <div class="field full"><label for="notes" data-i18n="notes">Notes</label><textarea id="notes"></textarea></div>
-                            </div>
-                        </div>
-                        <div class="actions">
-                            <p class="help" data-i18n="help">For MVP, FleetConnect confirms price, availability and payment handling from the operator dashboard.</p>
-                            <button class="submit" id="submitBtn" type="submit"><i class="fas fa-paper-plane"></i><span data-i18n="submit">Submit booking request</span></button>
-                        </div>
-                    </form>
-                    <div id="formMessage" class="message" role="status"></div>
-                </section>
-            </div>
-        </main>
-        <footer data-i18n="footer">FleetConnect B2B WebBooker uses the certified FleetConnect booking lifecycle. No private dashboard data is exposed.</footer>
-    </div>
-</div>
+<div class="shell"><div class="overlay">
+    <header class="topbar">
+        <div class="brand"><i class="fas fa-car-side"></i><span>FleetConnect B2B</span></div>
+        <div class="top-actions">
+            <select id="languageSelect" class="lang-select" aria-label="Language">
+                <option value="en">English</option><option value="fr">Français</option><option value="nl">Nederlands</option><option value="es">Español</option><option value="ar">العربية</option>
+            </select>
+            <a href="/b2b/login" class="portal-link"><i class="fas fa-right-to-bracket"></i> <span data-i18n="portal">B2B portal</span></a>
+        </div>
+    </header>
+    <main><div class="hero">
+        <section class="intro">
+            <h1 data-i18n="title">B2B WebBooker</h1>
+            <p class="lead" data-i18n="lead">Book airport transfers and business rides for hotel guests, company visitors, event speakers and relocation clients. Every request enters the existing FleetConnect dispatch lifecycle.</p>
+            <div class="proof"><span><i class="fas fa-hotel"></i><span data-i18n="proofHotel">Hotel ready</span></span><span><i class="fas fa-briefcase"></i><span data-i18n="proofCorporate">Company ready</span></span><span><i class="fas fa-route"></i><span data-i18n="proofDispatch">Dispatch connected</span></span></div>
+        </section>
+        <section class="card">
+            <div class="card-head"><h2 data-i18n="formTitle">Create booking request</h2><span class="badge" data-i18n="badge">Live intake</span></div>
+            <form id="webbookerForm" novalidate>
+                <div class="section"><h3 data-i18n="rideSection">Ride details</h3><div class="grid">
+                    <div class="field"><label for="pickup" data-i18n="pickup">Pickup address</label><input id="pickup" required minlength="3" autocomplete="street-address"></div>
+                    <div class="field"><label for="destination" data-i18n="destination">Destination address</label><input id="destination" required minlength="3" autocomplete="off"></div>
+                    <div class="field"><label for="date" data-i18n="date">Date</label><input id="date" type="date" required></div>
+                    <div class="field"><label for="time" data-i18n="time">Time</label><input id="time" type="time" required></div>
+                    <div class="field"><label for="passengerName" data-i18n="passengerName">Passenger name</label><input id="passengerName" required autocomplete="name"></div>
+                    <div class="field"><label for="passengerPhone" data-i18n="passengerPhone">Passenger phone</label><input id="passengerPhone" required autocomplete="tel"></div>
+                    <div class="field"><label for="passengerEmail" data-i18n="passengerEmail">Passenger email</label><input id="passengerEmail" type="email" autocomplete="email"></div>
+                    <div class="field"><label for="flightNumber" data-i18n="flightNumber">Flight number</label><input id="flightNumber" autocomplete="off"></div>
+                    <div class="field full"><div id="map"></div><div class="route-strip"><div class="route-card"><span data-i18n="distance">Distance</span><strong id="distVal">-</strong><small>km</small></div><div class="route-card"><span data-i18n="duration">Duration</span><strong id="timeVal">-</strong><small>min</small></div><div class="route-card"><span data-i18n="price">Price</span><strong id="priceVal">-</strong><small>EUR</small></div></div><p class="route-note" data-i18n="routeHelp">Select pickup and destination from Google suggestions to calculate the route and total cost.</p></div>
+                </div></div>
+                <div class="section"><h3 data-i18n="companySection">Company attribution</h3><div class="grid">
+                    <div class="field"><label for="companyName" data-i18n="companyName">Company / hotel name</label><input id="companyName" required autocomplete="organization"></div>
+                    <div class="field"><label for="businessType" data-i18n="businessType">Business type</label><select id="businessType" required></select></div>
+                    <div class="field"><label for="contactPerson" data-i18n="contactPerson">Contact person</label><input id="contactPerson" required autocomplete="name"></div>
+                    <div class="field"><label for="contactEmail" data-i18n="contactEmail">Contact email</label><input id="contactEmail" required type="email" autocomplete="email"></div>
+                    <div class="field"><label for="contactPhone" data-i18n="contactPhone">Contact phone</label><input id="contactPhone" required autocomplete="tel"></div>
+                    <div class="field"><label for="paymentMethod" data-i18n="paymentMethod">Payment method</label><select id="paymentMethod" required></select></div>
+                    <div class="field full"><label for="notes" data-i18n="notes">Notes</label><textarea id="notes"></textarea></div>
+                </div></div>
+                <div class="actions"><p class="help" data-i18n="help">FleetConnect calculates the route and submits the request to the operator dashboard for confirmation.</p><button class="submit" id="submitBtn" type="submit"><i class="fas fa-paper-plane"></i><span data-i18n="submit">Submit booking request</span></button></div>
+            </form>
+            <div id="formMessage" class="message" role="status"></div>
+        </section>
+    </div></main>
+    <footer data-i18n="footer">FleetConnect B2B WebBooker uses the certified FleetConnect booking lifecycle. No private dashboard data is exposed.</footer>
+</div></div>
 
+<script>
+    window.initGoogleMaps = function(){ window.dispatchEvent(new Event('fleetconnect-google-ready')); };
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv51ytW1FTJoSGRiD7hLNknGwNcM8cmcM&v=weekly&libraries=places&callback=initGoogleMaps" async defer></script>
 <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
     const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnluc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+    const PRICE_PER_KM = 1.5;
+    const MIN_PRICE = 15;
     const businessTypes = ['hotel','aparthotel','airbnb','corporate','congress','event','relocation','property-manager','other'];
     const paymentMethods = ['guest_pays','company_invoice','hotel_voucher','cash_card_on_ride','to_be_discussed'];
     const langOrder = ['en','fr','nl','es','ar'];
-    const translations = {
-        en:{title:'B2B WebBooker',lead:'Book airport transfers and business rides for hotel guests, company visitors, event speakers and relocation clients. Every request enters the existing FleetConnect dispatch lifecycle.',proofHotel:'Hotel ready',proofCorporate:'Company ready',proofDispatch:'Dispatch connected',formTitle:'Create booking request',badge:'MVP intake',rideSection:'Ride details',pickup:'Pickup address',destination:'Destination address',date:'Date',time:'Time',passengerName:'Passenger name',passengerPhone:'Passenger phone',passengerEmail:'Passenger email',flightNumber:'Flight number',companySection:'Company attribution',companyName:'Company / hotel name',businessType:'Business type',contactPerson:'Contact person',contactEmail:'Contact email',contactPhone:'Contact phone',paymentMethod:'Payment method',notes:'Notes',help:'For MVP, FleetConnect confirms price, availability and payment handling from the operator dashboard.',submit:'Submit booking request',submitting:'Submitting...',success:'Booking request received. FleetConnect will confirm the ride shortly.',error:'The booking request could not be sent. Please check the fields and try again.',required:'Please complete all required fields.',footer:'FleetConnect B2B WebBooker uses the certified FleetConnect booking lifecycle. No private dashboard data is exposed.',types:{hotel:'Hotel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Corporate',congress:'Congress center',event:'Event venue',relocation:'Relocation agency','property-manager':'Property manager',other:'Other'},payments:{guest_pays:'Guest pays',company_invoice:'Company invoice',hotel_voucher:'Hotel voucher',cash_card_on_ride:'Cash/card on ride',to_be_discussed:'To be discussed'}},
-        fr:{title:'WebBooker B2B',lead:'Réservez des transferts aéroport et des trajets professionnels pour clients d’hôtel, visiteurs d’entreprise, intervenants et clients relocation. Chaque demande entre dans le cycle de dispatch FleetConnect existant.',proofHotel:'Prêt pour hôtels',proofCorporate:'Prêt pour entreprises',proofDispatch:'Connecté au dispatch',formTitle:'Créer une demande de réservation',badge:'Intake MVP',rideSection:'Détails du trajet',pickup:'Adresse de prise en charge',destination:'Adresse de destination',date:'Date',time:'Heure',passengerName:'Nom du passager',passengerPhone:'Téléphone du passager',passengerEmail:'E-mail du passager',flightNumber:'Numéro de vol',companySection:'Attribution entreprise',companyName:'Nom de l’entreprise / hôtel',businessType:'Type d’activité',contactPerson:'Personne de contact',contactEmail:'E-mail de contact',contactPhone:'Téléphone de contact',paymentMethod:'Méthode de paiement',notes:'Notes',help:'Pour le MVP, FleetConnect confirme le prix, la disponibilité et le paiement depuis le dashboard opérateur.',submit:'Envoyer la demande',submitting:'Envoi...',success:'Demande de réservation reçue. FleetConnect confirmera le trajet sous peu.',error:'La demande n’a pas pu être envoyée. Vérifiez les champs et réessayez.',required:'Veuillez compléter tous les champs obligatoires.',footer:'Le WebBooker B2B FleetConnect utilise le cycle de réservation certifié. Aucune donnée privée du dashboard n’est exposée.',types:{hotel:'Hôtel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Entreprise',congress:'Centre de congrès',event:'Lieu événementiel',relocation:'Agence relocation','property-manager':'Gestionnaire immobilier',other:'Autre'},payments:{guest_pays:'Le client paie',company_invoice:'Facture entreprise',hotel_voucher:'Voucher hôtel',cash_card_on_ride:'Cash/carte à bord',to_be_discussed:'À discuter'}},
-        nl:{title:'B2B WebBooker',lead:'Boek luchthaventransfers en zakelijke ritten voor hotelgasten, bedrijfsbezoekers, sprekers en relocation-klanten. Elke aanvraag komt in de bestaande FleetConnect dispatch lifecycle terecht.',proofHotel:'Hotelklaar',proofCorporate:'Bedrijfsklaar',proofDispatch:'Dispatch gekoppeld',formTitle:'Boekingsaanvraag maken',badge:'MVP intake',rideSection:'Ritgegevens',pickup:'Ophaaladres',destination:'Afzetadres',date:'Datum',time:'Tijd',passengerName:'Naam passagier',passengerPhone:'Telefoon passagier',passengerEmail:'E-mail passagier',flightNumber:'Vluchtnummer',companySection:'Bedrijfsattributie',companyName:'Bedrijfs- / hotelnaam',businessType:'Type organisatie',contactPerson:'Contactpersoon',contactEmail:'Contact e-mail',contactPhone:'Contact telefoon',paymentMethod:'Betaalmethode',notes:'Notities',help:'Voor de MVP bevestigt FleetConnect prijs, beschikbaarheid en betaling vanuit het operator dashboard.',submit:'Boekingsaanvraag verzenden',submitting:'Verzenden...',success:'Boekingsaanvraag ontvangen. FleetConnect bevestigt de rit binnenkort.',error:'De boekingsaanvraag kon niet worden verzonden. Controleer de velden en probeer opnieuw.',required:'Vul alle verplichte velden in.',footer:'FleetConnect B2B WebBooker gebruikt de gecertificeerde boekingslifecycle. Er wordt geen private dashboarddata getoond.',types:{hotel:'Hotel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Corporate',congress:'Congrescentrum',event:'Eventlocatie',relocation:'Relocationbureau','property-manager':'Vastgoedbeheerder',other:'Andere'},payments:{guest_pays:'Gast betaalt',company_invoice:'Bedrijfsfactuur',hotel_voucher:'Hotelvoucher',cash_card_on_ride:'Cash/kaart in de wagen',to_be_discussed:'Te bespreken'}},
-        es:{title:'WebBooker B2B',lead:'Reserve traslados al aeropuerto y viajes de empresa para huéspedes, visitantes corporativos, ponentes y clientes de relocation. Cada solicitud entra en el ciclo existente de FleetConnect.',proofHotel:'Listo para hoteles',proofCorporate:'Listo para empresas',proofDispatch:'Conectado al dispatch',formTitle:'Crear solicitud de reserva',badge:'Entrada MVP',rideSection:'Detalles del viaje',pickup:'Dirección de recogida',destination:'Dirección de destino',date:'Fecha',time:'Hora',passengerName:'Nombre del pasajero',passengerPhone:'Teléfono del pasajero',passengerEmail:'Email del pasajero',flightNumber:'Número de vuelo',companySection:'Atribución empresarial',companyName:'Nombre de empresa / hotel',businessType:'Tipo de negocio',contactPerson:'Persona de contacto',contactEmail:'Email de contacto',contactPhone:'Teléfono de contacto',paymentMethod:'Método de pago',notes:'Notas',help:'Para el MVP, FleetConnect confirma precio, disponibilidad y pago desde el panel operador.',submit:'Enviar solicitud',submitting:'Enviando...',success:'Solicitud de reserva recibida. FleetConnect confirmará el viaje pronto.',error:'No se pudo enviar la solicitud. Revise los campos e inténtelo de nuevo.',required:'Complete todos los campos obligatorios.',footer:'FleetConnect B2B WebBooker usa el ciclo certificado de reservas. No se exponen datos privados del dashboard.',types:{hotel:'Hotel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Corporativo',congress:'Centro de congresos',event:'Evento',relocation:'Agencia relocation','property-manager':'Gestor de propiedades',other:'Otro'},payments:{guest_pays:'Paga el huésped',company_invoice:'Factura empresa',hotel_voucher:'Voucher hotel',cash_card_on_ride:'Efectivo/tarjeta en viaje',to_be_discussed:'A discutir'}},
-        ar:{title:'منصة حجز الأعمال',lead:'احجز تنقلات المطار والرحلات التجارية لضيوف الفنادق وزوار الشركات والمتحدثين والعملاء. كل طلب يدخل مباشرة في دورة تشغيل FleetConnect الحالية.',proofHotel:'جاهز للفنادق',proofCorporate:'جاهز للشركات',proofDispatch:'متصل بالتشغيل',formTitle:'إنشاء طلب حجز',badge:'إدخال MVP',rideSection:'تفاصيل الرحلة',pickup:'عنوان الانطلاق',destination:'عنوان الوصول',date:'التاريخ',time:'الوقت',passengerName:'اسم الراكب',passengerPhone:'هاتف الراكب',passengerEmail:'بريد الراكب',flightNumber:'رقم الرحلة',companySection:'بيانات الشركة',companyName:'اسم الشركة / الفندق',businessType:'نوع النشاط',contactPerson:'الشخص المسؤول',contactEmail:'بريد التواصل',contactPhone:'هاتف التواصل',paymentMethod:'طريقة الدفع',notes:'ملاحظات',help:'في نسخة MVP تؤكد FleetConnect السعر والتوفر وطريقة الدفع من لوحة العمليات.',submit:'إرسال طلب الحجز',submitting:'جار الإرسال...',success:'تم استلام طلب الحجز. ستؤكد FleetConnect الرحلة قريباً.',error:'تعذر إرسال الطلب. تحقق من الحقول وحاول مرة أخرى.',required:'يرجى إكمال جميع الحقول المطلوبة.',footer:'تستخدم منصة B2B WebBooker دورة الحجز المعتمدة في FleetConnect ولا تعرض أي بيانات خاصة.',types:{hotel:'فندق',aparthotel:'شقق فندقية',airbnb:'Airbnb',corporate:'شركة',congress:'مركز مؤتمرات',event:'مكان فعاليات',relocation:'وكالة انتقال','property-manager':'إدارة عقارات',other:'أخرى'},payments:{guest_pays:'الضيف يدفع',company_invoice:'فاتورة شركة',hotel_voucher:'قسيمة فندق',cash_card_on_ride:'نقداً/بطاقة أثناء الرحلة',to_be_discussed:'يتم الاتفاق لاحقاً'}}
+    const i18n = {
+        en:{portal:'B2B portal',title:'B2B WebBooker',lead:'Book airport transfers and business rides for hotel guests, company visitors, event speakers and relocation clients. Every request enters the existing FleetConnect dispatch lifecycle.',proofHotel:'Hotel ready',proofCorporate:'Company ready',proofDispatch:'Dispatch connected',formTitle:'Create booking request',badge:'Live intake',rideSection:'Ride details',pickup:'Pickup address',destination:'Destination address',date:'Date',time:'Time',passengerName:'Passenger name',passengerPhone:'Passenger phone',passengerEmail:'Passenger email',flightNumber:'Flight number',distance:'Distance',duration:'Duration',price:'Price',routeHelp:'Select pickup and destination from Google suggestions to calculate the route and total cost.',companySection:'Company attribution',companyName:'Company / hotel name',businessType:'Business type',contactPerson:'Contact person',contactEmail:'Contact email',contactPhone:'Contact phone',paymentMethod:'Payment method',notes:'Notes',help:'FleetConnect calculates the route and submits the request to the operator dashboard for confirmation.',submit:'Submit booking request',submitting:'Submitting...',success:'Booking request received. FleetConnect will confirm the ride shortly.',error:'The booking request could not be sent. Please check the fields and try again.',required:'Please complete all required fields.',routeRequired:'Select complete pickup and destination addresses from the suggestions first.',footer:'FleetConnect B2B WebBooker uses the certified FleetConnect booking lifecycle. No private dashboard data is exposed.',types:{hotel:'Hotel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Corporate',congress:'Congress center',event:'Event venue',relocation:'Relocation agency','property-manager':'Property manager',other:'Other'},payments:{guest_pays:'Guest pays',company_invoice:'Company invoice',hotel_voucher:'Hotel voucher',cash_card_on_ride:'Cash/card on ride',to_be_discussed:'To be discussed'}},
+        fr:{portal:'Portail B2B',title:'WebBooker B2B',lead:'Réservez des transferts aéroport et des trajets professionnels pour clients d’hôtel, visiteurs d’entreprise, intervenants et clients relocation. Chaque demande entre dans le cycle de dispatch FleetConnect existant.',proofHotel:'Prêt pour hôtels',proofCorporate:'Prêt pour entreprises',proofDispatch:'Connecté au dispatch',formTitle:'Créer une demande de réservation',badge:'Intake live',rideSection:'Détails du trajet',pickup:'Adresse de prise en charge',destination:'Adresse de destination',date:'Date',time:'Heure',passengerName:'Nom du passager',passengerPhone:'Téléphone du passager',passengerEmail:'E-mail du passager',flightNumber:'Numéro de vol',distance:'Distance',duration:'Durée',price:'Prix',routeHelp:'Sélectionnez les adresses complètes dans les suggestions Google pour calculer l’itinéraire et le prix total.',companySection:'Attribution entreprise',companyName:'Nom de l’entreprise / hôtel',businessType:'Type d’activité',contactPerson:'Personne de contact',contactEmail:'E-mail de contact',contactPhone:'Téléphone de contact',paymentMethod:'Méthode de paiement',notes:'Notes',help:'FleetConnect calcule l’itinéraire et envoie la demande au dashboard opérateur pour confirmation.',submit:'Envoyer la demande',submitting:'Envoi...',success:'Demande de réservation reçue. FleetConnect confirmera le trajet sous peu.',error:'La demande n’a pas pu être envoyée. Vérifiez les champs et réessayez.',required:'Veuillez compléter tous les champs obligatoires.',routeRequired:'Sélectionnez d’abord des adresses complètes dans les suggestions.',footer:'Le WebBooker B2B FleetConnect utilise le cycle de réservation certifié. Aucune donnée privée du dashboard n’est exposée.',types:{hotel:'Hôtel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Entreprise',congress:'Centre de congrès',event:'Lieu événementiel',relocation:'Agence relocation','property-manager':'Gestionnaire immobilier',other:'Autre'},payments:{guest_pays:'Le client paie',company_invoice:'Facture entreprise',hotel_voucher:'Voucher hôtel',cash_card_on_ride:'Cash/carte à bord',to_be_discussed:'À discuter'}},
+        nl:{portal:'B2B portaal',title:'B2B WebBooker',lead:'Boek luchthaventransfers en zakelijke ritten voor hotelgasten, bedrijfsbezoekers, sprekers en relocation-klanten. Elke aanvraag komt in de bestaande FleetConnect dispatch lifecycle terecht.',proofHotel:'Hotelklaar',proofCorporate:'Bedrijfsklaar',proofDispatch:'Dispatch gekoppeld',formTitle:'Boekingsaanvraag maken',badge:'Live intake',rideSection:'Ritgegevens',pickup:'Ophaaladres',destination:'Afzetadres',date:'Datum',time:'Tijd',passengerName:'Naam passagier',passengerPhone:'Telefoon passagier',passengerEmail:'E-mail passagier',flightNumber:'Vluchtnummer',distance:'Afstand',duration:'Reistijd',price:'Prijs',routeHelp:'Selecteer ophaal- en afzetadres uit de Google suggesties om route en totaalprijs te berekenen.',companySection:'Bedrijfsattributie',companyName:'Bedrijfs- / hotelnaam',businessType:'Type organisatie',contactPerson:'Contactpersoon',contactEmail:'Contact e-mail',contactPhone:'Contact telefoon',paymentMethod:'Betaalmethode',notes:'Notities',help:'FleetConnect berekent de route en stuurt de aanvraag naar het operator dashboard voor bevestiging.',submit:'Boekingsaanvraag verzenden',submitting:'Verzenden...',success:'Boekingsaanvraag ontvangen. FleetConnect bevestigt de rit binnenkort.',error:'De boekingsaanvraag kon niet worden verzonden. Controleer de velden en probeer opnieuw.',required:'Vul alle verplichte velden in.',routeRequired:'Selecteer eerst volledige ophaal- en afzetadressen uit de suggesties.',footer:'FleetConnect B2B WebBooker gebruikt de gecertificeerde boekingslifecycle. Er wordt geen private dashboarddata getoond.',types:{hotel:'Hotel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Corporate',congress:'Congrescentrum',event:'Eventlocatie',relocation:'Relocationbureau','property-manager':'Vastgoedbeheerder',other:'Andere'},payments:{guest_pays:'Gast betaalt',company_invoice:'Bedrijfsfactuur',hotel_voucher:'Hotelvoucher',cash_card_on_ride:'Cash/kaart in de wagen',to_be_discussed:'Te bespreken'}},
+        es:{portal:'Portal B2B',title:'WebBooker B2B',lead:'Reserve traslados al aeropuerto y viajes de empresa para huéspedes, visitantes corporativos, ponentes y clientes de relocation. Cada solicitud entra en el ciclo existente de FleetConnect.',proofHotel:'Listo para hoteles',proofCorporate:'Listo para empresas',proofDispatch:'Conectado al dispatch',formTitle:'Crear solicitud de reserva',badge:'Entrada live',rideSection:'Detalles del viaje',pickup:'Dirección de recogida',destination:'Dirección de destino',date:'Fecha',time:'Hora',passengerName:'Nombre del pasajero',passengerPhone:'Teléfono del pasajero',passengerEmail:'Email del pasajero',flightNumber:'Número de vuelo',distance:'Distancia',duration:'Duración',price:'Precio',routeHelp:'Seleccione las direcciones completas en las sugerencias de Google para calcular ruta y coste total.',companySection:'Atribución empresarial',companyName:'Nombre de empresa / hotel',businessType:'Tipo de negocio',contactPerson:'Persona de contacto',contactEmail:'Email de contacto',contactPhone:'Teléfono de contacto',paymentMethod:'Método de pago',notes:'Notas',help:'FleetConnect calcula la ruta y envía la solicitud al panel operador para confirmación.',submit:'Enviar solicitud',submitting:'Enviando...',success:'Solicitud de reserva recibida. FleetConnect confirmará el viaje pronto.',error:'No se pudo enviar la solicitud. Revise los campos e inténtelo de nuevo.',required:'Complete todos los campos obligatorios.',routeRequired:'Primero seleccione direcciones completas desde las sugerencias.',footer:'FleetConnect B2B WebBooker usa el ciclo certificado de reservas. No se exponen datos privados del dashboard.',types:{hotel:'Hotel',aparthotel:'Aparthotel',airbnb:'Airbnb',corporate:'Corporativo',congress:'Centro de congresos',event:'Evento',relocation:'Agencia relocation','property-manager':'Gestor de propiedades',other:'Otro'},payments:{guest_pays:'Paga el huésped',company_invoice:'Factura empresa',hotel_voucher:'Voucher hotel',cash_card_on_ride:'Efectivo/tarjeta en viaje',to_be_discussed:'A discutir'}},
+        ar:{portal:'بوابة B2B',title:'منصة حجز الأعمال',lead:'احجز تنقلات المطار والرحلات التجارية لضيوف الفنادق وزوار الشركات والمتحدثين والعملاء. كل طلب يدخل مباشرة في دورة تشغيل FleetConnect الحالية.',proofHotel:'جاهز للفنادق',proofCorporate:'جاهز للشركات',proofDispatch:'متصل بالتشغيل',formTitle:'إنشاء طلب حجز',badge:'إدخال مباشر',rideSection:'تفاصيل الرحلة',pickup:'عنوان الانطلاق',destination:'عنوان الوصول',date:'التاريخ',time:'الوقت',passengerName:'اسم الراكب',passengerPhone:'هاتف الراكب',passengerEmail:'بريد الراكب',flightNumber:'رقم الرحلة',distance:'المسافة',duration:'المدة',price:'السعر',routeHelp:'اختر العناوين الكاملة من اقتراحات Google لحساب المسار والتكلفة.',companySection:'بيانات الشركة',companyName:'اسم الشركة / الفندق',businessType:'نوع النشاط',contactPerson:'الشخص المسؤول',contactEmail:'بريد التواصل',contactPhone:'هاتف التواصل',paymentMethod:'طريقة الدفع',notes:'ملاحظات',help:'تحسب FleetConnect المسار وترسل الطلب إلى لوحة العمليات للتأكيد.',submit:'إرسال طلب الحجز',submitting:'جار الإرسال...',success:'تم استلام طلب الحجز. ستؤكد FleetConnect الرحلة قريباً.',error:'تعذر إرسال الطلب. تحقق من الحقول وحاول مرة أخرى.',required:'يرجى إكمال جميع الحقول المطلوبة.',routeRequired:'يرجى اختيار عناوين كاملة من الاقتراحات أولاً.',footer:'تستخدم منصة B2B WebBooker دورة الحجز المعتمدة في FleetConnect ولا تعرض أي بيانات خاصة.',types:{hotel:'فندق',aparthotel:'شقق فندقية',airbnb:'Airbnb',corporate:'شركة',congress:'مركز مؤتمرات',event:'مكان فعاليات',relocation:'وكالة انتقال','property-manager':'إدارة عقارات',other:'أخرى'},payments:{guest_pays:'الضيف يدفع',company_invoice:'فاتورة شركة',hotel_voucher:'قسيمة فندق',cash_card_on_ride:'نقداً/بطاقة أثناء الرحلة',to_be_discussed:'يتم الاتفاق لاحقاً'}}
     };
-
-    let currentLang = resolveLanguage();
-    const form = document.getElementById('webbookerForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const message = document.getElementById('formMessage');
-
-    function resolveLanguage() {
-        const urlLang = new URLSearchParams(window.location.search).get('lang');
-        const saved = localStorage.getItem('fleetconnect_language') || localStorage.getItem('nh_language');
-        const browser = (navigator.language || 'en').slice(0,2).toLowerCase();
-        return [urlLang, saved, browser, 'en'].find(lang => langOrder.includes(lang)) || 'en';
-    }
-    function t(key) { return translations[currentLang][key] || translations.en[key] || key; }
-    function optionLabel(group, key) { return translations[currentLang][group]?.[key] || translations.en[group]?.[key] || key; }
-    function setLanguage(lang) {
-        currentLang = langOrder.includes(lang) ? lang : 'en';
-        localStorage.setItem('fleetconnect_language', currentLang);
-        localStorage.setItem('nh_language', currentLang);
-        document.documentElement.lang = currentLang;
-        document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-        document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
-        document.querySelectorAll('.langs button').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === currentLang));
-        renderOptions();
-    }
-    function renderOptions() {
-        document.getElementById('businessType').innerHTML = businessTypes.map(value => `<option value="${value}">${optionLabel('types', value)}</option>`).join('');
-        document.getElementById('paymentMethod').innerHTML = paymentMethods.map(value => `<option value="${value}">${optionLabel('payments', value)}</option>`).join('');
-    }
-    function value(id) { return document.getElementById(id).value.trim(); }
-    function setMessage(type, text) {
-        message.className = `message ${type}`;
-        message.textContent = text;
-    }
-    function isoToFleetDate(date) {
-        if (!date) return '';
-        const [yyyy, mm, dd] = date.split('-');
-        return `${dd}-${mm}-${yyyy}`;
-    }
-    function makeCustomerId(seed) {
-        return `B2B-${seed.replace(/[^a-z0-9]/gi, '').slice(0, 30) || Date.now()}`;
-    }
-    function buildPayload() {
-        const passengerEmail = value('passengerEmail') || value('contactEmail');
-        const businessType = value('businessType');
-        const paymentMethod = value('paymentMethod');
-        const companyName = value('companyName');
-        const contactName = value('contactPerson');
-        const contactEmail = value('contactEmail').toLowerCase();
-        const contactPhone = value('contactPhone');
-        const passengerName = value('passengerName');
-        const passengerPhone = value('passengerPhone');
-        const metadata = {
-            booking_source: 'b2b',
-            source_route: '/b2b/webbooker',
-            business_type: businessType,
-            company_id: null,
-            company_name: companyName,
-            company_contact_name: contactName,
-            company_contact_email: contactEmail,
-            company_contact_phone: contactPhone,
-            passenger_name: passengerName,
-            passenger_phone: passengerPhone,
-            passenger_email: passengerEmail,
-            flight_number: value('flightNumber'),
-            notes: value('notes'),
-            payment_method: paymentMethod,
-            preferred_language: currentLang,
-            manual_route_required: true,
-            route_pricing_required: false,
-            pricing_pending_operator_confirmation: true,
-            google_places_unavailable: true
-        };
-        return {
-            datetime: isoToFleetDate(value('date')),
-            time: value('time'),
-            name: passengerName,
-            email: passengerEmail,
-            phone: passengerPhone,
-            pickup: value('pickup'),
-            destination: value('destination'),
-            pickup_place_id: 'manual-pickup',
-            dropoff_place_id: 'manual-dropoff',
-            route_distance_km: 0,
-            route_duration_min: 0,
-            flight_number: value('flightNumber'),
-            vehicle: 'Business ride',
-            extras: value('notes'),
-            amount: '15.00',
-            payment: paymentMethod,
-            status: 'pending',
-            payment_status: paymentMethod === 'guest_pays' || paymentMethod === 'cash_card_on_ride' ? 'cash_pending' : 'invoice_pending',
-            customer_id: makeCustomerId(passengerEmail || contactEmail),
-            partner_id: 1,
-            form_data: { ...metadata, source: 'b2b-webbooker' },
-            metadata
-        };
-    }
-    function validateForm() {
-        const required = ['pickup','destination','date','time','passengerName','passengerPhone','companyName','businessType','contactPerson','contactEmail','contactPhone','paymentMethod'];
-        return required.every(id => value(id).length >= (id === 'pickup' || id === 'destination' ? 3 : 1)) && document.getElementById('contactEmail').checkValidity();
-    }
-    async function sendOptionalConfirmation(booking, payload) {
-        if (!payload.email) return;
-        try {
-            const { comms } = await import('../src/modules/communication/index.js');
-            await comms.trigger('BOOKING_CONFIRMATION', booking.id, supabase, {
-                snapshot: {
-                    ...payload,
-                    id: booking.id,
-                    reference: booking.id,
-                    preferred_language: currentLang,
-                    customer: { name: payload.name, email: payload.email, phone: payload.phone, preferred_language: currentLang },
-                    is_registered: false
-                }
-            });
-        } catch (error) {
-            console.warn('B2B optional confirmation email failed:', error?.message || error);
-        }
-    }
-    form.addEventListener('submit', async event => {
-        event.preventDefault();
-        message.className = 'message';
-        if (!validateForm()) {
-            setMessage('err', t('required'));
-            return;
-        }
-        submitBtn.disabled = true;
-        submitBtn.querySelector('span').textContent = t('submitting');
-        try {
-            const payload = buildPayload();
-            const { data, error } = await supabase.rpc('create_public_booking', { payload });
-            if (error) throw error;
-            await sendOptionalConfirmation(data, payload);
-            setMessage('ok', `${t('success')} ${data?.id ? `(${data.id})` : ''}`);
-            form.reset();
-            renderOptions();
-        } catch (error) {
-            console.error('B2B WebBooker submit failed:', error);
-            setMessage('err', `${t('error')} ${error?.message || ''}`.trim());
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.querySelector('span').textContent = t('submit');
-        }
-    });
-    document.querySelectorAll('.langs button').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
-    setLanguage(currentLang);
+    let lang = resolveLanguage();
+    let mapsController = null, currentRoute = null, pickupPlaceId = '', dropoffPlaceId = '';
+    const form = document.getElementById('webbookerForm'), submitBtn = document.getElementById('submitBtn'), message = document.getElementById('formMessage');
+    function resolveLanguage(){ const p=new URLSearchParams(location.search).get('lang'); const s=localStorage.getItem('fleetconnect_language')||localStorage.getItem('nh_language'); const b=(navigator.language||'en').slice(0,2).toLowerCase(); return [p,s,b,'en'].find(x=>langOrder.includes(x))||'en'; }
+    function tr(key){ return i18n[lang][key] || i18n.en[key] || key; }
+    function opt(group,key){ return i18n[lang][group]?.[key] || i18n.en[group]?.[key] || key; }
+    function val(id){ return document.getElementById(id).value.trim(); }
+    function setMessage(type,text){ message.className=`message ${type}`; message.textContent=text; }
+    function renderOptions(){ document.getElementById('businessType').innerHTML=businessTypes.map(v=>`<option value="${v}">${opt('types',v)}</option>`).join(''); document.getElementById('paymentMethod').innerHTML=paymentMethods.map(v=>`<option value="${v}">${opt('payments',v)}</option>`).join(''); }
+    function setLanguage(next){ lang=langOrder.includes(next)?next:'en'; localStorage.setItem('fleetconnect_language',lang); localStorage.setItem('nh_language',lang); document.documentElement.lang=lang; document.body.dir=lang==='ar'?'rtl':'ltr'; document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=tr(el.dataset.i18n)}); document.getElementById('languageSelect').value=lang; renderOptions(); }
+    function isoToFleetDate(date){ if(!date) return ''; const [yyyy,mm,dd]=date.split('-'); return `${dd}-${mm}-${yyyy}`; }
+    function getFare(){ if(!currentRoute) return null; const raw = Number(currentRoute.displayDistanceKm || currentRoute.distanceKm || 0) * PRICE_PER_KM; const total = Math.max(MIN_PRICE, raw); return { distanceKm:Number(currentRoute.displayDistanceKm || currentRoute.distanceKm || 0), durationMin:Number(currentRoute.displayDurationMin || currentRoute.durationMin || 0), rawAmount:raw, totalAmount:total, minimumApplied:raw < MIN_PRICE }; }
+    function updateRouteDisplay(){ const fare=getFare(); document.getElementById('distVal').textContent=fare ? fare.distanceKm.toFixed(1) : '-'; document.getElementById('timeVal').textContent=fare ? String(Math.round(fare.durationMin)) : '-'; document.getElementById('priceVal').textContent=fare ? fare.totalAmount.toFixed(2) : '-'; }
+    function validateForm(){ const required=['pickup','destination','date','time','passengerName','passengerPhone','companyName','businessType','contactPerson','contactEmail','contactPhone','paymentMethod']; return required.every(id=>val(id).length >= (id==='pickup'||id==='destination'?3:1)) && document.getElementById('contactEmail').checkValidity(); }
+    function makeCustomerId(seed){ return `B2B-${seed.replace(/[^a-z0-9]/gi,'').slice(0,30) || Date.now()}`; }
+    function buildPayload(){ const fare=getFare(); const passengerEmail=val('passengerEmail')||val('contactEmail'); const metadata={ booking_source:'b2b', source_route:'/b2b/webbooker', business_type:val('businessType'), company_id:null, company_name:val('companyName'), company_contact_name:val('contactPerson'), company_contact_email:val('contactEmail').toLowerCase(), company_contact_phone:val('contactPhone'), passenger_name:val('passengerName'), passenger_phone:val('passengerPhone'), passenger_email:passengerEmail, flight_number:val('flightNumber'), notes:val('notes'), payment_method:val('paymentMethod'), preferred_language:lang, route_distance_km:fare.distanceKm, route_duration_min:fare.durationMin, minimum_fare_applied:fare.minimumApplied, raw_calculated_amount:Number(fare.rawAmount.toFixed(2)), pickup_place_id:pickupPlaceId, dropoff_place_id:dropoffPlaceId, google_places_selected:true, manual_route_required:false, route_pricing_required:true };
+        return { datetime:isoToFleetDate(val('date')), time:val('time'), name:val('passengerName'), email:passengerEmail, phone:val('passengerPhone'), pickup:val('pickup'), destination:val('destination'), pickup_place_id:pickupPlaceId, dropoff_place_id:dropoffPlaceId, route_distance_km:fare.distanceKm, route_duration_min:fare.durationMin, flight_number:val('flightNumber'), vehicle:'Business ride', extras:val('notes'), amount:fare.totalAmount.toFixed(2), payment:val('paymentMethod'), status:'pending', payment_status:val('paymentMethod')==='guest_pays'||val('paymentMethod')==='cash_card_on_ride'?'cash_pending':'invoice_pending', customer_id:makeCustomerId(passengerEmail||val('contactEmail')), partner_id:1, form_data:{...metadata,source:'b2b-webbooker'}, metadata }; }
+    async function initMaps(){ try { const { createBookingMapsController } = await import('/src/modules/maps/booking-maps.js'); mapsController = await createBookingMapsController({ mapId:'map', pickupInputId:'pickup', dropoffInputId:'destination', countryCode:'be', pricePerKm:PRICE_PER_KM, pickupPlaceholder:tr('pickup'), dropoffPlaceholder:tr('destination'), onPlaceSelected:(type, selected)=>{ if(type==='pickup') pickupPlaceId=selected.placeId; else dropoffPlaceId=selected.placeId; currentRoute=null; updateRouteDisplay(); if(mapsController?.hasSelectedAddresses()) mapsController.calculateRoute().then(route=>{ currentRoute=route; updateRouteDisplay(); }); }, onPlaceInputChanged:()=>{ currentRoute=null; updateRouteDisplay(); }, onRouteCalculated:(route)=>{ currentRoute=route; updateRouteDisplay(); }, onRouteFailed:()=>{ currentRoute=null; updateRouteDisplay(); } }); } catch(error) { console.error('B2B Google Maps init failed:', error); setMessage('err', tr('routeRequired')); } }
+    async function sendOptionalConfirmation(booking,payload){ if(!payload.email) return; try { const { comms } = await import('../src/modules/communication/index.js'); await comms.trigger('BOOKING_CONFIRMATION', booking.id, supabase, { snapshot:{...payload,id:booking.id,reference:booking.id,preferred_language:lang,customer:{name:payload.name,email:payload.email,phone:payload.phone,preferred_language:lang},is_registered:false} }); } catch(error) { console.warn('B2B optional confirmation email failed:', error?.message || error); } }
+    form.addEventListener('submit', async event=>{ event.preventDefault(); message.className='message'; if(!validateForm()){ setMessage('err',tr('required')); return; } if(!mapsController?.hasSelectedAddresses() || !currentRoute || !getFare()){ setMessage('err',tr('routeRequired')); return; } submitBtn.disabled=true; submitBtn.querySelector('span').textContent=tr('submitting'); try { const payload=buildPayload(); const { data,error } = await supabase.rpc('create_public_booking',{payload}); if(error) throw error; await sendOptionalConfirmation(data,payload); setMessage('ok',`${tr('success')} ${data?.id ? `(${data.id})` : ''}`); form.reset(); currentRoute=null; pickupPlaceId=''; dropoffPlaceId=''; mapsController?.reset(); updateRouteDisplay(); renderOptions(); } catch(error) { console.error('B2B WebBooker submit failed:', error); setMessage('err',`${tr('error')} ${error?.message || ''}`.trim()); } finally { submitBtn.disabled=false; submitBtn.querySelector('span').textContent=tr('submit'); } });
+    document.getElementById('languageSelect').addEventListener('change', e=>setLanguage(e.target.value));
+    setLanguage(lang);
+    if (window.google?.maps?.importLibrary) initMaps(); else window.addEventListener('fleetconnect-google-ready', initMaps, { once:true });
 </script>
 </body>
 </html>

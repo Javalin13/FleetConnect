@@ -28,6 +28,8 @@
     { "source": "/booking/:path*", "destination": "/PV/:path*" },
     { "source": "/b2b", "destination": "/b2b/index.html" },
     { "source": "/b2b/webbooker", "destination": "/b2b/webbooker.html" },
+    { "source": "/b2b/login", "destination": "/b2b/login.html" },
+    { "source": "/b2b/portal", "destination": "/b2b/portal.html" },
     { "source": "/dashboard", "destination": "/Paneel/admin-index.html" },
     { "source": "/operator", "destination": "/Paneel/admin-index.html" },
     { "source": "/login", "destination": "/PV/index.html" },
