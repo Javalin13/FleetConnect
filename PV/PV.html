@@ -1,4 +1,4 @@
-kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -83,7 +83,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         .extra-fields{background:#f8fafc;padding:18px 20px;margin:20px 0;border-radius:12px}
         .extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
         
-        /* === OPTIE RIJEN - UNIFORM & UITGELIJND === */
         .checkbox-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
         .option-row{display:flex;align-items:center;justify-content:space-between;background:white;padding:10px 16px;border:1px solid var(--border-light);border-radius:12px;transition:0.2s;gap:12px;flex-wrap:nowrap}
         .option-row:hover{border-color:var(--primary);background:#f8fbff}
@@ -97,7 +96,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         .option-controls input[type="number"]:disabled{opacity:0.4;cursor:not-allowed;background:#f5f7fa}
         .option-controls .flessen-label{font-size:0.7rem;color:var(--text-light);font-weight:400}
         
-        /* === INFO-ICOON === */
         .info-icon{display:inline-flex;align-items:center;justify-content:center;color:var(--primary);font-size:0.7rem;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--primary);background:transparent;cursor:help;transition:all 0.25s ease;flex-shrink:0;user-select:none;font-weight:700;font-family:'Inter',sans-serif;position:relative}
         .info-icon:hover{background:var(--primary);color:white;transform:scale(1.1);box-shadow:0 2px 8px rgba(44,110,158,0.3)}
         .info-icon[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(0);background:var(--text-dark);color:white;padding:12px 16px;border-radius:12px;font-size:0.7rem;font-weight:400;line-height:1.6;white-space:nowrap;max-width:280px;white-space:normal;z-index:1000;box-shadow:0 8px 25px rgba(0,0,0,0.2);text-align:left;font-family:'Inter',sans-serif;letter-spacing:0.2px;border:1px solid rgba(255,255,255,0.1);min-width:200px}
@@ -105,12 +103,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         
         @media (max-width:768px){.info-icon[data-tooltip]:active::after{content:attr(data-tooltip);position:fixed;bottom:auto;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--text-dark);color:white;padding:16px 20px;border-radius:16px;font-size:0.8rem;line-height:1.6;max-width:300px;white-space:normal;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:left;border:1px solid rgba(255,255,255,0.1)}
         .info-icon[data-tooltip]:active::before{display:none}}
-        
-        /* === KORTING STYLING === */
-        .korting-text{font-size:0.85rem;color:#2e7d32;font-weight:600;margin-top:2px;display:block}
-        .korting-text i{color:#2e7d32;margin-right:4px}
-        .price-original{font-size:0.85rem;color:var(--text-light);margin-top:2px;display:block}
-        .price-final{font-size:1.1rem;font-weight:700;color:var(--primary)}
         
         .sub{color:var(--text-light);border-left:3px solid var(--primary);padding-left:14px;margin-bottom:24px;font-size:0.85rem}
         h1{font-size:1.5rem;margin-bottom:12px}
@@ -253,7 +245,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
             <div class="extra-fields"><h3>+ Extra opties</h3><div class="extra-grid"><div><label> Aantal passagiers</label><input type="number" id="passengers" min="1" value="1"></div><div><label> Bagagestuks</label><input type="number" id="luggage" min="0" value="0"></div></div>
             
             <div class="checkbox-grid">
-                <!-- Meet & Greet -->
                 <div class="option-row">
                     <span class="option-label">Meet & Greet <span class="option-price"><strong>(+€5,00)</strong></span></span>
                     <span class="option-controls">
@@ -262,7 +253,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
                     </span>
                 </div>
                 
-                <!-- Kiss & Ride -->
                 <div class="option-row">
                     <span class="option-label">Kiss & Ride <span class="option-price">(gratis)</span></span>
                     <span class="option-controls">
@@ -271,7 +261,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
                     </span>
                 </div>
                 
-                <!-- Waterfles met aantal -->
                 <div class="option-row">
                     <span class="option-label">Waterfles <span class="option-price"><strong>(+€1,00/stuk)</strong></span></span>
                     <span class="option-controls">
@@ -282,7 +271,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
                     </span>
                 </div>
                 
-                <!-- WiFi - standaard aangevinkt -->
                 <div class="option-row">
                     <span class="option-label">WiFi <span class="option-price">(gratis)</span></span>
                     <span class="option-controls">
@@ -318,7 +306,10 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
                 <div><strong> Totaalprijs:</strong> <span id="overviewTotal">EUR 0,00</span></div>
             </div>
             <div class="payment-method"><span>Betaalmethode:</span><label><input type="radio" name="payment" value="Cash" checked> <span> Cash</span></label><label><input type="radio" name="payment" value="Kaart"> <span> Kaart</span></label><label><input type="radio" name="payment" value="App"> <span> App</span></label></div>
+            
+            <!-- TOTAL DISPLAY - ALLEEN DE PRIJS, GEEN KORTINGSTEKST -->
             <div id="totalDisplay" class="total-display">Totaal: EUR 0,00</div>
+            
             <button id="finalConfirmBtn" class="btn-primary" style="width:100%">Bevestig boeking</button>
             <div id="page5Error" class="error"></div>
 
@@ -332,7 +323,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         <div class="nav-buttons"><button class="nav-btn prev" id="prevBtn" disabled>Vorige</button><button class="nav-btn next" id="nextBtn">Volgende</button></div>
     </div></div></div>
 
-    <!-- ALLE 7 GRID BLOKKEN ONDER HET BOEKINGSFORMULIER -->
     <div class="container"><h2 style="text-align:center;margin-bottom:20px;"><i class="fas fa-concierge-bell"></i>Onze diensten</h2>
         <div class="uitleg-grid">
             <a href="PV_Exclusieve_Service.html" class="uitleg-item"><i class="fas fa-gem"></i><h3>Exclusieve service</h3><p>Persoonlijke chauffeur, altijd op tijd</p><div class="service-summary">Ontdek onze exclusieve service met persoonlijke chauffeur en luxe voertuigen.</div><div class="read-more-hint"><i class="fas fa-arrow-right"></i> Lees meer <i class="fas fa-search"></i></div></a>
@@ -360,10 +350,8 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
 <a href="/taxi-brugge">Taxi Brugge</a></div><div class="footer-legal"><h4>Legal</h4><a href="/PV/PVfaq.html">FAQ</a><br><a href="/PV/PVprivacy.html">Privacy</a><br><a href="/PV/PVcookiebeleid.html">Cookiebeleid</a><br><a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a></div><div class="footer-partners"><h4>FleetConnect</h4><a href="mailto:support@fleetconnect.be">Support</a><br><a href="/booking#contact">Contact</a></div></div><div class="footer-bottom">2026 FleetConnect - <a href="/">FleetConnect</a></div></div></footer>
 </div>
 
-<!-- Google Maps API with modern Places Autocomplete -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv51ytW1FTJoSGRiD7hLNknGwNcM8cmcM&v=weekly&libraries=places&callback=initGoogleMaps" async defer></script>
 <script>
-    // ====================== FALLBACK VOOR TESTIMONIALS ======================
     document.addEventListener('DOMContentLoaded', function() {
         const googleCta = document.getElementById('googleReviewCta');
         if (googleCta) {
@@ -374,7 +362,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
 
     window.gm_authFailure = function() { console.warn('Google Maps authentication failed; route validation is unavailable.'); };
     
-    // ====================== HAMBURGER MENU ======================
     document.addEventListener('DOMContentLoaded', function() {
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -413,23 +400,20 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         });
     });
 
-    // ====================== ADRES NORMALISATIE ======================
     function normalizeAddress(adres) {
         if (!adres) return '';
         return adres
             .toLowerCase()
-            .replace(/,/g, '')                          // verwijder komma's
-            .replace(/belgië|belgique|belgium/g, '')    // verwijder landnamen
+            .replace(/,/g, '')
+            .replace(/belgië|belgique|belgium/g, '')
             .trim()
-            .replace(/\s+/g, ' ');                      // meerdere spaties naar 1
+            .replace(/\s+/g, ' ');
     }
 
-    // ====================== HOTELKORTINGEN CONFIGURATIE ======================
     const HOTEL_ADRES = 'luchthavenlaan 2 1800 vilvoorde';
     const HOTEL_KORTING = 5.00;
     const HOTEL_NAAM = 'Campanile Hotel';
 
-    // ====================== EXTRA OPTIES CONFIGURATIE ======================
     const EXTRA_OPTIES = {
         meetGreet: { prijs: 5.00, label: 'Meet & Greet' },
         waterBottle: { prijs: 1.00, label: 'Waterfles' },
@@ -437,7 +421,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         wifi: { prijs: 0.00, label: 'WiFi' }
     };
 
-    // ====================== FLEETCONNECT PRIJSFORMULE ======================
     const FLEETCONNECT_PRICING = {
         minimumTarief: 30.00,
         prijsPerKm: 1.50,
@@ -448,22 +431,16 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
     function berekenFleetconnectPrijs(afstandKm, pickupAdres, dropoffAdres, isRoundTrip) {
         const { minimumTarief, prijsPerKm, regioRadius, luchthavenPrijs } = FLEETCONNECT_PRICING;
         
-        // Normaliseer adressen
         const pickupNormalized = normalizeAddress(pickupAdres || '');
         const dropoffNormalized = normalizeAddress(dropoffAdres || '');
         
-        // Check of ophaaladres = hotel
         const isHotelPickup = pickupNormalized.includes(HOTEL_ADRES);
-        
-        // Check of afzetadres = hotel
         const isHotelDropoff = dropoffNormalized.includes(HOTEL_ADRES);
         
-        // Check of ophaaladres = luchthaven (Zaventem)
         const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
                                                    pickupAdres.toLowerCase().includes('brussels airport') || 
                                                    pickupAdres.toLowerCase().includes('luchthaven'));
         
-        // Check of afzetadres = luchthaven (Zaventem)
         const isLuchthavenDropoff = dropoffAdres && (dropoffAdres.toLowerCase().includes('zaventem') || 
                                                      dropoffAdres.toLowerCase().includes('brussels airport') || 
                                                      dropoffAdres.toLowerCase().includes('luchthaven'));
@@ -474,24 +451,20 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         let isHotelKorting = false;
         let hotelWeergave = '';
         
-        // Bepaal de prijs op basis van de route
-        // Hotel → Luchthaven: €30 - €5 = €25
         if (isHotelPickup && isLuchthavenDropoff) {
-            basisPrijsPerRit = minimumTarief; // €30
+            basisPrijsPerRit = minimumTarief;
             ritOmschrijving = 'Hotel → Luchthaven';
-            korting = HOTEL_KORTING; // €5
+            korting = HOTEL_KORTING;
             isHotelKorting = true;
             hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)}`;
         }
-        // Luchthaven → Hotel: €35 - €5 = €30
         else if (isLuchthavenPickup && isHotelDropoff) {
-            basisPrijsPerRit = luchthavenPrijs; // €35
+            basisPrijsPerRit = luchthavenPrijs;
             ritOmschrijving = 'Luchthaven → Hotel';
-            korting = HOTEL_KORTING; // €5
+            korting = HOTEL_KORTING;
             isHotelKorting = true;
             hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)}`;
         }
-        // Andere ritten (geen korting)
         else if (afstandKm <= regioRadius) {
             basisPrijsPerRit = minimumTarief;
             ritOmschrijving = 'Regio Zaventem';
@@ -500,14 +473,12 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
             ritOmschrijving = 'Lange afstand';
         }
         
-        // Bereken totaal voor heen-en-terug of enkele rit
         let basisPrijsTotaal;
         let ritType;
         
         if (isRoundTrip) {
             basisPrijsTotaal = basisPrijsPerRit * 2;
             ritType = ritOmschrijving + ' (heen & terug)';
-            // Heen-en-terug: dubbele korting
             if (isHotelKorting) {
                 korting = HOTEL_KORTING * 2;
                 hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)} (2 ritten)`;
@@ -517,16 +488,13 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
             ritType = ritOmschrijving;
         }
         
-        // Eindprijs = basisprijs - korting
         let totaal = Math.max(basisPrijsTotaal - korting, 0);
         let isMinimum = totaal === minimumTarief && !isRoundTrip && !isHotelKorting;
-        
-        // Berekening tekst voor stap 2: toont basisprijs en korting apart
         let berekening = `€${basisPrijsTotaal.toFixed(2)}`;
         
         return {
-            totaal: totaal,                       // Eindprijs met korting (voor stap 5)
-            basisPrijs: basisPrijsTotaal,         // Basisprijs zonder korting (voor stap 2)
+            totaal: totaal,
+            basisPrijs: basisPrijsTotaal,
             basisPrijsPerRit: basisPrijsPerRit,
             isMinimum: isMinimum,
             isHotelKorting: isHotelKorting,
@@ -550,7 +518,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         };
     }
 
-    // ====================== GOOGLE MAPS INTEGRATIE ======================
     let map;
     let mapsController = null;
     let pickupLocation = null, dropoffLocation = null;
@@ -571,7 +538,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
     const MANUAL_ROUTE_MESSAGE = "Google adrescontrole is niet beschikbaar. FleetConnect bevestigt route en prijs handmatig.";
     let googleRouteUnavailable = false;
     
-    // ====================== WATERFLES LOGICA ======================
     function toggleWaterflesAantal() {
         const checkbox = document.getElementById('waterBottle');
         const aantalInput = document.getElementById('waterBottleAantal');
@@ -782,15 +748,12 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         
         document.getElementById('distVal').innerHTML = Number(route.displayDistanceKm).toFixed(1);
         document.getElementById('timeVal').innerHTML = Number(route.displayDurationMin);
-        
-        // Stap 2: Toon basisprijs (zonder korting) in het grote cijfer
         document.getElementById('priceVal').innerHTML = prijsResult.basisPrijs.toFixed(2);
         
         const noteEl = document.getElementById('priceNote');
         if (noteEl) {
             noteEl.style.display = 'block';
             if (prijsResult.isHotelKorting) {
-                // Toon: - €5,00 korting Campanile Hotel
                 if (currentRoundTrip) {
                     noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM} (2 ritten)</span>`;
                 } else {
@@ -829,18 +792,15 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         }
     }
 
-    // ====================== BEREKEN EXTRA OPTIES ======================
     function getExtraOptionKosten() {
         let totaal = 0;
         const extras = [];
         
-        // Meet & Greet
         if (document.getElementById('meetGreet')?.checked) {
             totaal += EXTRA_OPTIES.meetGreet.prijs;
             extras.push(`${EXTRA_OPTIES.meetGreet.label} (+€${EXTRA_OPTIES.meetGreet.prijs.toFixed(2)})`);
         }
         
-        // Waterfles - met aantal
         const waterAantal = getWaterflesAantal();
         if (waterAantal > 0) {
             const waterPrijs = waterAantal * EXTRA_OPTIES.waterBottle.prijs;
@@ -848,12 +808,10 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
             extras.push(`${EXTRA_OPTIES.waterBottle.label} (${waterAantal}x €${EXTRA_OPTIES.waterBottle.prijs.toFixed(2)} = €${waterPrijs.toFixed(2)})`);
         }
         
-        // Kiss & Ride (gratis)
         if (document.getElementById('kissRide')?.checked) {
             extras.push(`${EXTRA_OPTIES.kissRide.label} (gratis)`);
         }
         
-        // WiFi (gratis) - standaard aangevinkt
         if (document.getElementById('wifi')?.checked) {
             extras.push(`${EXTRA_OPTIES.wifi.label} (gratis)`);
         }
@@ -882,9 +840,7 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         const prijsResult = berekenFleetconnectPrijs(dist, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
         const extraKosten = getExtraOptionKosten();
         
-        // ==== CORRECTIE: Gebruik prijsResult.totaal (eindprijs met korting) ====
         const totalAmount = prijsResult.totaal + (selectedVehicleExtra || 0) + extraKosten.totaal;
-        // ==== EINDE CORRECTIE ====
         
         return { 
             distanceKm: dist, 
@@ -914,7 +870,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
             extraInfo = `<br><small>+ Extra opties: ${fare.extraKosten.lijst.join(', ')}</small>`;
         }
         
-        // Stap 5: Toon eindprijs met korting
         let kortingNote = '';
         if (fare.prijsResult?.isHotelKorting) {
             if (currentRoundTrip) {
@@ -926,7 +881,10 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
             kortingNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
         }
         
-        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}${kortingNote}${extraInfo}`;
+        // TOTAL DISPLAY: ALLEEN DE PRIJS, GEEN KORTINGSTEKST
+        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}`;
+        
+        // Ritoverzicht: blijft met alle uitleg
         if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${kortingNote}${extraInfo}`;
     }
 
@@ -1331,7 +1289,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
                 alert(`Boeking ${savedBookingId} opgeslagen. Prijs: EUR ${totalAmount.toFixed(2)}.\n\nBevestigingsemail mislukt: ${emailResult?.error || 'onbekende fout'}. FleetConnect volgt deze boeking handmatig op.`);
             }
 
-            // Reset formulier
             document.getElementById('pickupInput').value = '';
             document.getElementById('dropoffInput').value = '';
             document.getElementById('firstName').value = '';
@@ -1378,25 +1335,21 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         }
     }
 
-    // ====================== EVENT LISTENERS ======================
     document.getElementById('nextBtn').addEventListener('click', nextPage);
     document.getElementById('prevBtn').addEventListener('click', prevPage);
     document.getElementById('finalConfirmBtn').addEventListener('click', async (e) => { e.preventDefault(); await finalizeBookingDirect(); });
     
-    // Meet & Greet
     document.getElementById('meetGreet')?.addEventListener('change', function() {
         updateTotalDisplay();
         if (currentPage === 5) updateRitOverzicht();
     });
     
-    // Waterfles checkbox - toggle aantal input
     document.getElementById('waterBottle')?.addEventListener('change', function() {
         toggleWaterflesAantal();
         updateTotalDisplay();
         if (currentPage === 5) updateRitOverzicht();
     });
     
-    // Waterfles aantal - update prijs bij wijziging
     document.getElementById('waterBottleAantal')?.addEventListener('input', function() {
         const val = parseInt(this.value) || 0;
         if (val < 0) this.value = 0;
@@ -1405,17 +1358,14 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
         if (currentPage === 5) updateRitOverzicht();
     });
     
-    // Kiss & Ride
     document.getElementById('kissRide')?.addEventListener('change', function() {
         if (currentPage === 5) updateRitOverzicht();
     });
     
-    // WiFi
     document.getElementById('wifi')?.addEventListener('change', function() {
         if (currentPage === 5) updateRitOverzicht();
     });
     
-    // Roundtrip checkbox - update prijs
     document.getElementById('roundtripCheckbox')?.addEventListener('change', function(e) {
         const returnContainer = document.getElementById('returnDateContainer');
         e.target.checked ? returnContainer.classList.add('visible') : returnContainer.classList.remove('visible');
@@ -1427,7 +1377,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
             document.getElementById('distVal').innerHTML = d.toFixed(1);
             document.getElementById('timeVal').innerHTML = t;
             
-            // Herbereken met de nieuwe roundtrip status
             const prijsResult = berekenFleetconnectPrijs(
                 currentRouteData.distanceKm, 
                 lastTypedPickupAddress, 
@@ -1462,7 +1411,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
     
     document.getElementById('verstuurBerichtBtn')?.addEventListener('click', () => alert('Bericht verzonden!'));
 
-    // Init Waterfles
     toggleWaterflesAantal();
 
     bindAddressInputFallbacks();
@@ -1491,11 +1439,6 @@ kunt u de code bestuderen dank u dit is een live omgeving dank u <!DOCTYPE html>
     console.log("  - Hotel → Luchthaven: €30 - €5 = €25 (enkele rit)");
     console.log("  - Luchthaven → Hotel: €35 - €5 = €30 (enkele rit)");
     console.log("  - Heen-en-terug: dubbele korting (€10)");
-    console.log("Extra opties:");
-    console.log("  - Meet & Greet: +€5,00 (info-icoon met tooltip)");
-    console.log("  - Kiss & Ride: gratis (info-icoon met tooltip)");
-    console.log("  - Waterfles: €1,00/stuk (aantal instelbaar)");
-    console.log("  - WiFi: gratis (standaard aangevinkt + info-icoon)");
 </script>
 </body>
 </html>
