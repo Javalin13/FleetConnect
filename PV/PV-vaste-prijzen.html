@@ -49,7 +49,6 @@
         
         .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 24px; }
 
-        /* Taalwisselaar (rechtsboven) */
         .language-switcher {
             position: fixed;
             top: 20px;
@@ -79,7 +78,6 @@
             border-color: var(--primary);
         }
 
-        /* Breadcrumb */
         .breadcrumb {
             margin: 30px 0 20px;
             font-size: 0.85rem;
@@ -182,7 +180,7 @@
             min-width: 140px;
             flex-shrink: 0;
         }
-        .feature-list li .i18n-text {
+        .feature-list li span {
             color: var(--text-light);
             line-height: 1.6;
         }
@@ -396,31 +394,11 @@
                 <h3 data-i18n="extras-title">➕ Extra opties – meerprijzen die duidelijk zijn</h3>
                 <p data-i18n="extras-intro">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
                 <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-car"></i>
-                        <strong>Break model</strong>
-                        <span class="i18n-text" data-i18n="break-text">– Meer bagageruimte: + €5</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-star"></i>
-                        <strong>Exclusieve wagen</strong>
-                        <span class="i18n-text" data-i18n="exclusive-text">(Mercedes E-Klasse / BMW 5 Serie): + €15</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-users"></i>
-                        <strong>Mini Van</strong>
-                        <span class="i18n-text" data-i18n="van-text">(tot 8 personen): + €10</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-handshake"></i>
-                        <strong>Meet & Greet</strong>
-                        <span class="i18n-text" data-i18n="meet-text">– Persoonlijke ontvangst zoals het hoort. Uw chauffeur staat klaar in de aankomsthal met een naamplaatje – u wordt direct herkend en begeleid naar uw voertuig. Perfect voor zakelijke reizigers, eerste indrukken en wie waarde hecht aan een vlekkeloze service. Inclusief 30 minuten gratis wachttijd bij vertraging en parkeerkosten volledig inbegrepen. Extra wachttijd: €35,00/uur (te betalen aan chauffeur).</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-kiss"></i>
-                        <strong>Kiss & Ride</strong>
-                        <span class="i18n-text" data-i18n="kiss-text">– Snel, efficiënt en kosteloos. U wandelt naar de Kiss & Ride-zone, belt de chauffeur bij aankomst, en binnen enkele minuten rijdt hij voor. Geen parkeerkosten, geen zoektocht – gewoon efficiënt. Inclusief 30 minuten gratis wachttijd. Extra wachttijd: €25,00/uur (te betalen aan chauffeur). Ideaal voor wie snel en zonder gedoe wil vertrekken.</span>
-                    </li>
+                    <li><i class="fas fa-car"></i> <strong>Break model</strong> <span data-i18n="break-text">– Meer bagageruimte: + €5</span></li>
+                    <li><i class="fas fa-star"></i> <strong>Exclusieve wagen</strong> <span data-i18n="exclusive-text">(Mercedes E-Klasse / BMW 5 Serie): + €15</span></li>
+                    <li><i class="fas fa-users"></i> <strong>Mini Van</strong> <span data-i18n="van-text">(tot 8 personen): + €10</span></li>
+                    <li><i class="fas fa-handshake"></i> <strong>Meet & Greet</strong> <span data-i18n="meet-text">– Persoonlijke ontvangst zoals het hoort. Uw chauffeur staat klaar in de aankomsthal met een naamplaatje – u wordt direct herkend en begeleid naar uw voertuig. Perfect voor zakelijke reizigers, eerste indrukken en wie waarde hecht aan een vlekkeloze service. Inclusief 30 minuten gratis wachttijd bij vertraging en parkeerkosten volledig inbegrepen. Extra wachttijd: €35,00/uur (te betalen aan chauffeur).</span></li>
+                    <li><i class="fas fa-kiss"></i> <strong>Kiss & Ride</strong> <span data-i18n="kiss-text">– Snel, efficiënt en kosteloos. U wandelt naar de Kiss & Ride-zone, belt de chauffeur bij aankomst, en binnen enkele minuten rijdt hij voor. Geen parkeerkosten, geen zoektocht – gewoon efficiënt. Inclusief 30 minuten gratis wachttijd. Extra wachttijd: €25,00/uur (te betalen aan chauffeur). Ideaal voor wie snel en zonder gedoe wil vertrekken.</span></li>
                 </ul>
             </div>
 
@@ -428,26 +406,10 @@
                 <h2><span data-i18n="payment-title">💳 Betaalmogelijkheden – flexibel en veilig</span></h2>
                 <p data-i18n="payment-intro">U kiest hoe u betaalt. Wij accepteren alle gangbare betaalmethoden, zonder verborgen toeslagen:</p>
                 <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-money-bill-wave"></i>
-                        <strong>Cash</strong>
-                        <span class="i18n-text" data-i18n="pay-cash-text">– Contant betalen bij de chauffeur</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-credit-card"></i>
-                        <strong>Bancontact / Visa / Mastercard</strong>
-                        <span class="i18n-text" data-i18n="pay-card-text">– Terminal aan boord</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-mobile-alt"></i>
-                        <strong>Payconiq / Bank app</strong>
-                        <span class="i18n-text" data-i18n="pay-mobile-text">– Scan de QR-code</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-file-invoice"></i>
-                        <strong>Factuur (zakelijk)</strong>
-                        <span class="i18n-text" data-i18n="pay-invoice-text">– Voor bedrijven met BTW-nummer</span>
-                    </li>
+                    <li><i class="fas fa-money-bill-wave"></i> <strong>Cash</strong> <span data-i18n="pay-cash-text">– Contant betalen bij de chauffeur</span></li>
+                    <li><i class="fas fa-credit-card"></i> <strong>Bancontact / Visa / Mastercard</strong> <span data-i18n="pay-card-text">– Terminal aan boord</span></li>
+                    <li><i class="fas fa-mobile-alt"></i> <strong>Payconiq / Bank app</strong> <span data-i18n="pay-mobile-text">– Scan de QR-code</span></li>
+                    <li><i class="fas fa-file-invoice"></i> <strong>Factuur (zakelijk)</strong> <span data-i18n="pay-invoice-text">– Voor bedrijven met BTW-nummer</span></li>
                 </ul>
                 <div class="highlight-box">
                     <p><span data-i18n="tip-text"><strong>💡 Tip voor zakelijke klanten:</strong> Vraag uw factuur aan bij de reservering. Wij sturen deze binnen 24 uur naar uw e-mailadres, inclusief BTW-specificatie.</span></p>
@@ -779,28 +741,16 @@
     };
 
     function setLanguage(lang) {
-        // Alleen elementen met class "i18n-text" worden vertaald (alleen de tekst, geen HTML-structuur)
-        document.querySelectorAll('.i18n-text[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                // Gebruik textContent in plaats van innerHTML om HTML-structuur te behouden
-                el.textContent = translations[lang][key];
-            }
-        });
-        
-        // Voor andere elementen zonder HTML-structuur (zoals titels, paragrafen)
-        document.querySelectorAll('[data-i18n]:not(.i18n-text)').forEach(el => {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[lang] && translations[lang][key]) {
                 if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     el.placeholder = translations[lang][key];
                 } else {
-                    // Alleen veilige elementen zonder geneste HTML
                     el.textContent = translations[lang][key];
                 }
             }
         });
-        
         document.documentElement.lang = lang;
         document.querySelectorAll('.lang-btn').forEach(btn => {
             if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
