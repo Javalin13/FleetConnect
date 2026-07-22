@@ -881,8 +881,10 @@
         const dist = Number(currentRouteData.distanceKm);
         const prijsResult = berekenFleetconnectPrijs(dist, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
         const extraKosten = getExtraOptionKosten();
-        // Gebruik de eindprijs (met korting) + extra opties + voertuigtoeslag
+        
+        // ==== CORRECTIE: Gebruik prijsResult.totaal (eindprijs met korting) ====
         const totalAmount = prijsResult.totaal + (selectedVehicleExtra || 0) + extraKosten.totaal;
+        // ==== EINDE CORRECTIE ====
         
         return { 
             distanceKm: dist, 
