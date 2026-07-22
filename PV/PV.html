@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">ac
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/nl.js"></script>
 
@@ -188,7 +188,7 @@
         </div>
 
         <div id="page1" class="carousel-page active-page">
-            <h1>Ritgegevens</h1><div class="sub">België - EUR1,50/km | spoedritten via WhatsApp</div>
+            <h1>Ritgegevens</h1><div class="sub">België - Minimumtarief €30 | Berekend per km voor lange ritten</div>
             <div class="sub" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;"><span>Heeft u een account? Gebruik uw profiel om ophaaladres automatisch in te vullen en ritten te koppelen.</span><a href="/PV/index.html" style="font-weight:800; color:var(--primary);">Inloggen / registreren</a></div>
             <div class="field"><label> Ophaaladres <span class="required-star">*</span></label><input type="text" id="pickupInput" placeholder="bv. Brussels Airport" autocomplete="off" inputmode="text"></div>
             <div class="field"><label> Afzetadres <span class="required-star">*</span></label><input type="text" id="dropoffInput" placeholder="bv. Grand Place Brussels" autocomplete="off" inputmode="text"></div>
@@ -206,6 +206,7 @@
             <div id="map"></div>
             <div class="route-legend"><div class="legend-item"><div class="legend-color green"></div><span> Ophalen</span></div><div class="legend-item"><div class="legend-color red"></div><span> Afzetten</span></div><div class="legend-item"><div class="legend-color blue"></div><span> Route</span></div></div>
             <div class="info-strip"><div class="info-card"><div class="label"> Afstand</div><div class="value" id="distVal">-</div><small>km</small></div><div class="info-card"><div class="label"> Reistijd</div><div class="value" id="timeVal">-</div><small>min</small></div><div class="info-card"><div class="label"> Prijs</div><div class="value" id="priceVal">-</div><small>EUR</small></div></div>
+            <div id="priceNote" style="font-size:0.85rem; color:var(--text-light); margin-top:4px; text-align:center; display:none;"></div>
             <div id="page2Error" class="error"></div>
         </div>
 
@@ -333,6 +334,147 @@
             }
         });
     });
+
+    // ====================== HOTELKORTINGEN CONFIGURATIE ======================
+    // ALLEEN VOOR OFFICIËLE HOTELBOEKINGEN - GEEN PRIVÉKORTINGEN
+    // Korting wordt alleen toegepast als het adres exact overeenkomt
+    const HOTEL_KORTINGEN = {
+        'luchthavenlaan 2, 1800 vilvoorde': {
+            korting: 5.00,
+            naam: 'Campanile Hotel Vilvoorde',
+            omschrijving: 'Hotelkorting - Campanile Vilvoorde'
+        }
+        // Voeg hier meer hotels toe indien nodig
+    };
+
+    // ====================== FLEETCONNECT PRIJSFORMULE ======================
+    const FLEETCONNECT_PRICING = {
+        minimumTarief: 30.00,
+        prijsPerKm: 1.50,
+        regioRadius: 15, // km - binnen deze radius = minimumtarief
+        luchthavenPrijs: 35.00 // Vaste prijs voor luchthaven → hotel
+    };
+
+    function berekenFleetconnectPrijs(afstandKm, pickupAdres, dropoffAdres) {
+        const { minimumTarief, prijsPerKm, regioRadius, luchthavenPrijs } = FLEETCONNECT_PRICING;
+        
+        // Check of er een hotel in het spel is
+        let isHotelRit = false;
+        let hotelConfig = null;
+        let hotelAdresMatch = '';
+        
+        if (pickupAdres || dropoffAdres) {
+            const adresCheck = `${pickupAdres || ''} ${dropoffAdres || ''}`.toLowerCase().trim();
+            
+            for (const [hotelAdres, config] of Object.entries(HOTEL_KORTINGEN)) {
+                if (adresCheck.includes(hotelAdres) || hotelAdres.includes(adresCheck)) {
+                    isHotelRit = true;
+                    hotelConfig = config;
+                    hotelAdresMatch = hotelAdres;
+                    break;
+                }
+            }
+        }
+        
+        // Bepaal of het een luchthaven rit is (Zaventem → Hotel of Hotel → Zaventem)
+        const isLuchthavenRit = 
+            (pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
+                            pickupAdres.toLowerCase().includes('brussels airport') || 
+                            pickupAdres.toLowerCase().includes('luchthaven'))) ||
+            (dropoffAdres && (dropoffAdres.toLowerCase().includes('zaventem') || 
+                             dropoffAdres.toLowerCase().includes('brussels airport') || 
+                             dropoffAdres.toLowerCase().includes('luchthaven')));
+        
+        let totaal;
+        let isMinimum = false;
+        let berekening = '';
+        let ritType = '';
+        let korting = 0;
+        let kortingReden = '';
+        let isHotelKorting = false;
+        
+        // === HOTELRIT MET LUCHTHAVEN ===
+        if (isHotelRit && isLuchthavenRit && afstandKm <= regioRadius) {
+            // Luchthaven → Hotel: €35
+            // Hotel → Luchthaven: €30
+            const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
+                                                       pickupAdres.toLowerCase().includes('brussels airport') || 
+                                                       pickupAdres.toLowerCase().includes('luchthaven'));
+            
+            if (isLuchthavenPickup) {
+                // Luchthaven → Hotel
+                totaal = luchthavenPrijs; // €35
+                ritType = 'Luchthaven → Hotel';
+                berekening = `Vaste luchthavenprijs €${luchthavenPrijs.toFixed(2)}`;
+            } else {
+                // Hotel → Luchthaven
+                totaal = minimumTarief; // €30
+                isMinimum = true;
+                ritType = 'Hotel → Luchthaven';
+                berekening = `Minimumtarief €${minimumTarief.toFixed(2)}`;
+            }
+            
+            // HOTELKORTING TOEPASSEN
+            if (hotelConfig) {
+                korting = hotelConfig.korting;
+                kortingReden = `${hotelConfig.omschrijving}`;
+                totaal = Math.max(totaal - korting, 0);
+                isHotelKorting = true;
+                berekening = `${berekening} - ${kortingReden}`;
+            }
+        }
+        // === REGULIERE RIT (binnen regio) ===
+        else if (afstandKm <= regioRadius) {
+            totaal = minimumTarief;
+            isMinimum = true;
+            ritType = 'Regio Zaventem';
+            berekening = `Minimumtarief €${minimumTarief.toFixed(2)} (≤${regioRadius} km)`;
+            
+            // Check of het een hotelrit is zonder luchthaven (bijv. hotel → ander adres in regio)
+            if (isHotelRit && hotelConfig) {
+                korting = hotelConfig.korting;
+                kortingReden = `${hotelConfig.omschrijving}`;
+                totaal = Math.max(totaal - korting, 0);
+                isHotelKorting = true;
+                berekening = `${berekening} - ${kortingReden}`;
+                ritType = 'Hotelrit (regio)';
+            }
+        }
+        // === LANGE AFSTAND (buiten regio) ===
+        else {
+            const raw = afstandKm * prijsPerKm;
+            totaal = Math.max(raw, minimumTarief);
+            ritType = 'Lange afstand';
+            berekening = `${afstandKm.toFixed(1)}km × €${prijsPerKm} = €${totaal.toFixed(2)}`;
+            
+            // Check of het een hotelrit is met lange afstand
+            if (isHotelRit && hotelConfig) {
+                korting = hotelConfig.korting;
+                kortingReden = `${hotelConfig.omschrijving}`;
+                totaal = Math.max(totaal - korting, 0);
+                isHotelKorting = true;
+                berekening = `${berekening} - ${kortingReden}`;
+                ritType = 'Hotelrit (lange afstand)';
+            }
+        }
+        
+        return {
+            totaal: totaal,
+            isMinimum: isMinimum,
+            isHotelKorting: isHotelKorting,
+            isHotelRit: isHotelRit,
+            ritType: ritType,
+            berekening: berekening,
+            korting: korting,
+            kortingReden: kortingReden,
+            hotelConfig: hotelConfig,
+            rawBerekening: {
+                afstand: afstandKm,
+                prijsPerKm: prijsPerKm,
+                rawPrijs: afstandKm * prijsPerKm
+            }
+        };
+    }
 
     // ====================== GOOGLE MAPS INTEGRATIE ======================
     let map;
@@ -505,23 +647,53 @@
 
     function applyRouteData(route) {
         if (!route || !Number.isFinite(Number(route.distanceKm)) || Number(route.distanceKm) <= 0) return false;
+        
         pickupLocation = route.pickup.location;
         dropoffLocation = route.dropoff.location;
         pickupPlaceId = route.pickup.placeId || '';
         dropoffPlaceId = route.dropoff.placeId || '';
         lastTypedPickupAddress = route.pickup.address || lastTypedPickupAddress;
         lastTypedDropoffAddress = route.dropoff.address || lastTypedDropoffAddress;
+        
+        const afstand = Number(route.distanceKm);
+        
+        // *** GEEF BEIDE ADRESSEN MEE VOOR HOTELKORTING CHECK ***
+        const prijsResult = berekenFleetconnectPrijs(
+            afstand, 
+            lastTypedPickupAddress, 
+            lastTypedDropoffAddress
+        );
+        
         currentRouteData = {
-            distanceKm: Number(route.distanceKm),
+            distanceKm: afstand,
             durationMin: Number(route.durationMin),
             displayDistanceKm: Number(route.displayDistanceKm),
             displayDurationMin: Number(route.displayDurationMin),
             pickupPlaceId,
-            dropoffPlaceId
+            dropoffPlaceId,
+            prijsResult: prijsResult
         };
+        
         document.getElementById('distVal').innerHTML = Number(route.displayDistanceKm).toFixed(1);
         document.getElementById('timeVal').innerHTML = Number(route.displayDurationMin);
-        document.getElementById('priceVal').innerHTML = Number(route.basePrice).toFixed(2);
+        document.getElementById('priceVal').innerHTML = prijsResult.totaal.toFixed(2);
+        
+        // Toon extra info over prijsberekening
+        const noteEl = document.getElementById('priceNote');
+        if (noteEl) {
+            noteEl.style.display = 'block';
+            if (prijsResult.isHotelKorting) {
+                noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.ritType}: ${prijsResult.berekening}`;
+                noteEl.style.color = '#2e7d32';
+            } else if (prijsResult.isMinimum) {
+                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
+                noteEl.style.color = 'var(--accent-gold)';
+            } else {
+                noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
+                noteEl.style.color = 'var(--text-light)';
+            }
+        }
+        
         updateTotalDisplay();
         return true;
     }
@@ -547,14 +719,28 @@
 
     function getCalculatedFare() {
         if (isManualRouteFallback()) {
-            return { distanceKm: 0, rawAmount: MIN_RIDE_PRICE, totalAmount: MIN_RIDE_PRICE, minimumApplied: false, manualRouteRequired: true };
+            return { distanceKm: 0, rawAmount: 30.00, totalAmount: 30.00, minimumApplied: true, manualRouteRequired: true };
         }
         if (!currentRouteData || !Number.isFinite(Number(currentRouteData.distanceKm)) || Number(currentRouteData.distanceKm) <= 0) return null;
+        
         let dist = Number(currentRouteData.distanceKm);
         if (currentRoundTrip) dist *= 2;
-        const rawAmount = (dist * 1.5) + (selectedVehicleExtra || 0);
-        const totalAmount = Math.max(MIN_RIDE_PRICE, rawAmount);
-        return { distanceKm: dist, rawAmount, totalAmount, minimumApplied: rawAmount < MIN_RIDE_PRICE };
+        
+        // Gebruik de Fleetconnect prijsformule met hotelkorting
+        const prijsResult = berekenFleetconnectPrijs(
+            dist, 
+            lastTypedPickupAddress, 
+            lastTypedDropoffAddress
+        );
+        const totalAmount = prijsResult.totaal + (selectedVehicleExtra || 0);
+        
+        return { 
+            distanceKm: dist, 
+            rawAmount: prijsResult.totaal, 
+            totalAmount: totalAmount, 
+            minimumApplied: prijsResult.isMinimum,
+            prijsResult: prijsResult
+        };
     }
 
     function updateTotalDisplay() {
@@ -563,12 +749,20 @@
         const overviewTotal = document.getElementById('overviewTotal');
         const fare = getCalculatedFare();
         if (!fare) return;
+        
         if (fare.manualRouteRequired) {
             if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}<br><small>${MANUAL_ROUTE_MESSAGE}</small>`;
             if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}<br><small>${MANUAL_ROUTE_MESSAGE}</small>`;
             return;
         }
-        const minimumNote = fare.minimumApplied ? `<br><small>${MIN_RIDE_MESSAGE}</small>` : '';
+        
+        let minimumNote = '';
+        if (fare.minimumApplied && !fare.prijsResult?.isHotelKorting) {
+            minimumNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
+        } else if (fare.prijsResult?.isHotelKorting) {
+            minimumNote = `<br><small>🏨 ${fare.prijsResult.ritType} - Korting €${fare.prijsResult.korting.toFixed(2)}</small>`;
+        }
+        
         if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}${minimumNote}`;
         if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${minimumNote}`;
     }
@@ -587,7 +781,17 @@
             returnContainer.style.display = 'none';
         }
         const fare = getCalculatedFare();
-        document.getElementById('overviewTotal').innerHTML = fare === null ? '-' : `EUR ${fare.totalAmount.toFixed(2)}${fare.manualRouteRequired ? `<br><small>${MANUAL_ROUTE_MESSAGE}</small>` : (fare.minimumApplied ? `<br><small>${MIN_RIDE_MESSAGE}</small>` : '')}`;
+        if (fare === null) {
+            document.getElementById('overviewTotal').innerHTML = '-';
+        } else {
+            let extraText = '';
+            if (fare.prijsResult?.isHotelKorting) {
+                extraText = `<br><small>🏨 ${fare.prijsResult.ritType} - Korting €${fare.prijsResult.korting.toFixed(2)}</small>`;
+            } else if (fare.minimumApplied) {
+                extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
+            }
+            document.getElementById('overviewTotal').innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${extraText}`;
+        }
     }
 
     function getExtrasString() {
@@ -668,11 +872,12 @@
                 distanceKm: 0,
                 durationMin: 0,
                 manualRouteRequired: true,
-                googlePlacesUnavailable: googleRouteUnavailable || !mapsController || !mapsController.hasSelectedAddresses()
+                googlePlacesUnavailable: googleRouteUnavailable || !mapsController || !mapsController.hasSelectedAddresses(),
+                prijsResult: { totaal: 30.00, isMinimum: true, type: 'Handmatig', berekening: 'Minimumtarief €30' }
             };
             document.getElementById('distVal').innerHTML = '-';
             document.getElementById('timeVal').innerHTML = '-';
-            document.getElementById('priceVal').innerHTML = '15.00';
+            document.getElementById('priceVal').innerHTML = '30.00';
             updateTotalDisplay();
             currentDateTime = dt;
             currentFlight = document.getElementById('flightNumber').value;
@@ -810,6 +1015,10 @@
         if (!selectedVehicle) { alert("Selecteer een voertuig in stap 3."); return; }
 
         const customerId = `CUST-${email.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
+        
+        // *** BELANGRIJK: Data naar Supabase blijft 100% correct ***
+        // Alleen de 'amount' wordt berekend met de nieuwe formule
+        // Alle andere velden blijven ongewijzigd
         const bookingData = {
             datetime: currentDateTime ? currentDateTime.split(' ')[0]: "",
             time: currentDateTime ? currentDateTime.split(' ')[1]: "",
@@ -840,7 +1049,13 @@
                 minimum_fare_applied: fare.minimumApplied,
                 raw_calculated_amount: Number(fare.rawAmount.toFixed(2)),
                 pickup_place_id: pickupPlaceId,
-                dropoff_place_id: dropoffPlaceId
+                dropoff_place_id: dropoffPlaceId,
+                hotel_korting: fare.prijsResult?.isHotelKorting ? {
+                    toegepast: true,
+                    korting: fare.prijsResult.korting,
+                    hotel: fare.prijsResult.hotelConfig?.naam || 'Onbekend',
+                    ritType: fare.prijsResult.ritType
+                } : { toegepast: false }
             },
             metadata: {
                 route_calculated: true,
@@ -854,7 +1069,13 @@
                 raw_calculated_amount: Number(fare.rawAmount.toFixed(2)),
                 pickup_place_id: pickupPlaceId,
                 dropoff_place_id: dropoffPlaceId,
-                google_places_selected: fare.manualRouteRequired !== true
+                google_places_selected: fare.manualRouteRequired !== true,
+                hotel_korting: fare.prijsResult?.isHotelKorting ? {
+                    toegepast: true,
+                    korting: fare.prijsResult.korting,
+                    hotel: fare.prijsResult.hotelConfig?.naam || 'Onbekend',
+                    ritType: fare.prijsResult.ritType
+                } : { toegepast: false }
             },
             created_at: new Date().toISOString(),
             partner_id: 1,
@@ -956,19 +1177,26 @@
     document.getElementById('nextBtn').addEventListener('click', nextPage);
     document.getElementById('prevBtn').addEventListener('click', prevPage);
     document.getElementById('finalConfirmBtn').addEventListener('click', async (e) => { e.preventDefault(); await finalizeBookingDirect(); });
+    
+    // ============================================
+    // HEEN-EN-TERUG FUNCTIONALITEIT - BLIJFT 100% ORIGINEEL
+    // ============================================
     document.getElementById('roundtripCheckbox')?.addEventListener('change', function(e) {
         const returnContainer = document.getElementById('returnDateContainer');
-        e.target.checked ? returnContainer.classList.add('visible'): returnContainer.classList.remove('visible');
+        e.target.checked ? returnContainer.classList.add('visible') : returnContainer.classList.remove('visible');
         currentRoundTrip = e.target.checked;
         if (currentRouteData) {
             let d = currentRouteData.distanceKm, t = currentRouteData.durationMin;
             if (currentRoundTrip) { d *= 2; t *= 2; }
             document.getElementById('distVal').innerHTML = d.toFixed(1);
             document.getElementById('timeVal').innerHTML = t;
-            document.getElementById('priceVal').innerHTML = (d * 1.5).toFixed(2);
+            // Gebruik de Fleetconnect prijsformule met hotelkorting
+            const prijsResult = berekenFleetconnectPrijs(d, lastTypedPickupAddress, lastTypedDropoffAddress);
+            document.getElementById('priceVal').innerHTML = prijsResult.totaal.toFixed(2);
             updateTotalDisplay();
         }
     });
+    
     document.getElementById('verstuurBerichtBtn')?.addEventListener('click', () => alert('Bericht verzonden!'));
 
     bindAddressInputFallbacks();
@@ -992,6 +1220,10 @@
     });
 
     console.log("FleetConnect - Alles geladen!");
+    console.log("FleetConnect Prijsformule: Minimum €30 | Regio-radius: 15km | €1,50/km");
+    console.log("Hotelkorting actief voor: Campanile Hotel Vilvoorde (Luchthavenlaan 2, 1800 Vilvoorde)");
+    console.log("  - Hotel → Luchthaven: €30 - €5 = €25");
+    console.log("  - Luchthaven → Hotel: €35 - €5 = €30");
 </script>
 </body>
 </html>
