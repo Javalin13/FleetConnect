@@ -169,16 +169,22 @@
             padding: 12px 0;
             border-bottom: 1px solid var(--border-light);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
         }
         .feature-list li i {
             color: var(--accent-green);
             width: 24px;
             font-size: 1.2rem;
+            margin-top: 2px;
         }
         .feature-list li strong {
-            min-width: 120px;
+            min-width: 140px;
+            flex-shrink: 0;
+        }
+        .feature-list li span {
+            color: var(--text-light);
+            line-height: 1.6;
         }
         .highlight-box {
             background: linear-gradient(135deg, rgba(44,110,158,0.05) 0%, rgba(107,140,66,0.05) 100%);
@@ -308,7 +314,8 @@
             .language-switcher { top: 10px; right: 15px; gap: 6px; }
             .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
             .breadcrumb { padding-top: 50px; }
-            .feature-list li strong { min-width: 90px; }
+            .feature-list li { flex-wrap: wrap; }
+            .feature-list li strong { min-width: 100px; }
         }
     </style>
 </head>
