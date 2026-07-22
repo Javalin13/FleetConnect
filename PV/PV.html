@@ -40,7 +40,6 @@
         .btn-primary:hover{background:var(--primary-dark)}
         .booking-container{max-width:850px;width:100%;background:white;border:1px solid var(--border-light);margin:0 auto 40px;border-radius:24px;overflow:hidden}
         
-        /* === TABBLADEN NAAST ELKAAR (HORIZONTAAL) === */
         .steps{display:flex;background:#f8fafc;border-bottom:1px solid var(--border-light);flex-wrap:nowrap;overflow-x:auto}
         .step-btn{flex:1;background:none;border:none;padding:18px 8px;font-weight:700;font-size:0.75rem;color:var(--text-light);cursor:pointer;border-bottom:3px solid transparent;text-transform:uppercase;white-space:nowrap;min-width:0;text-align:center;transition:0.2s}
         .step-btn.active{color:var(--primary);border-bottom-color:var(--primary);background:white}
@@ -84,26 +83,35 @@
         .extra-fields{background:#f8fafc;padding:18px 20px;margin:20px 0;border-radius:12px}
         .extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
         
-        /* === UITGELIJNDE OPTIES: LINKS TEKST, RECHTS CHECKBOX + INFO === */
-        .checkbox-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-        .option-row{display:flex;align-items:center;justify-content:space-between;background:white;padding:10px 16px;border:1px solid var(--border-light);border-radius:12px;transition:0.2s}
+        /* === OPTIE RIJEN - UNIFORM & UITGELIJND === */
+        .checkbox-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+        .option-row{display:flex;align-items:center;justify-content:space-between;background:white;padding:10px 16px;border:1px solid var(--border-light);border-radius:12px;transition:0.2s;gap:12px;flex-wrap:nowrap}
         .option-row:hover{border-color:var(--primary);background:#f8fbff}
-        .option-label{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--text-dark);font-size:0.9rem;flex:1}
+        .option-label{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--text-dark);font-size:0.9rem;flex:1;min-width:0}
+        .option-label .option-price{font-size:0.75rem;color:var(--text-light);font-weight:400}
+        .option-label .option-price strong{color:var(--primary)}
         .option-controls{display:flex;align-items:center;gap:10px;flex-shrink:0}
         .option-controls input[type="checkbox"]{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;margin:0}
-        .option-price{font-size:0.75rem;color:var(--text-light);font-weight:400}
-        .option-price strong{color:var(--primary)}
+        .option-controls input[type="number"]{width:52px;padding:4px 6px;border:1px solid var(--border-light);border-radius:8px;font-size:0.85rem;text-align:center;background:white;transition:0.2s}
+        .option-controls input[type="number"]:focus{outline:none;border-color:var(--primary)}
+        .option-controls input[type="number"]:disabled{opacity:0.4;cursor:not-allowed;background:#f5f7fa}
+        .option-controls .flessen-label{font-size:0.7rem;color:var(--text-light);font-weight:400}
         
         /* === INFO-ICOON === */
-        .info-icon{display:inline-flex;align-items:center;justify-content:center;color:var(--primary);font-size:0.7rem;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--primary);background:transparent;cursor:help;transition:all 0.25s ease;flex-shrink:0;user-select:none;font-weight:700;font-family:'Inter',sans-serif}
+        .info-icon{display:inline-flex;align-items:center;justify-content:center;color:var(--primary);font-size:0.7rem;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--primary);background:transparent;cursor:help;transition:all 0.25s ease;flex-shrink:0;user-select:none;font-weight:700;font-family:'Inter',sans-serif;position:relative}
         .info-icon:hover{background:var(--primary);color:white;transform:scale(1.1);box-shadow:0 2px 8px rgba(44,110,158,0.3)}
         .info-icon[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(0);background:var(--text-dark);color:white;padding:12px 16px;border-radius:12px;font-size:0.7rem;font-weight:400;line-height:1.6;white-space:nowrap;max-width:280px;white-space:normal;z-index:1000;box-shadow:0 8px 25px rgba(0,0,0,0.2);text-align:left;font-family:'Inter',sans-serif;letter-spacing:0.2px;border:1px solid rgba(255,255,255,0.1);min-width:200px}
         .info-icon[data-tooltip]:hover::before{content:'';position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--text-dark);z-index:1001}
-        .info-icon{position:relative}
         
-        /* Mobiel: tooltip bij tap */
         @media (max-width:768px){.info-icon[data-tooltip]:active::after{content:attr(data-tooltip);position:fixed;bottom:auto;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--text-dark);color:white;padding:16px 20px;border-radius:16px;font-size:0.8rem;line-height:1.6;max-width:300px;white-space:normal;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:left;border:1px solid rgba(255,255,255,0.1)}
         .info-icon[data-tooltip]:active::before{display:none}}
+        
+        /* === KORTING BADGE === */
+        .korting-badge{display:inline-flex;align-items:center;gap:6px;background:#e8f5e9;color:#2e7d32;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:8px}
+        .korting-badge i{font-size:0.7rem}
+        .price-detail{font-size:0.8rem;color:var(--text-light);margin-top:4px;display:block}
+        .price-detail .strike{text-decoration:line-through;color:#999}
+        .price-detail .korting-bedrag{color:#2e7d32;font-weight:600}
         
         .sub{color:var(--text-light);border-left:3px solid var(--primary);padding-left:14px;margin-bottom:24px;font-size:0.85rem}
         h1{font-size:1.5rem;margin-bottom:12px}
@@ -128,7 +136,7 @@
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
         .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px}
         @media (max-width:800px){.vehicle-grid,.extra-grid{grid-template-columns:1fr 1fr}.carousel-page{padding:20px}.steps{flex-wrap:nowrap;overflow-x:auto}.step-btn{font-size:0.6rem;padding:14px 6px;white-space:nowrap}.option-row{flex-wrap:wrap;gap:8px}.option-controls{margin-left:auto}}
-        @media (max-width:500px){.vehicle-grid{grid-template-columns:1fr 1fr}.step-btn{font-size:0.55rem;padding:10px 4px}.checkbox-grid .option-row{padding:8px 12px}}
+        @media (max-width:500px){.vehicle-grid{grid-template-columns:1fr 1fr}.step-btn{font-size:0.55rem;padding:10px 4px}.option-row{padding:8px 12px;flex-wrap:wrap}.option-controls{flex-wrap:wrap;justify-content:flex-end}}
         
         html,body{max-width:100%;overflow-x:hidden}
         input,select,textarea,button{max-width:100%;min-width:0}
@@ -151,7 +159,6 @@
             .carousel-page{padding:18px 14px;min-height:auto}
             .nav-buttons,.button-row,.info-strip,.route-legend,.payment-method{flex-direction:column;align-items:stretch}
             .extra-grid,.vehicle-grid{grid-template-columns:1fr}
-            .checkbox-grid label,.roundtrip-box{align-items:flex-start}
             #map{height:300px}
             .footer-grid{display:grid;grid-template-columns:1fr;gap:24px}
             .language-switcher{right:12px!important;top:12px!important;gap:6px!important}
@@ -246,7 +253,7 @@
             </div>
             <div class="extra-fields"><h3>+ Extra opties</h3><div class="extra-grid"><div><label> Aantal passagiers</label><input type="number" id="passengers" min="1" value="1"></div><div><label> Bagagestuks</label><input type="number" id="luggage" min="0" value="0"></div></div>
             
-            <!-- === EXTRA OPTIES - UITGELIJND: LINKS TEKST, RECHTS CHECKBOX + INFO === -->
+            <!-- === EXTRA OPTIES - UNIFORM & UITGELIJND === -->
             <div class="checkbox-grid">
                 <!-- Meet & Greet -->
                 <div class="option-row">
@@ -266,11 +273,14 @@
                     </span>
                 </div>
                 
-                <!-- Waterfles -->
+                <!-- Waterfles met aantal -->
                 <div class="option-row">
-                    <span class="option-label">Waterfles <span class="option-price"><strong>(+€1,00)</strong></span></span>
+                    <span class="option-label">Waterfles <span class="option-price"><strong>(+€1,00/stuk)</strong></span></span>
                     <span class="option-controls">
+                        <input type="number" id="waterBottleAantal" min="0" max="20" value="1" disabled style="width:48px;padding:4px 4px;border:1px solid var(--border-light);border-radius:8px;font-size:0.85rem;text-align:center;background:#f5f7fa;">
+                        <span class="flessen-label" style="font-size:0.7rem;color:var(--text-light);">flessen</span>
                         <input type="checkbox" id="waterBottle">
+                        <span class="info-icon" data-tooltip="💧 Frisse waterfles&#10;📦 €1,00 per fles&#10;📝 Aantal flessen aanpassen na aanvinken">ⓘ</span>
                     </span>
                 </div>
                 
@@ -410,7 +420,8 @@
         'luchthavenlaan 2, 1800 vilvoorde': {
             korting: 5.00,
             naam: 'Campanile Hotel Vilvoorde',
-            omschrijving: 'Hotelkorting - Campanile Vilvoorde'
+            omschrijving: 'Campanile',
+            weergave: '🏨 Campanile -€5,00'
         }
     };
 
@@ -430,12 +441,13 @@
         luchthavenPrijs: 35.00
     };
 
-    function berekenFleetconnectPrijs(afstandKm, pickupAdres, dropoffAdres) {
+    function berekenFleetconnectPrijs(afstandKm, pickupAdres, dropoffAdres, isRoundTrip) {
         const { minimumTarief, prijsPerKm, regioRadius, luchthavenPrijs } = FLEETCONNECT_PRICING;
         
         let isHotelRit = false;
         let hotelConfig = null;
-        let hotelAdresMatch = '';
+        let hotelKortingTotaal = 0;
+        let hotelWeergave = '';
         
         if (pickupAdres || dropoffAdres) {
             const adresCheck = `${pickupAdres || ''} ${dropoffAdres || ''}`.toLowerCase().trim();
@@ -443,7 +455,6 @@
                 if (adresCheck.includes(hotelAdres) || hotelAdres.includes(adresCheck)) {
                     isHotelRit = true;
                     hotelConfig = config;
-                    hotelAdresMatch = hotelAdres;
                     break;
                 }
             }
@@ -464,6 +475,11 @@
         let korting = 0;
         let kortingReden = '';
         let isHotelKorting = false;
+        let basisPrijs = 0;
+        
+        // Bepaal basisprijs per rit
+        let prijsPerRit = 0;
+        let ritOmschrijving = '';
         
         if (isHotelRit && isLuchthavenRit && afstandKm <= regioRadius) {
             const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
@@ -471,57 +487,64 @@
                                                        pickupAdres.toLowerCase().includes('luchthaven'));
             
             if (isLuchthavenPickup) {
-                totaal = luchthavenPrijs;
-                ritType = 'Luchthaven → Hotel';
-                berekening = `Vaste luchthavenprijs €${luchthavenPrijs.toFixed(2)}`;
+                // Luchthaven → Hotel: €35
+                prijsPerRit = luchthavenPrijs;
+                ritOmschrijving = 'Luchthaven → Hotel';
             } else {
-                totaal = minimumTarief;
-                isMinimum = true;
-                ritType = 'Hotel → Luchthaven';
-                berekening = `Minimumtarief €${minimumTarief.toFixed(2)}`;
+                // Hotel → Luchthaven: €30
+                prijsPerRit = minimumTarief;
+                ritOmschrijving = 'Hotel → Luchthaven';
             }
-            
-            if (hotelConfig) {
-                korting = hotelConfig.korting;
-                kortingReden = `${hotelConfig.omschrijving}`;
-                totaal = Math.max(totaal - korting, 0);
-                isHotelKorting = true;
-                berekening = `${berekening} - ${kortingReden}`;
-            }
+        } else if (afstandKm <= regioRadius) {
+            prijsPerRit = minimumTarief;
+            ritOmschrijving = 'Regio Zaventem';
+        } else {
+            prijsPerRit = Math.max(afstandKm * prijsPerKm, minimumTarief);
+            ritOmschrijving = 'Lange afstand';
         }
-        else if (afstandKm <= regioRadius) {
-            totaal = minimumTarief;
-            isMinimum = true;
-            ritType = 'Regio Zaventem';
-            berekening = `Minimumtarief €${minimumTarief.toFixed(2)} (≤${regioRadius} km)`;
-            
-            if (isHotelRit && hotelConfig) {
-                korting = hotelConfig.korting;
-                kortingReden = `${hotelConfig.omschrijving}`;
-                totaal = Math.max(totaal - korting, 0);
-                isHotelKorting = true;
-                berekening = `${berekening} - ${kortingReden}`;
-                ritType = 'Hotelrit (regio)';
-            }
+        
+        // Bereken totaal voor heen-en-terug of enkele rit
+        if (isRoundTrip) {
+            // Heen-en-terug: 2× de prijs
+            basisPrijs = prijsPerRit * 2;
+            ritType = ritOmschrijving + ' (heen & terug)';
+        } else {
+            basisPrijs = prijsPerRit;
+            ritType = ritOmschrijving;
         }
-        else {
-            const raw = afstandKm * prijsPerKm;
-            totaal = Math.max(raw, minimumTarief);
-            ritType = 'Lange afstand';
-            berekening = `${afstandKm.toFixed(1)}km × €${prijsPerKm} = €${totaal.toFixed(2)}`;
-            
-            if (isHotelRit && hotelConfig) {
+        
+        // Korting toepassen
+        if (isHotelRit && hotelConfig) {
+            if (isRoundTrip) {
+                // Heen-en-terug: 2× korting
+                korting = hotelConfig.korting * 2;
+                kortingReden = `${hotelConfig.weergave} (2 ritten)`;
+            } else {
                 korting = hotelConfig.korting;
-                kortingReden = `${hotelConfig.omschrijving}`;
-                totaal = Math.max(totaal - korting, 0);
-                isHotelKorting = true;
-                berekening = `${berekening} - ${kortingReden}`;
-                ritType = 'Hotelrit (lange afstand)';
+                kortingReden = hotelConfig.weergave;
             }
+            isHotelKorting = true;
+            hotelKortingTotaal = korting;
+            hotelWeergave = hotelConfig.weergave;
+        }
+        
+        totaal = Math.max(basisPrijs - korting, 0);
+        isMinimum = totaal === minimumTarief && !isRoundTrip;
+        
+        // Bouw berekening tekst
+        if (isHotelKorting) {
+            if (isRoundTrip) {
+                berekening = `${ritOmschrijving} × 2 = €${basisPrijs.toFixed(2)} - ${kortingReden} = €${totaal.toFixed(2)}`;
+            } else {
+                berekening = `€${basisPrijs.toFixed(2)} - ${kortingReden} = €${totaal.toFixed(2)}`;
+            }
+        } else {
+            berekening = `€${basisPrijs.toFixed(2)}`;
         }
         
         return {
             totaal: totaal,
+            basisPrijs: basisPrijs,
             isMinimum: isMinimum,
             isHotelKorting: isHotelKorting,
             isHotelRit: isHotelRit,
@@ -529,11 +552,14 @@
             berekening: berekening,
             korting: korting,
             kortingReden: kortingReden,
+            hotelWeergave: hotelWeergave,
             hotelConfig: hotelConfig,
+            isRoundTrip: isRoundTrip,
             rawBerekening: {
                 afstand: afstandKm,
                 prijsPerKm: prijsPerKm,
-                rawPrijs: afstandKm * prijsPerKm
+                prijsPerRit: prijsPerRit,
+                rawPrijs: basisPrijs
             }
         };
     }
@@ -558,6 +584,39 @@
     const ONE_HOUR_MESSAGE = "Scheduled rides must be booked at least 1 hour in advance. For faster pickup, choose ASAP or contact us via WhatsApp.";
     const MANUAL_ROUTE_MESSAGE = "Google adrescontrole is niet beschikbaar. FleetConnect bevestigt route en prijs handmatig.";
     let googleRouteUnavailable = false;
+    
+    // ====================== WATERFLES LOGICA ======================
+    function toggleWaterflesAantal() {
+        const checkbox = document.getElementById('waterBottle');
+        const aantalInput = document.getElementById('waterBottleAantal');
+        if (checkbox && aantalInput) {
+            if (checkbox.checked) {
+                aantalInput.disabled = false;
+                aantalInput.style.background = 'white';
+                aantalInput.style.opacity = '1';
+            } else {
+                aantalInput.disabled = true;
+                aantalInput.style.background = '#f5f7fa';
+                aantalInput.style.opacity = '0.6';
+                aantalInput.value = 1;
+            }
+        }
+    }
+    
+    function getWaterflesAantal() {
+        const checkbox = document.getElementById('waterBottle');
+        const aantalInput = document.getElementById('waterBottleAantal');
+        if (checkbox && checkbox.checked && aantalInput) {
+            const val = parseInt(aantalInput.value) || 0;
+            return Math.max(0, val);
+        }
+        return 0;
+    }
+    
+    function getWaterflesKosten() {
+        const aantal = getWaterflesAantal();
+        return aantal * EXTRA_OPTIES.waterBottle.prijs;
+    }
     
     function markGoogleRouteUnavailable(reason) {
         googleRouteUnavailable = true;
@@ -705,6 +764,8 @@
         if (distVal) distVal.innerHTML = '-';
         if (timeVal) timeVal.innerHTML = '-';
         if (priceVal) priceVal.innerHTML = '-';
+        const noteEl = document.getElementById('priceNote');
+        if (noteEl) noteEl.style.display = 'none';
         updateTotalDisplay();
         setPageError(1, message);
         return false;
@@ -721,7 +782,7 @@
         lastTypedDropoffAddress = route.dropoff.address || lastTypedDropoffAddress;
         
         const afstand = Number(route.distanceKm);
-        const prijsResult = berekenFleetconnectPrijs(afstand, lastTypedPickupAddress, lastTypedDropoffAddress);
+        const prijsResult = berekenFleetconnectPrijs(afstand, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
         
         currentRouteData = {
             distanceKm: afstand,
@@ -741,10 +802,10 @@
         if (noteEl) {
             noteEl.style.display = 'block';
             if (prijsResult.isHotelKorting) {
-                noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.ritType}: ${prijsResult.berekening}`;
+                noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.berekening}`;
                 noteEl.style.color = '#2e7d32';
             } else if (prijsResult.isMinimum) {
-                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
+                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> €${prijsResult.basisPrijs.toFixed(2)} - Minimumtarief €30 - Regio Zaventem`;
                 noteEl.style.color = 'var(--accent-gold)';
             } else {
                 noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
@@ -786,10 +847,12 @@
             extras.push(`${EXTRA_OPTIES.meetGreet.label} (+€${EXTRA_OPTIES.meetGreet.prijs.toFixed(2)})`);
         }
         
-        // Waterfles
-        if (document.getElementById('waterBottle')?.checked) {
-            totaal += EXTRA_OPTIES.waterBottle.prijs;
-            extras.push(`${EXTRA_OPTIES.waterBottle.label} (+€${EXTRA_OPTIES.waterBottle.prijs.toFixed(2)})`);
+        // Waterfles - met aantal
+        const waterAantal = getWaterflesAantal();
+        if (waterAantal > 0) {
+            const waterPrijs = waterAantal * EXTRA_OPTIES.waterBottle.prijs;
+            totaal += waterPrijs;
+            extras.push(`${EXTRA_OPTIES.waterBottle.label} (${waterAantal}x €${EXTRA_OPTIES.waterBottle.prijs.toFixed(2)} = €${waterPrijs.toFixed(2)})`);
         }
         
         // Kiss & Ride (gratis)
@@ -810,14 +873,20 @@
 
     function getCalculatedFare() {
         if (isManualRouteFallback()) {
-            return { distanceKm: 0, rawAmount: 30.00, totalAmount: 30.00, minimumApplied: true, manualRouteRequired: true };
+            return { 
+                distanceKm: 0, 
+                rawAmount: 30.00, 
+                totalAmount: 30.00, 
+                minimumApplied: true, 
+                manualRouteRequired: true,
+                prijsResult: null,
+                extraKosten: { totaal: 0, lijst: [] }
+            };
         }
         if (!currentRouteData || !Number.isFinite(Number(currentRouteData.distanceKm)) || Number(currentRouteData.distanceKm) <= 0) return null;
         
-        let dist = Number(currentRouteData.distanceKm);
-        if (currentRoundTrip) dist *= 2;
-        
-        const prijsResult = berekenFleetconnectPrijs(dist, lastTypedPickupAddress, lastTypedDropoffAddress);
+        const dist = Number(currentRouteData.distanceKm);
+        const prijsResult = berekenFleetconnectPrijs(dist, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
         const extraKosten = getExtraOptionKosten();
         const totalAmount = prijsResult.totaal + (selectedVehicleExtra || 0) + extraKosten.totaal;
         
@@ -850,10 +919,10 @@
         }
         
         let minimumNote = '';
-        if (fare.minimumApplied && !fare.prijsResult?.isHotelKorting) {
+        if (fare.prijsResult?.isHotelKorting) {
+            minimumNote = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
+        } else if (fare.minimumApplied) {
             minimumNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
-        } else if (fare.prijsResult?.isHotelKorting) {
-            minimumNote = `<br><small>🏨 ${fare.prijsResult.ritType} - Korting €${fare.prijsResult.korting.toFixed(2)}</small>`;
         }
         
         if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}${minimumNote}${extraInfo}`;
@@ -864,8 +933,7 @@
         document.getElementById('overviewPickup').innerText = document.getElementById('pickupInput').value || '-';
         document.getElementById('overviewDestination').innerText = document.getElementById('dropoffInput').value || '-';
         document.getElementById('overviewHeen').innerText = document.getElementById('datetime').value || '-';
-        document.getElementById('overviewVehicle').innerText = selectedVehicle || '-';
-        document.getElementById('overviewExtras').innerText = getExtrasString();
+        
         const returnContainer = document.getElementById('overviewReturnContainer');
         if (currentRoundTrip && currentReturnDateTime) {
             returnContainer.style.display = 'block';
@@ -873,13 +941,17 @@
         } else {
             returnContainer.style.display = 'none';
         }
+        
+        document.getElementById('overviewVehicle').innerText = selectedVehicle || '-';
+        document.getElementById('overviewExtras').innerText = getExtrasString();
+        
         const fare = getCalculatedFare();
         if (fare === null) {
             document.getElementById('overviewTotal').innerHTML = '-';
         } else {
             let extraText = '';
             if (fare.prijsResult?.isHotelKorting) {
-                extraText = `<br><small>🏨 ${fare.prijsResult.ritType} - Korting €${fare.prijsResult.korting.toFixed(2)}</small>`;
+                extraText = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
             } else if (fare.minimumApplied) {
                 extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
             }
@@ -894,7 +966,8 @@
         const extras = [];
         if (document.getElementById('meetGreet')?.checked) extras.push("Meet & Greet (+€5,00)");
         if (document.getElementById('kissRide')?.checked) extras.push("Kiss & Ride");
-        if (document.getElementById('waterBottle')?.checked) extras.push("Waterfles (+€1,00)");
+        const waterAantal = getWaterflesAantal();
+        if (waterAantal > 0) extras.push(`Waterfles (${waterAantal}x)`);
         if (document.getElementById('wifi')?.checked) extras.push("WiFi");
         return extras.join(", ") || "geen";
     }
@@ -964,16 +1037,30 @@
         if (!mapsController || !mapsController.hasSelectedAddresses()) {
             pickupPlaceId = 'manual-pickup';
             dropoffPlaceId = 'manual-dropoff';
+            const prijsResult = berekenFleetconnectPrijs(0, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
             currentRouteData = {
                 distanceKm: 0,
                 durationMin: 0,
                 manualRouteRequired: true,
                 googlePlacesUnavailable: googleRouteUnavailable || !mapsController || !mapsController.hasSelectedAddresses(),
-                prijsResult: { totaal: 30.00, isMinimum: true, type: 'Handmatig', berekening: 'Minimumtarief €30' }
+                prijsResult: prijsResult
             };
             document.getElementById('distVal').innerHTML = '-';
             document.getElementById('timeVal').innerHTML = '-';
-            document.getElementById('priceVal').innerHTML = '30.00';
+            document.getElementById('priceVal').innerHTML = prijsResult.totaal.toFixed(2);
+            
+            const noteEl = document.getElementById('priceNote');
+            if (noteEl) {
+                noteEl.style.display = 'block';
+                if (prijsResult.isHotelKorting) {
+                    noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.berekening}`;
+                    noteEl.style.color = '#2e7d32';
+                } else {
+                    noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${MANUAL_ROUTE_MESSAGE}`;
+                    noteEl.style.color = 'var(--text-light)';
+                }
+            }
+            
             updateTotalDisplay();
             currentDateTime = dt;
             currentFlight = document.getElementById('flightNumber').value;
@@ -1132,6 +1219,7 @@
             status: paymentMethod === "Cash" ? "pending": "pending_payment",
             payment_status: paymentMethod === "Cash" ? "cash_pending": "unpaid",
             customer_id: customerId,
+            is_roundtrip: currentRoundTrip,
             form_data: {
                 source: "web-booking",
                 route_distance_km: Number(currentRouteData.distanceKm),
@@ -1143,16 +1231,19 @@
                 raw_calculated_amount: Number(fare.rawAmount.toFixed(2)),
                 pickup_place_id: pickupPlaceId,
                 dropoff_place_id: dropoffPlaceId,
-                extra_kosten: fare.extraKosten ? {
-                    totaal: fare.extraKosten.totaal,
-                    lijst: fare.extraKosten.lijst
-                } : { totaal: 0, lijst: [] },
+                is_roundtrip: currentRoundTrip,
+                waterfles_aantal: getWaterflesAantal(),
                 hotel_korting: fare.prijsResult?.isHotelKorting ? {
                     toegepast: true,
                     korting: fare.prijsResult.korting,
                     hotel: fare.prijsResult.hotelConfig?.naam || 'Onbekend',
-                    ritType: fare.prijsResult.ritType
-                } : { toegepast: false }
+                    weergave: fare.prijsResult.hotelWeergave,
+                    is_roundtrip: currentRoundTrip
+                } : { toegepast: false },
+                extra_kosten: fare.extraKosten ? {
+                    totaal: fare.extraKosten.totaal,
+                    lijst: fare.extraKosten.lijst
+                } : { totaal: 0, lijst: [] }
             },
             metadata: {
                 route_calculated: true,
@@ -1167,16 +1258,19 @@
                 pickup_place_id: pickupPlaceId,
                 dropoff_place_id: dropoffPlaceId,
                 google_places_selected: fare.manualRouteRequired !== true,
-                extra_kosten: fare.extraKosten ? {
-                    totaal: fare.extraKosten.totaal,
-                    lijst: fare.extraKosten.lijst
-                } : { totaal: 0, lijst: [] },
+                is_roundtrip: currentRoundTrip,
+                waterfles_aantal: getWaterflesAantal(),
                 hotel_korting: fare.prijsResult?.isHotelKorting ? {
                     toegepast: true,
                     korting: fare.prijsResult.korting,
                     hotel: fare.prijsResult.hotelConfig?.naam || 'Onbekend',
-                    ritType: fare.prijsResult.ritType
-                } : { toegepast: false }
+                    weergave: fare.prijsResult.hotelWeergave,
+                    is_roundtrip: currentRoundTrip
+                } : { toegepast: false },
+                extra_kosten: fare.extraKosten ? {
+                    totaal: fare.extraKosten.totaal,
+                    lijst: fare.extraKosten.lijst
+                } : { totaal: 0, lijst: [] }
             },
             created_at: new Date().toISOString(),
             partner_id: 1,
@@ -1212,7 +1306,8 @@
                 asap_requested: document.getElementById('asapCheckbox')?.checked === true,
                 asap_message: document.getElementById('asapCheckbox')?.checked === true ? ASAP_TIME_MESSAGE : '',
                 raw_calculated_amount: Number(fare.rawAmount.toFixed(2)),
-                is_registered: false
+                is_registered: false,
+                is_roundtrip: currentRoundTrip
             };
             let emailResult = { success: false, error: 'Email trigger not completed' };
             try {
@@ -1231,6 +1326,7 @@
                 alert(`Boeking ${savedBookingId} opgeslagen. Prijs: EUR ${totalAmount.toFixed(2)}.\n\nBevestigingsemail mislukt: ${emailResult?.error || 'onbekende fout'}. FleetConnect volgt deze boeking handmatig op.`);
             }
 
+            // Reset formulier
             document.getElementById('pickupInput').value = '';
             document.getElementById('dropoffInput').value = '';
             document.getElementById('firstName').value = '';
@@ -1245,12 +1341,17 @@
             document.getElementById('meetGreet').checked = false;
             document.getElementById('kissRide').checked = false;
             document.getElementById('waterBottle').checked = false;
-            document.getElementById('wifi').checked = false;
+            document.getElementById('waterBottleAantal').value = 1;
+            document.getElementById('waterBottleAantal').disabled = true;
+            document.getElementById('wifi').checked = true;
             document.getElementById('specialWishes').value = '';
             document.getElementById('distVal').innerHTML = '-';
             document.getElementById('timeVal').innerHTML = '-';
             document.getElementById('priceVal').innerHTML = '-';
             document.getElementById('totalDisplay').innerHTML = "Totaal: EUR 0,00";
+            const noteEl = document.getElementById('priceNote');
+            if (noteEl) noteEl.style.display = 'none';
+            currentRoundTrip = false;
 
             pickupLocation = null;
             dropoffLocation = null;
@@ -1259,7 +1360,6 @@
             dropoffPlaceId = '';
             selectedVehicle = null;
             selectedVehicleExtra = 0;
-            currentRoundTrip = false;
             currentDateTime = "";
             currentReturnDateTime = "";
             if (mapsController) mapsController.reset();
@@ -1284,8 +1384,18 @@
         if (currentPage === 5) updateRitOverzicht();
     });
     
-    // Waterfles
+    // Waterfles checkbox - toggle aantal input
     document.getElementById('waterBottle')?.addEventListener('change', function() {
+        toggleWaterflesAantal();
+        updateTotalDisplay();
+        if (currentPage === 5) updateRitOverzicht();
+    });
+    
+    // Waterfles aantal - update prijs bij wijziging
+    document.getElementById('waterBottleAantal')?.addEventListener('input', function() {
+        const val = parseInt(this.value) || 0;
+        if (val < 0) this.value = 0;
+        if (val > 20) this.value = 20;
         updateTotalDisplay();
         if (currentPage === 5) updateRitOverzicht();
     });
@@ -1295,27 +1405,48 @@
         if (currentPage === 5) updateRitOverzicht();
     });
     
-    // WiFi (standaard aangevinkt)
+    // WiFi
     document.getElementById('wifi')?.addEventListener('change', function() {
         if (currentPage === 5) updateRitOverzicht();
     });
     
+    // Roundtrip checkbox - update prijs
     document.getElementById('roundtripCheckbox')?.addEventListener('change', function(e) {
         const returnContainer = document.getElementById('returnDateContainer');
         e.target.checked ? returnContainer.classList.add('visible') : returnContainer.classList.remove('visible');
         currentRoundTrip = e.target.checked;
         if (currentRouteData) {
-            let d = currentRouteData.distanceKm, t = currentRouteData.durationMin;
+            let d = currentRouteData.distanceKm;
+            let t = currentRouteData.durationMin;
             if (currentRoundTrip) { d *= 2; t *= 2; }
             document.getElementById('distVal').innerHTML = d.toFixed(1);
             document.getElementById('timeVal').innerHTML = t;
-            const prijsResult = berekenFleetconnectPrijs(d, lastTypedPickupAddress, lastTypedDropoffAddress);
+            
+            // Herbereken met de nieuwe roundtrip status
+            const prijsResult = berekenFleetconnectPrijs(
+                currentRouteData.distanceKm, 
+                lastTypedPickupAddress, 
+                lastTypedDropoffAddress, 
+                currentRoundTrip
+            );
+            currentRouteData.prijsResult = prijsResult;
             document.getElementById('priceVal').innerHTML = prijsResult.totaal.toFixed(2);
+            
+            const noteEl = document.getElementById('priceNote');
+            if (noteEl && prijsResult.isHotelKorting) {
+                noteEl.style.display = 'block';
+                noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.berekening}`;
+                noteEl.style.color = '#2e7d32';
+            }
+            
             updateTotalDisplay();
         }
     });
     
     document.getElementById('verstuurBerichtBtn')?.addEventListener('click', () => alert('Bericht verzonden!'));
+
+    // Init Waterfles
+    toggleWaterflesAantal();
 
     bindAddressInputFallbacks();
     initVehicleSelection();
@@ -1340,12 +1471,13 @@
     console.log("FleetConnect - Alles geladen!");
     console.log("FleetConnect Prijsformule: Minimum €30 | Regio-radius: 15km | €1,50/km");
     console.log("Hotelkorting actief voor: Campanile Hotel Vilvoorde (Luchthavenlaan 2, 1800 Vilvoorde)");
-    console.log("  - Hotel → Luchthaven: €30 - €5 = €25");
-    console.log("  - Luchthaven → Hotel: €35 - €5 = €30");
+    console.log("  - Hotel → Luchthaven: €30 - €5 = €25 (enkele rit)");
+    console.log("  - Luchthaven → Hotel: €35 - €5 = €30 (enkele rit)");
+    console.log("  - Heen-en-terug: dubbele korting (€10)");
     console.log("Extra opties:");
     console.log("  - Meet & Greet: +€5,00 (info-icoon met tooltip)");
     console.log("  - Kiss & Ride: gratis (info-icoon met tooltip)");
-    console.log("  - Waterfles: +€1,00");
+    console.log("  - Waterfles: €1,00/stuk (aantal instelbaar)");
     console.log("  - WiFi: gratis (standaard aangevinkt + info-icoon)");
 </script>
 </body>
