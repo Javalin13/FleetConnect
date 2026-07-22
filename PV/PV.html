@@ -448,7 +448,10 @@
         let hotelConfig = null;
         let hotelKortingTotaal = 0;
         let hotelWeergave = '';
+        let basisPrijsPerRit = 0;
+        let ritOmschrijving = '';
         
+        // Check of een van de adressen Campanile is
         if (pickupAdres || dropoffAdres) {
             const adresCheck = `${pickupAdres || ''} ${dropoffAdres || ''}`.toLowerCase().trim();
             for (const [hotelAdres, config] of Object.entries(HOTEL_KORTINGEN)) {
@@ -475,12 +478,9 @@
         let korting = 0;
         let kortingReden = '';
         let isHotelKorting = false;
-        let basisPrijs = 0;
+        let basisPrijsTotaal = 0;
         
-        // Bepaal basisprijs per rit
-        let prijsPerRit = 0;
-        let ritOmschrijving = '';
-        
+        // Bepaal basisprijs per rit (alleen bij Campanile + Luchthaven)
         if (isHotelRit && isLuchthavenRit && afstandKm <= regioRadius) {
             const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
                                                        pickupAdres.toLowerCase().includes('brussels airport') || 
@@ -488,63 +488,63 @@
             
             if (isLuchthavenPickup) {
                 // Luchthaven → Hotel: €35
-                prijsPerRit = luchthavenPrijs;
+                basisPrijsPerRit = luchthavenPrijs;
                 ritOmschrijving = 'Luchthaven → Hotel';
             } else {
                 // Hotel → Luchthaven: €30
-                prijsPerRit = minimumTarief;
+                basisPrijsPerRit = minimumTarief;
                 ritOmschrijving = 'Hotel → Luchthaven';
             }
         } else if (afstandKm <= regioRadius) {
-            prijsPerRit = minimumTarief;
+            basisPrijsPerRit = minimumTarief;
             ritOmschrijving = 'Regio Zaventem';
         } else {
-            prijsPerRit = Math.max(afstandKm * prijsPerKm, minimumTarief);
+            basisPrijsPerRit = Math.max(afstandKm * prijsPerKm, minimumTarief);
             ritOmschrijving = 'Lange afstand';
         }
         
         // Bereken totaal voor heen-en-terug of enkele rit
         if (isRoundTrip) {
-            // Heen-en-terug: 2× de prijs
-            basisPrijs = prijsPerRit * 2;
+            basisPrijsTotaal = basisPrijsPerRit * 2;
             ritType = ritOmschrijving + ' (heen & terug)';
         } else {
-            basisPrijs = prijsPerRit;
+            basisPrijsTotaal = basisPrijsPerRit;
             ritType = ritOmschrijving;
         }
         
-        // Korting toepassen
-        if (isHotelRit && hotelConfig) {
+        // Korting alleen toepassen bij Campanile Hotel
+        if (isHotelRit && hotelConfig && isLuchthavenRit) {
             if (isRoundTrip) {
                 // Heen-en-terug: 2× korting
                 korting = hotelConfig.korting * 2;
-                kortingReden = `${hotelConfig.weergave} (2 ritten)`;
+                kortingReden = `🏨 Campanile -€${korting.toFixed(2)} (2 ritten)`;
             } else {
                 korting = hotelConfig.korting;
-                kortingReden = hotelConfig.weergave;
+                kortingReden = `🏨 Campanile -€${korting.toFixed(2)}`;
             }
             isHotelKorting = true;
             hotelKortingTotaal = korting;
-            hotelWeergave = hotelConfig.weergave;
+            hotelWeergave = kortingReden;
         }
         
-        totaal = Math.max(basisPrijs - korting, 0);
+        totaal = Math.max(basisPrijsTotaal - korting, 0);
         isMinimum = totaal === minimumTarief && !isRoundTrip;
         
-        // Bouw berekening tekst
+        // Bouw berekening tekst - ALLEEN bij Campanile korting
         if (isHotelKorting) {
             if (isRoundTrip) {
-                berekening = `${ritOmschrijving} × 2 = €${basisPrijs.toFixed(2)} - ${kortingReden} = €${totaal.toFixed(2)}`;
+                berekening = `€${basisPrijsTotaal.toFixed(2)} - ${kortingReden} = €${totaal.toFixed(2)}`;
             } else {
-                berekening = `€${basisPrijs.toFixed(2)} - ${kortingReden} = €${totaal.toFixed(2)}`;
+                berekening = `€${basisPrijsTotaal.toFixed(2)} - ${kortingReden} = €${totaal.toFixed(2)}`;
             }
         } else {
-            berekening = `€${basisPrijs.toFixed(2)}`;
+            berekening = `€${basisPrijsTotaal.toFixed(2)}`;
         }
         
         return {
             totaal: totaal,
-            basisPrijs: basisPrijs,
+            basisPrijs: basisPrijsTotaal,
+            basisPrijsPerRit: basisPrijsPerRit,
             isMinimum: isMinimum,
             isHotelKorting: isHotelKorting,
             isHotelRit: isHotelRit,
@@ -555,11 +555,12 @@
             hotelWeergave: hotelWeergave,
             hotelConfig: hotelConfig,
             isRoundTrip: isRoundTrip,
+            ritOmschrijving: ritOmschrijving,
             rawBerekening: {
                 afstand: afstandKm,
                 prijsPerKm: prijsPerKm,
-                prijsPerRit: prijsPerRit,
-                rawPrijs: basisPrijs
+                prijsPerRit: basisPrijsPerRit,
+                rawPrijs: basisPrijsTotaal
             }
         };
     }
@@ -802,10 +803,11 @@
         if (noteEl) {
             noteEl.style.display = 'block';
             if (prijsResult.isHotelKorting) {
+                // Toon de volledige berekening: €30,00 - 🏨 Campanile -€5,00 = €25,00
                 noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.berekening}`;
                 noteEl.style.color = '#2e7d32';
             } else if (prijsResult.isMinimum) {
-                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> €${prijsResult.basisPrijs.toFixed(2)} - Minimumtarief €30 - Regio Zaventem`;
+                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
                 noteEl.style.color = 'var(--accent-gold)';
             } else {
                 noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
@@ -918,15 +920,19 @@
             extraInfo = `<br><small>+ Extra opties: ${fare.extraKosten.lijst.join(', ')}</small>`;
         }
         
-        let minimumNote = '';
+        let kortingNote = '';
         if (fare.prijsResult?.isHotelKorting) {
-            minimumNote = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
+            if (currentRoundTrip) {
+                kortingNote = `<br><small>🏨 Campanile -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
+            } else {
+                kortingNote = `<br><small>🏨 Campanile -€${fare.prijsResult.korting.toFixed(2)}</small>`;
+            }
         } else if (fare.minimumApplied) {
-            minimumNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
+            kortingNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
         }
         
-        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}${minimumNote}${extraInfo}`;
-        if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${minimumNote}${extraInfo}`;
+        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}${kortingNote}${extraInfo}`;
+        if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${kortingNote}${extraInfo}`;
     }
 
     function updateRitOverzicht() {
@@ -951,7 +957,11 @@
         } else {
             let extraText = '';
             if (fare.prijsResult?.isHotelKorting) {
-                extraText = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
+                if (currentRoundTrip) {
+                    extraText = `<br><small>🏨 Campanile -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
+                } else {
+                    extraText = `<br><small>🏨 Campanile -€${fare.prijsResult.korting.toFixed(2)}</small>`;
+                }
             } else if (fare.minimumApplied) {
                 extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
             }
@@ -1433,10 +1443,18 @@
             document.getElementById('priceVal').innerHTML = prijsResult.totaal.toFixed(2);
             
             const noteEl = document.getElementById('priceNote');
-            if (noteEl && prijsResult.isHotelKorting) {
+            if (noteEl) {
                 noteEl.style.display = 'block';
-                noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.berekening}`;
-                noteEl.style.color = '#2e7d32';
+                if (prijsResult.isHotelKorting) {
+                    noteEl.innerHTML = `<i class="fas fa-hotel"></i> ${prijsResult.berekening}`;
+                    noteEl.style.color = '#2e7d32';
+                } else if (prijsResult.isMinimum) {
+                    noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
+                    noteEl.style.color = 'var(--accent-gold)';
+                } else {
+                    noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
+                    noteEl.style.color = 'var(--text-light)';
+                }
             }
             
             updateTotalDisplay();
