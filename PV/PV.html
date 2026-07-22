@@ -429,6 +429,42 @@
     const HOTEL_KORTING = 5.00;
     const HOTEL_NAAM = 'Campanile Hotel';
 
+    // ====================== TAALCONFIGURATIE VOOR KORTINGSTEKST ======================
+    function getKortingTekst(kortingBedrag, isRoundTrip, taal = 'nl') {
+        const teksten = {
+            nl: {
+                incl: 'incl.',
+                korting: 'korting',
+                voor: 'voor',
+                ritten: 'ritten',
+                enkele: 'enkele rit'
+            },
+            fr: {
+                incl: 'incl.',
+                korting: 'de réduction',
+                voor: 'pour',
+                ritten: 'trajets',
+                enkele: 'trajet simple'
+            },
+            en: {
+                incl: 'incl.',
+                korting: 'discount',
+                voor: 'for',
+                ritten: 'rides',
+                enkele: 'one-way'
+            }
+        };
+        
+        const t = teksten[taal] || teksten.nl;
+        const bedrag = kortingBedrag.toFixed(2);
+        
+        if (isRoundTrip) {
+            return `${t.incl} €${bedrag} ${t.korting} ${t.voor} 2 ${t.ritten}`;
+        } else {
+            return `${t.incl} €${bedrag} ${t.korting}`;
+        }
+    }
+
     // ====================== EXTRA OPTIES CONFIGURATIE ======================
     const EXTRA_OPTIES = {
         meetGreet: { prijs: 5.00, label: 'Meet & Greet' },
@@ -481,7 +517,7 @@
             ritOmschrijving = 'Hotel → Luchthaven';
             korting = HOTEL_KORTING; // €5
             isHotelKorting = true;
-            hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)}`;
+            hotelWeergave = `🏨 ${HOTEL_NAAM}`;
         }
         // Luchthaven → Hotel: €35 - €5 = €30
         else if (isLuchthavenPickup && isHotelDropoff) {
@@ -489,7 +525,7 @@
             ritOmschrijving = 'Luchthaven → Hotel';
             korting = HOTEL_KORTING; // €5
             isHotelKorting = true;
-            hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)}`;
+            hotelWeergave = `🏨 ${HOTEL_NAAM}`;
         }
         // Andere ritten (geen korting)
         else if (afstandKm <= regioRadius) {
@@ -510,7 +546,6 @@
             // Heen-en-terug: dubbele korting
             if (isHotelKorting) {
                 korting = HOTEL_KORTING * 2;
-                hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)} (2 ritten)`;
             }
         } else {
             basisPrijsTotaal = basisPrijsPerRit;
@@ -570,6 +605,7 @@
     const ONE_HOUR_MESSAGE = "Scheduled rides must be booked at least 1 hour in advance. For faster pickup, choose ASAP or contact us via WhatsApp.";
     const MANUAL_ROUTE_MESSAGE = "Google adrescontrole is niet beschikbaar. FleetConnect bevestigt route en prijs handmatig.";
     let googleRouteUnavailable = false;
+    let currentTaal = 'nl';
     
     // ====================== WATERFLES LOGICA ======================
     function toggleWaterflesAantal() {
@@ -791,11 +827,8 @@
             noteEl.style.display = 'block';
             if (prijsResult.isHotelKorting) {
                 // Toon: - €5,00 korting Campanile Hotel
-                if (currentRoundTrip) {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM} (2 ritten)</span>`;
-                } else {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM}</span>`;
-                }
+                const kortingTekst = getKortingTekst(prijsResult.korting, currentRoundTrip, currentTaal);
+                noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave} - ${kortingTekst}</span>`;
                 noteEl.style.color = '#2e7d32';
             } else if (prijsResult.isMinimum) {
                 noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
@@ -882,9 +915,8 @@
         const prijsResult = berekenFleetconnectPrijs(dist, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
         const extraKosten = getExtraOptionKosten();
         
-        // ==== CORRECTIE: Gebruik prijsResult.totaal (eindprijs met korting) ====
+        // Gebruik prijsResult.totaal (eindprijs met korting)
         const totalAmount = prijsResult.totaal + (selectedVehicleExtra || 0) + extraKosten.totaal;
-        // ==== EINDE CORRECTIE ====
         
         return { 
             distanceKm: dist, 
@@ -917,17 +949,17 @@
         // Stap 5: Toon eindprijs met korting
         let kortingNote = '';
         if (fare.prijsResult?.isHotelKorting) {
-            if (currentRoundTrip) {
-                kortingNote = `<br><small>🏨 ${HOTEL_NAAM} -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
-            } else {
-                kortingNote = `<br><small>🏨 ${HOTEL_NAAM} -€${fare.prijsResult.korting.toFixed(2)}</small>`;
-            }
+            const kortingTekst = getKortingTekst(fare.prijsResult.korting, currentRoundTrip, currentTaal);
+            kortingNote = `<br><small>${fare.prijsResult.hotelWeergave} - ${kortingTekst}</small>`;
         } else if (fare.minimumApplied) {
             kortingNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
         }
         
-        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}${kortingNote}${extraInfo}`;
-        if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${kortingNote}${extraInfo}`;
+        // ✅ CORRECTIE: gebruik fare.totalAmount (eindprijs) voor de weergave
+        const eindPrijs = fare.totalAmount;
+        
+        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${eindPrijs.toFixed(2)}${kortingNote}${extraInfo}`;
+        if (overviewTotal) overviewTotal.innerHTML = `EUR ${eindPrijs.toFixed(2)}${kortingNote}${extraInfo}`;
     }
 
     function updateRitOverzicht() {
@@ -952,17 +984,15 @@
         } else {
             let extraText = '';
             if (fare.prijsResult?.isHotelKorting) {
-                if (currentRoundTrip) {
-                    extraText = `<br><small>🏨 ${HOTEL_NAAM} -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
-                } else {
-                    extraText = `<br><small>🏨 ${HOTEL_NAAM} -€${fare.prijsResult.korting.toFixed(2)}</small>`;
-                }
+                const kortingTekst = getKortingTekst(fare.prijsResult.korting, currentRoundTrip, currentTaal);
+                extraText = `<br><small>${fare.prijsResult.hotelWeergave} - ${kortingTekst}</small>`;
             } else if (fare.minimumApplied) {
                 extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
             }
             if (fare.extraKosten && fare.extraKosten.totaal > 0) {
                 extraText += `<br><small>+ Extra opties: ${fare.extraKosten.lijst.join(', ')}</small>`;
             }
+            // ✅ CORRECTIE: gebruik fare.totalAmount (eindprijs) voor de weergave
             document.getElementById('overviewTotal').innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${extraText}`;
         }
     }
@@ -1058,7 +1088,8 @@
             if (noteEl) {
                 noteEl.style.display = 'block';
                 if (prijsResult.isHotelKorting) {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM}</span>`;
+                    const kortingTekst = getKortingTekst(prijsResult.korting, currentRoundTrip, currentTaal);
+                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave} - ${kortingTekst}</span>`;
                     noteEl.style.color = '#2e7d32';
                 } else {
                     noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${MANUAL_ROUTE_MESSAGE}`;
@@ -1378,6 +1409,15 @@
         }
     }
 
+    // ====================== TAAL DETECTIE ======================
+    function detecteerTaal() {
+        const url = window.location.pathname;
+        if (url.includes('/fr')) return 'fr';
+        if (url.includes('/en')) return 'en';
+        return 'nl';
+    }
+    currentTaal = detecteerTaal();
+
     // ====================== EVENT LISTENERS ======================
     document.getElementById('nextBtn').addEventListener('click', nextPage);
     document.getElementById('prevBtn').addEventListener('click', prevPage);
@@ -1441,11 +1481,8 @@
             if (noteEl) {
                 noteEl.style.display = 'block';
                 if (prijsResult.isHotelKorting) {
-                    if (currentRoundTrip) {
-                        noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM} (2 ritten)</span>`;
-                    } else {
-                        noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM}</span>`;
-                    }
+                    const kortingTekst = getKortingTekst(prijsResult.korting, currentRoundTrip, currentTaal);
+                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave} - ${kortingTekst}</span>`;
                     noteEl.style.color = '#2e7d32';
                 } else if (prijsResult.isMinimum) {
                     noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
@@ -1496,6 +1533,7 @@
     console.log("  - Kiss & Ride: gratis (info-icoon met tooltip)");
     console.log("  - Waterfles: €1,00/stuk (aantal instelbaar)");
     console.log("  - WiFi: gratis (standaard aangevinkt + info-icoon)");
+    console.log(`Huidige taal: ${currentTaal}`);
 </script>
 </body>
 </html>
