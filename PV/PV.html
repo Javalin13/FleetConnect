@@ -425,13 +425,9 @@
     }
 
     // ====================== HOTELKORTINGEN CONFIGURATIE ======================
-    const HOTEL_KORTINGEN = {
-        'luchthavenlaan 2 1800 vilvoorde': {
-            korting: 5.00,
-            naam: 'Campanile Hotel Vilvoorde',
-            weergave: '🏨 Campanile Hotel -€5,00'
-        }
-    };
+    const HOTEL_ADRES = 'luchthavenlaan 2 1800 vilvoorde';
+    const HOTEL_KORTING = 5.00;
+    const HOTEL_NAAM = 'Campanile Hotel';
 
     // ====================== EXTRA OPTIES CONFIGURATIE ======================
     const EXTRA_OPTIES = {
@@ -452,58 +448,51 @@
     function berekenFleetconnectPrijs(afstandKm, pickupAdres, dropoffAdres, isRoundTrip) {
         const { minimumTarief, prijsPerKm, regioRadius, luchthavenPrijs } = FLEETCONNECT_PRICING;
         
-        let isHotelRit = false;
-        let hotelConfig = null;
-        let hotelKortingTotaal = 0;
-        let hotelWeergave = '';
+        // Normaliseer adressen
+        const pickupNormalized = normalizeAddress(pickupAdres || '');
+        const dropoffNormalized = normalizeAddress(dropoffAdres || '');
+        
+        // Check of ophaaladres = hotel
+        const isHotelPickup = pickupNormalized.includes(HOTEL_ADRES);
+        
+        // Check of afzetadres = hotel
+        const isHotelDropoff = dropoffNormalized.includes(HOTEL_ADRES);
+        
+        // Check of ophaaladres = luchthaven (Zaventem)
+        const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
+                                                   pickupAdres.toLowerCase().includes('brussels airport') || 
+                                                   pickupAdres.toLowerCase().includes('luchthaven'));
+        
+        // Check of afzetadres = luchthaven (Zaventem)
+        const isLuchthavenDropoff = dropoffAdres && (dropoffAdres.toLowerCase().includes('zaventem') || 
+                                                     dropoffAdres.toLowerCase().includes('brussels airport') || 
+                                                     dropoffAdres.toLowerCase().includes('luchthaven'));
+        
         let basisPrijsPerRit = 0;
         let ritOmschrijving = '';
-        
-        // Check of een van de adressen het hotel is (gebruik normalisatie)
-        if (pickupAdres || dropoffAdres) {
-            const adresCheck = `${pickupAdres || ''} ${dropoffAdres || ''}`;
-            const adresCheckNormalized = normalizeAddress(adresCheck);
-            
-            for (const [hotelAdres, config] of Object.entries(HOTEL_KORTINGEN)) {
-                if (adresCheckNormalized.includes(hotelAdres)) {
-                    isHotelRit = true;
-                    hotelConfig = config;
-                    break;
-                }
-            }
-        }
-        
-        const isLuchthavenRit = 
-            (pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
-                            pickupAdres.toLowerCase().includes('brussels airport') || 
-                            pickupAdres.toLowerCase().includes('luchthaven'))) ||
-            (dropoffAdres && (dropoffAdres.toLowerCase().includes('zaventem') || 
-                             dropoffAdres.toLowerCase().includes('brussels airport') || 
-                             dropoffAdres.toLowerCase().includes('luchthaven')));
-        
-        let totaal;
-        let isMinimum = false;
-        let berekening = '';
-        let ritType = '';
         let korting = 0;
-        let kortingReden = '';
         let isHotelKorting = false;
-        let basisPrijsTotaal = 0;
+        let hotelWeergave = '';
         
-        // Bepaal basisprijs per rit
-        if (isHotelRit && isLuchthavenRit && afstandKm <= regioRadius) {
-            const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
-                                                       pickupAdres.toLowerCase().includes('brussels airport') || 
-                                                       pickupAdres.toLowerCase().includes('luchthaven'));
-            
-            if (isLuchthavenPickup) {
-                basisPrijsPerRit = luchthavenPrijs;
-                ritOmschrijving = 'Luchthaven → Hotel';
-            } else {
-                basisPrijsPerRit = minimumTarief;
-                ritOmschrijving = 'Hotel → Luchthaven';
-            }
-        } else if (afstandKm <= regioRadius) {
+        // Bepaal de prijs op basis van de route
+        // Hotel → Luchthaven: €30 - €5 = €25
+        if (isHotelPickup && isLuchthavenDropoff) {
+            basisPrijsPerRit = minimumTarief; // €30
+            ritOmschrijving = 'Hotel → Luchthaven';
+            korting = HOTEL_KORTING; // €5
+            isHotelKorting = true;
+            hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)}`;
+        }
+        // Luchthaven → Hotel: €35 - €5 = €30
+        else if (isLuchthavenPickup && isHotelDropoff) {
+            basisPrijsPerRit = luchthavenPrijs; // €35
+            ritOmschrijving = 'Luchthaven → Hotel';
+            korting = HOTEL_KORTING; // €5
+            isHotelKorting = true;
+            hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)}`;
+        }
+        // Andere ritten (geen korting)
+        else if (afstandKm <= regioRadius) {
             basisPrijsPerRit = minimumTarief;
             ritOmschrijving = 'Regio Zaventem';
         } else {
@@ -512,43 +501,28 @@
         }
         
         // Bereken totaal voor heen-en-terug of enkele rit
+        let basisPrijsTotaal;
+        let ritType;
+        
         if (isRoundTrip) {
             basisPrijsTotaal = basisPrijsPerRit * 2;
             ritType = ritOmschrijving + ' (heen & terug)';
+            // Heen-en-terug: dubbele korting
+            if (isHotelKorting) {
+                korting = HOTEL_KORTING * 2;
+                hotelWeergave = `🏨 ${HOTEL_NAAM} -€${korting.toFixed(2)} (2 ritten)`;
+            }
         } else {
             basisPrijsTotaal = basisPrijsPerRit;
             ritType = ritOmschrijving;
         }
         
-        // Korting alleen toepassen bij Hotel + Luchthaven
-        if (isHotelRit && hotelConfig && isLuchthavenRit) {
-            if (isRoundTrip) {
-                korting = hotelConfig.korting * 2;
-                kortingReden = `🏨 Campanile Hotel -€${korting.toFixed(2)} (2 ritten)`;
-            } else {
-                korting = hotelConfig.korting;
-                kortingReden = `🏨 Campanile Hotel -€${korting.toFixed(2)}`;
-            }
-            isHotelKorting = true;
-            hotelKortingTotaal = korting;
-            hotelWeergave = kortingReden;
-        }
-        
         // Eindprijs = basisprijs - korting
-        totaal = Math.max(basisPrijsTotaal - korting, 0);
-        isMinimum = totaal === minimumTarief && !isRoundTrip;
+        let totaal = Math.max(basisPrijsTotaal - korting, 0);
+        let isMinimum = totaal === minimumTarief && !isRoundTrip && !isHotelKorting;
         
         // Berekening tekst voor stap 2: toont basisprijs en korting apart
-        if (isHotelKorting) {
-            if (isRoundTrip) {
-                berekening = `€${basisPrijsTotaal.toFixed(2)} - ${kortingReden} = €${totaal.toFixed(2)}`;
-            } else {
-                // Voor stap 2: toon alleen de basisprijs en korting als aparte regels
-                berekening = `€${basisPrijsTotaal.toFixed(2)}`;
-            }
-        } else {
-            berekening = `€${basisPrijsTotaal.toFixed(2)}`;
-        }
+        let berekening = `€${basisPrijsTotaal.toFixed(2)}`;
         
         return {
             totaal: totaal,                       // Eindprijs met korting (voor stap 5)
@@ -556,16 +530,17 @@
             basisPrijsPerRit: basisPrijsPerRit,
             isMinimum: isMinimum,
             isHotelKorting: isHotelKorting,
-            isHotelRit: isHotelRit,
+            isHotelRit: isHotelKorting,
             ritType: ritType,
             berekening: berekening,
             korting: korting,
-            kortingReden: kortingReden,
             hotelWeergave: hotelWeergave,
-            hotelConfig: hotelConfig,
             isRoundTrip: isRoundTrip,
             ritOmschrijving: ritOmschrijving,
-            isLuchthavenRit: isLuchthavenRit,
+            isHotelPickup: isHotelPickup,
+            isHotelDropoff: isHotelDropoff,
+            isLuchthavenPickup: isLuchthavenPickup,
+            isLuchthavenDropoff: isLuchthavenDropoff,
             rawBerekening: {
                 afstand: afstandKm,
                 prijsPerKm: prijsPerKm,
@@ -817,9 +792,9 @@
             if (prijsResult.isHotelKorting) {
                 // Toon: - €5,00 korting Campanile Hotel
                 if (currentRoundTrip) {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting Campanile Hotel (2 ritten)</span>`;
+                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM} (2 ritten)</span>`;
                 } else {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting Campanile Hotel</span>`;
+                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM}</span>`;
                 }
                 noteEl.style.color = '#2e7d32';
             } else if (prijsResult.isMinimum) {
@@ -941,9 +916,9 @@
         let kortingNote = '';
         if (fare.prijsResult?.isHotelKorting) {
             if (currentRoundTrip) {
-                kortingNote = `<br><small>🏨 Campanile Hotel -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
+                kortingNote = `<br><small>🏨 ${HOTEL_NAAM} -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
             } else {
-                kortingNote = `<br><small>🏨 Campanile Hotel -€${fare.prijsResult.korting.toFixed(2)}</small>`;
+                kortingNote = `<br><small>🏨 ${HOTEL_NAAM} -€${fare.prijsResult.korting.toFixed(2)}</small>`;
             }
         } else if (fare.minimumApplied) {
             kortingNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
@@ -976,9 +951,9 @@
             let extraText = '';
             if (fare.prijsResult?.isHotelKorting) {
                 if (currentRoundTrip) {
-                    extraText = `<br><small>🏨 Campanile Hotel -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
+                    extraText = `<br><small>🏨 ${HOTEL_NAAM} -€${(fare.prijsResult.korting).toFixed(2)} (2 ritten)</small>`;
                 } else {
-                    extraText = `<br><small>🏨 Campanile Hotel -€${fare.prijsResult.korting.toFixed(2)}</small>`;
+                    extraText = `<br><small>🏨 ${HOTEL_NAAM} -€${fare.prijsResult.korting.toFixed(2)}</small>`;
                 }
             } else if (fare.minimumApplied) {
                 extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
@@ -1081,7 +1056,7 @@
             if (noteEl) {
                 noteEl.style.display = 'block';
                 if (prijsResult.isHotelKorting) {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting Campanile Hotel</span>`;
+                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM}</span>`;
                     noteEl.style.color = '#2e7d32';
                 } else {
                     noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${MANUAL_ROUTE_MESSAGE}`;
@@ -1264,7 +1239,7 @@
                 hotel_korting: fare.prijsResult?.isHotelKorting ? {
                     toegepast: true,
                     korting: fare.prijsResult.korting,
-                    hotel: fare.prijsResult.hotelConfig?.naam || 'Onbekend',
+                    hotel: HOTEL_NAAM,
                     weergave: fare.prijsResult.hotelWeergave,
                     is_roundtrip: currentRoundTrip
                 } : { toegepast: false },
@@ -1291,7 +1266,7 @@
                 hotel_korting: fare.prijsResult?.isHotelKorting ? {
                     toegepast: true,
                     korting: fare.prijsResult.korting,
-                    hotel: fare.prijsResult.hotelConfig?.naam || 'Onbekend',
+                    hotel: HOTEL_NAAM,
                     weergave: fare.prijsResult.hotelWeergave,
                     is_roundtrip: currentRoundTrip
                 } : { toegepast: false },
@@ -1465,9 +1440,9 @@
                 noteEl.style.display = 'block';
                 if (prijsResult.isHotelKorting) {
                     if (currentRoundTrip) {
-                        noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting Campanile Hotel (2 ritten)</span>`;
+                        noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM} (2 ritten)</span>`;
                     } else {
-                        noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting Campanile Hotel</span>`;
+                        noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">- €${prijsResult.korting.toFixed(2)} korting ${HOTEL_NAAM}</span>`;
                     }
                     noteEl.style.color = '#2e7d32';
                 } else if (prijsResult.isMinimum) {
@@ -1510,7 +1485,7 @@
 
     console.log("FleetConnect - Alles geladen!");
     console.log("FleetConnect Prijsformule: Minimum €30 | Regio-radius: 15km | €1,50/km");
-    console.log("Hotelkorting actief voor: Luchthavenlaan 2, 1800 Vilvoorde");
+    console.log(`Hotelkorting actief voor: ${HOTEL_ADRES}`);
     console.log("  - Hotel → Luchthaven: €30 - €5 = €25 (enkele rit)");
     console.log("  - Luchthaven → Hotel: €35 - €5 = €30 (enkele rit)");
     console.log("  - Heen-en-terug: dubbele korting (€10)");
