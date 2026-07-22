@@ -177,6 +177,9 @@
             width: 24px;
             font-size: 1.2rem;
         }
+        .feature-list li strong {
+            min-width: 120px;
+        }
         .highlight-box {
             background: linear-gradient(135deg, rgba(44,110,158,0.05) 0%, rgba(107,140,66,0.05) 100%);
             border-left: 4px solid var(--accent-gold);
@@ -305,6 +308,7 @@
             .language-switcher { top: 10px; right: 15px; gap: 6px; }
             .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
             .breadcrumb { padding-top: 50px; }
+            .feature-list li strong { min-width: 90px; }
         }
     </style>
 </head>
@@ -388,8 +392,8 @@
                     <li><i class="fas fa-car"></i> <strong data-i18n="break-label">Break model</strong> <span data-i18n="break-text">– Meer bagageruimte: + €5</span></li>
                     <li><i class="fas fa-star"></i> <strong data-i18n="exclusive-label">Exclusieve wagen</strong> <span data-i18n="exclusive-text">(Mercedes E-Klasse / BMW 5 Serie): + €15</span></li>
                     <li><i class="fas fa-users"></i> <strong data-i18n="van-label">Mini Van</strong> <span data-i18n="van-text">(tot 8 personen): + €10</span></li>
-                    <li><i class="fas fa-handshake"></i> <strong data-i18n="meet-label">Meet & Greet</strong> <span data-i18n="meet-text">– Persoonlijke ontvangstservice aan de aankomsthal. Uw chauffeur staat klaar met een naamplaatje voor een vlotte en professionele ontvangst. Inclusief 30 minuten gratis wachttijd bij vertraging. Extra wachttijd: €35,00 per uur (te betalen aan chauffeur). Parkeerkosten inbegrepen. Zakelijk en zorgeloos – een professionele eerste indruk.</span></li>
-                    <li><i class="fas fa-kiss"></i> <strong data-i18n="kiss-label">Kiss & Ride</strong> <span data-i18n="kiss-text">– Efficiënte en kosteloze in- en uitstapoptie zonder parkeerkosten. U contacteert de chauffeur bij aankomst (telefoonnummer in bevestigingsmail). Chauffeur rijdt naar de Kiss & Ride-zone voor vlotte afhandeling. Inclusief 30 minuten gratis wachttijd. Extra wachttijd: €25,00 per uur. Ideaal voor zakelijke reizigers die snel en efficiënt willen vertrekken.</span></li>
+                    <li><i class="fas fa-handshake"></i> <strong data-i18n="meet-label">Meet & Greet</strong> <span data-i18n="meet-text">– Persoonlijke ontvangst zoals het hoort. Uw chauffeur staat klaar in de aankomsthal met een naamplaatje – u wordt direct herkend en begeleid naar uw voertuig. Perfect voor zakelijke reizigers, eerste indrukken en wie waarde hecht aan een vlekkeloze service. Inclusief 30 minuten gratis wachttijd bij vertraging en parkeerkosten volledig inbegrepen. Extra wachttijd: €35,00/uur (te betalen aan chauffeur).</span></li>
+                    <li><i class="fas fa-kiss"></i> <strong data-i18n="kiss-label">Kiss & Ride</strong> <span data-i18n="kiss-text">– Snel, efficiënt en kosteloos. U wandelt naar de Kiss & Ride-zone, belt de chauffeur bij aankomst, en binnen enkele minuten rijdt hij voor. Geen parkeerkosten, geen zoektocht – gewoon efficiënt. Inclusief 30 minuten gratis wachttijd. Extra wachttijd: €25,00/uur (te betalen aan chauffeur). Ideaal voor wie snel en zonder gedoe wil vertrekken.</span></li>
                 </ul>
             </div>
 
@@ -508,8 +512,8 @@
             "break-label": "Break model", "break-text": "– Meer bagageruimte: + €5",
             "exclusive-label": "Exclusieve wagen", "exclusive-text": "(Mercedes E-Klasse / BMW 5 Serie): + €15",
             "van-label": "Mini Van", "van-text": "(tot 8 personen): + €10",
-            "meet-label": "Meet & Greet", "meet-text": "– Persoonlijke ontvangstservice aan de aankomsthal. Uw chauffeur staat klaar met een naamplaatje voor een vlotte en professionele ontvangst. Inclusief 30 minuten gratis wachttijd bij vertraging. Extra wachttijd: €35,00 per uur (te betalen aan chauffeur). Parkeerkosten inbegrepen. Zakelijk en zorgeloos – een professionele eerste indruk.",
-            "kiss-label": "Kiss & Ride", "kiss-text": "– Efficiënte en kosteloze in- en uitstapoptie zonder parkeerkosten. U contacteert de chauffeur bij aankomst (telefoonnummer in bevestigingsmail). Chauffeur rijdt naar de Kiss & Ride-zone voor vlotte afhandeling. Inclusief 30 minuten gratis wachttijd. Extra wachttijd: €25,00 per uur. Ideaal voor zakelijke reizigers die snel en efficiënt willen vertrekken.",
+            "meet-label": "Meet & Greet", "meet-text": "– Persoonlijke ontvangst zoals het hoort. Uw chauffeur staat klaar in de aankomsthal met een naamplaatje – u wordt direct herkend en begeleid naar uw voertuig. Perfect voor zakelijke reizigers, eerste indrukken en wie waarde hecht aan een vlekkeloze service. Inclusief 30 minuten gratis wachttijd bij vertraging en parkeerkosten volledig inbegrepen. Extra wachttijd: €35,00/uur (te betalen aan chauffeur).",
+            "kiss-label": "Kiss & Ride", "kiss-text": "– Snel, efficiënt en kosteloos. U wandelt naar de Kiss & Ride-zone, belt de chauffeur bij aankomst, en binnen enkele minuten rijdt hij voor. Geen parkeerkosten, geen zoektocht – gewoon efficiënt. Inclusief 30 minuten gratis wachttijd. Extra wachttijd: €25,00/uur (te betalen aan chauffeur). Ideaal voor wie snel en zonder gedoe wil vertrekken.",
             "payment-title": "💳 Betaalmogelijkheden – flexibel en veilig",
             "payment-intro": "U kiest hoe u betaalt. Wij accepteren alle gangbare betaalmethoden, zonder verborgen toeslagen:",
             "pay-cash": "Cash", "pay-cash-text": "– Contant betalen bij de chauffeur",
@@ -578,8 +582,8 @@
             "break-label": "Break / familiale", "break-text": "– Plus d'espace bagages : +5 €",
             "exclusive-label": "Voiture exclusive", "exclusive-text": "(Mercedes Classe E / BMW Série 5) : +15 €",
             "van-label": "Mini Van", "van-text": "(jusqu'à 8 personnes) : +10 €",
-            "meet-label": "Meet & Greet", "meet-text": "– Service d'accueil personnalisé à l'arrivée. Votre chauffeur vous attend avec une pancarte pour un accueil professionnel et sans encombre. 30 minutes d'attente gratuites incluses en cas de retard de vol. Les frais d'attente supplémentaires sont facturés à €35,00 par heure (à payer au chauffeur). Les frais de stationnement sont inclus. Professionnel et serein – une première impression de qualité.",
-            "kiss-label": "Kiss & Ride", "kiss-text": "– Option de montée et descente rapide, sans frais de stationnement. Vous contactez le chauffeur à l'arrivée (numéro de téléphone dans l'email de confirmation). Le chauffeur se rend directement à la zone Kiss & Ride pour une prise en charge efficace. 30 minutes d'attente gratuites incluses. Attente supplémentaire : €25,00 par heure. Idéal pour les voyageurs d'affaires souhaitant un départ rapide et efficace.",
+            "meet-label": "Meet & Greet", "meet-text": "– Un accueil personnalisé comme il se doit. Votre chauffeur vous attend dans le hall d'arrivée avec une pancarte – vous êtes immédiatement reconnu et accompagné jusqu'à votre véhicule. Idéal pour les voyageurs d'affaires, les premières impressions et ceux qui attachent de l'importance à un service irréprochable. 30 minutes d'attente gratuites en cas de retard et frais de stationnement entièrement inclus. Attente supplémentaire : €35,00/heure (à payer au chauffeur).",
+            "kiss-label": "Kiss & Ride", "kiss-text": "– Rapide, efficace et sans frais. Vous vous rendez à la zone Kiss & Ride, appelez le chauffeur à votre arrivée, et en quelques minutes il arrive. Pas de frais de stationnement, pas de recherche – simplement efficace. 30 minutes d'attente gratuites incluses. Attente supplémentaire : €25,00/heure (à payer au chauffeur). Idéal pour ceux qui veulent partir rapidement et sans tracas.",
             "payment-title": "💳 Moyens de paiement – flexibles et sécurisés",
             "payment-intro": "Vous choisissez comment payer. Nous acceptons tous les modes de paiement courants, sans frais cachés :",
             "pay-cash": "Espèces", "pay-cash-text": "– Paiement en espèces au chauffeur",
@@ -648,8 +652,8 @@
             "break-label": "Break / Station wagon", "break-text": "– More luggage space: + €5",
             "exclusive-label": "Exclusive car", "exclusive-text": "(Mercedes E-Class / BMW 5 Series): + €15",
             "van-label": "Mini Van", "van-text": "(up to 8 persons): + €10",
-            "meet-label": "Meet & Greet", "meet-text": "– Personal welcome service at the arrivals hall. Your driver will be waiting with a name sign for a smooth and professional reception. Includes 30 minutes of complimentary waiting time in case of flight delays. Additional waiting time is charged at €35.00 per hour (payable to the driver). Parking fees are included. Professional and worry-free – making a strong first impression.",
-            "kiss-label": "Kiss & Ride", "kiss-text": "– Efficient and cost-effective pick-up and drop-off option without parking fees. Contact the driver upon arrival (phone number provided in the confirmation email). The driver will proceed directly to the Kiss & Ride zone for a smooth handover. Includes 30 minutes of complimentary waiting time. Additional waiting time is charged at €25.00 per hour. Ideal for business travellers seeking a quick and efficient departure.",
+            "meet-label": "Meet & Greet", "meet-text": "– A personal welcome as it should be. Your driver will be waiting in the arrivals hall with a name sign – you are recognized immediately and escorted to your vehicle. Perfect for business travellers, first impressions, and those who value a flawless service. Includes 30 minutes complimentary waiting time in case of delays and parking fees fully included. Additional waiting time: €35.00/hour (payable to the driver).",
+            "kiss-label": "Kiss & Ride", "kiss-text": "– Fast, efficient and cost-free. Walk to the Kiss & Ride zone, call the driver upon arrival, and within minutes they will pull up. No parking fees, no searching – just efficient. Includes 30 minutes complimentary waiting time. Additional waiting time: €25.00/hour (payable to the driver). Ideal for those who want to depart quickly and without hassle.",
             "payment-title": "💳 Payment methods – flexible and secure",
             "payment-intro": "You choose how to pay. We accept all common payment methods, with no hidden fees:",
             "pay-cash": "Cash", "pay-cash-text": "– Pay in cash to the driver",
