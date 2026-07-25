@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -293,20 +292,24 @@
             gap: 40px;
             margin-bottom: 30px;
         }
-        .footer-brand h4, .footer-ryz3n h4, .footer-legal h4, .footer-partners h4 {
+        .footer-grid h4 {
             color: var(--primary);
             margin-bottom: 16px;
             font-size: 1.2rem;
         }
-        .footer-brand p, .footer-ryz3n a, .footer-legal a, .footer-partners a {
+        .footer-grid a {
             color: #e0edf5;
             text-decoration: none;
             line-height: 1.8;
             display: block;
         }
-        .footer-ryz3n a:hover, .footer-legal a:hover, .footer-partners a:hover {
+        .footer-grid a:hover {
             color: var(--primary);
             text-decoration: underline;
+        }
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
         }
         .footer-bottom {
             text-align: center;
@@ -416,35 +419,40 @@
         </div>
     </div>
 
+    <!-- ========== FOOTER ========== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
+
                 <div class="footer-brand">
                     <h4><i class="fas fa-crown"></i> Fleetconnect</h4>
-                    <p data-i18n="footer_text">Premium taxivervoer in België – Stijl, stiptheid en service.</p>
+                    <p>Premium taxivervoer in België – Stijl, stiptheid en service.</p>
                 </div>
-                <div class="footer-ryz3n">
-                    <h4 data-i18n="footer_links">Fleetconnect | Digital</h4>
-                    <a href="/customer" data-i18n="footer_control">Customer portal</a>
-                    <a href="/booking#booking" data-i18n="footer_dispatch">Book a ride</a>
+
+                <div>
+                    <h4>Fleetconnect | Digital Supremacy</h4>
+                    <a href="/customer">Customer portal</a>
+                    <a href="/booking#booking">Book a ride</a>
                     <a href="/PV/PVprivacy.html">Privacy</a>
                 </div>
-                <div class="footer-legal">
-                    <h4 data-i18n="footer_juridisch">Juridisch</h4>
-                    <!-- GECORRIGEERDE LINKS MET PV/ MAP -->
-                    <a href="PV/PVfaq.html">❓ FAQ</a>
-                    <a href="PV/PVprivacy.html">🔒 Privacy</a>
-                    <a href="PV/PVcookiebeleid.html">🍪 Cookiebeleid</a>
-                    <a href="PV/PValgemene-voorwaarden.html" data-i18n="footer_voorwaarden">📜 Algemene voorwaarden</a>
+
+                <div>
+                    <h4>Juridisch</h4>
+                    <a href="#">Algemene voorwaarden</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Cookiebeleid</a>
                 </div>
-                <div class="footer-partners">
-                    <h4 data-i18n="footer_partners">Partners</h4>
+
+                <div>
+                    <h4>Partners</h4>
                     <a href="#">Horizon Of Infinity</a>
                 </div>
+
             </div>
-            <div class="footer-bottom"><span data-i18n="footer_copyright">© 2026 Fleetconnect – </span><a href="#">Fleetconnect</a></div>
+            <div class="footer-bottom">© 2026 Fleetconnect – <a href="#">Fleetconnect</a></div>
         </div>
     </footer>
+
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -505,15 +513,7 @@
             "serv_excl_faq_q3": "Is de exclusieve service ook voor groepen?",
             "serv_excl_faq_a3": "– Jazeker, wij passen ons aan uw situatie aan.",
             "prev-link": "Vorige: Home",
-            "next-link": "Volgende: Vaste prijzen",
-            "footer_text": "Premium taxivervoer in België – Stijl, stiptheid en service.",
-            "footer_links": "Fleetconnect | Digital",
-            "footer_control": "Control Panel",
-            "footer_dispatch": "Taxi Dispatch",
-            "footer_juridisch": "Juridisch",
-            "footer_voorwaarden": "📜 Algemene voorwaarden",
-            "footer_partners": "Partners",
-            "footer_copyright": "© 2026 Fleetconnect – "
+            "next-link": "Volgende: Vaste prijzen"
         },
         fr: {
             "breadcrumb_home": "Accueil",
@@ -566,15 +566,7 @@
             "serv_excl_faq_q3": "Le service exclusif est-il aussi pour les groupes ?",
             "serv_excl_faq_a3": "– Absolument, nous nous adaptons à votre situation.",
             "prev-link": "Précédent: Accueil",
-            "next-link": "Suivant: Prix fixes",
-            "footer_text": "Service de taxi premium en Belgique – Style, ponctualité et service.",
-            "footer_links": "Fleetconnect | Digital",
-            "footer_control": "Panneau de contrôle",
-            "footer_dispatch": "Répartition des taxis",
-            "footer_juridisch": "Juridique",
-            "footer_voorwaarden": "📜 Conditions générales",
-            "footer_partners": "Partenaires",
-            "footer_copyright": "© 2026 Fleetconnect – "
+            "next-link": "Suivant: Prix fixes"
         },
         en: {
             "breadcrumb_home": "Home",
@@ -627,15 +619,7 @@
             "serv_excl_faq_q3": "Is exclusive service also for groups?",
             "serv_excl_faq_a3": "– Absolutely, we adapt to your situation.",
             "prev-link": "Previous: Home",
-            "next-link": "Next: Fixed prices",
-            "footer_text": "Premium taxi transport in Belgium – Style, punctuality and service.",
-            "footer_links": "Fleetconnect | Digital",
-            "footer_control": "Control Panel",
-            "footer_dispatch": "Taxi Dispatch",
-            "footer_juridisch": "Legal",
-            "footer_voorwaarden": "📜 Terms & Conditions",
-            "footer_partners": "Partners",
-            "footer_copyright": "© 2026 Fleetconnect – "
+            "next-link": "Next: Fixed prices"
         }
     };
 
@@ -766,7 +750,7 @@
     console.log('Fleetconnect - Exclusieve Service pagina geladen');
     console.log('Huidige taal:', initialLang);
     console.log('Interne links: PV.html, PV_Exclusieve_Service.html, PV-vaste-prijzen.html, PV-premium-vloot.html, PV_Luchthavenvervoer.html, PV_Zakelijk_Vervoer.html, PV_Events_Gala.html, PV_Koeriersdienst.html');
-    console.log('Footer links gecorrigeerd naar PV/ map.');
+    console.log('Footer is conform met de andere Fleetconnect pagina\'s.');
     console.log('Achtergrondafbeelding toegevoegd.');
     console.log('FAQ proefrit tekst gecorrigeerd.');
     console.log('Taalswitcher werkt met NL/FR/EN vertalingen.');
