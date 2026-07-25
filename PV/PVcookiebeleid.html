@@ -6,6 +6,7 @@
     <title>Cookiebeleid | FleetConnect</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -76,6 +77,30 @@
         .lang-btn:hover:not(.active) {
             background: rgba(44,125,160,0.2);
         }
+
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb {
+            margin: 0 0 20px 0;
+            font-size: 0.85rem;
+            color: #4a627a;
+            padding: 0;
+        }
+        .breadcrumb a {
+            color: #2c6e9e;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumb i {
+            margin: 0 8px;
+            font-size: 0.7rem;
+            color: #4a627a;
+        }
+        .breadcrumb .current {
+            color: #c9a03d;
+        }
+
         h1 {
             font-family: 'Inter', sans-serif;
             font-size: 2rem;
@@ -126,44 +151,75 @@
         }
         .cookie-table th { background: rgba(44, 125, 160, 0.1); font-weight: 600; color: #1a5c8c; }
         
-        .footer-links {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 20px 32px;
+        /* ========================================================== */
+        /* FOOTER STIJLING – EXACT GELIJK AAN BOEKINGWEBSITE          */
+        /* ========================================================== */
+        .footer-dark {
+            background: #0d1f2c;
+            color: #e0edf5;
+            padding: 48px 0 24px;
+            margin-top: 24px;
+            border-radius: 24px;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+            padding: 0 24px;
+        }
+        .footer-grid h4 {
+            color: #e0edf5;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .footer-grid a {
+            color: #e0edf5;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+        }
+        .footer-grid a:hover {
+            color: #c9a03d;
+            text-decoration: underline;
+        }
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
+        }
+        .footer-bottom {
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .footer-links a {
-            margin: 0 12px;
-            font-size: 0.8rem;
-            color: #1a5c8c;
-        }
-        .footer-links a:hover { color: #2c7da0; }
-        .back-home-btn {
-            display: inline-block;
-            background: #2c7da0;
-            color: white;
-            padding: 10px 28px;
-            border-radius: 40px;
-            font-weight: 600;
+            border-top: 1px solid rgba(224,237,245,0.2);
+            padding-top: 24px;
             font-size: 0.85rem;
-            margin-top: 16px;
-            transition: background 0.2s;
+            margin: 0 24px;
         }
-        .back-home-btn:hover {
-            background: #1a5c8c;
+        .footer-bottom a {
+            color: #c9a03d;
             text-decoration: none;
         }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        /* ========================================================== */
+
         @media (max-width: 700px) {
             .content-card { padding: 24px 20px; }
             h1 { font-size: 1.5rem; }
             h2 { font-size: 1.1rem; }
             .floating-container { margin: 20px auto; height: calc(100vh - 40px); padding: 0 16px; }
             .cookie-table th, .cookie-table td { padding: 8px 10px; font-size: 0.75rem; }
-            .footer-links a { display: inline-block; margin: 6px 8px; }
             .language-menu { top: 10px; right: 15px; gap: 6px; }
             .lang-btn { font-size: 0.7rem; padding: 2px 6px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 24px; padding: 0 16px; }
+            .footer-bottom { margin: 0 16px; }
+        }
+        @media (max-width: 500px) {
+            .content-card { padding: 18px; border-radius: 20px; }
+            .floating-container { margin: 12px auto; height: calc(100vh - 24px); padding: 0 12px; }
+            .cookie-table th, .cookie-table td { padding: 6px 8px; font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -176,6 +232,14 @@
                 <button class="lang-btn" data-lang="fr">FR</button>
                 <button class="lang-btn" data-lang="en">EN</button>
             </div>
+
+            <!-- ===== BREADCRUMB TOEGEVOEGD ===== -->
+            <div class="breadcrumb">
+                <a href="/PV/PV.html" data-i18n="breadcrumb-home">Home</a>
+                <i class="fas fa-chevron-right"></i> 
+                <span class="current" data-i18n="breadcrumb-current">Cookiebeleid</span>
+            </div>
+
             <h1 id="cookie-title">Cookiebeleid</h1>
             <div class="last-updated" id="last-updated">Laatst bijgewerkt: 1 mei 2026</div>
             
@@ -207,17 +271,60 @@
             <hr>
             <p id="copyright" style="text-align:center; font-size:0.8rem;">© 2026 FleetConnect – DZ Collection</p>
         </div>
-        
-        <div class="footer-links" id="footer-links">
-            <a href="/PV/PV.html" id="home-link">🏠 Home</a> |
-            <a href="/PV/PVfaq.html" id="faq-link">❓ FAQ</a> |
-            <a href="/PV/PVprivacy.html" id="privacy-link">🔒 Privacy</a> |
-            <a href="/PV/PVcookiebeleid.html" id="cookie-link">🍪 Cookiebeleid</a> |
-            <a href="/PV/PValgemene-voorwaarden.html" id="terms-link">📜 Voorwaarden</a>
-            <div style="margin-top: 16px;">
-                <a href="/PV/PV.html" class="back-home-btn" id="back-home-btn">← Terug naar hoofdpagina</a>
+
+        <!-- ========================================================== -->
+        <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
+        <!-- ========================================================== -->
+        <footer class="footer-dark">
+            <div class="footer-grid">
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden -->
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/taxi-brussels">Taxi Brussels</a>
+                    <a href="/taxi-antwerpen">Taxi Antwerp</a>
+                    <a href="/taxi-gent">Taxi Ghent</a>
+                    <a href="/taxi-zaventem">Taxi Zaventem</a>
+                    <a href="/taxi-leuven">Taxi Leuven</a>
+                    <a href="/taxi-mechelen">Taxi Mechelen</a>
+                    <a href="/taxi-waterloo">Taxi Waterloo</a>
+                    <a href="/taxi-brugge">Taxi Brugge</a>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
+                </div>
             </div>
-        </div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
+        </footer>
+        <!-- ========================================================== -->
+        <!-- EINDE FOOTER                                               -->
+        <!-- ========================================================== -->
+
     </div>
     
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -229,8 +336,14 @@
             maxZoom: 19
         }).addTo(map);
         
+        // ============================================================
+        // 1. VERTALINGEN (i18n) - MET BREADCRUMB TOEGEVOEGD
+        // ============================================================
+
         const cookieTranslations = {
             nl: {
+                "breadcrumb-home": "Home",
+                "breadcrumb-current": "Cookiebeleid",
                 title: "Cookiebeleid",
                 lastUpdated: "Laatst bijgewerkt: 1 mei 2026",
                 h2_1: "1. Wat zijn cookies?",
@@ -249,10 +362,11 @@
                 cookieButton: "🍪 Cookie-instellingen aanpassen",
                 h2_5: "5. Vragen?",
                 p_5: "Als u vragen heeft over ons cookiebeleid, kunt u contact met ons opnemen via <a href='mailto:info@fleetconnect.be'>info@fleetconnect.be</a>.",
-                copyright: "© 2026 FleetConnect – DZ Collection",
-                footer: { home: "🏠 Home", faq: "❓ FAQ", privacy: "🔒 Privacy", cookie: "🍪 Cookiebeleid", terms: "📜 Voorwaarden", back: "← Terug naar hoofdpagina" }
+                copyright: "© 2026 FleetConnect – DZ Collection"
             },
             fr: {
+                "breadcrumb-home": "Accueil",
+                "breadcrumb-current": "Politique des cookies",
                 title: "Politique des cookies",
                 lastUpdated: "Dernière mise à jour : 1 mai 2026",
                 h2_1: "1. Que sont les cookies ?",
@@ -271,10 +385,11 @@
                 cookieButton: "🍒 Modifier les paramètres des cookies",
                 h2_5: "5. Des questions ?",
                 p_5: "Si vous avez des questions sur notre politique des cookies, contactez-nous à <a href='mailto:info@fleetconnect.be'>info@fleetconnect.be</a>.",
-                copyright: "© 2026 FleetConnect – DZ Collection",
-                footer: { home: "🏠 Accueil", faq: "❓ FAQ", privacy: "🔒 Confidentialité", cookie: "🍪 Politique des cookies", terms: "📜 Conditions", back: "← Retour à la page d'accueil" }
+                copyright: "© 2026 FleetConnect – DZ Collection"
             },
             en: {
+                "breadcrumb-home": "Home",
+                "breadcrumb-current": "Cookie Policy",
                 title: "Cookie Policy",
                 lastUpdated: "Last updated: 1 May 2026",
                 h2_1: "1. What are cookies?",
@@ -293,13 +408,22 @@
                 cookieButton: "🍪 Adjust cookie settings",
                 h2_5: "5. Questions?",
                 p_5: "If you have any questions about our cookie policy, please contact us at <a href='mailto:info@fleetconnect.be'>info@fleetconnect.be</a>.",
-                copyright: "© 2026 FleetConnect – DZ Collection",
-                footer: { home: "🏠 Home", faq: "❓ FAQ", privacy: "🔒 Privacy", cookie: "🍪 Cookie Policy", terms: "📜 Terms", back: "← Back to homepage" }
+                copyright: "© 2026 FleetConnect – DZ Collection"
             }
         };
         
+        // ============================================================
+        // 2. SET LANGUAGE FUNCTIE - MET BREADCRUMB
+        // ============================================================
+
         function setCookieLanguage(lang) {
             const t = cookieTranslations[lang];
+            
+            // Breadcrumb
+            document.querySelector('[data-i18n="breadcrumb-home"]').innerText = t["breadcrumb-home"];
+            document.querySelector('[data-i18n="breadcrumb-current"]').innerText = t["breadcrumb-current"];
+            
+            // Titel en inhoud
             document.getElementById('cookie-title').innerText = t.title;
             document.getElementById('last-updated').innerText = t.lastUpdated;
             document.getElementById('h2-1').innerText = t.h2_1;
@@ -325,13 +449,7 @@
             document.getElementById('h2-5').innerText = t.h2_5;
             document.getElementById('p-5').innerHTML = t.p_5;
             document.getElementById('copyright').innerText = t.copyright;
-            // Footer
-            document.getElementById('home-link').innerHTML = t.footer.home;
-            document.getElementById('faq-link').innerHTML = t.footer.faq;
-            document.getElementById('privacy-link').innerHTML = t.footer.privacy;
-            document.getElementById('cookie-link').innerHTML = t.footer.cookie;
-            document.getElementById('terms-link').innerHTML = t.footer.terms;
-            document.getElementById('back-home-btn').innerHTML = t.footer.back;
+            
             // Active class
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
@@ -339,12 +457,24 @@
             });
         }
         
+        // ============================================================
+        // 3. TAALSWITCHER KLIK
+        // ============================================================
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => setCookieLanguage(btn.getAttribute('data-lang')));
         });
+        
+        // ============================================================
+        // 4. INITIËLE TAAL INSTELLEN
+        // ============================================================
+
         setCookieLanguage('nl');
         
-        // Cookie modal functies
+        // ============================================================
+        // 5. COOKIE MODAL FUNCTIES
+        // ============================================================
+
         function getCookiePreferences() { 
             const prefs = localStorage.getItem('cookiePreferences'); 
             return prefs ? JSON.parse(prefs) : null; 
@@ -364,6 +494,10 @@
             document.getElementById('close-modal')?.addEventListener('click', () => modalOverlay.remove());
         }
         document.getElementById('openCookieSettingsBtn')?.addEventListener('click', showCookieModal);
+        
+        console.log('FleetConnect - Cookiebeleid pagina geladen');
+        console.log('Breadcrumb toegevoegd: Home > Cookiebeleid');
+        console.log('Footer vervangen door de footer van de boekingwebsite');
     </script>
 </body>
 </html>
