@@ -320,6 +320,7 @@
             font-size: 0.75rem;
             color: var(--text-light);
             font-style: italic;
+            margin-top: 8px;
         }
         .nav-pagination {
             display: flex;
@@ -459,7 +460,7 @@
                                 <li><i class="fas fa-user-check"></i> <span data-i18n="std-pass">Max. 4 passagiers</span></li>
                                 <li><i class="fas fa-suitcase"></i> <span data-i18n="std-luggage">2-3 koffers</span></li>
                                 <li><i class="fas fa-wifi"></i> <span data-i18n="std-wifi">Gratis WiFi</span></li>
-                                <li><i class="fas fa-tint"></i> <span data-i18n="std-water">Waterflesje</span></li>
+                                <li><i class="fas fa-tint"></i> <span data-i18n="std-water">Waterflesje (€1,00 optie)</span></li>
                             </ul>
                             <div class="vehicle-price-badge" data-i18n="std-price">Geen meerprijs</div>
                         </div>
@@ -475,7 +476,7 @@
                                 <li><i class="fas fa-user-check"></i> <span data-i18n="break-pass">Max. 4 passagiers</span></li>
                                 <li><i class="fas fa-suitcase"></i> <span data-i18n="break-luggage">4-5 koffers</span></li>
                                 <li><i class="fas fa-wifi"></i> <span data-i18n="break-wifi">Gratis WiFi</span></li>
-                                <li><i class="fas fa-tint"></i> <span data-i18n="break-water">Waterflesje</span></li>
+                                <li><i class="fas fa-tint"></i> <span data-i18n="break-water">Waterflesje (€1,00 optie)</span></li>
                             </ul>
                             <div class="vehicle-price-badge" data-i18n="break-price">+ €5 meerprijs</div>
                         </div>
@@ -526,7 +527,7 @@
                 <p data-i18n="comfort-intro">Bij Fleetconnect reist u niet alleen van A naar B – u geniet onderweg. Daarom bieden wij standaard (of op verzoek) de volgende faciliteiten:</p>
                 <ul class="feature-list">
                     <li><i class="fas fa-wifi"></i> <strong data-i18n="comfort-wifi-label">Gratis hoog-snelheid WiFi</strong> <span data-i18n="comfort-wifi-text">– Werken of streamen onderweg</span></li>
-                    <li><i class="fas fa-tint"></i> <strong data-i18n="comfort-water-label">Premium waterflesjes</strong> <span data-i18n="comfort-water-text">– Verfrissing tijdens de rit (Spa of Evian)</span></li>
+                    <li><i class="fas fa-tint"></i> <strong data-i18n="comfort-water-label">Premium waterflesjes</strong> <span data-i18n="comfort-water-text">– €1,00 per fles (Spa of Evian) – te bestellen bij uw boeking</span></li>
                     <li><i class="fas fa-plug"></i> <strong data-i18n="comfort-charge-label">Oplaadpunten</strong> <span data-i18n="comfort-charge-text">– USB-A, USB-C snelladen en 230V stopcontact</span></li>
                     <li><i class="fas fa-newspaper"></i> <strong data-i18n="comfort-news-label">Dagbladen & magazines</strong> <span data-i18n="comfort-news-text">– Op verzoek (gratis)</span></li>
                     <li><i class="fas fa-music"></i> <strong data-i18n="comfort-audio-label">Bose premium geluidsinstallatie</strong> <span data-i18n="comfort-audio-text">– Stel uw eigen muziek samen via Bluetooth</span></li>
@@ -590,10 +591,10 @@
                         </tr>
                         <tr>
                             <td data-i18n="compare-water">Waterfles</td>
-                            <td><span class="check-yes">✅</span></td>
-                            <td><span class="check-yes">✅</span></td>
-                            <td><span class="check-yes">✅</span></td>
-                            <td><span class="check-yes">✅</span></td>
+                            <td><span class="check-yes">✅*</span></td>
+                            <td><span class="check-yes">✅*</span></td>
+                            <td><span class="check-yes">✅*</span></td>
+                            <td><span class="check-yes">✅*</span></td>
                         </tr>
                         <tr>
                             <td data-i18n="compare-heated">Verwarmde stoelen</td>
@@ -611,10 +612,10 @@
                         </tr>
                         <tr>
                             <td data-i18n="compare-meet">Meet & Greet</td>
-                            <td><span class="check-yes">✅*</span></td>
-                            <td><span class="check-yes">✅*</span></td>
-                            <td><span class="check-yes">✅*</span></td>
-                            <td><span class="check-yes">✅*</span></td>
+                            <td><span class="check-yes">✅**</span></td>
+                            <td><span class="check-yes">✅**</span></td>
+                            <td><span class="check-yes">✅**</span></td>
+                            <td><span class="check-yes">✅**</span></td>
                         </tr>
                         <tr>
                             <td data-i18n="compare-surcharge">Meerprijs tov standaard</td>
@@ -625,7 +626,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <p class="footnote" data-i18n="meet-footnote">* Meet & Greet is beschikbaar tegen een meerprijs van €5,00. Neem contact met ons op voor meer informatie.</p>
+                <p class="footnote" data-i18n="water-footnote">* Waterfles is beschikbaar tegen €1,00 per fles – te bestellen bij uw boeking.</p>
+                <p class="footnote" data-i18n="meet-footnote">** Meet & Greet is beschikbaar tegen een meerprijs van €5,00. Neem contact met ons op voor meer informatie.</p>
             </div>
 
             <div class="nav-pagination">
@@ -692,14 +694,14 @@
             "std-pass": "Max. 4 passagiers",
             "std-luggage": "2-3 koffers",
             "std-wifi": "Gratis WiFi",
-            "std-water": "Waterflesje",
+            "std-water": "Waterflesje (€1,00 optie)",
             "std-price": "Geen meerprijs",
             "break-title": "Break / Stationwagen",
             "break-desc": "Volkswagen Passat Variant, Skoda Superb Combi of equivalent. Extra bagageruimte voor lange reizen of veel bagage.",
             "break-pass": "Max. 4 passagiers",
             "break-luggage": "4-5 koffers",
             "break-wifi": "Gratis WiFi",
-            "break-water": "Waterflesje",
+            "break-water": "Waterflesje (€1,00 optie)",
             "break-price": "+ €5 meerprijs",
             "exclusive-title": "Exclusieve klasse",
             "exclusive-desc": "Mercedes-Benz E-Klasse, BMW 5 Serie of Audi A6 – het summum van autoluxe. Geniet van lederen sportstoelen met verwarming en ventilatie, een premium geluidsinstallatie van Bose of Harman Kardon, en een stille, geveerde ophanging voor een vlekkeloze rit. Perfect voor zakenreizigers, executive transfers en wie het beste verdient.",
@@ -722,7 +724,7 @@
             "comfort-wifi-label": "Gratis hoog-snelheid WiFi",
             "comfort-wifi-text": "– Werken of streamen onderweg",
             "comfort-water-label": "Premium waterflesjes",
-            "comfort-water-text": "– Verfrissing tijdens de rit (Spa of Evian)",
+            "comfort-water-text": "– €1,00 per fles (Spa of Evian) – te bestellen bij uw boeking",
             "comfort-charge-label": "Oplaadpunten",
             "comfort-charge-text": "– USB-A, USB-C snelladen en 230V stopcontact",
             "comfort-news-label": "Dagbladen & magazines",
@@ -768,7 +770,8 @@
             "surcharge-break": "+€5",
             "surcharge-excl": "+€15",
             "surcharge-van": "+€10",
-            "meet-footnote": "* Meet & Greet is beschikbaar tegen een meerprijs van €5,00. Neem contact met ons op voor meer informatie.",
+            "water-footnote": "* Waterfles is beschikbaar tegen €1,00 per fles – te bestellen bij uw boeking.",
+            "meet-footnote": "** Meet & Greet is beschikbaar tegen een meerprijs van €5,00. Neem contact met ons op voor meer informatie.",
             "prev-link": "Vorige: Vaste prijzen",
             "next-link": "Terug naar Home",
             "footer-brand-text": "Premium taxivervoer in België – Stijl, stiptheid en service.",
@@ -803,14 +806,14 @@
             "std-pass": "Max. 4 passagers",
             "std-luggage": "2-3 valises",
             "std-wifi": "WiFi gratuit",
-            "std-water": "Bouteille d'eau",
+            "std-water": "Bouteille d'eau (option à 1,00 €)",
             "std-price": "Pas de supplément",
             "break-title": "Break / Berline familiale",
             "break-desc": "Volkswagen Passat Variant, Skoda Superb Combi ou équivalent. Espace bagages supplémentaire pour longs trajets ou beaucoup de bagages.",
             "break-pass": "Max. 4 passagers",
             "break-luggage": "4-5 valises",
             "break-wifi": "WiFi gratuit",
-            "break-water": "Bouteille d'eau",
+            "break-water": "Bouteille d'eau (option à 1,00 €)",
             "break-price": "+5 € supplément",
             "exclusive-title": "Classe exclusive",
             "exclusive-desc": "Mercedes-Benz Classe E, BMW Série 5 ou Audi A6 – le summum du luxe automobile. Profitez de sièges sport en cuir chauffants et ventilés, d'un système audio premium Bose ou Harman Kardon, et d'une suspension silencieuse pour un trajet impeccable. Parfait pour les voyageurs d'affaires, les transfers exécutifs et ceux qui méritent le meilleur.",
@@ -833,7 +836,7 @@
             "comfort-wifi-label": "WiFi haut débit gratuit",
             "comfort-wifi-text": "– Travaillez ou regardez des vidéos en route",
             "comfort-water-label": "Bouteilles d'eau premium",
-            "comfort-water-text": "– Rafraîchissement pendant le trajet (Spa ou Evian)",
+            "comfort-water-text": "– 1,00 € par bouteille (Spa ou Evian) – à commander lors de votre réservation",
             "comfort-charge-label": "Points de charge",
             "comfort-charge-text": "– USB-A, USB-C charge rapide et prise 230V",
             "comfort-news-label": "Journaux & magazines",
@@ -879,7 +882,8 @@
             "surcharge-break": "+5€",
             "surcharge-excl": "+15€",
             "surcharge-van": "+10€",
-            "meet-footnote": "* Meet & Greet est disponible moyennant un supplément de €5,00. Contactez-nous pour plus d'informations.",
+            "water-footnote": "* Une bouteille d'eau est disponible au prix de 1,00 € – à commander lors de votre réservation.",
+            "meet-footnote": "** Meet & Greet est disponible moyennant un supplément de €5,00. Contactez-nous pour plus d'informations.",
             "prev-link": "Précédent : Prix fixes",
             "next-link": "Retour à l'accueil",
             "footer-brand-text": "Service de taxi premium en Belgique – Style, ponctualité et service.",
@@ -914,14 +918,14 @@
             "std-pass": "Max. 4 passengers",
             "std-luggage": "2-3 suitcases",
             "std-wifi": "Free WiFi",
-            "std-water": "Bottle of water",
+            "std-water": "Water bottle (€1.00 option)",
             "std-price": "No surcharge",
             "break-title": "Break / Station wagon",
             "break-desc": "Volkswagen Passat Variant, Skoda Superb Combi or equivalent. Extra luggage space for long trips or lots of luggage.",
             "break-pass": "Max. 4 passengers",
             "break-luggage": "4-5 suitcases",
             "break-wifi": "Free WiFi",
-            "break-water": "Bottle of water",
+            "break-water": "Water bottle (€1.00 option)",
             "break-price": "+ €5 surcharge",
             "exclusive-title": "Exclusive class",
             "exclusive-desc": "Mercedes-Benz E-Class, BMW 5 Series or Audi A6 – the pinnacle of automotive luxury. Enjoy leather sports seats with heating and ventilation, a premium Bose or Harman Kardon sound system, and a silent, air suspension for a flawless ride. Perfect for business travelers, executive transfers and those who deserve the best.",
@@ -944,7 +948,7 @@
             "comfort-wifi-label": "Free high-speed WiFi",
             "comfort-wifi-text": "– Work or stream on the go",
             "comfort-water-label": "Premium water bottles",
-            "comfort-water-text": "– Refreshment during the ride (Spa or Evian)",
+            "comfort-water-text": "– €1.00 per bottle (Spa or Evian) – order when booking",
             "comfort-charge-label": "Charging points",
             "comfort-charge-text": "– USB-A, USB-C fast charging and 230V outlet",
             "comfort-news-label": "Newspapers & magazines",
@@ -981,7 +985,7 @@
             "compare-luggage": "Luggage (suitcases)",
             "compare-leather": "Leather upholstery",
             "compare-wifi": "WiFi",
-            "compare-water": "Water",
+            "compare-water": "Water bottle",
             "compare-heated": "Heated seats",
             "compare-usb": "USB ports",
             "compare-meet": "Meet & Greet",
@@ -990,7 +994,8 @@
             "surcharge-break": "+€5",
             "surcharge-excl": "+€15",
             "surcharge-van": "+€10",
-            "meet-footnote": "* Meet & Greet is available at an additional cost of €5.00. Please contact us for more information.",
+            "water-footnote": "* Water bottle is available at €1.00 per bottle – order when booking.",
+            "meet-footnote": "** Meet & Greet is available at an additional cost of €5.00. Please contact us for more information.",
             "prev-link": "Previous: Fixed prices",
             "next-link": "Back to Home",
             "footer-brand-text": "Premium taxi transport in Belgium – Style, punctuality and service.",
@@ -1134,9 +1139,8 @@
     console.log('Huidige taal:', initialLang);
     console.log('Interne links: PV.html, PV_Exclusieve_Service.html, PV-vaste-prijzen.html, PV-premium-vloot.html, PV_Luchthavenvervoer.html, PV_Zakelijk_Vervoer.html, PV_Events_Gala.html, PV_Koeriersdienst.html');
     console.log('Taalswitcher werkt met NL/FR/EN vertalingen.');
-    console.log('Alle voertuigbeschrijvingen zijn uitgebreid en conform het concept.');
-    console.log('Winterbanden tekst is gecorrigeerd.');
-    console.log('Meet & Greet in tabel heeft voetnoot over meerprijs van €5,00.');
+    console.log('Waterfles: €1,00 per fles - te bestellen bij boeking.');
+    console.log('Meet & Greet: +€5,00 meerprijs.');
 </script>
 </body>
 </html>
