@@ -241,7 +241,7 @@
         }
         
         /* ========================================================== */
-        /* FOOTER – EXACT GELIJK AAN ALGEMENE VOORWAARDEN             */
+        /* FOOTER – EXACT GELIJK AAN ALGEMENE VOORWAARDEN (IN CONTAINER) */
         /* ========================================================== */
         .footer-dark {
             background: #0d1f2c;
@@ -333,7 +333,7 @@
             .language-switcher { top: 10px; right: 15px; gap: 6px; padding: 4px 10px; }
             .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
             .breadcrumb { padding-top: 50px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+            .footer-grid { flex-direction: column; gap: 24px; }
             .faq-question { padding: 14px 18px; font-size: 0.9rem; }
         }
         @media (max-width: 500px) {
@@ -450,7 +450,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     // ============================================================
-    // 1. VERTALINGEN (i18n)
+    // 1. VERTALINGEN (i18n) – zelfde als in uw voorbeeld
     // ============================================================
 
     const faqTranslations = {
@@ -562,7 +562,7 @@
         // FAQ items
         const container = document.getElementById('faq-container');
         container.innerHTML = '';
-        data.items.forEach((item, idx) => {
+        data.items.forEach((item) => {
             const faqDiv = document.createElement('div');
             faqDiv.className = 'faq-item';
             faqDiv.innerHTML = `
@@ -626,7 +626,7 @@
     setLanguage(initialLang);
 
     // ============================================================
-    // 7. LEAFLET KAART
+    // 7. LEAFLET KAART (IDEM ALS ALGEMENE VOORWAARDEN)
     // ============================================================
 
     (function initMap() {
@@ -686,7 +686,7 @@
 
     console.log('FleetConnect - FAQ pagina geladen');
     console.log('Huidige taal:', initialLang);
-    console.log('Footer exact gelijk aan Algemene Voorwaarden pagina (volledige breedte)');
+    console.log('Footer exact gelijk aan Algemene Voorwaarden (in container)');
     console.log('Annuleringstermijn: 2 uur (conform AV)');
     console.log('Wachttijd: 30 min gratis, daarna €35/uur (conform AV)');
 </script>
