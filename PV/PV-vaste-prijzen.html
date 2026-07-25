@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -643,9 +644,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- ===== AANGEPASTE RIJ ===== -->
                             <tr>
-                                <td>Zaventem & omliggende regio (Machelen, Diegem, Peutie, Perk, etc...) ⇄ Brussel Airport</td>
+                                <td>Zaventem & omliggende regio (Machelen, Diegem, Peutie, Perk) ⇄ Brussel Airport</td>
                                 <td>± 5-10 km</td>
                                 <td><strong>€ 30,00</strong></td>
                                 <td>± 15 min</td>
@@ -958,6 +958,9 @@
                 try {
                     localStorage.setItem('preferredLanguage', lang);
                 } catch (e) { /* ignore */ }
+
+                // Voor nu: we doen niets met de vertalingen omdat alle tekst al hardcoded in de HTML staat
+                // Dit is bewust zo gemaakt om problemen met data-i18n te voorkomen
 
                 console.log('Taal gewijzigd naar:', lang);
             });
