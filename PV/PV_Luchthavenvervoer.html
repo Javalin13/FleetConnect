@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Luchthavenvervoer | Fleetconnect</title>
+
+    <!-- Externe bronnen -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        /* ========== ROOT VARIABLES ========== */
         :root {
             --bg-body: #f4f7fc;
             --primary: #2c6e9e;
@@ -21,15 +25,26 @@
             --border-light: #e2edf7;
             --shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; height: 100%; }
-        body {
+
+        /* ========== RESET & BASE ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: 'Inter', sans-serif;
             background: var(--bg-body);
             color: var(--text-dark);
             line-height: 1.5;
             overflow-x: hidden;
         }
+
+        /* ========== ACHTERGROND ========== */
         #background-map {
             position: fixed;
             top: 0;
@@ -37,8 +52,15 @@
             width: 100%;
             height: 100%;
             z-index: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             filter: brightness(1.05) contrast(1.02);
+            opacity: 0.9;
         }
+
         .content-overlay {
             position: relative;
             z-index: 10;
@@ -48,13 +70,16 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* ========== CONTAINER ========== */
         .container {
             width: 100%;
             max-width: 1300px;
             margin: 0 auto;
             padding: 0 24px;
         }
-        /* Taalwisselaar (rechtsboven) */
+
+        /* ========== TAALSWITCHER ========== */
         .language-switcher {
             position: fixed;
             top: 20px;
@@ -68,6 +93,7 @@
             backdrop-filter: blur(4px);
             border: 1px solid rgba(0,0,0,0.1);
         }
+
         .lang-btn {
             background: var(--white);
             border: 1px solid var(--border-light);
@@ -77,116 +103,64 @@
             font-weight: 600;
             transition: 0.2s;
             color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
         }
-        .lang-btn:hover, .lang-btn.active {
+
+        .lang-btn:hover,
+        .lang-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-        /* Breadcrumb */
+
+        /* ========== BREADCRUMB ========== */
         .breadcrumb {
             margin: 30px 0 20px;
             font-size: 0.85rem;
             color: var(--text-light);
             padding-top: 60px;
         }
+
         .breadcrumb a {
             color: var(--primary);
             text-decoration: none;
         }
+
         .breadcrumb a:hover {
             text-decoration: underline;
         }
+
         .breadcrumb i {
             margin: 0 8px;
             font-size: 0.7rem;
         }
+
+        .breadcrumb .current {
+            color: var(--accent-gold);
+        }
+
+        /* ========== PAGINATITEL ========== */
         .page-title {
             font-size: 2rem;
             font-weight: 800;
             color: var(--primary);
             margin-bottom: 20px;
         }
+
         .page-title i {
             color: var(--accent-gold);
             margin-right: 15px;
         }
+
         .intro-text {
             font-size: 1.1rem;
             color: var(--text-light);
             max-width: 800px;
             margin-bottom: 30px;
         }
-        .content-section {
-            padding: 40px 0 60px;
-        }
-        .content-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--border-light);
-            border-radius: 32px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow);
-        }
-        .content-card h2 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--accent-gold);
-            padding-left: 20px;
-        }
-        .content-card h3 {
-            color: var(--text-dark);
-            font-size: 1.3rem;
-            margin: 25px 0 15px 0;
-        }
-        .content-card p {
-            color: var(--text-light);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-        .feature-list {
-            list-style: none;
-            margin: 20px 0;
-        }
-        .feature-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-light);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .feature-list li i {
-            color: var(--accent-green);
-            width: 24px;
-            font-size: 1.2rem;
-        }
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(44,110,158,0.05) 0%, rgba(107,140,66,0.05) 100%);
-            border-left: 4px solid var(--accent-gold);
-            padding: 25px;
-            border-radius: 20px;
-            margin: 30px 0;
-        }
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-        }
-        .price-table th, .price-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .price-table th {
-            background: rgba(44,110,158,0.1);
-            color: var(--primary);
-            font-weight: 700;
-        }
-        .price-table tr:hover {
-            background: rgba(44,110,158,0.05);
-        }
+
+        /* ========== KNOPS ========== */
         .btn-primary {
             background: var(--primary);
             color: white;
@@ -200,11 +174,132 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            font-family: 'Inter', sans-serif;
         }
+
         .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
         }
+
+        /* ========== CONTENT SECTIE ========== */
+        .content-section {
+            padding: 40px 0 60px;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-light);
+            border-radius: 32px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .content-card h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 20px;
+        }
+
+        .content-card h3 {
+            color: var(--text-dark);
+            font-size: 1.3rem;
+            margin: 25px 0 15px 0;
+        }
+
+        .content-card p {
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        /* ========== FEATURE LIST ========== */
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li i {
+            color: var(--accent-green);
+            width: 24px;
+            font-size: 1.2rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .feature-list li strong {
+            min-width: 140px;
+            flex-shrink: 0;
+        }
+
+        .feature-list li span {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ========== HIGHLIGHT BOX ========== */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(44, 110, 158, 0.05) 0%, rgba(107, 140, 66, 0.05) 100%);
+            border-left: 4px solid var(--accent-gold);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .highlight-box i {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* ========== PRIJSTABEL ========== */
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        .price-table th,
+        .price-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .price-table th {
+            background: rgba(44, 110, 158, 0.1);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .price-table tr:hover {
+            background: rgba(44, 110, 158, 0.05);
+        }
+
+        /* ========== TABS ========== */
         .nav-tabs {
             display: flex;
             justify-content: center;
@@ -212,6 +307,7 @@
             margin: 20px 0;
             flex-wrap: wrap;
         }
+
         .nav-tab {
             background: var(--card-bg);
             backdrop-filter: blur(4px);
@@ -226,16 +322,21 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Inter', sans-serif;
         }
+
         .nav-tab:hover {
             border-color: var(--primary);
             transform: translateY(-2px);
         }
+
         .nav-tab.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
+
+        /* ========== NAV PAGINATION ========== */
         .nav-pagination {
             display: flex;
             justify-content: space-between;
@@ -243,7 +344,10 @@
             margin-top: 40px;
             padding-top: 30px;
             border-top: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 16px;
         }
+
         .nav-pagination a {
             background: var(--primary);
             color: white;
@@ -255,16 +359,21 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            font-family: 'Inter', sans-serif;
         }
+
         .nav-pagination a:hover {
             background: var(--primary-dark);
         }
+
+        /* ========== FOOTER ========== */
         .footer-dark {
             background: #0d1f2c;
             color: #e0edf5;
             padding: 48px 0 24px;
             margin-top: 60px;
         }
+
         .footer-grid {
             display: flex;
             justify-content: space-between;
@@ -272,325 +381,790 @@
             gap: 40px;
             margin-bottom: 30px;
         }
-        .footer-brand h4, .footer-ryz3n h4, .footer-legal h4, .footer-partners h4 {
+
+        .footer-grid h4 {
             color: var(--primary);
             margin-bottom: 16px;
             font-size: 1.2rem;
         }
-        .footer-brand p, .footer-ryz3n a, .footer-legal a, .footer-partners a {
+
+        .footer-grid a {
             color: #e0edf5;
             text-decoration: none;
             line-height: 1.8;
             display: block;
         }
-        .footer-ryz3n a:hover, .footer-legal a:hover, .footer-partners a:hover {
+
+        .footer-grid a:hover {
             color: var(--primary);
             text-decoration: underline;
         }
+
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
+        }
+
         .footer-bottom {
             text-align: center;
-            border-top: 1px solid rgba(224,237,245,0.2);
+            border-top: 1px solid rgba(224, 237, 245, 0.2);
             padding-top: 24px;
             font-size: 0.85rem;
         }
+
         .footer-bottom a {
             color: var(--primary);
             text-decoration: none;
         }
+
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
-            .page-title { font-size: 1.5rem; }
-            .content-card { padding: 25px; }
-            .price-table th, .price-table td { padding: 10px; font-size: 0.85rem; }
-            .language-switcher { top: 10px; right: 15px; gap: 6px; }
-            .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
-            .breadcrumb { padding-top: 50px; }
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+
+            .content-card h2 {
+                font-size: 1.4rem;
+            }
+
+            .price-table th,
+            .price-table td {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+
+            .language-switcher {
+                top: 10px;
+                right: 15px;
+                gap: 6px;
+                padding: 4px 10px;
+            }
+
+            .lang-btn {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+
+            .breadcrumb {
+                padding-top: 50px;
+            }
+
+            .feature-list li {
+                flex-wrap: wrap;
+            }
+
+            .feature-list li strong {
+                min-width: 100px;
+            }
+
+            .nav-pagination {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-pagination a {
+                justify-content: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .content-card {
+                padding: 18px;
+                border-radius: 20px;
+            }
+
+            .price-table th,
+            .price-table td {
+                padding: 8px;
+                font-size: 0.75rem;
+            }
+
+            .nav-tabs {
+                gap: 6px;
+            }
+
+            .nav-tab {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+
+            .page-title {
+                font-size: 1.3rem;
+            }
+
+            .intro-text {
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
+
 <body>
-<div id="background-map"></div>
 
-<div class="content-overlay">
-    <div class="language-switcher">
-        <button class="lang-btn" data-lang="nl">NL</button>
-        <button class="lang-btn" data-lang="fr">FR</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- ========== ACHTERGROND ========== -->
+    <div id="background-map"></div>
 
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="PV.html" data-i18n="breadcrumb-home">Home</a> 
-            <i class="fas fa-chevron-right"></i> 
-            <span style="color: var(--accent-gold);" data-i18n="breadcrumb-current">Luchthavenvervoer</span>
+    <!-- ========== CONTENT OVERLAY ========== -->
+    <div class="content-overlay">
+
+        <!-- ========== TAALSWITCHER ========== -->
+        <div class="language-switcher">
+            <button class="lang-btn active" data-lang="nl">NL</button>
+            <button class="lang-btn" data-lang="fr">FR</button>
+            <button class="lang-btn" data-lang="en">EN</button>
         </div>
-        <h1 class="page-title"><i class="fas fa-plane-departure"></i> <span data-i18n="page-title">Luchthavenvervoer</span></h1>
-        <p class="intro-text" data-i18n="intro-text">Zorgeloos en stipt naar alle Belgische luchthavens. Vaste prijzen, vluchtmonitoring en een persoonlijke chauffeur die u opwacht.</p>
-        <a href="PV.html#booking" class="btn-primary"><i class="fas fa-calendar-check"></i> <span data-i18n="book-btn">Reserveer nu uw luchthavenrit</span></a>
-    </div>
 
-    <div class="container">
-        <div class="nav-tabs">
-            <a href="PV.html" class="nav-tab"><i class="fas fa-home"></i> <span data-i18n="tab-home">Home</span></a>
-            <a href="PV_Exclusieve_Service.html" class="nav-tab"><i class="fas fa-gem"></i> <span data-i18n="tab-exclusive">Exclusief</span></a>
-            <a href="PV-vaste-prijzen.html" class="nav-tab"><i class="fas fa-euro-sign"></i> <span data-i18n="tab-prices">Prijzen</span></a>
-            <a href="PV-premium-vloot.html" class="nav-tab"><i class="fas fa-car-side"></i> <span data-i18n="tab-fleet">Vloot</span></a>
-            <a href="PV_Luchthavenvervoer.html" class="nav-tab active"><i class="fas fa-plane-departure"></i> <span data-i18n="tab-airport">Luchthaven</span></a>
-            <a href="PV_Zakelijk_Vervoer.html" class="nav-tab"><i class="fas fa-briefcase"></i> <span data-i18n="tab-business">Zakelijk</span></a>
-            <a href="PV_Events_Gala.html" class="nav-tab"><i class="fas fa-glass-cheers"></i> <span data-i18n="tab-events">Events</span></a>
-            <a href="PV_Koeriersdienst.html" class="nav-tab"><i class="fas fa-file-signature"></i> <span data-i18n="tab-courier">Koerier</span></a>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="content-section">
-            <div class="content-card">
-                <h2><span data-i18n="card-title">✈️ Waarom Fleetconnect voor uw luchthavenvervoer?</span></h2>
-                <p data-i18n="card-intro">Reizen naar de luchthaven kan stressvol zijn. Files, parkeerproblemen, vertraagde vluchten... Bij Fleetconnect nemen wij alle zorgen uit handen. Wij bieden een premium luchthaventransfer service die draait om betrouwbaarheid, comfort en gemoedsrust.</p>
-                
-                <div class="highlight-box">
-                    <i class="fas fa-star" style="color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 15px; display: inline-block;"></i>
-                    <p style="font-size: 1.1rem; font-weight: 500;" data-i18n="highlight-text">"Uw vlucht wordt real-time gevolgd – wij wachten, ook als uw vliegtuig vertraging heeft."</p>
-                </div>
-
-                <h3 data-i18n="monitoring-title">🛬 Vluchtmonitoring – altijd op tijd, altijd aanwezig</h3>
-                <p data-i18n="monitoring-text">Ons geavanceerde vluchtvolgsysteem is gekoppeld aan alle Belgische luchthavens. Wij weten precies wanneer uw vliegtuig landt, ook bij vertraging. Uw chauffeur past de ophaaltijd automatisch aan, zonder dat u iets hoeft te doen. Geen wachttijden, geen stress.</p>
-
-                <h3 data-i18n="airports-title">📍 Alle Belgische luchthavens</h3>
-                <p data-i18n="airports-sub">Wij verzorgen vervoer naar en van alle Belgische luchthavens:</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="airport-1-label">Brussel Airport (Zaventem - BRU)</strong> <span data-i18n="airport-1-text">– België's grootste luchthaven</span></li>
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="airport-2-label">Brussels South Charleroi Airport (CRL)</strong> <span data-i18n="airport-2-text">– Low-cost hub</span></li>
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="airport-3-label">Antwerp International Airport (ANR)</strong> <span data-i18n="airport-3-text">– Zakenluchthaven</span></li>
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="airport-4-label">Liège Airport (LGG)</strong> <span data-i18n="airport-4-text">– Vracht en passagiers</span></li>
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="airport-5-label">Oostende-Brugge International Airport (OST)</strong> <span data-i18n="airport-5-text">– Kustregio</span></li>
-                </ul>
-
-                <h3 data-i18n="prices-title">💰 Vaste prijzen naar luchthavens</h3>
-                <table class="price-table">
-                    <thead><tr><th data-i18n="table-header-route">Route</th><th data-i18n="table-header-distance">Afstand</th><th data-i18n="table-header-price">Vaste prijs</th><th data-i18n="table-header-time">Reistijd</th></tr></thead>
-                    <tbody>
-                        <tr><td data-i18n="route-1">Antwerpen Centraal → Brussel Airport (BRU)</td><td>45 km</td><td><strong>€ 67,50</strong></td><td data-i18n="time-1">± 40 min</td></tr>
-                        <tr><td data-i18n="route-2">Brussel Zuid (Midi) → Charleroi Airport (CRL)</td><td>58 km</td><td><strong>€ 87,00</strong></td><td data-i18n="time-2">± 50 min</td></tr>
-                        <tr><td data-i18n="route-3">Gent Sint-Pieters → Brussel Airport (BRU)</td><td>62 km</td><td><strong>€ 93,00</strong></td><td data-i18n="time-3">± 55 min</td></tr>
-                        <tr><td data-i18n="route-4">Leuven → Brussel Airport (BRU)</td><td>25 km</td><td><strong>€ 37,50</strong></td><td data-i18n="time-4">± 25 min</td></tr>
-                        <tr><td data-i18n="route-5">Luik-Guillemins → Charleroi Airport (CRL)</td><td>85 km</td><td><strong>€ 127,50</strong></td><td data-i18n="time-5">± 70 min</td></tr>
-                        <tr><td data-i18n="route-6">Brugge → Brussel Airport (BRU)</td><td>110 km</td><td><strong>€ 165,00</strong></td><td data-i18n="time-6">± 90 min</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 data-i18n="meeting-title">🅿️ Meeting points per luchthaven</h3>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="meeting-1-label">Brussel Airport (BRU):</strong> <span data-i18n="meeting-1-text">Vertrekhal niveau 3, bij de Starbucks</span></li>
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="meeting-2-label">Charleroi Airport (CRL):</strong> <span data-i18n="meeting-2-text">Aankomsthal, bij de informatiebalie</span></li>
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="meeting-3-label">Antwerpen Airport (ANR):</strong> <span data-i18n="meeting-3-text">Hoofdingang, bij de Fleetconnect vlag</span></li>
-                </ul>
-
-                <h3 data-i18n="faq-title">❓ Veelgestelde vragen</h3>
-                <ul class="feature-list">
-                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q1">Wat als mijn vlucht vertraging heeft?</strong> <span data-i18n="faq-a1">- Wij volgen uw vlucht real-time en wachten gratis. Geen extra kosten.</span></li>
-                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q2">Hoeveel bagage mag ik meenemen?</strong> <span data-i18n="faq-a2">- Standaard 2 koffers + handbagage per persoon. Meer bagage mogelijk op aanvraag.</span></li>
-                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q3">Wordt de prijs hoger bij vertraging?</strong> <span data-i18n="faq-a3">- Nee, u betaalt de vastgestelde prijs, ongeacht wachttijd.</span></li>
-                </ul>
-
-                <div class="nav-pagination">
-                    <a href="PV.html"><i class="fas fa-arrow-left"></i> <span data-i18n="prev-link">Terug naar Home</span></a>
-                    <a href="PV_Zakelijk_Vervoer.html"><span data-i18n="next-link">Volgende: Zakelijk vervoer</span> <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer-dark">
+        <!-- ========== CONTAINER - TOP ========== -->
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand"><h4><i class="fas fa-crown"></i> Fleetconnect</h4><p data-i18n="footer-brand-text">Premium taxivervoer in België – Stijl, stiptheid en service.</p></div>
-                <div class="footer-ryz3n"><h4>Fleetconnect | Digital Supremacy</h4><a href="/customer" data-i18n="footer-control">Customer portal</a><a href="/booking#booking" data-i18n="footer-dispatch">Book a ride</a><a href="/PV/PVprivacy.html" data-i18n="footer-legal">Privacy</a></div>
-                <div class="footer-legal"><h4 data-i18n="footer-legal-title">Juridisch</h4><a href="#" data-i18n="footer-tos">Algemene voorwaarden</a><a href="#" data-i18n="footer-privacy">Privacy</a><a href="#" data-i18n="footer-cookies">Cookiebeleid</a></div>
-                <div class="footer-partners"><h4 data-i18n="footer-partners-title">Partners</h4><a href="#">Horizon Of Infinity</a></div>
+
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="PV.html" data-i18n="breadcrumb-home">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span class="current" data-i18n="breadcrumb-current">Luchthavenvervoer</span>
             </div>
-            <div class="footer-bottom"><span data-i18n="footer-copyright">© 2026 Fleetconnect – </span><a href="#">Fleetconnect</a></div>
+
+            <!-- Titel -->
+            <h1 class="page-title">
+                <i class="fas fa-plane-departure"></i>
+                <span data-i18n="page-title">Luchthavenvervoer</span>
+            </h1>
+
+            <!-- Intro -->
+            <p class="intro-text" data-i18n="intro-text">
+                Zorgeloos en stipt naar alle Belgische en internationale luchthavens. Vaste prijzen, vluchtmonitoring en een persoonlijke chauffeur die u opwacht.
+            </p>
+
+            <a href="PV.html#booking" class="btn-primary" data-i18n="book-btn">
+                <i class="fas fa-calendar-check"></i> Reserveer nu uw luchthavenrit
+            </a>
         </div>
-    </footer>
-</div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    const translations = {
-        nl: {
-            "breadcrumb-home": "Home", "breadcrumb-current": "Luchthavenvervoer", "page-title": "Luchthavenvervoer",
-            "intro-text": "Zorgeloos en stipt naar alle Belgische luchthavens. Vaste prijzen, vluchtmonitoring en een persoonlijke chauffeur die u opwacht.",
-            "book-btn": "Reserveer nu uw luchthavenrit",
-            "tab-home": "Home", "tab-exclusive": "Exclusief", "tab-prices": "Prijzen", "tab-fleet": "Vloot", "tab-airport": "Luchthaven", "tab-business": "Zakelijk", "tab-events": "Events", "tab-courier": "Koerier",
-            "card-title": "✈️ Waarom Fleetconnect voor uw luchthavenvervoer?",
-            "card-intro": "Reizen naar de luchthaven kan stressvol zijn. Files, parkeerproblemen, vertraagde vluchten... Bij Fleetconnect nemen wij alle zorgen uit handen. Wij bieden een premium luchthaventransfer service die draait om betrouwbaarheid, comfort en gemoedsrust.",
-            "highlight-text": "\"Uw vlucht wordt real-time gevolgd – wij wachten, ook als uw vliegtuig vertraging heeft.\"",
-            "monitoring-title": "🛬 Vluchtmonitoring – altijd op tijd, altijd aanwezig",
-            "monitoring-text": "Ons geavanceerde vluchtvolgsysteem is gekoppeld aan alle Belgische luchthavens. Wij weten precies wanneer uw vliegtuig landt, ook bij vertraging. Uw chauffeur past de ophaaltijd automatisch aan, zonder dat u iets hoeft te doen. Geen wachttijden, geen stress.",
-            "airports-title": "📍 Alle Belgische luchthavens",
-            "airports-sub": "Wij verzorgen vervoer naar en van alle Belgische luchthavens:",
-            "airport-1-label": "Brussel Airport (Zaventem - BRU)", "airport-1-text": "– België's grootste luchthaven",
-            "airport-2-label": "Brussels South Charleroi Airport (CRL)", "airport-2-text": "– Low-cost hub",
-            "airport-3-label": "Antwerp International Airport (ANR)", "airport-3-text": "– Zakenluchthaven",
-            "airport-4-label": "Liège Airport (LGG)", "airport-4-text": "– Vracht en passagiers",
-            "airport-5-label": "Oostende-Brugge International Airport (OST)", "airport-5-text": "– Kustregio",
-            "prices-title": "💰 Vaste prijzen naar luchthavens",
-            "table-header-route": "Route", "table-header-distance": "Afstand", "table-header-price": "Vaste prijs", "table-header-time": "Reistijd",
-            "route-1": "Antwerpen Centraal → Brussel Airport (BRU)", "time-1": "± 40 min",
-            "route-2": "Brussel Zuid (Midi) → Charleroi Airport (CRL)", "time-2": "± 50 min",
-            "route-3": "Gent Sint-Pieters → Brussel Airport (BRU)", "time-3": "± 55 min",
-            "route-4": "Leuven → Brussel Airport (BRU)", "time-4": "± 25 min",
-            "route-5": "Luik-Guillemins → Charleroi Airport (CRL)", "time-5": "± 70 min",
-            "route-6": "Brugge → Brussel Airport (BRU)", "time-6": "± 90 min",
-            "meeting-title": "🅿️ Meeting points per luchthaven",
-            "meeting-1-label": "Brussel Airport (BRU):", "meeting-1-text": "Vertrekhal niveau 3, bij de Starbucks",
-            "meeting-2-label": "Charleroi Airport (CRL):", "meeting-2-text": "Aankomsthal, bij de informatiebalie",
-            "meeting-3-label": "Antwerpen Airport (ANR):", "meeting-3-text": "Hoofdingang, bij de Fleetconnect vlag",
-            "faq-title": "❓ Veelgestelde vragen",
-            "faq-q1": "Wat als mijn vlucht vertraging heeft?", "faq-a1": "- Wij volgen uw vlucht real-time en wachten gratis. Geen extra kosten.",
-            "faq-q2": "Hoeveel bagage mag ik meenemen?", "faq-a2": "- Standaard 2 koffers + handbagage per persoon. Meer bagage mogelijk op aanvraag.",
-            "faq-q3": "Wordt de prijs hoger bij vertraging?", "faq-a3": "- Nee, u betaalt de vastgestelde prijs, ongeacht wachttijd.",
-            "prev-link": "Terug naar Home", "next-link": "Volgende: Zakelijk vervoer",
-            "footer-brand-text": "Premium taxivervoer in België – Stijl, stiptheid en service.",
-            "footer-control": "Control Panel", "footer-dispatch": "Taxi Dispatch", "footer-legal": "Legal & Privacy",
-            "footer-legal-title": "Juridisch", "footer-tos": "Algemene voorwaarden", "footer-privacy": "Privacy", "footer-cookies": "Cookiebeleid",
-            "footer-partners-title": "Partners", "footer-copyright": "© 2026 Fleetconnect – "
-        },
-        fr: {
-            "breadcrumb-home": "Accueil", "breadcrumb-current": "Transport aéroport", "page-title": "Transport aéroport",
-            "intro-text": "Vers tous les aéroports belges sans souci et à l'heure. Prix fixes, suivi de vol et chauffeur personnel qui vous attend.",
-            "book-btn": "Réservez votre trajet aéroport",
-            "tab-home": "Accueil", "tab-exclusive": "Exclusif", "tab-prices": "Prix fixes", "tab-fleet": "Flotte", "tab-airport": "Aéroport", "tab-business": "Affaires", "tab-events": "Événements", "tab-courier": "Messagerie",
-            "card-title": "✈️ Pourquoi Fleetconnect pour votre transport aéroportuaire?",
-            "card-intro": "Voyager vers l'aéroport peut être stressant. Bouchons, problèmes de stationnement, vols retardés... Chez Fleetconnect, nous vous déchargeons de tous vos soucis. Nous offrons un service de transfert aéroportuaire premium axé sur la fiabilité, le confort et la tranquillité d'esprit.",
-            "highlight-text": "\"Votre vol est suivi en temps réel – nous attendons, même si votre avion a du retard.\"",
-            "monitoring-title": "🛬 Suivi de vol – toujours à l'heure, toujours présent",
-            "monitoring-text": "Notre système avancé de suivi de vol est connecté à tous les aéroports belges. Nous savons exactement quand votre avion atterrit, même en cas de retard. Votre chauffeur ajuste automatiquement l'heure de prise en charge, sans que vous ayez rien à faire. Pas d'attente, pas de stress.",
-            "airports-title": "📍 Tous les aéroports belges",
-            "airports-sub": "Nous assurons le transport vers et depuis tous les aéroports belges :",
-            "airport-1-label": "Aéroport de Bruxelles (Zaventem - BRU)", "airport-1-text": "– Le plus grand aéroport de Belgique",
-            "airport-2-label": "Aéroport de Charleroi Bruxelles-Sud (CRL)", "airport-2-text": "– Hub low-cost",
-            "airport-3-label": "Aéroport international d'Anvers (ANR)", "airport-3-text": "– Aéroport d'affaires",
-            "airport-4-label": "Aéroport de Liège (LGG)", "airport-4-text": "– Fret et passagers",
-            "airport-5-label": "Aéroport international d'Ostende-Bruges (OST)", "airport-5-text": "– Région côtière",
-            "prices-title": "💰 Prix fixes vers les aéroports",
-            "table-header-route": "Itinéraire", "table-header-distance": "Distance", "table-header-price": "Prix fixe", "table-header-time": "Temps de trajet",
-            "route-1": "Anvers-Central → Aéroport de Bruxelles (BRU)", "time-1": "± 40 min",
-            "route-2": "Bruxelles-Midi → Aéroport de Charleroi (CRL)", "time-2": "± 50 min",
-            "route-3": "Gand Saint-Pierre → Aéroport de Bruxelles (BRU)", "time-3": "± 55 min",
-            "route-4": "Louvain → Aéroport de Bruxelles (BRU)", "time-4": "± 25 min",
-            "route-5": "Liège-Guillemins → Aéroport de Charleroi (CRL)", "time-5": "± 70 min",
-            "route-6": "Bruges → Aéroport de Bruxelles (BRU)", "time-6": "± 90 min",
-            "meeting-title": "🅿️ Points de rendez-vous par aéroport",
-            "meeting-1-label": "Aéroport de Bruxelles (BRU):", "meeting-1-text": "Hall des départs niveau 3, près du Starbucks",
-            "meeting-2-label": "Aéroport de Charleroi (CRL):", "meeting-2-text": "Hall des arrivées, près du comptoir d'information",
-            "meeting-3-label": "Aéroport d'Anvers (ANR):", "meeting-3-text": "Entrée principale, près du drapeau Fleetconnect",
-            "faq-title": "❓ Questions fréquentes",
-            "faq-q1": "Que faire si mon vol a du retard ?", "faq-a1": "- Nous suivons votre vol en temps réel et attendons gratuitement. Pas de frais supplémentaires.",
-            "faq-q2": "Combien de bagages puis-je emporter ?", "faq-a2": "- Standard : 2 valises + bagage à main par personne. Plus de bagages possible sur demande.",
-            "faq-q3": "Le prix augmente-t-il en cas de retard ?", "faq-a3": "- Non, vous payez le prix convenu, quel que soit le temps d'attente.",
-            "prev-link": "Retour à l'accueil", "next-link": "Suivant: Transport d'affaires",
-            "footer-brand-text": "Service de taxi premium en Belgique – Style, ponctualité et service.",
-            "footer-control": "Panneau de contrôle", "footer-dispatch": "Répartition des taxis", "footer-legal": "Juridique et confidentialité",
-            "footer-legal-title": "Juridique", "footer-tos": "Conditions générales", "footer-privacy": "Confidentialité", "footer-cookies": "Politique de cookies",
-            "footer-partners-title": "Partenaires", "footer-copyright": "© 2026 Fleetconnect – "
-        },
-        en: {
-            "breadcrumb-home": "Home", "breadcrumb-current": "Airport transport", "page-title": "Airport transport",
-            "intro-text": "Worry-free and punctual to all Belgian airports. Fixed prices, flight monitoring and a personal chauffeur waiting for you.",
-            "book-btn": "Book your airport ride now",
-            "tab-home": "Home", "tab-exclusive": "Exclusive", "tab-prices": "Prices", "tab-fleet": "Fleet", "tab-airport": "Airport", "tab-business": "Business", "tab-events": "Events", "tab-courier": "Courier",
-            "card-title": "✈️ Why Fleetconnect for your airport transport?",
-            "card-intro": "Traveling to the airport can be stressful. Traffic jams, parking issues, flight delays... At Fleetconnect, we take all worries off your hands. We offer a premium airport transfer service focused on reliability, comfort and peace of mind.",
-            "highlight-text": "\"Your flight is tracked in real-time – we wait, even if your plane is delayed.\"",
-            "monitoring-title": "🛬 Flight monitoring – always on time, always there",
-            "monitoring-text": "Our advanced flight tracking system is linked to all Belgian airports. We know exactly when your plane lands, even if it's delayed. Your chauffeur automatically adjusts the pick-up time without you having to do anything. No waiting, no stress.",
-            "airports-title": "📍 All Belgian airports",
-            "airports-sub": "We provide transport to and from all Belgian airports:",
-            "airport-1-label": "Brussels Airport (Zaventem - BRU)", "airport-1-text": "– Belgium's largest airport",
-            "airport-2-label": "Brussels South Charleroi Airport (CRL)", "airport-2-text": "– Low-cost hub",
-            "airport-3-label": "Antwerp International Airport (ANR)", "airport-3-text": "– Business airport",
-            "airport-4-label": "Liège Airport (LGG)", "airport-4-text": "– Cargo and passengers",
-            "airport-5-label": "Ostend-Bruges International Airport (OST)", "airport-5-text": "– Coastal region",
-            "prices-title": "💰 Fixed prices to airports",
-            "table-header-route": "Route", "table-header-distance": "Distance", "table-header-price": "Fixed price", "table-header-time": "Travel time",
-            "route-1": "Antwerp Central → Brussels Airport (BRU)", "time-1": "± 40 min",
-            "route-2": "Brussels South (Midi) → Charleroi Airport (CRL)", "time-2": "± 50 min",
-            "route-3": "Ghent Sint-Pieters → Brussels Airport (BRU)", "time-3": "± 55 min",
-            "route-4": "Leuven → Brussels Airport (BRU)", "time-4": "± 25 min",
-            "route-5": "Liège-Guillemins → Charleroi Airport (CRL)", "time-5": "± 70 min",
-            "route-6": "Bruges → Brussels Airport (BRU)", "time-6": "± 90 min",
-            "meeting-title": "🅿️ Meeting points per airport",
-            "meeting-1-label": "Brussels Airport (BRU):", "meeting-1-text": "Departure hall level 3, near Starbucks",
-            "meeting-2-label": "Charleroi Airport (CRL):", "meeting-2-text": "Arrival hall, at the information desk",
-            "meeting-3-label": "Antwerp Airport (ANR):", "meeting-3-text": "Main entrance, at the Fleetconnect flag",
-            "faq-title": "❓ Frequently asked questions",
-            "faq-q1": "What if my flight is delayed?", "faq-a1": "- We track your flight in real-time and wait for free. No extra costs.",
-            "faq-q2": "How much luggage can I take?", "faq-a2": "- Standard: 2 suitcases + hand luggage per person. More luggage possible on request.",
-            "faq-q3": "Does the price increase with delays?", "faq-a3": "- No, you pay the fixed price regardless of waiting time.",
-            "prev-link": "Back to Home", "next-link": "Next: Business transport",
-            "footer-brand-text": "Premium taxi transport in Belgium – Style, punctuality and service.",
-            "footer-control": "Control Panel", "footer-dispatch": "Taxi Dispatch", "footer-legal": "Legal & Privacy",
-            "footer-legal-title": "Legal", "footer-tos": "Terms & Conditions", "footer-privacy": "Privacy", "footer-cookies": "Cookie Policy",
-            "footer-partners-title": "Partners", "footer-copyright": "© 2026 Fleetconnect – "
-        }
-    };
+        <!-- ========== TABS ========== -->
+        <div class="container">
+            <div class="nav-tabs">
+                <a href="PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+                <a href="PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+                <a href="PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+                <a href="PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+                <a href="PV_Luchthavenvervoer.html" class="nav-tab active" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+                <a href="PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+                <a href="PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+                <a href="PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
+            </div>
+        </div>
 
-    function setLanguage(lang) {
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = translations[lang][key];
-                else el.innerHTML = translations[lang][key];
+        <!-- ========== CONTENT SECTIE ========== -->
+        <div class="container">
+            <div class="content-section">
+
+                <!-- ===== CARD 1: WAAROM FLEETCONNECT ===== -->
+                <div class="content-card">
+                    <h2 data-i18n="card-title">✈️ Waarom Fleetconnect voor uw luchthavenvervoer?</h2>
+
+                    <p data-i18n="card-intro">
+                        Reizen naar de luchthaven kan stressvol zijn. Files, parkeerproblemen, vertraagde vluchten... Bij Fleetconnect nemen wij alle zorgen uit handen. Wij bieden een premium luchthaventransfer service die draait om betrouwbaarheid, comfort en gemoedsrust.
+                    </p>
+
+                    <div class="highlight-box">
+                        <i class="fas fa-star"></i>
+                        <p style="font-size: 1.1rem; font-weight: 500;" data-i18n="highlight-text">"Uw vlucht wordt real-time gevolgd – wij wachten, ook als uw vliegtuig vertraging heeft."</p>
+                    </div>
+
+                    <h3 data-i18n="monitoring-title">🛬 Vluchtmonitoring – altijd op tijd, altijd aanwezig</h3>
+                    <p data-i18n="monitoring-text">
+                        Ons geavanceerde vluchtvolgsysteem is gekoppeld aan <strong>alle luchthavens wereldwijd</strong>. Wij weten precies wanneer uw vliegtuig landt, ook bij vertraging. Uw chauffeur past de ophaaltijd automatisch aan, zonder dat u iets hoeft te doen. <strong>Wij wachten tot 30 minuten na de landingstijd</strong> – u heeft alle tijd om het vliegtuig te verlaten, door de douane te gaan en uw bagage op te halen. Geen stress, geen gehaast.
+                    </p>
+
+                    <h3 data-i18n="airports-title">📍 Alle Belgische luchthavens</h3>
+                    <p data-i18n="airports-sub">Wij verzorgen vervoer naar en van alle Belgische luchthavens:</p>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="airport-1-label">Brussel Airport (Zaventem - BRU)</strong>
+                            <span data-i18n="airport-1-text">– België's grootste luchthaven</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="airport-2-label">Brussels South Charleroi Airport (CRL)</strong>
+                            <span data-i18n="airport-2-text">– Low-cost hub</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="airport-3-label">Antwerp International Airport (ANR)</strong>
+                            <span data-i18n="airport-3-text">– Zakenluchthaven</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="airport-4-label">Liège Airport (LGG)</strong>
+                            <span data-i18n="airport-4-text">– Vracht en passagiers</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="airport-5-label">Oostende-Brugge International Airport (OST)</strong>
+                            <span data-i18n="airport-5-text">– Kustregio</span>
+                        </li>
+                    </ul>
+
+                    <h3 data-i18n="prices-title">💰 Vaste prijzen naar luchthavens</h3>
+
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="table-header-route">Route</th>
+                                <th data-i18n="table-header-distance">Afstand</th>
+                                <th data-i18n="table-header-price">Vaste prijs</th>
+                                <th data-i18n="table-header-time">Reistijd</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-i18n="route-1">Antwerpen Centraal → Brussel Airport (BRU)</td>
+                                <td>45 km</td>
+                                <td><strong>€ 95,00</strong></td>
+                                <td data-i18n="time-1">± 40 min</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="route-2">Brussel Zuid (Midi) → Charleroi Airport (CRL)</td>
+                                <td>58 km</td>
+                                <td><strong>€ 110,00</strong></td>
+                                <td data-i18n="time-2">± 50 min</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="route-3">Gent Sint-Pieters → Brussel Airport (BRU)</td>
+                                <td>62 km</td>
+                                <td><strong>€ 110,00</strong></td>
+                                <td data-i18n="time-3">± 55 min</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="route-4">Leuven → Brussel Airport (BRU)</td>
+                                <td>25 km</td>
+                                <td><strong>€ 55,00</strong></td>
+                                <td data-i18n="time-4">± 25 min</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="route-5">Luik-Guillemins → Charleroi Airport (CRL)</td>
+                                <td>85 km</td>
+                                <td><strong>€ 175,00</strong></td>
+                                <td data-i18n="time-5">± 70 min</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="route-6">Brugge → Brussel Airport (BRU)</td>
+                                <td>110 km</td>
+                                <td><strong>€ 180,00</strong></td>
+                                <td data-i18n="time-6">± 90 min</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 data-i18n="meeting-title">🅿️ Meeting points per luchthaven</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="meeting-1-label">Brussel Airport (BRU):</strong>
+                            <span data-i18n="meeting-1-text">Aankomsthal, bij de Quick</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="meeting-2-label">Charleroi Airport (CRL):</strong>
+                            <span data-i18n="meeting-2-text">Aankomsthal, bij de informatiebalie</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="meeting-3-label">Antwerpen Airport (ANR):</strong>
+                            <span data-i18n="meeting-3-text">Hoofdingang, bij de Fleetconnect vlag</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="meeting-4-label">Liège Airport (LGG):</strong>
+                            <span data-i18n="meeting-4-text">Aankomsthal, bij de uitgang</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <strong data-i18n="meeting-5-label">Oostende-Brugge Airport (OST):</strong>
+                            <span data-i18n="meeting-5-text">Hoofdingang, bij de ticketbalie</span>
+                        </li>
+                    </ul>
+
+                    <h3 data-i18n="faq-title">❓ Veelgestelde vragen</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <i class="fas fa-question-circle"></i>
+                            <strong data-i18n="faq-q1">Wat als mijn vlucht vertraging heeft?</strong>
+                            <span data-i18n="faq-a1">– Wij volgen uw vlucht real-time en wachten gratis tot 30 minuten na de landingstijd. Bij langere vertraging wordt de wachttijd aangerekend aan €35,00/uur.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-question-circle"></i>
+                            <strong data-i18n="faq-q2">Hoeveel bagage mag ik meenemen?</strong>
+                            <span data-i18n="faq-a2">– Standaard 2 koffers + handbagage per persoon. Meer bagage mogelijk op aanvraag.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-question-circle"></i>
+                            <strong data-i18n="faq-q3">Wordt de prijs hoger bij vertraging?</strong>
+                            <span data-i18n="faq-a3">– Ja, bij vertraging wordt de prijs hoger. De wachttijd wordt aangerekend aan €35,00/uur. U heeft 30 minuten gratis wachttijd na de landingstijd. Daarna wordt het uurtarief toegepast.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-question-circle"></i>
+                            <strong data-i18n="faq-q4">Kan ik annuleren zonder kosten?</strong>
+                            <span data-i18n="faq-a4">– U kunt gratis annuleren tot 2 uur voor de rit. Bij annulering binnen 2 uur rekenen wij 50% van de ritprijs.</span>
+                        </li>
+                    </ul>
+
+                    <div class="nav-pagination">
+                        <a href="PV.html" data-i18n="prev-link">
+                            <i class="fas fa-arrow-left"></i> Terug naar Home
+                        </a>
+                        <a href="PV_Zakelijk_Vervoer.html" data-i18n="next-link">
+                            Volgende: Zakelijk vervoer <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========== FOOTER ========== -->
+        <footer class="footer-dark">
+            <div class="container">
+                <div class="footer-grid">
+
+                    <div class="footer-brand">
+                        <h4><i class="fas fa-crown"></i> Fleetconnect</h4>
+                        <p data-i18n="footer-brand-text">Premium taxivervoer in België – Stijl, stiptheid en service.</p>
+                    </div>
+
+                    <div>
+                        <h4>Fleetconnect | Digital Supremacy</h4>
+                        <a href="/customer" data-i18n="footer-control">Customer portal</a>
+                        <a href="/booking#booking" data-i18n="footer-dispatch">Book a ride</a>
+                        <a href="/PV/PVprivacy.html" data-i18n="footer-legal">Privacy</a>
+                    </div>
+
+                    <div>
+                        <h4 data-i18n="footer-legal-title">Juridisch</h4>
+                        <a href="#" data-i18n="footer-tos">Algemene voorwaarden</a>
+                        <a href="#" data-i18n="footer-privacy">Privacy</a>
+                        <a href="#" data-i18n="footer-cookies">Cookiebeleid</a>
+                    </div>
+
+                    <div>
+                        <h4 data-i18n="footer-partners-title">Partners</h4>
+                        <a href="#">Horizon Of Infinity</a>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <span data-i18n="footer-copyright">© 2026 Fleetconnect – </span><a href="#">Fleetconnect</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+
+    <script>
+        // ============================================================
+        // 1. TAALFUNCTIONALITEIT (i18n) - VOLLEDIG WERKEND
+        // ============================================================
+
+        const translations = {
+            nl: {
+                "breadcrumb-home": "Home",
+                "breadcrumb-current": "Luchthavenvervoer",
+                "page-title": "Luchthavenvervoer",
+                "intro-text": "Zorgeloos en stipt naar alle Belgische en internationale luchthavens. Vaste prijzen, vluchtmonitoring en een persoonlijke chauffeur die u opwacht.",
+                "book-btn": "Reserveer nu uw luchthavenrit",
+                "tab-home": "Home",
+                "tab-exclusive": "Exclusief",
+                "tab-prices": "Prijzen",
+                "tab-fleet": "Vloot",
+                "tab-airport": "Luchthaven",
+                "tab-business": "Zakelijk",
+                "tab-events": "Events",
+                "tab-courier": "Koerier",
+                "card-title": "✈️ Waarom Fleetconnect voor uw luchthavenvervoer?",
+                "card-intro": "Reizen naar de luchthaven kan stressvol zijn. Files, parkeerproblemen, vertraagde vluchten... Bij Fleetconnect nemen wij alle zorgen uit handen. Wij bieden een premium luchthaventransfer service die draait om betrouwbaarheid, comfort en gemoedsrust.",
+                "highlight-text": "\"Uw vlucht wordt real-time gevolgd – wij wachten, ook als uw vliegtuig vertraging heeft.\"",
+                "monitoring-title": "🛬 Vluchtmonitoring – altijd op tijd, altijd aanwezig",
+                "monitoring-text": "Ons geavanceerde vluchtvolgsysteem is gekoppeld aan alle luchthavens wereldwijd. Wij weten precies wanneer uw vliegtuig landt, ook bij vertraging. Uw chauffeur past de ophaaltijd automatisch aan, zonder dat u iets hoeft te doen. Wij wachten tot 30 minuten na de landingstijd – u heeft alle tijd om het vliegtuig te verlaten, door de douane te gaan en uw bagage op te halen. Geen stress, geen gehaast.",
+                "airports-title": "📍 Alle Belgische luchthavens",
+                "airports-sub": "Wij verzorgen vervoer naar en van alle Belgische luchthavens:",
+                "airport-1-label": "Brussel Airport (Zaventem - BRU)",
+                "airport-1-text": "– België's grootste luchthaven",
+                "airport-2-label": "Brussels South Charleroi Airport (CRL)",
+                "airport-2-text": "– Low-cost hub",
+                "airport-3-label": "Antwerp International Airport (ANR)",
+                "airport-3-text": "– Zakenluchthaven",
+                "airport-4-label": "Liège Airport (LGG)",
+                "airport-4-text": "– Vracht en passagiers",
+                "airport-5-label": "Oostende-Brugge International Airport (OST)",
+                "airport-5-text": "– Kustregio",
+                "prices-title": "💰 Vaste prijzen naar luchthavens",
+                "table-header-route": "Route",
+                "table-header-distance": "Afstand",
+                "table-header-price": "Vaste prijs",
+                "table-header-time": "Reistijd",
+                "route-1": "Antwerpen Centraal → Brussel Airport (BRU)",
+                "time-1": "± 40 min",
+                "route-2": "Brussel Zuid (Midi) → Charleroi Airport (CRL)",
+                "time-2": "± 50 min",
+                "route-3": "Gent Sint-Pieters → Brussel Airport (BRU)",
+                "time-3": "± 55 min",
+                "route-4": "Leuven → Brussel Airport (BRU)",
+                "time-4": "± 25 min",
+                "route-5": "Luik-Guillemins → Charleroi Airport (CRL)",
+                "time-5": "± 70 min",
+                "route-6": "Brugge → Brussel Airport (BRU)",
+                "time-6": "± 90 min",
+                "meeting-title": "🅿️ Meeting points per luchthaven",
+                "meeting-1-label": "Brussel Airport (BRU):",
+                "meeting-1-text": "Aankomsthal, bij de Quick",
+                "meeting-2-label": "Charleroi Airport (CRL):",
+                "meeting-2-text": "Aankomsthal, bij de informatiebalie",
+                "meeting-3-label": "Antwerpen Airport (ANR):",
+                "meeting-3-text": "Hoofdingang, bij de Fleetconnect vlag",
+                "meeting-4-label": "Liège Airport (LGG):",
+                "meeting-4-text": "Aankomsthal, bij de uitgang",
+                "meeting-5-label": "Oostende-Brugge Airport (OST):",
+                "meeting-5-text": "Hoofdingang, bij de ticketbalie",
+                "faq-title": "❓ Veelgestelde vragen",
+                "faq-q1": "Wat als mijn vlucht vertraging heeft?",
+                "faq-a1": "– Wij volgen uw vlucht real-time en wachten gratis tot 30 minuten na de landingstijd. Bij langere vertraging wordt de wachttijd aangerekend aan €35,00/uur.",
+                "faq-q2": "Hoeveel bagage mag ik meenemen?",
+                "faq-a2": "– Standaard 2 koffers + handbagage per persoon. Meer bagage mogelijk op aanvraag.",
+                "faq-q3": "Wordt de prijs hoger bij vertraging?",
+                "faq-a3": "– Ja, bij vertraging wordt de prijs hoger. De wachttijd wordt aangerekend aan €35,00/uur. U heeft 30 minuten gratis wachttijd na de landingstijd. Daarna wordt het uurtarief toegepast.",
+                "faq-q4": "Kan ik annuleren zonder kosten?",
+                "faq-a4": "– U kunt gratis annuleren tot 2 uur voor de rit. Bij annulering binnen 2 uur rekenen wij 50% van de ritprijs.",
+                "prev-link": "Terug naar Home",
+                "next-link": "Volgende: Zakelijk vervoer",
+                "footer-brand-text": "Premium taxivervoer in België – Stijl, stiptheid en service.",
+                "footer-control": "Control Panel",
+                "footer-dispatch": "Taxi Dispatch",
+                "footer-legal": "Legal & Privacy",
+                "footer-legal-title": "Juridisch",
+                "footer-tos": "Algemene voorwaarden",
+                "footer-privacy": "Privacy",
+                "footer-cookies": "Cookiebeleid",
+                "footer-partners-title": "Partners",
+                "footer-copyright": "© 2026 Fleetconnect – "
+            },
+            fr: {
+                "breadcrumb-home": "Accueil",
+                "breadcrumb-current": "Transport aéroport",
+                "page-title": "Transport aéroport",
+                "intro-text": "Vers tous les aéroports belges et internationaux sans souci et à l'heure. Prix fixes, suivi de vol et chauffeur personnel qui vous attend.",
+                "book-btn": "Réservez votre trajet aéroport",
+                "tab-home": "Accueil",
+                "tab-exclusive": "Exclusif",
+                "tab-prices": "Prix fixes",
+                "tab-fleet": "Flotte",
+                "tab-airport": "Aéroport",
+                "tab-business": "Affaires",
+                "tab-events": "Événements",
+                "tab-courier": "Messagerie",
+                "card-title": "✈️ Pourquoi Fleetconnect pour votre transport aéroportuaire?",
+                "card-intro": "Voyager vers l'aéroport peut être stressant. Bouchons, problèmes de stationnement, vols retardés... Chez Fleetconnect, nous vous déchargeons de tous vos soucis. Nous offrons un service de transfert aéroportuaire premium axé sur la fiabilité, le confort et la tranquillité d'esprit.",
+                "highlight-text": "\"Votre vol est suivi en temps réel – nous attendons, même si votre avion a du retard.\"",
+                "monitoring-title": "🛬 Suivi de vol – toujours à l'heure, toujours présent",
+                "monitoring-text": "Notre système avancé de suivi de vol est connecté à tous les aéroports du monde. Nous savons exactement quand votre avion atterrit, même en cas de retard. Votre chauffeur ajuste automatiquement l'heure de prise en charge, sans que vous ayez rien à faire. Nous attendons jusqu'à 30 minutes après l'heure d'atterrissage – vous avez tout le temps pour quitter l'avion, passer la douane et récupérer vos bagages. Pas de stress, pas de précipitation.",
+                "airports-title": "📍 Tous les aéroports belges",
+                "airports-sub": "Nous assurons le transport vers et depuis tous les aéroports belges :",
+                "airport-1-label": "Aéroport de Bruxelles (Zaventem - BRU)",
+                "airport-1-text": "– Le plus grand aéroport de Belgique",
+                "airport-2-label": "Aéroport de Charleroi Bruxelles-Sud (CRL)",
+                "airport-2-text": "– Hub low-cost",
+                "airport-3-label": "Aéroport international d'Anvers (ANR)",
+                "airport-3-text": "– Aéroport d'affaires",
+                "airport-4-label": "Aéroport de Liège (LGG)",
+                "airport-4-text": "– Fret et passagers",
+                "airport-5-label": "Aéroport international d'Ostende-Bruges (OST)",
+                "airport-5-text": "– Région côtière",
+                "prices-title": "💰 Prix fixes vers les aéroports",
+                "table-header-route": "Itinéraire",
+                "table-header-distance": "Distance",
+                "table-header-price": "Prix fixe",
+                "table-header-time": "Temps de trajet",
+                "route-1": "Anvers-Central → Aéroport de Bruxelles (BRU)",
+                "time-1": "± 40 min",
+                "route-2": "Bruxelles-Midi → Aéroport de Charleroi (CRL)",
+                "time-2": "± 50 min",
+                "route-3": "Gand Saint-Pierre → Aéroport de Bruxelles (BRU)",
+                "time-3": "± 55 min",
+                "route-4": "Louvain → Aéroport de Bruxelles (BRU)",
+                "time-4": "± 25 min",
+                "route-5": "Liège-Guillemins → Aéroport de Charleroi (CRL)",
+                "time-5": "± 70 min",
+                "route-6": "Bruges → Aéroport de Bruxelles (BRU)",
+                "time-6": "± 90 min",
+                "meeting-title": "🅿️ Points de rendez-vous par aéroport",
+                "meeting-1-label": "Aéroport de Bruxelles (BRU):",
+                "meeting-1-text": "Hall des arrivées, près du Quick",
+                "meeting-2-label": "Aéroport de Charleroi (CRL):",
+                "meeting-2-text": "Hall des arrivées, près du comptoir d'information",
+                "meeting-3-label": "Aéroport d'Anvers (ANR):",
+                "meeting-3-text": "Entrée principale, près du drapeau Fleetconnect",
+                "meeting-4-label": "Aéroport de Liège (LGG):",
+                "meeting-4-text": "Hall des arrivées, près de la sortie",
+                "meeting-5-label": "Aéroport d'Ostende-Bruges (OST):",
+                "meeting-5-text": "Entrée principale, près du guichet",
+                "faq-title": "❓ Questions fréquentes",
+                "faq-q1": "Que faire si mon vol a du retard ?",
+                "faq-a1": "– Nous suivons votre vol en temps réel et attendons gratuitement jusqu'à 30 minutes après l'heure d'atterrissage. En cas de retard plus long, le temps d'attente est facturé à €35,00/heure.",
+                "faq-q2": "Combien de bagages puis-je emporter ?",
+                "faq-a2": "– Standard : 2 valises + bagage à main par personne. Plus de bagages possible sur demande.",
+                "faq-q3": "Le prix augmente-t-il en cas de retard ?",
+                "faq-a3": "– Oui, en cas de retard le prix augmente. Le temps d'attente est facturé à €35,00/heure. Vous bénéficiez de 30 minutes d'attente gratuites après l'heure d'atterrissage. Ensuite, le tarif horaire s'applique.",
+                "faq-q4": "Puis-je annuler sans frais ?",
+                "faq-a4": "– Vous pouvez annuler gratuitement jusqu'à 2 heures avant le trajet. En cas d'annulation moins de 2 heures avant, nous facturons 50% du prix du trajet.",
+                "prev-link": "Retour à l'accueil",
+                "next-link": "Suivant: Transport d'affaires",
+                "footer-brand-text": "Service de taxi premium en Belgique – Style, ponctualité et service.",
+                "footer-control": "Panneau de contrôle",
+                "footer-dispatch": "Répartition des taxis",
+                "footer-legal": "Juridique et confidentialité",
+                "footer-legal-title": "Juridique",
+                "footer-tos": "Conditions générales",
+                "footer-privacy": "Confidentialité",
+                "footer-cookies": "Politique de cookies",
+                "footer-partners-title": "Partenaires",
+                "footer-copyright": "© 2026 Fleetconnect – "
+            },
+            en: {
+                "breadcrumb-home": "Home",
+                "breadcrumb-current": "Airport transport",
+                "page-title": "Airport transport",
+                "intro-text": "Worry-free and punctual to all Belgian and international airports. Fixed prices, flight monitoring and a personal chauffeur waiting for you.",
+                "book-btn": "Book your airport ride now",
+                "tab-home": "Home",
+                "tab-exclusive": "Exclusive",
+                "tab-prices": "Prices",
+                "tab-fleet": "Fleet",
+                "tab-airport": "Airport",
+                "tab-business": "Business",
+                "tab-events": "Events",
+                "tab-courier": "Courier",
+                "card-title": "✈️ Why Fleetconnect for your airport transport?",
+                "card-intro": "Traveling to the airport can be stressful. Traffic jams, parking issues, flight delays... At Fleetconnect, we take all worries off your hands. We offer a premium airport transfer service focused on reliability, comfort and peace of mind.",
+                "highlight-text": "\"Your flight is tracked in real-time – we wait, even if your plane is delayed.\"",
+                "monitoring-title": "🛬 Flight monitoring – always on time, always there",
+                "monitoring-text": "Our advanced flight tracking system is linked to all airports worldwide. We know exactly when your plane lands, even if it's delayed. Your chauffeur automatically adjusts the pick-up time without you having to do anything. We wait up to 30 minutes after landing time – you have plenty of time to leave the plane, go through customs and collect your luggage. No stress, no rush.",
+                "airports-title": "📍 All Belgian airports",
+                "airports-sub": "We provide transport to and from all Belgian airports:",
+                "airport-1-label": "Brussels Airport (Zaventem - BRU)",
+                "airport-1-text": "– Belgium's largest airport",
+                "airport-2-label": "Brussels South Charleroi Airport (CRL)",
+                "airport-2-text": "– Low-cost hub",
+                "airport-3-label": "Antwerp International Airport (ANR)",
+                "airport-3-text": "– Business airport",
+                "airport-4-label": "Liège Airport (LGG)",
+                "airport-4-text": "– Cargo and passengers",
+                "airport-5-label": "Ostend-Bruges International Airport (OST)",
+                "airport-5-text": "– Coastal region",
+                "prices-title": "💰 Fixed prices to airports",
+                "table-header-route": "Route",
+                "table-header-distance": "Distance",
+                "table-header-price": "Fixed price",
+                "table-header-time": "Travel time",
+                "route-1": "Antwerp Central → Brussels Airport (BRU)",
+                "time-1": "± 40 min",
+                "route-2": "Brussels South (Midi) → Charleroi Airport (CRL)",
+                "time-2": "± 50 min",
+                "route-3": "Ghent Sint-Pieters → Brussels Airport (BRU)",
+                "time-3": "± 55 min",
+                "route-4": "Leuven → Brussels Airport (BRU)",
+                "time-4": "± 25 min",
+                "route-5": "Liège-Guillemins → Charleroi Airport (CRL)",
+                "time-5": "± 70 min",
+                "route-6": "Bruges → Brussels Airport (BRU)",
+                "time-6": "± 90 min",
+                "meeting-title": "🅿️ Meeting points per airport",
+                "meeting-1-label": "Brussels Airport (BRU):",
+                "meeting-1-text": "Arrival hall, near Quick",
+                "meeting-2-label": "Charleroi Airport (CRL):",
+                "meeting-2-text": "Arrival hall, at the information desk",
+                "meeting-3-label": "Antwerp Airport (ANR):",
+                "meeting-3-text": "Main entrance, at the Fleetconnect flag",
+                "meeting-4-label": "Liège Airport (LGG):",
+                "meeting-4-text": "Arrival hall, near the exit",
+                "meeting-5-label": "Ostend-Bruges Airport (OST):",
+                "meeting-5-text": "Main entrance, at the ticket counter",
+                "faq-title": "❓ Frequently asked questions",
+                "faq-q1": "What if my flight is delayed?",
+                "faq-a1": "– We track your flight in real-time and wait for free up to 30 minutes after landing time. For longer delays, waiting time is charged at €35.00/hour.",
+                "faq-q2": "How much luggage can I take?",
+                "faq-a2": "– Standard: 2 suitcases + hand luggage per person. More luggage possible on request.",
+                "faq-q3": "Does the price increase with delays?",
+                "faq-a3": "– Yes, the price increases with delays. Waiting time is charged at €35.00/hour. You have 30 minutes free waiting time after landing. After that, the hourly rate applies.",
+                "faq-q4": "Can I cancel without costs?",
+                "faq-a4": "– You can cancel free of charge up to 2 hours before the ride. For cancellation within 2 hours, we charge 50% of the ride price.",
+                "prev-link": "Back to Home",
+                "next-link": "Next: Business transport",
+                "footer-brand-text": "Premium taxi transport in Belgium – Style, punctuality and service.",
+                "footer-control": "Control Panel",
+                "footer-dispatch": "Taxi Dispatch",
+                "footer-legal": "Legal & Privacy",
+                "footer-legal-title": "Legal",
+                "footer-tos": "Terms & Conditions",
+                "footer-privacy": "Privacy",
+                "footer-cookies": "Cookie Policy",
+                "footer-partners-title": "Partners",
+                "footer-copyright": "© 2026 Fleetconnect – "
             }
-        });
-        document.documentElement.lang = lang;
+        };
+
+        // ============================================================
+        // 2. SET LANGUAGE FUNCTIE
+        // ============================================================
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key] !== undefined) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+            document.documentElement.lang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // ============================================================
+        // 3. INITIËLE TAAL BEPALING
+        // ============================================================
+
+        function getInitialLanguage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            if (langParam && (langParam === 'nl' || langParam === 'fr' || langParam === 'en')) {
+                return langParam;
+            }
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && (savedLang === 'nl' || savedLang === 'fr' || savedLang === 'en')) {
+                return savedLang;
+            }
+            return 'nl';
+        }
+
+        // ============================================================
+        // 4. TAALSWITCHER KLIK
+        // ============================================================
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-            else btn.classList.remove('active');
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                setLanguage(lang);
+                const url = new URL(window.location.href);
+                url.searchParams.delete('lang');
+                window.history.replaceState({}, '', url);
+            });
         });
-        localStorage.setItem('preferredLanguage', lang);
-    }
 
-    // Bepaling initiële taal (prioriteit: URL parameter > localStorage > 'nl')
-    function getInitialLanguage() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const langParam = urlParams.get('lang');
-        if (langParam && (langParam === 'nl' || langParam === 'fr' || langParam === 'en')) {
-            return langParam;
-        }
-        const savedLang = localStorage.getItem('preferredLanguage');
-        if (savedLang && (savedLang === 'nl' || savedLang === 'fr' || savedLang === 'en')) {
-            return savedLang;
-        }
-        return 'nl';
-    }
+        // ============================================================
+        // 5. INITIËLE TAAL INSTELLEN
+        // ============================================================
 
-    // Taalwisselaar klik
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const lang = btn.getAttribute('data-lang');
-            setLanguage(lang);
-            // Verwijder de ?lang= parameter uit de URL voor een schone weergave
-            const url = new URL(window.location.href);
-            url.searchParams.delete('lang');
-            window.history.replaceState({}, '', url);
-        });
-    });
+        const initialLang = getInitialLanguage();
+        setLanguage(initialLang);
 
-    // Initiële taal instellen
-    const initialLang = getInitialLanguage();
-    setLanguage(initialLang);
+        // ============================================================
+        // 6. LEAFLET KAART - MET FALLBACK
+        // ============================================================
 
-    // Leaflet kaart
-    var bgMap = L.map('background-map').setView([50.8503, 4.3517], 7);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
-        subdomains: 'abcd', maxZoom: 19, minZoom: 1
-    }).addTo(bgMap);
-    bgMap.dragging.disable(); bgMap.touchZoom.disable(); bgMap.doubleClickZoom.disable(); bgMap.scrollWheelZoom.disable(); bgMap.boxZoom.disable(); bgMap.keyboard.disable();
-    if (bgMap.tap) bgMap.tap.disable();
-    setTimeout(() => bgMap.invalidateSize(), 100);
-    window.addEventListener('resize', () => bgMap.invalidateSize());
-</script>
+        (function initMap() {
+            try {
+                if (typeof L === 'undefined') {
+                    console.warn('Leaflet is niet geladen.');
+                    return;
+                }
+
+                const mapContainer = document.getElementById('background-map');
+                if (!mapContainer) {
+                    console.warn('Element #background-map niet gevonden.');
+                    return;
+                }
+
+                const bgMap = L.map('background-map', {
+                    center: [50.8503, 4.3517],
+                    zoom: 7,
+                    zoomControl: false,
+                    dragging: false,
+                    touchZoom: false,
+                    doubleClickZoom: false,
+                    scrollWheelZoom: false,
+                    boxZoom: false,
+                    keyboard: false,
+                    attributionControl: true
+                });
+
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    minZoom: 1
+                }).addTo(bgMap);
+
+                setTimeout(() => { bgMap.invalidateSize(); }, 200);
+
+                let resizeTimeout;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
+                });
+
+                console.log('Leaflet-kaart succesvol geladen.');
+
+            } catch (error) {
+                console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
+                const mapContainer = document.getElementById('background-map');
+                if (mapContainer) {
+                    mapContainer.style.backgroundImage =
+                        'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
+                    mapContainer.style.backgroundSize = 'cover';
+                    mapContainer.style.backgroundPosition = 'center';
+                    mapContainer.style.backgroundRepeat = 'no-repeat';
+                }
+            }
+        })();
+
+        // ============================================================
+        // 7. CONSOLE BERICHTEN
+        // ============================================================
+
+        console.log('Fleetconnect - Luchthavenvervoer pagina geladen');
+        console.log('Huidige taal:', initialLang);
+        console.log('Interne links: PV.html, PV_Exclusieve_Service.html, PV-vaste-prijzen.html, PV-premium-vloot.html, PV_Luchthavenvervoer.html, PV_Zakelijk_Vervoer.html, PV_Events_Gala.html, PV_Koeriersdienst.html');
+        console.log('Taalswitcher werkt met NL/FR/EN vertalingen.');
+        console.log('Alle prijzen zijn conform het concept "Vaste prijzen".');
+        console.log('Vluchtmonitoring: wij wachten tot 30 minuten na landingstijd.');
+        console.log('LGG meeting point: Aankomsthal, bij de uitgang');
+        console.log('FAQ vertraging: 30 minuten gratis, daarna €35/uur');
+    </script>
+
 </body>
 </html>
