@@ -386,7 +386,7 @@
             background: var(--primary-dark);
         }
 
-        /* ========== FOOTER ========== */
+        /* ========== FOOTER DARK ========== */
         .footer-dark {
             background: #0d1f2c;
             color: #e0edf5;
@@ -403,9 +403,10 @@
         }
 
         .footer-grid h4 {
-            color: var(--primary);
+            color: #e0edf5;
             margin-bottom: 16px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
         }
 
         .footer-grid a {
@@ -416,7 +417,7 @@
         }
 
         .footer-grid a:hover {
-            color: var(--primary);
+            color: #c9a03d;
             text-decoration: underline;
         }
 
@@ -433,8 +434,12 @@
         }
 
         .footer-bottom a {
-            color: var(--primary);
+            color: #c9a03d;
             text-decoration: none;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
         }
 
         /* ========== RESPONSIVE ========== */
@@ -860,42 +865,60 @@
             </div>
         </div>
 
-        <!-- ========== FOOTER ========== -->
+        <!-- ========================================================== -->
+        <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
+        <!-- ========================================================== -->
         <footer class="footer-dark">
             <div class="container">
                 <div class="footer-grid">
-
+                    <!-- Kolom 1: Brand -->
                     <div class="footer-brand">
-                        <h4><i class="fas fa-crown"></i> Fleetconnect</h4>
-                        <p data-i18n="footer-brand-text">Premium taxivervoer in België – Stijl, stiptheid en service.</p>
+                        <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                        <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                        <a href="/booking#booking">Reserveer nu</a>
+                        <a href="/PV/index.html">Klantportaal</a>
+                        <a href="/partner-login">Partner login</a>
                     </div>
 
-                    <div>
-                        <h4>Fleetconnect | Digital Supremacy</h4>
-                        <a href="/customer" data-i18n="footer-control">Customer portal</a>
-                        <a href="/booking#booking" data-i18n="footer-dispatch">Book a ride</a>
-                        <a href="/PV/PVprivacy.html" data-i18n="footer-legal">Privacy</a>
+                    <!-- Kolom 2: Populaire steden -->
+                    <div class="footer-cities">
+                        <h4>Populaire steden</h4>
+                        <a href="/taxi-brussels">Taxi Brussels</a>
+                        <a href="/taxi-antwerpen">Taxi Antwerp</a>
+                        <a href="/taxi-gent">Taxi Ghent</a>
+                        <a href="/taxi-zaventem">Taxi Zaventem</a>
+                        <a href="/taxi-leuven">Taxi Leuven</a>
+                        <a href="/taxi-mechelen">Taxi Mechelen</a>
+                        <a href="/taxi-waterloo">Taxi Waterloo</a>
+                        <a href="/taxi-brugge">Taxi Brugge</a>
                     </div>
 
-                    <div>
-                        <h4 data-i18n="footer-legal-title">Juridisch</h4>
-                        <a href="#" data-i18n="footer-tos">Algemene voorwaarden</a>
-                        <a href="#" data-i18n="footer-privacy">Privacy</a>
-                        <a href="#" data-i18n="footer-cookies">Cookiebeleid</a>
+                    <!-- Kolom 3: Legal -->
+                    <div class="footer-legal">
+                        <h4>Legal</h4>
+                        <a href="/PV/PVfaq.html">FAQ</a>
+                        <a href="/PV/PVprivacy.html">Privacy</a>
+                        <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                        <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                     </div>
 
-                    <div>
-                        <h4 data-i18n="footer-partners-title">Partners</h4>
-                        <a href="#">Horizon Of Infinity</a>
+                    <!-- Kolom 4: FleetConnect (Contact) -->
+                    <div class="footer-partners">
+                        <h4>FleetConnect</h4>
+                        <a href="mailto:support@fleetconnect.be">Support</a>
+                        <a href="/booking#contact">Contact</a>
                     </div>
-
                 </div>
 
+                <!-- Footer bottom -->
                 <div class="footer-bottom">
-                    <span data-i18n="footer-copyright">© 2026 Fleetconnect – </span><a href="#">Fleetconnect</a>
+                    2026 FleetConnect - <a href="/">FleetConnect</a>
                 </div>
             </div>
         </footer>
+        <!-- ========================================================== -->
+        <!-- EINDE FOOTER                                               -->
+        <!-- ========================================================== -->
 
     </div>
 
