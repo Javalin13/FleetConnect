@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Leuven – Universiteitsstad en Europese kennishub</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Leuven. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. Ritten naar Zaventem (BRU), Charleroi (CRL), imec, KU Leuven, Amsterdam, Parijs, Frankfurt en meer. 24/7 beschikbaar voor zakelijk, luchthaven- en studentenvervoer.">
+    <title>FleetConnect | Taxi Leuven – Luchthaventransfers & kennishub</title>
+    <meta name="description" content="FleetConnect biedt professionele luchthaventransfers vanuit Leuven. Vaste prijs €1,50/km. Ritten naar Zaventem (BRU), Charleroi (CRL), Antwerpen (ANR), Eindhoven (EIN), Lille (LIL), Amsterdam (AMS). 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
-        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
         body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
         .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
         .container{width:100%;max-width:1300px;margin:0 auto;padding:0 24px}
-        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem}
+        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem;transition:0.2s}
         .hamburger-btn:hover{background:var(--primary-dark)}
         .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1001;visibility:hidden;opacity:0;transition:all 0.3s ease}
         .sidebar-overlay.active{visibility:visible;opacity:1}
@@ -24,22 +24,31 @@
         .sidebar-header h3{color:white;display:flex;align-items:center;gap:8px}
         .close-menu{background:rgba(255,255,255,0.2);border:none;font-size:1.5rem;cursor:pointer;color:white;width:32px;height:32px;border-radius:50%}
         .sidebar-nav{display:flex;flex-direction:column;padding:20px 16px;gap:8px;flex:1;overflow-y:auto}
-        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light)}
+        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light);transition:0.2s}
         .sidebar-nav a i{width:24px;color:var(--primary)}
         .sidebar-nav a:hover{background:#eef2fa;border-color:var(--primary)}
         .login-section{padding:16px;border-top:1px solid var(--border-light);margin-top:auto;flex-shrink:0}
-        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px}
+        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
+        .login-btn:hover{opacity:0.9}
+        
+        /* ========== HERO SECTIE ========== */
         .hero{padding:80px 0 40px;text-align:center}
-        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:40px 30px;border-radius:48px;border:1px solid var(--border-light)}
-        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary)}
-        .hero-card p{font-size:1.2rem;color:var(--text-light);margin-bottom:20px}
-        .btn-primary{background:var(--primary);color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-primary:hover{background:var(--primary-dark)}
+        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
+        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
+        .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
+        .hero-card .hero-slogan i{color:var(--primary)}
+        .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
+        .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
+        .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
+        
+        .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
         .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
-        .route-grid, .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
-        .route-card, .feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
-        .route-card:hover, .feature-card:hover{transform:translateY(-4px)}
+        .route-grid,.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
+        .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
+        .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
         .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
         .feature-card{text-align:center}
         .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
         .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
@@ -51,73 +60,71 @@
         .contact-form h3{margin-bottom:20px;color:var(--primary);text-align:center}
         .compact-form{display:flex;flex-direction:column;gap:16px}
         .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
+        .compact-form input:focus,.compact-form textarea:focus{outline:none;border-color:var(--primary)}
         .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
-        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-whatsapp:hover{background:#128C7E}
-        .lang-switcher{display:flex;gap:8px;align-items:center}
-        .lang-btn{background:transparent;border:1px solid var(--border-light);padding:6px 12px;border-radius:30px;cursor:pointer;font-weight:500;transition:all 0.2s}
-        .lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
-
-        /* ========================================================== */
-        /* FOOTER STIJLING – EXACT GELIJK AAN BOEKINGWEBSITE          */
-        /* ========================================================== */
-        .footer-dark {
-            background: #0d1f2c;
-            color: #e0edf5;
-            padding: 48px 0 24px;
-            margin-top: 60px;
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
+        
+        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
+        .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
+        .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
+        .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+        
+        /* ========== EXTRA OPTIES LIJST ========== */
+        .extra-options-list{list-style:none;margin:0;padding:0}
+        .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .extra-options-list li:last-child{border-bottom:none}
+        .extra-options-list li i{color:var(--primary);width:24px}
+        .extra-options-list li .price-tag{background:var(--primary);color:white;padding:2px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:auto}
+        .extra-options-list li .price-tag.free{background:var(--accent-green)}
+        .extra-options-list li strong{min-width:120px}
+        .extra-options-list li span{color:var(--text-light)}
+        
+        /* ========== FOOTER - GOUDZAND KOPPEN ========== */
+        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
+        .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
+        .footer-grid h4{color:#c9a03d !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
+        .footer-grid a:hover{color:#c9a03d;text-decoration:underline}
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:#c9a03d;text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width:800px){
+            .hero-card{padding:30px 20px}
+            .hero-card h1{font-size:2rem}
+            .hero-card .hero-slogan{font-size:1.3rem}
+            .hero-card .hero-features{font-size:0.95rem}
+            .section-title{font-size:1.5rem}
+            .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
+            .lang-btn{font-size:0.7rem;padding:4px 10px}
+            .extra-options-list li strong{min-width:100px}
         }
-        .footer-grid {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 30px;
+        @media (max-width:500px){
+            .container{padding:0 12px}
+            .hero-card{padding:24px 16px}
+            .hero-card h1{font-size:1.5rem}
+            .hero-card .hero-slogan{font-size:1.1rem}
+            .hero-card .hero-features{font-size:0.8rem}
+            .hero-card .btn-primary{padding:14px 28px;font-size:0.95rem}
+            .language-switcher{top:10px;right:10px;gap:4px;padding:4px 8px}
+            .lang-btn{font-size:0.6rem;padding:3px 8px}
+            .route-grid,.features-grid{grid-template-columns:1fr}
+            .extra-options-list li{flex-wrap:wrap}
+            .extra-options-list li .price-tag{margin-left:0}
         }
-        .footer-grid h4 {
-            color: #e0edf5;
-            margin-bottom: 16px;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        .footer-grid a {
-            color: #e0edf5;
-            text-decoration: none;
-            line-height: 1.8;
-            display: block;
-        }
-        .footer-grid a:hover {
-            color: #c9a03d;
-            text-decoration: underline;
-        }
-        .footer-brand p {
-            color: #e0edf5;
-            line-height: 1.8;
-        }
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(224,237,245,0.2);
-            padding-top: 24px;
-            font-size: 0.85rem;
-        }
-        .footer-bottom a {
-            color: #c9a03d;
-            text-decoration: none;
-        }
-        .footer-bottom a:hover {
-            text-decoration: underline;
-        }
-        /* ========================================================== */
-
-        @media (max-width:800px){.hero-card h1{font-size:2rem}.section-title{font-size:1.5rem}}
     </style>
 </head>
 <body>
 
 <div id="background-map"></div>
 
+<!-- ========== HAMBURGER MENU ========== -->
 <button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
 
+<!-- ========== SIDEBAR ========== -->
 <div class="sidebar-overlay" id="sidebarOverlay">
     <div class="sidebar">
         <div class="sidebar-header"><h3><i class="fas fa-car"></i> FleetConnect</h3><button class="close-menu" id="closeMenuBtn">&times;</button></div>
@@ -140,17 +147,37 @@
             <a href="#contact"><i class="fas fa-envelope"></i> <span data-i18n="nav_contact">Contact</span></a>
             <a href="/PV/PV.html#booking"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav_book">Reserveer nu</span></a>
         </div>
-        <div class="login-section"><a href="index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
+        <div class="login-section"><a href="/PV/index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
     </div>
 </div>
 
+<!-- ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
 <div class="content-overlay">
+    <!-- ========== HERO SECTIE - UNIFORM ========== -->
     <section class="hero">
         <div class="container">
             <div class="hero-card">
-                <h1 data-i18n="hero_title"><i class="fas fa-taxi"></i> FleetConnect | Taxi Leuven</h1>
-                <p data-i18n="hero_subtitle">Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar</p>
-                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn"><i class="fas fa-calendar-check"></i> Boek nu uw rit</a>
+                <h1 data-i18n="hero_title">
+                    <i class="fas fa-taxi"></i> FleetConnect | Taxi Leuven
+                </h1>
+                <div style="height:16px;"></div>
+                <p class="hero-slogan" data-i18n="hero_slogan" style="font-weight:700;">
+                    <strong>"Uw rit, onze zorg. Vaste prijs, 24/7."</strong>
+                </p>
+                <div style="height:20px;"></div>
+                <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
+                    <strong>€1,50/km • Luchthaventransfers • Meertalige chauffeurs</strong>
+                </p>
+                <div style="height:30px;"></div>
+                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
+                    <i class="fas fa-calendar-check"></i> Boek nu →
+                </a>
             </div>
         </div>
     </section>
@@ -160,40 +187,155 @@
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Leuven – Waar kennis, innovatie en geschiedenis samenkomen</h2>
             <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Leuven, de bruisende hoofdstad van Vlaams-Brabant, is veel meer dan alleen een studentenstad. Het is een dynamische, internationale kennishub met een rijke geschiedenis die teruggaat tot de middeleeuwen. De <strong>KU Leuven</strong>, opgericht in 1425, is de oudste katholieke universiteit ter wereld en nog steeds een van de meest toonaangevende onderzoeksuniversiteiten van Europa. De stad wordt gekenmerkt door een mix van indrukwekkende gotische architectuur, zoals het beroemde stadhuis aan de <strong>Grote Markt</strong> en de <strong>Sint-Pieterskerk</strong>, en een levendige, jonge en internationale bevolking.</p>
-            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast haar academische glorie is Leuven een ware <strong>technologie- en innovatiemotor</strong> voor de Lage Landen. Het <strong>Arenberg Science Park</strong> (13 hectare) fungeert als een ecosysteem waar hightechbedrijven, spin-offs van de universiteit en gerenommeerde onderzoeksinstellingen samenwerken[reference:0]. Hier is het wereldberoemde <strong>imec (Interuniversitair Micro-Electronica Centrum)</strong> gevestigd, dat uitgroeide tot 's werelds toonaangevende onderzoekscentrum voor nano-elektronica en digitale technologieën. Deze sterke band tussen wetenschap en bedrijfsleven trekt jaarlijks duizenden onderzoekers, stagiairs en zakenmensen uit de hele wereld aan.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de ideale partner voor <strong>universiteiten, onderzoekscentra, biotechbedrijven, hotels en congresorganisatoren</strong> in Leuven. Dankzij onze flexibele vloot van luxe sedans, breaks en minivans en onze meertalige chauffeurs zorgen we voor een naadloze transfer. Of het nu gaat om een snelle rit naar de luchthaven, discreet vervoer voor een executive van imec, of een groepsvervoer voor een internationaal congres – FleetConnect staat 24/7 voor u klaar.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast haar academische glorie is Leuven een ware <strong>technologie- en innovatiemotor</strong> voor de Lage Landen. Het <strong>Arenberg Science Park</strong> (13 hectare) fungeert als een ecosysteem waar hightechbedrijven, spin-offs van de universiteit en gerenommeerde onderzoeksinstellingen samenwerken. Hier is het wereldberoemde <strong>imec (Interuniversitair Micro-Electronica Centrum)</strong> gevestigd, dat uitgroeide tot 's werelds toonaangevende onderzoekscentrum voor nano-elektronica en digitale technologieën. Deze sterke band tussen wetenschap en bedrijfsleven trekt jaarlijks duizenden onderzoekers, stagiairs en zakenmensen uit de hele wereld aan.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>luchthaventransfers, universiteiten, onderzoekscentra, biotechbedrijven, hotels en congresorganisatoren</strong> in Leuven. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke, stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat internationale gasten en zakenreizigers zich meteen thuis voelen.</p>
         </div>
 
-        <!-- Blok 2: Evenementen en zakencentra in Leuven -->
+        <!-- Blok 2: Evenementen en zakencentra -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen, congressen & innovatiehubs</h2>
-            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Leuven heeft zich de afgelopen jaren stevig gepositioneerd als een toonaangevende <strong>congresstad</strong>. Volgens de 2024–2025 conference study kreeg Leuven een tevredenheidsscore van maar liefst 8.9/10 van organisatoren en deelnemers, waarmee het zich meet met de beste bestemmingen in de regio[reference:1]. Het <strong>Leuven Convention Bureau</strong> ondersteunt organisatoren bij het plannen van evenementen, van grote internationale congressen tot besloten seminars. In 2026 opent de stad het <strong>Vesalius Museum</strong>, een nieuw landmark gewijd aan wetenschap en gezondheid, wat de positie van Leuven als 'kennisstad' verder versterkt[reference:2].</p>
-            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste evenementenlocaties zijn de <strong>Brabanthal</strong>, met maar liefst 6.000 m² aan flexibele ruimte, het <strong>Provinciehuis Vlaams-Brabant</strong> met moderne conferentie-infrastructuur en de unieke erfgoedlocaties zoals de <strong>Abdij van Park</strong> en de <strong>Faculty Club</strong> in het Groot Begijnhof (UNESCO Werelderfgoed)[reference:3][reference:4][reference:5]. Daarnaast staat de stad in de schijnwerpers met grote sportevenementen zoals de <strong>Leuven Marathon</strong> en de <strong>World Transplant Games 2027</strong>, wat de internationale uitstraling van Leuven onderstreept[reference:6].</p>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Leuven heeft zich de afgelopen jaren stevig gepositioneerd als een toonaangevende <strong>congresstad</strong>. Volgens de 2024–2025 conference study kreeg Leuven een tevredenheidsscore van maar liefst 8.9/10 van organisatoren en deelnemers, waarmee het zich meet met de beste bestemmingen in de regio. Het <strong>Leuven Convention Bureau</strong> ondersteunt organisatoren bij het plannen van evenementen, van grote internationale congressen tot besloten seminars. In 2026 opent de stad het <strong>Vesalius Museum</strong>, een nieuw landmark gewijd aan wetenschap en gezondheid.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste evenementenlocaties zijn de <strong>Brabanthal</strong>, met maar liefst 6.000 m² aan flexibele ruimte, het <strong>Provinciehuis Vlaams-Brabant</strong> met moderne conferentie-infrastructuur en de unieke erfgoedlocaties zoals de <strong>Abdij van Park</strong> en de <strong>Faculty Club</strong> in het Groot Begijnhof (UNESCO Werelderfgoed). Daarnaast staat de stad in de schijnwerpers met grote sportevenementen zoals de <strong>Leuven Marathon</strong> en de <strong>World Transplant Games 2027</strong>.</p>
         </div>
 
-        <!-- Nationale routes -->
-        <h2 class="section-title" data-i18n="routes_title">Populaire routes vanuit Leuven</h2>
+        <!-- ========== Luchthavenroutes - OPTIE A ========== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Leuven
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
         <div class="route-grid">
-            <div class="route-card"><i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i><h3 data-i18n="route1_title">Leuven → Zaventem (BRU)</h3><div class="route-price">€37,50</div><p data-i18n="route1_desc">25 km · ±25 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-plane-departure"></i><h3 data-i18n="route2_title">Leuven → Charleroi (CRL)</h3><div class="route-price">€120</div><p data-i18n="route2_desc">80 km · ±70 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-microchip"></i><h3 data-i18n="route3_title">Leuven → imec / Arenberg</h3><div class="route-price">€7,50 - €10,50</div><p data-i18n="route3_desc">5-7 km · ±12-18 min</p></div>
-            <div class="route-card"><i class="fas fa-hospital"></i><h3 data-i18n="route4_title">Gasthuisberg → Centrum</h3><div class="route-price">€7,50</div><p data-i18n="route4_desc">5 km · ±15 min</p></div>
-            <div class="route-card"><i class="fas fa-church"></i><h3 data-i18n="route5_title">Grote Markt → Station Leuven</h3><div class="route-price">€6</div><p data-i18n="route5_desc">4 km · ±10 min</p></div>
-            <div class="route-card"><i class="fas fa-train"></i><h3 data-i18n="route6_title">Leuven → Brussel</h3><div class="route-price">€45</div><p data-i18n="route6_desc">30 km · ±35 min</p></div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
+                <h3 data-i18n="route1_title">Leuven → Zaventem</h3>
+                <span class="route-airport-code">BRU</span>
+                <div class="route-price">€37,50</div>
+                <p data-i18n="route1_desc">25 km · ±25 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route2_title">Leuven → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€120,00</div>
+                <p data-i18n="route2_desc">80 km · ±70 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Leuven → Antwerpen</h3>
+                <span class="route-airport-code">ANR</span>
+                <div class="route-price">€82,50</div>
+                <p data-i18n="route3_desc">55 km · ±50 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Leuven → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€135,00</div>
+                <p data-i18n="route4_desc">90 km · ±1u 10 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Leuven → Lille</h3>
+                <span class="route-airport-code">LIL</span>
+                <div class="route-price">€225,00</div>
+                <p data-i18n="route5_desc">150 km · ±1u 30 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Leuven → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€307,50</div>
+                <p data-i18n="route6_desc">205 km · ±2u 15 min · vaste prijs</p>
+            </div>
         </div>
 
-        <!-- Internationaal vervoer + servicepunten -->
+        <!-- ========== EXTRA OPTIES & MEERPRIJZEN ========== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="extras_title">➕ Extra opties – transparante meerprijzen</h2>
+            <p data-i18n="extras_intro" style="font-size:1.05rem; line-height:1.6; margin-bottom:20px;">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
+            <ul class="extra-options-list">
+                <li>
+                    <i class="fas fa-car"></i>
+                    <strong data-i18n="extras_break">Break model</strong>
+                    <span data-i18n="extras_break_desc">– Meer bagageruimte</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
+                    <span class="price-tag">+€15,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <strong data-i18n="extras_van">Mini Van</strong>
+                    <span data-i18n="extras_van_desc">– Tot 8 personen</span>
+                    <span class="price-tag">+€10,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <strong data-i18n="extras_meet">Meet &amp; Greet</strong>
+                    <span data-i18n="extras_meet_desc">– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-kiss"></i>
+                    <strong data-i18n="extras_kiss">Kiss &amp; Ride</strong>
+                    <span data-i18n="extras_kiss_desc">– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur</span>
+                    <span class="price-tag free">GRATIS</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========== Extra bestemmingen in Leuven ========== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Ook in Leuven
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Leuven en de regio. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-microchip" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_imec">Leuven → imec / Arenberg</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_imec_desc">Vanaf €30,00 · 5-7 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-hospital" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_gasthuisberg">Gasthuisberg → Centrum</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gasthuisberg_desc">Vanaf €30,00 · 5 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-church" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_markt">Grote Markt → Station Leuven</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_markt_desc">Vanaf €30,00 · 4 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Leuven → Brussel</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€45,00 · 30 km</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Internationaal vervoer ========== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Leuven</h3>
-            <p data-i18n="international_sub">FleetConnect biedt betrouwbare ritten naar Nederland, Duitsland en Frankrijk. De stad is uitstekend verbonden via de E40 en E314, een privé transfer is vaak de snelste en meest comfortabele optie voor internationale reizigers. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
-            <ul style="margin: 16px 0 16px 20px; line-height:1.6;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±205 km – €307,50</li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – €480</li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±150 km – €225</li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±90 km – €135</li>
-                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±120 km – €180</li>
-                <li><strong data-i18n="int_maastricht">Maastricht (NL):</strong> ±75 km – €112,50</li>
-                <li><strong data-i18n="int_brussels">Brussel-Zuid (Eurostar)</strong> – 30 km – €45</li>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. De stad is uitstekend verbonden via de E40 en E314, een privé transfer is vaak de snelste en meest comfortabele optie. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
+                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±205 km – <strong>€307,50</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – <strong>€480</strong></li>
+                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±150 km – <strong>€225</strong></li>
+                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±90 km – <strong>€135</strong></li>
+                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±120 km – <strong>€180</strong></li>
+                <li><strong data-i18n="int_maastricht">Maastricht (NL):</strong> ±75 km – <strong>€112,50</strong></li>
+                <li><strong data-i18n="int_brussels">Brussel-Zuid (Eurostar):</strong> 30 km – <strong>€45</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
@@ -203,48 +345,35 @@
             </div>
         </div>
 
-        <!-- Waarom FleetConnect - uitgebreide gridblokken -->
+        <!-- ========== Waarom FleetConnect - UNIFORM ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Leuven?</h2>
         <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-clock"></i></div>
-                <h3 data-i18n="why1_title">Stipt & punctueel</h3>
-                <p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer of treinverbinding doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Leuven door en door en vermijden files rond de ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-gem"></i></div>
-                <h3 data-i18n="why2_title">Premium vloot</h3>
-                <p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-euro-sign"></i></div>
-                <h3 data-i18n="why3_title">Vaste prijzen</h3>
-                <p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Leuven-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                <h3 data-i18n="why4_title">24/7 service</h3>
-                <p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of een vroege transfer naar een congres – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p>
-            </div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer of treinverbinding doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Leuven door en door en vermijden files rond de ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Leuven-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of een vroege transfer naar een congres – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
-        <!-- Zakelijk en hotelvervoer -->
+        <!-- Zakelijk & hotelvervoer -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk, hotel- en congresvervoer op maat</h2>
-            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van <strong>tientallen hotels</strong> in Leuven, waaronder Park Inn by Radisson Leuven (133 kamers)[reference:7], Novotel Leuven Centrum (6-9 modulaire vergaderzalen met ruimte voor 200 personen)[reference:8] en het sfeervolle pentahotel. Voor zakelijke evenementen werken wij nauw samen met top-locaties als <strong>Brabanthal</strong>, het <strong>Provinciehuis</strong>, de <strong>Abdij van Park</strong> en <strong>Faculty Club</strong>. Ook onderzoekscentra zoals <strong>imec</strong> en <strong>Arenberg Science Park</strong> vertrouwen op onze stipte service voor het vervoer van hun internationale gasten. Facturatie achteraf, groepsvervoer met minivans en VIP-behandeling behoren tot de mogelijkheden. Neem contact op voor een vaste prijs per rit of een abonnement.</p>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van <strong>tientallen hotels</strong> in Leuven, waaronder Park Inn by Radisson Leuven, Novotel Leuven Centrum en pentahotel. Voor zakelijke evenementen werken wij nauw samen met top-locaties als <strong>Brabanthal</strong>, het <strong>Provinciehuis</strong>, de <strong>Abdij van Park</strong> en <strong>Faculty Club</strong>. Ook onderzoekscentra zoals <strong>imec</strong> en <strong>Arenberg Science Park</strong> vertrouwen op onze stipte service voor het vervoer van hun internationale gasten. Facturatie achteraf, groepsvervoer met minivans en VIP-behandeling behoren tot de mogelijkheden.</p>
         </div>
 
         <!-- Extra blok: cultuur en bezienswaardigheden -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Leuven met FleetConnect</h2>
-            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een cultureel uitstapje. Bewonder het <strong>gotische stadhuis</strong> aan de Grote Markt, bezoek de <strong>Sint-Pieterskerk</strong> met de schilderijen van Dirk Bouts, of wandel door de sfeervolle begijnhof (UNESCO Werelderfgoed). Voor degenen die iets bijzonders zoeken, staat de stad in de startblokken voor de opening van het <strong>Vesalius Museum</strong> in 2026. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een <strong>Meet & Greet</strong> op de luchthaven, inclusief bordje met uw naam.</p>
-            <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging. Vragen over een specifieke rit? Neem dan contact op via het formulier hieronder of via WhatsApp.</p>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een cultureel uitstapje. Bewonder het <strong>gotische stadhuis</strong> aan de Grote Markt, bezoek de <strong>Sint-Pieterskerk</strong> met de schilderijen van Dirk Bouts, of wandel door de sfeervolle begijnhof (UNESCO Werelderfgoed). Voor degenen die iets bijzonders zoeken, staat de stad in de startblokken voor de opening van het <strong>Vesalius Museum</strong> in 2026. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad.</p>
+            <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
         </div>
 
         <!-- CTA -->
         <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
-            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Leuven of naar het buitenland?</h2>
-            <p style="margin:20px 0;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.</p>
+            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze luchthaventransfer of rit in Leuven?</h2>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
             <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
         </div>
     </div>
@@ -255,9 +384,9 @@
             <div class="contact-form">
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
-                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail"></div>
-                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2"></textarea></div>
+                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32470123456" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
             </div>
@@ -265,7 +394,7 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
+    <!-- FOOTER – MET GOUDZAND KOPPEN                              -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
@@ -316,166 +445,344 @@
         </div>
     </footer>
     <!-- ========================================================== -->
-    <!-- EINDE FOOTER                                               -->
-    <!-- ========================================================== -->
 
 </div>
 
 <script>
-    // Vertalingen woordenboek voor Leuven (NL/FR/EN)
+    // ============================================================
+    // VERTALINGEN WOORDENBOEK - LEUVEN
+    // ============================================================
     const translations = {
         nl: {
-            language_label: "Taal / Language",
-            nav_home: "Home", nav_exclusive: "Exclusieve service", nav_fixed_prices: "Vaste prijzen", nav_premium_fleet: "Premium vloot",
-            nav_airport: "Luchthavenvervoer", nav_business: "Zakelijk vervoer", nav_events: "Events & Gala", nav_courier: "Koeriersdienst",
-            nav_contact: "Contact", nav_book: "Reserveer nu", login: "LOGIN",
+            // Hero - Uniform
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Leuven",
-            hero_subtitle: "Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu uw rit",
+            hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
+            hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
+            // Intro
             intro_title: "Leuven – Waar kennis, innovatie en geschiedenis samenkomen",
             intro_p1: "Leuven, de bruisende hoofdstad van Vlaams-Brabant, is veel meer dan alleen een studentenstad. Het is een dynamische, internationale kennishub met een rijke geschiedenis die teruggaat tot de middeleeuwen. De KU Leuven, opgericht in 1425, is de oudste katholieke universiteit ter wereld en nog steeds een van de meest toonaangevende onderzoeksuniversiteiten van Europa. De stad wordt gekenmerkt door een mix van indrukwekkende gotische architectuur, zoals het beroemde stadhuis aan de Grote Markt en de Sint-Pieterskerk, en een levendige, jonge en internationale bevolking.",
             intro_p2: "Naast haar academische glorie is Leuven een ware technologie- en innovatiemotor voor de Lage Landen. Het Arenberg Science Park (13 hectare) fungeert als een ecosysteem waar hightechbedrijven, spin-offs van de universiteit en gerenommeerde onderzoeksinstellingen samenwerken. Hier is het wereldberoemde imec (Interuniversitair Micro-Electronica Centrum) gevestigd, dat uitgroeide tot 's werelds toonaangevende onderzoekscentrum voor nano-elektronica en digitale technologieën. Deze sterke band tussen wetenschap en bedrijfsleven trekt jaarlijks duizenden onderzoekers, stagiairs en zakenmensen uit de hele wereld aan.",
-            intro_p3: "FleetConnect is de ideale partner voor universiteiten, onderzoekscentra, biotechbedrijven, hotels en congresorganisatoren in Leuven. Dankzij onze flexibele vloot van luxe sedans, breaks en minivans en onze meertalige chauffeurs zorgen we voor een naadloze transfer. Of het nu gaat om een snelle rit naar de luchthaven, discreet vervoer voor een executive van imec, of een groepsvervoer voor een internationaal congres – FleetConnect staat 24/7 voor u klaar.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor luchthaventransfers, universiteiten, onderzoekscentra, biotechbedrijven, hotels en congresorganisatoren in Leuven. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke, stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat internationale gasten en zakenreizigers zich meteen thuis voelen.",
+            // Events
             events_title: "Evenementen, congressen & innovatiehubs",
-            events_p1: "Leuven heeft zich de afgelopen jaren stevig gepositioneerd als een toonaangevende congresstad. Volgens de 2024–2025 conference study kreeg Leuven een tevredenheidsscore van maar liefst 8.9/10 van organisatoren en deelnemers, waarmee het zich meet met de beste bestemmingen in de regio. Het Leuven Convention Bureau ondersteunt organisatoren bij het plannen van evenementen, van grote internationale congressen tot besloten seminars. In 2026 opent de stad het Vesalius Museum, een nieuw landmark gewijd aan wetenschap en gezondheid, wat de positie van Leuven als 'kennisstad' verder versterkt.",
-            events_p2: "De belangrijkste evenementenlocaties zijn de Brabanthal, met maar liefst 6.000 m² aan flexibele ruimte, het Provinciehuis Vlaams-Brabant met moderne conferentie-infrastructuur en de unieke erfgoedlocaties zoals de Abdij van Park en de Faculty Club in het Groot Begijnhof (UNESCO Werelderfgoed). Daarnaast staat de stad in de schijnwerpers met grote sportevenementen zoals de Leuven Marathon en de World Transplant Games 2027, wat de internationale uitstraling van Leuven onderstreept.",
-            routes_title: "Populaire routes vanuit Leuven",
-            route1_title: "Leuven → Zaventem (BRU)", route1_desc: "25 km · ±25 min · vaste prijs",
-            route2_title: "Leuven → Charleroi (CRL)", route2_desc: "80 km · ±70 min · vaste prijs",
-            route3_title: "Leuven → imec / Arenberg", route3_desc: "5-7 km · ±12-18 min",
-            route4_title: "Gasthuisberg → Centrum", route4_desc: "5 km · ±15 min",
-            route5_title: "Grote Markt → Station Leuven", route5_desc: "4 km · ±10 min",
-            route6_title: "Leuven → Brussel", route6_desc: "30 km · ±35 min",
+            events_p1: "Leuven heeft zich de afgelopen jaren stevig gepositioneerd als een toonaangevende congresstad. Volgens de 2024–2025 conference study kreeg Leuven een tevredenheidsscore van maar liefst 8.9/10 van organisatoren en deelnemers, waarmee het zich meet met de beste bestemmingen in de regio. Het Leuven Convention Bureau ondersteunt organisatoren bij het plannen van evenementen, van grote internationale congressen tot besloten seminars. In 2026 opent de stad het Vesalius Museum, een nieuw landmark gewijd aan wetenschap en gezondheid.",
+            events_p2: "De belangrijkste evenementenlocaties zijn de Brabanthal, met maar liefst 6.000 m² aan flexibele ruimte, het Provinciehuis Vlaams-Brabant met moderne conferentie-infrastructuur en de unieke erfgoedlocaties zoals de Abdij van Park en de Faculty Club in het Groot Begijnhof (UNESCO Werelderfgoed). Daarnaast staat de stad in de schijnwerpers met grote sportevenementen zoals de Leuven Marathon en de World Transplant Games 2027.",
+            // Routes - OPTIE A
+            routes_title: "✈️ Luchthaventransfers vanuit Leuven",
+            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Leuven → Zaventem",
+            route1_desc: "25 km · ±25 min · vaste prijs",
+            route2_title: "Leuven → Charleroi",
+            route2_desc: "80 km · ±70 min · vaste prijs",
+            route3_title: "Leuven → Antwerpen",
+            route3_desc: "55 km · ±50 min · vaste prijs",
+            route4_title: "Leuven → Eindhoven",
+            route4_desc: "90 km · ±1u 10 min · vaste prijs",
+            route5_title: "Leuven → Lille",
+            route5_desc: "150 km · ±1u 30 min · vaste prijs",
+            route6_title: "Leuven → Amsterdam Schiphol",
+            route6_desc: "205 km · ±2u 15 min · vaste prijs",
+            // Extra opties
+            extras_title: "➕ Extra opties – transparante meerprijzen",
+            extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
+            extras_break: "Break model",
+            extras_break_desc: "– Meer bagageruimte",
+            extras_exclusive: "Exclusieve wagen",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Tot 8 personen",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            // Lokale bestemmingen
+            local_title: "📍 Ook in Leuven",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Leuven en de regio. Enkele voorbeelden:",
+            local_imec: "Leuven → imec / Arenberg",
+            local_imec_desc: "Vanaf €30,00 · 5-7 km",
+            local_gasthuisberg: "Gasthuisberg → Centrum",
+            local_gasthuisberg_desc: "Vanaf €30,00 · 5 km",
+            local_markt: "Grote Markt → Station Leuven",
+            local_markt_desc: "Vanaf €30,00 · 4 km",
+            local_brussel: "Leuven → Brussel",
+            local_brussel_desc: "€45,00 · 30 km",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Leuven",
-            international_sub: "FleetConnect biedt betrouwbare ritten naar Nederland, Duitsland en Frankrijk. De stad is uitstekend verbonden via de E40 en E314, een privé transfer is vaak de snelste en meest comfortabele optie voor internationale reizigers. Richtprijzen (sedan, inclusief wachttijd en tol):",
-            int_ams: "Amsterdam (NL)", int_par: "Parijs (FR)", int_lil: "Lille (Rijsel, FR)", int_ein: "Eindhoven (NL)", int_aac: "Aken (DE)", int_maastricht: "Maastricht (NL)", int_brussels: "Brussel-Zuid (Eurostar)",
-            service1_title: "Vluchtmonitoring", service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
-            service2_title: "Documentatie", service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
-            service3_title: "Meertalige chauffeurs", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24-48u vooruit", service4_desc: "Internationale ritten plannen.",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. De stad is uitstekend verbonden via de E40 en E314, een privé transfer is vaak de snelste en meest comfortabele optie. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            int_ams: "Amsterdam (NL)",
+            int_par: "Parijs (FR)",
+            int_lil: "Lille (Rijsel, FR)",
+            int_ein: "Eindhoven (NL)",
+            int_aac: "Aken (DE)",
+            int_maastricht: "Maastricht (NL)",
+            int_brussels: "Brussel-Zuid (Eurostar)",
+            service1_title: "Vluchtmonitoring",
+            service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
+            service2_title: "Documentatie",
+            service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
+            service3_title: "Meertalige chauffeurs",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Reserveer 24-48u vooruit",
+            service4_desc: "Internationale ritten plannen.",
+            // Why - Uniform
             why_title: "Waarom FleetConnect in Leuven?",
-            why1_title: "Stipt & punctueel", why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer of treinverbinding doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Leuven door en door en vermijden files rond de ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_title: "Premium vloot", why2_desc: "Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
-            why3_title: "Vaste prijzen", why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Leuven-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
-            why4_title: "24/7 service", why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of een vroege transfer naar een congres – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            why1_title: "Stipt & punctueel",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer of treinverbinding doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Leuven door en door en vermijden files rond de ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
+            why3_title: "Vaste prijzen",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Leuven-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
+            why4_title: "24/7 service",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of een vroege transfer naar een congres – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            // Business
             business_title: "Zakelijk, hotel- en congresvervoer op maat",
-            business_desc: "FleetConnect is de preferred partner van tientallen hotels in Leuven, waaronder Park Inn by Radisson Leuven (133 kamers), Novotel Leuven Centrum (6-9 modulaire vergaderzalen met ruimte voor 200 personen) en het sfeervolle pentahotel. Voor zakelijke evenementen werken wij nauw samen met top-locaties als Brabanthal, het Provinciehuis, de Abdij van Park en Faculty Club. Ook onderzoekscentra zoals imec en Arenberg Science Park vertrouwen op onze stipte service voor het vervoer van hun internationale gasten. Facturatie achteraf, groepsvervoer met minivans en VIP-behandeling behoren tot de mogelijkheden.",
+            business_desc: "FleetConnect is de preferred partner van tientallen hotels in Leuven, waaronder Park Inn by Radisson Leuven, Novotel Leuven Centrum en pentahotel. Voor zakelijke evenementen werken wij nauw samen met top-locaties als Brabanthal, het Provinciehuis, de Abdij van Park en Faculty Club. Ook onderzoekscentra zoals imec en Arenberg Science Park vertrouwen op onze stipte service voor het vervoer van hun internationale gasten. Facturatie achteraf, groepsvervoer met minivans en VIP-behandeling behoren tot de mogelijkheden.",
+            // Discover
             discover_title: "Ontdek Leuven met FleetConnect",
-            discover_p1: "Combineer uw zakelijke afspraak met een cultureel uitstapje. Bewonder het gotische stadhuis aan de Grote Markt, bezoek de Sint-Pieterskerk met de schilderijen van Dirk Bouts, of wandel door de sfeervolle begijnhof (UNESCO Werelderfgoed). Voor degenen die iets bijzonders zoeken, staat de stad in de startblokken voor de opening van het Vesalius Museum in 2026. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            discover_p1: "Combineer uw zakelijke afspraak met een cultureel uitstapje. Bewonder het gotische stadhuis aan de Grote Markt, bezoek de Sint-Pieterskerk met de schilderijen van Dirk Bouts, of wandel door de sfeervolle begijnhof (UNESCO Werelderfgoed). Voor degenen die iets bijzonders zoeken, staat de stad in de startblokken voor de opening van het Vesalius Museum in 2026. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
-            cta_title: "Klaar voor een zorgeloze rit in Leuven of naar het buitenland?",
-            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.",
+            // CTA
+            cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Leuven?",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
+            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            footer_tagline: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridisch", footer_partners: "Partners"
+            // Sidebar nav
+            language_label: "Taal / Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusieve service",
+            nav_fixed_prices: "Vaste prijzen",
+            nav_premium_fleet: "Premium vloot",
+            nav_airport: "Luchthavenvervoer",
+            nav_business: "Zakelijk vervoer",
+            nav_events: "Events & Gala",
+            nav_courier: "Koeriersdienst",
+            nav_contact: "Contact",
+            nav_book: "Reserveer nu",
+            login: "LOGIN"
         },
         fr: {
-            language_label: "Langue",
-            nav_home: "Accueil", nav_exclusive: "Service exclusif", nav_fixed_prices: "Prix fixes", nav_premium_fleet: "Flotte premium",
-            nav_airport: "Transfert aéroport", nav_business: "Transport d'affaires", nav_events: "Événements & Gala", nav_courier: "Service de messagerie",
-            nav_contact: "Contact", nav_book: "Réservez maintenant", login: "CONNEXION",
+            // Hero - Uniform
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Louvain",
-            hero_subtitle: "Prix fixe €1,50/km | Suivi de vol | Chauffeurs multilingues (NL/FR/EN/DE) | Disponible 24/7",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez votre trajet",
+            hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
+            hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
+            // Intro
             intro_title: "Louvain – Où la connaissance, l'innovation et l'histoire se rencontrent",
             intro_p1: "Louvain, la capitale animée du Brabant flamand, est bien plus qu'une simple ville étudiante. C'est un hub de connaissances dynamique et international avec une riche histoire remontant au Moyen Âge. La KU Leuven, fondée en 1425, est la plus ancienne université catholique du monde et reste l'une des universités de recherche les plus importantes d'Europe. La ville se caractérise par un mélange d'architecture gothique impressionnante, comme l'hôtel de ville sur la Grand-Place et l'église Saint-Pierre, et une population jeune, vivante et internationale.",
-            intro_p2: "Outre sa gloire académique, Louvain est un véritable moteur de technologie et d'innovation pour les Pays-Bas. L'Arenberg Science Park (13 hectares) fonctionne comme un écosystème où les entreprises high-tech, les spin-offs de l'université et les instituts de recherche renommés collaborent. C'est là que se trouve le célèbre imec (Interuniversitair Micro-Electronica Centrum), qui est devenu le centre de recherche mondial leader en nanoélectronique et technologies numériques. Ce lien étroit entre la science et l'entreprise attire chaque année des milliers de chercheurs, stagiaires et hommes d'affaires du monde entier.",
-            intro_p3: "FleetConnect est le partenaire idéal pour les universités, les centres de recherche, les entreprises biotech, les hôtels et les organisateurs de congrès à Louvain. Grâce à notre flotte flexible de berlines de luxe, breaks et minibus, et nos chauffeurs multilingues, nous assurons un transfert sans faille. Qu'il s'agisse d'un trajet rapide vers l'aéroport, d'un transport discret pour un dirigeant d'imec, ou d'un transport de groupe pour un congrès international – FleetConnect est à votre disposition 24h/24 et 7j/7.",
+            intro_p2: "Outre sa gloire académique, Louvain est un véritable moteur de technologie et d'innovation pour les Pays-Bas. L'Arenberg Science Park (13 hectares) fonctionne comme un écosystème où les entreprises high-tech, les spin-offs de l'université et les instituts de recherche renommés collaborent. C'est là que se trouve le célèbre imec, qui est devenu le centre de recherche mondial leader en nanoélectronique et technologies numériques.",
+            intro_p3: "FleetConnect est le partenaire de confiance pour les transferts aéroport, les universités, centres de recherche, entreprises biotech, hôtels et organisateurs de congrès à Louvain. Grâce à notre flotte de Skoda, Mercedes Classe E, BMW Série 5 ou équivalent et minibus de luxe, nous offrons un service irréprochable et ponctuel.",
             events_title: "Événements, congrès et hubs d'innovation",
-            events_p1: "Louvain s'est fermement positionnée ces dernières années comme une ville de congrès de premier plan. Selon l'étude sur les conférences 2024–2025, Louvain a obtenu un score de satisfaction de 8.9/10 de la part des organisateurs et participants, se mesurant ainsi aux meilleures destinations de la région. Le Leuven Convention Bureau accompagne les organisateurs dans la planification d'événements, des grands congrès internationaux aux séminaires privés. En 2026, la ville ouvrira le Vesalius Museum, un nouveau lieu emblématique dédié à la science et à la santé, renforçant ainsi la position de Louvain en tant que 'cité du savoir'.",
-            events_p2: "Les principaux lieux d'événements sont la Brabanthal, avec pas moins de 6 000 m² d'espace flexible, la Maison de la Province du Brabant flamand avec une infrastructure de conférence moderne et des sites patrimoniaux uniques comme l'Abbaye de Parc et le Faculty Club dans le Grand Béguinage (patrimoine mondial de l'UNESCO). De plus, la ville est sous les feux des projecteurs avec de grands événements sportifs comme le Marathon de Louvain et les World Transplant Games 2027, ce qui souligne le rayonnement international de Louvain.",
-            routes_title: "Itinéraires populaires depuis Louvain",
-            route1_title: "Louvain → Zaventem (BRU)", route1_desc: "25 km · ±25 min · prix fixe",
-            route2_title: "Louvain → Charleroi (CRL)", route2_desc: "80 km · ±70 min · prix fixe",
-            route3_title: "Louvain → imec / Arenberg", route3_desc: "5-7 km · ±12-18 min",
-            route4_title: "Gasthuisberg → Centre-ville", route4_desc: "5 km · ±15 min",
-            route5_title: "Grand-Place → Gare de Louvain", route5_desc: "4 km · ±10 min",
-            route6_title: "Louvain → Bruxelles", route6_desc: "30 km · ±35 min",
+            events_p1: "Louvain s'est fermement positionnée ces dernières années comme une ville de congrès de premier plan. Selon l'étude sur les conférences 2024–2025, Louvain a obtenu un score de satisfaction de 8.9/10. Le Leuven Convention Bureau accompagne les organisateurs dans la planification d'événements. En 2026, la ville ouvrira le Vesalius Museum, un nouveau lieu emblématique dédié à la science et à la santé.",
+            events_p2: "Les principaux lieux d'événements sont la Brabanthal, avec 6.000 m² d'espace flexible, la Maison de la Province du Brabant flamand et des sites patrimoniaux uniques comme l'Abbaye de Parc et le Faculty Club dans le Grand Béguinage (UNESCO).",
+            // Routes - OPTIE A
+            routes_title: "✈️ Transferts aéroport depuis Louvain",
+            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Louvain → Zaventem",
+            route1_desc: "25 km · ±25 min · prix fixe",
+            route2_title: "Louvain → Charleroi",
+            route2_desc: "80 km · ±70 min · prix fixe",
+            route3_title: "Louvain → Anvers",
+            route3_desc: "55 km · ±50 min · prix fixe",
+            route4_title: "Louvain → Eindhoven",
+            route4_desc: "90 km · ±1h 10 min · prix fixe",
+            route5_title: "Louvain → Lille",
+            route5_desc: "150 km · ±1h 30 min · prix fixe",
+            route6_title: "Louvain → Amsterdam Schiphol",
+            route6_desc: "205 km · ±2h 15 min · prix fixe",
+            extras_title: "➕ Options supplémentaires – suppléments transparents",
+            extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
+            extras_break: "Break modèle",
+            extras_break_desc: "– Plus d'espace bagages",
+            extras_exclusive: "Voiture exclusive",
+            extras_exclusive_desc: "– Mercedes Classe E / BMW Série 5",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Jusqu'à 8 personnes",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            // Local
+            local_title: "📍 À Louvain également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Louvain et dans la région. Quelques exemples :",
+            local_imec: "Louvain → imec / Arenberg",
+            local_imec_desc: "À partir de €30,00 · 5-7 km",
+            local_gasthuisberg: "Gasthuisberg → Centre-ville",
+            local_gasthuisberg_desc: "À partir de €30,00 · 5 km",
+            local_markt: "Grand-Place → Gare de Louvain",
+            local_markt_desc: "À partir de €30,00 · 4 km",
+            local_brussel: "Louvain → Bruxelles",
+            local_brussel_desc: "€45,00 · 30 km",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
+            // International
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Louvain",
-            international_sub: "FleetConnect propose des trajets fiables vers les Pays-Bas, l'Allemagne et la France. La ville est parfaitement reliée par les E40 et E314, un transfert privé est souvent l'option la plus rapide et la plus confortable pour les voyageurs internationaux. Prix indicatifs (berline, incluant temps d'attente et péages) :",
-            int_ams: "Amsterdam (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_ein: "Eindhoven (NL)", int_aac: "Aix-la-Chapelle (DE)", int_maastricht: "Maastricht (NL)", int_brussels: "Bruxelles-Midi (Eurostar)",
-            service1_title: "Suivi de vol", service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
-            service2_title: "Documentation", service2_desc: "Tous les papiers pour le transport transfrontalier.",
-            service3_title: "Chauffeurs multilingues", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24-48h à l'avance", service4_desc: "Planification des trajets internationaux.",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. La ville est parfaitement reliée par les E40 et E314. Prix indicatifs (berline, incluant temps d'attente et péages):",
+            int_ams: "Amsterdam (NL)",
+            int_par: "Paris (FR)",
+            int_lil: "Lille (FR)",
+            int_ein: "Eindhoven (NL)",
+            int_aac: "Aix-la-Chapelle (DE)",
+            int_maastricht: "Maastricht (NL)",
+            int_brussels: "Bruxelles-Midi (Eurostar)",
+            service1_title: "Suivi de vol",
+            service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
+            service2_title: "Documentation",
+            service2_desc: "Tous les papiers pour le transport transfrontalier.",
+            service3_title: "Chauffeurs multilingues",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Réservez 24-48h à l'avance",
+            service4_desc: "Planification des trajets internationaux.",
+            // Why
             why_title: "Pourquoi FleetConnect à Louvain?",
-            why1_title: "Ponctuel & fiable", why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ou votre liaison ferroviaire ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Louvain et évitent les embouteillages autour du ring. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
-            why2_title: "Flotte premium", why2_desc: "Nos véhicules sont de premier ordre : Mercedes Classe E, BMW Série 5, Lexus et minibus de luxe (Mercedes Classe V). Tous les véhicules ont moins de 3 ans, avec sièges en cuir, climatisation, WiFi gratuit et bouteille d'eau. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
-            why3_title: "Prix fixes", why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Louvain-Zaventem), nous appliquons un tarif forfaitaire tout compris.",
-            why4_title: "Service 24/7", why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un transfert matinal pour un congrès, nous sommes là.",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ou votre liaison ferroviaire ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Louvain et évitent les embouteillages. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit.",
+            why3_title: "Prix fixes",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Louvain-Zaventem), nous appliquons un tarif forfaitaire tout compris.",
+            why4_title: "Service 24/7",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un transfert matinal pour un congrès, nous sommes là.",
             business_title: "Transport professionnel, hôtelier et de congrès sur mesure",
-            business_desc: "FleetConnect est le partenaire privilégié de dizaines d'hôtels à Louvain, dont le Park Inn by Radisson Leuven (133 chambres), le Novotel Leuven Centrum (6-9 salles de réunion modulables pouvant accueillir jusqu'à 200 personnes) et le charmant pentahotel. Pour les événements professionnels, nous collaborons étroitement avec des lieux de premier plan comme la Brabanthal, la Maison de la Province, l'Abbaye de Parc et le Faculty Club. Les centres de recherche comme imec et l'Arenberg Science Park comptent également sur notre service ponctuel pour le transport de leurs hôtes internationaux. Facturation différée, transport de groupe et traitement VIP sont possibles.",
+            business_desc: "FleetConnect est le partenaire privilégié de dizaines d'hôtels à Louvain, dont le Park Inn by Radisson Leuven, le Novotel Leuven Centrum et le pentahotel. Pour les événements professionnels, nous collaborons avec des lieux de premier plan comme la Brabanthal, la Maison de la Province, l'Abbaye de Parc et le Faculty Club. Les centres de recherche comme imec et l'Arenberg Science Park comptent également sur notre service ponctuel.",
             discover_title: "Découvrez Louvain avec FleetConnect",
-            discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade culturelle. Admirez l'hôtel de ville gothique sur la Grand-Place, visitez l'église Saint-Pierre avec les peintures de Dirk Bouts, ou promenez-vous dans le Béguinage (patrimoine mondial de l'UNESCO). Pour ceux qui cherchent quelque chose de spécial, la ville se prépare à l'ouverture du Vesalius Museum en 2026. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
+            discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade culturelle. Admirez l'hôtel de ville gothique sur la Grand-Place, visitez l'église Saint-Pierre ou promenez-vous dans le Béguinage (UNESCO). Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville.",
             discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
-            cta_title: "Prêt pour un trajet sans souci à Louvain ou à l'étranger?",
-            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti.",
+            cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Louvain?",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
-            footer_tagline: "Transport professionnel en Belgique – Style, ponctualité et service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridique", footer_partners: "Partenaires"
+            language_label: "Langue",
+            nav_home: "Accueil",
+            nav_exclusive: "Service exclusif",
+            nav_fixed_prices: "Prix fixes",
+            nav_premium_fleet: "Flotte premium",
+            nav_airport: "Transfert aéroport",
+            nav_business: "Transport d'affaires",
+            nav_events: "Événements & Gala",
+            nav_courier: "Service de messagerie",
+            nav_contact: "Contact",
+            nav_book: "Réservez maintenant",
+            login: "CONNEXION"
         },
         en: {
-            language_label: "Language",
-            nav_home: "Home", nav_exclusive: "Exclusive service", nav_fixed_prices: "Fixed prices", nav_premium_fleet: "Premium fleet",
-            nav_airport: "Airport transfer", nav_business: "Business transport", nav_events: "Events & Gala", nav_courier: "Courier service",
-            nav_contact: "Contact", nav_book: "Book now", login: "LOGIN",
+            // Hero - Uniform
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Leuven",
-            hero_subtitle: "Fixed price €1.50/km | Flight monitoring | Multilingual drivers (NL/FR/EN/DE) | 24/7 available",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Book your ride now",
+            hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
+            hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
+            // Intro
             intro_title: "Leuven – Where knowledge, innovation and history meet",
-            intro_p1: "Leuven, the vibrant capital of Flemish Brabant, is much more than just a student city. It is a dynamic, international knowledge hub with a rich history dating back to the Middle Ages. KU Leuven, founded in 1425, is the oldest Catholic university in the world and remains one of Europe's most prominent research universities. The city is characterised by a mix of impressive Gothic architecture, such as the famous town hall on the Grote Markt and St. Peter's Church, and a lively, young and international population.",
-            intro_p2: "Beyond its academic glory, Leuven is a true technology and innovation engine for the Low Countries. The Arenberg Science Park (13 hectares) functions as an ecosystem where high-tech companies, university spin-offs and renowned research institutes collaborate. This is where the world-famous imec (Interuniversity Microelectronics Centre) is located, which has grown into the world's leading research centre for nanoelectronics and digital technologies. This strong link between science and business attracts thousands of researchers, trainees and business people from all over the world every year.",
-            intro_p3: "FleetConnect is the ideal partner for universities, research centres, biotech companies, hotels and conference organisers in Leuven. Thanks to our flexible fleet of luxury sedans, estates and minivans and our multilingual drivers, we ensure a seamless transfer. Whether it's a quick trip to the airport, discreet transport for an imec executive, or group transport for an international conference – FleetConnect is available 24/7.",
+            intro_p1: "Leuven, the vibrant capital of Flemish Brabant, is much more than just a student city. It is a dynamic, international knowledge hub with a rich history dating back to the Middle Ages. KU Leuven, founded in 1425, is the oldest Catholic university in the world and remains one of Europe's most prominent research universities. The city is characterised by a mix of impressive Gothic architecture and a lively, young and international population.",
+            intro_p2: "Beyond its academic glory, Leuven is a true technology and innovation engine for the Low Countries. The Arenberg Science Park functions as an ecosystem where high-tech companies, university spin-offs and renowned research institutes collaborate. This is where the world-famous imec is located, which has grown into the world's leading research centre for nanoelectronics and digital technologies.",
+            intro_p3: "FleetConnect is the trusted partner for airport transfers, universities, research centres, biotech companies, hotels and conference organisers in Leuven. Thanks to our fleet of Skoda, Mercedes E-Class, BMW 5 Series or equivalent and luxury minivans, we offer impeccable, punctual service.",
             events_title: "Events, conferences & innovation hubs",
-            events_p1: "In recent years, Leuven has firmly positioned itself as a leading conference city. According to the 2024–2025 conference study, Leuven received a satisfaction score of 8.9/10 from organisers and participants, putting it on a par with the best destinations in the region. The Leuven Convention Bureau supports organisers in planning events, from large international conferences to private seminars. In 2026, the city will open the Vesalius Museum, a new landmark dedicated to science and health, further strengthening Leuven's position as a 'city of knowledge'.",
-            events_p2: "The main event venues are Brabanthal, with no less than 6,000 m² of flexible space, the Provincial Government House of Flemish Brabant with modern conference infrastructure, and unique heritage sites such as Park Abbey and the Faculty Club in the Grand Béguinage (UNESCO World Heritage). In addition, the city is in the spotlight with major sporting events such as the Leuven Marathon and the 2027 World Transplant Games, underlining Leuven's international appeal.",
-            routes_title: "Popular routes from Leuven",
-            route1_title: "Leuven → Zaventem (BRU)", route1_desc: "25 km · ±25 min · fixed price",
-            route2_title: "Leuven → Charleroi (CRL)", route2_desc: "80 km · ±70 min · fixed price",
-            route3_title: "Leuven → imec / Arenberg", route3_desc: "5-7 km · ±12-18 min",
-            route4_title: "Gasthuisberg → City Centre", route4_desc: "5 km · ±15 min",
-            route5_title: "Grote Markt → Leuven Station", route5_desc: "4 km · ±10 min",
-            route6_title: "Leuven → Brussels", route6_desc: "30 km · ±35 min",
+            events_p1: "In recent years, Leuven has firmly positioned itself as a leading conference city. According to the 2024–2025 conference study, Leuven received a satisfaction score of 8.9/10. The Leuven Convention Bureau supports organisers in planning events. In 2026, the city will open the Vesalius Museum, a new landmark dedicated to science and health.",
+            events_p2: "The main event venues are Brabanthal, with 6,000 m² of flexible space, the Provincial Government House and unique heritage sites such as Park Abbey and the Faculty Club in the Grand Béguinage (UNESCO).",
+            // Routes - OPTIE A
+            routes_title: "✈️ Airport transfers from Leuven",
+            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Leuven → Zaventem",
+            route1_desc: "25 km · ±25 min · fixed price",
+            route2_title: "Leuven → Charleroi",
+            route2_desc: "80 km · ±70 min · fixed price",
+            route3_title: "Leuven → Antwerp",
+            route3_desc: "55 km · ±50 min · fixed price",
+            route4_title: "Leuven → Eindhoven",
+            route4_desc: "90 km · ±1h 10 min · fixed price",
+            route5_title: "Leuven → Lille",
+            route5_desc: "150 km · ±1h 30 min · fixed price",
+            route6_title: "Leuven → Amsterdam Schiphol",
+            route6_desc: "205 km · ±2h 15 min · fixed price",
+            extras_title: "➕ Extra options – clear surcharges",
+            extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
+            extras_break: "Break model",
+            extras_break_desc: "– More luggage space",
+            extras_exclusive: "Exclusive car",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Up to 8 persons",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            // Local
+            local_title: "📍 Also in Leuven",
+            local_desc: "In addition to airport transfers, we also provide reliable transport within Leuven and the region. Some examples:",
+            local_imec: "Leuven → imec / Arenberg",
+            local_imec_desc: "From €30.00 · 5-7 km",
+            local_gasthuisberg: "Gasthuisberg → City Centre",
+            local_gasthuisberg_desc: "From €30.00 · 5 km",
+            local_markt: "Grote Markt → Leuven Station",
+            local_markt_desc: "From €30.00 · 4 km",
+            local_brussel: "Leuven → Brussels",
+            local_brussel_desc: "€45.00 · 30 km",
+            local_cta: "Other destination? Request a free quote",
+            // International
             international_title: "<i class='fas fa-globe'></i> International transport from Leuven",
-            international_sub: "FleetConnect offers reliable rides to the Netherlands, Germany and France. The city is excellently connected via the E40 and E314, a private transfer is often the fastest and most comfortable option for international travellers. Indicative prices (sedan, including waiting time and tolls):",
-            int_ams: "Amsterdam (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_ein: "Eindhoven (NL)", int_aac: "Aachen (DE)", int_maastricht: "Maastricht (NL)", int_brussels: "Brussels-South (Eurostar)",
-            service1_title: "Flight monitoring", service1_desc: "We track your flight; free waiting time in case of delay.",
-            service2_title: "Documentation", service2_desc: "All documents for cross-border transport.",
-            service3_title: "Multilingual drivers", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24-48h in advance", service4_desc: "Plan international trips.",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. The city is excellently connected via the E40 and E314. Indicative prices (sedan, including waiting time and tolls):",
+            int_ams: "Amsterdam (NL)",
+            int_par: "Paris (FR)",
+            int_lil: "Lille (FR)",
+            int_ein: "Eindhoven (NL)",
+            int_aac: "Aachen (DE)",
+            int_maastricht: "Maastricht (NL)",
+            int_brussels: "Brussels-South (Eurostar)",
+            service1_title: "Flight monitoring",
+            service1_desc: "We track your flight; free waiting time in case of delay.",
+            service2_title: "Documentation",
+            service2_desc: "All documents for cross-border transport.",
+            service3_title: "Multilingual drivers",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Book 24-48h in advance",
+            service4_desc: "Plan international trips.",
+            // Why
             why_title: "Why FleetConnect in Leuven?",
-            why1_title: "Punctual & reliable", why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number or train connection; we adjust pick-up time in case of delay at no extra cost. Our drivers know Leuven's back streets and avoid traffic jams around the ring. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
-            why2_title: "Premium fleet", why2_desc: "Our vehicles are top quality: Mercedes E-Class, BMW 5 Series, Lexus and luxury minivans (Mercedes V-Class). All vehicles are less than 3 years old, with leather seats, air conditioning, free WiFi and bottled water. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
-            why3_title: "Fixed prices", why3_desc: "No meter, no surprises. You pay €1.50 per kilometer – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Leuven-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
-            why4_title: "24/7 service", why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or an early morning transfer to a conference, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            why1_title: "Punctual & reliable",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number or train connection; we adjust pick-up time in case of delay at no extra cost. Our drivers know Leuven's back streets and avoid traffic jams. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi.",
+            why3_title: "Fixed prices",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Leuven-Zaventem), we offer an all-in fixed rate.",
+            why4_title: "24/7 service",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or an early morning transfer to a conference, we are ready.",
             business_title: "Customised business, hotel & conference transport",
-            business_desc: "FleetConnect is the preferred partner of dozens of hotels in Leuven, including Park Inn by Radisson Leuven (133 rooms), Novotel Leuven Centrum (6-9 modular meeting rooms accommodating up to 200 people) and the charming pentahotel. For business events, we work closely with top venues such as Brabanthal, the Provincial Government House, Park Abbey and Faculty Club. Research centres such as imec and Arenberg Science Park also rely on our punctual service for transporting their international guests. Invoicing after the fact, group transport with minivans and VIP treatment are possible.",
+            business_desc: "FleetConnect is the preferred partner of dozens of hotels in Leuven, including Park Inn by Radisson Leuven, Novotel Leuven Centrum and pentahotel. For business events, we work closely with top venues such as Brabanthal, the Provincial Government House, Park Abbey and Faculty Club. Research centres such as imec and Arenberg Science Park also rely on our punctual service.",
             discover_title: "Discover Leuven with FleetConnect",
-            discover_p1: "Combine your business appointment with a cultural excursion. Admire the Gothic town hall on the Grote Markt, visit St. Peter's Church with the paintings of Dirk Bouts, or take a stroll through the atmospheric Begijnhof (UNESCO World Heritage). For those looking for something special, the city is preparing for the opening of the Vesalius Museum in 2026. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
+            discover_p1: "Combine your business appointment with a cultural excursion. Admire the Gothic town hall on the Grote Markt, visit St. Peter's Church, or take a stroll through the atmospheric Begijnhof (UNESCO). Our drivers also act as informal guides and are happy to give you tips about the city.",
             discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
-            cta_title: "Ready for a worry-free ride in Leuven or abroad?",
-            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed.",
+            cta_title: "Ready for a worry-free airport transfer or ride in Leuven?",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
             contact_name_label: "<i class='fas fa-user'></i> Your name *",
             contact_email_label: "<i class='fas fa-envelope'></i> Email *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Send",
-            footer_tagline: "Professional transport in Belgium – Style, punctuality and service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Legal", footer_partners: "Partners"
+            language_label: "Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusive service",
+            nav_fixed_prices: "Fixed prices",
+            nav_premium_fleet: "Premium fleet",
+            nav_airport: "Airport transfer",
+            nav_business: "Business transport",
+            nav_events: "Events & Gala",
+            nav_courier: "Courier service",
+            nav_contact: "Contact",
+            nav_book: "Book now",
+            login: "LOGIN"
         }
     };
 
+    // ============================================================
+    // HUIDIGE TAAL
+    // ============================================================
     let currentLang = 'nl';
 
     function translatePage() {
@@ -501,6 +808,7 @@
         document.documentElement.lang = currentLang;
     }
 
+    // Event listeners voor taalknoppen
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
@@ -511,12 +819,17 @@
         });
     });
 
+    // Initialiseer vertaling
     translatePage();
 
+    // ============================================================
+    // HAMBURGER MENU FUNCTIONALITEIT
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
+        
         if (hamburgerBtn) {
             hamburgerBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -545,10 +858,15 @@
                 document.body.style.overflow = '';
             }
         });
+        
+        // Contactformulier verzenden
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
-                alert(currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' : (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' : 'Message sent! We will contact you as soon as possible.'));
+                const msg = currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' :
+                           (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' :
+                            'Message sent! We will contact you as soon as possible.');
+                alert(msg);
             });
         }
     });
