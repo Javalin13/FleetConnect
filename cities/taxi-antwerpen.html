@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Antwerpen – Diamantstad & internationale haven</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Antwerpen. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. Ritten naar Deurne (ANR), Zaventem, Amsterdam, Rotterdam, Düsseldorf. 24/7 beschikbaar.">
+    <title>FleetConnect | Taxi Antwerpen – Luchthaventransfers & internationale haven</title>
+    <meta name="description" content="FleetConnect biedt professionele luchthaventransfers vanuit Antwerpen. Vaste prijs €1,50/km. Ritten naar Deurne (ANR), Zaventem (BRU), Charleroi (CRL), Eindhoven (EIN), Amsterdam (AMS), Düsseldorf (DUS). 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Dezelfde stijl als in Brussel – hier volledig herhaald */
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
-        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
         body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
         .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
         .container{width:100%;max-width:1300px;margin:0 auto;padding:0 24px}
-        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem}
+        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem;transition:0.2s}
         .hamburger-btn:hover{background:var(--primary-dark)}
         .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1001;visibility:hidden;opacity:0;transition:all 0.3s ease}
         .sidebar-overlay.active{visibility:visible;opacity:1}
@@ -25,22 +24,31 @@
         .sidebar-header h3{color:white;display:flex;align-items:center;gap:8px}
         .close-menu{background:rgba(255,255,255,0.2);border:none;font-size:1.5rem;cursor:pointer;color:white;width:32px;height:32px;border-radius:50%}
         .sidebar-nav{display:flex;flex-direction:column;padding:20px 16px;gap:8px;flex:1;overflow-y:auto}
-        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light)}
+        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light);transition:0.2s}
         .sidebar-nav a i{width:24px;color:var(--primary)}
         .sidebar-nav a:hover{background:#eef2fa;border-color:var(--primary)}
         .login-section{padding:16px;border-top:1px solid var(--border-light);margin-top:auto;flex-shrink:0}
-        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px}
+        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
+        .login-btn:hover{opacity:0.9}
+        
+        /* ========== HERO SECTIE ========== */
         .hero{padding:80px 0 40px;text-align:center}
-        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:40px 30px;border-radius:48px;border:1px solid var(--border-light)}
-        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary)}
-        .hero-card p{font-size:1.2rem;color:var(--text-light);margin-bottom:20px}
-        .btn-primary{background:var(--primary);color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-primary:hover{background:var(--primary-dark)}
+        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
+        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
+        .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
+        .hero-card .hero-slogan i{color:var(--primary)}
+        .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
+        .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
+        .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
+        
+        .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
         .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
-        .route-grid, .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
-        .route-card, .feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
-        .route-card:hover, .feature-card:hover{transform:translateY(-4px)}
+        .route-grid,.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
+        .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
+        .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
         .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
         .feature-card{text-align:center}
         .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
         .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
@@ -52,73 +60,71 @@
         .contact-form h3{margin-bottom:20px;color:var(--primary);text-align:center}
         .compact-form{display:flex;flex-direction:column;gap:16px}
         .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
+        .compact-form input:focus,.compact-form textarea:focus{outline:none;border-color:var(--primary)}
         .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
-        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-whatsapp:hover{background:#128C7E}
-
-        /* ========================================================== */
-        /* FOOTER STIJLING – EXACT GELIJK AAN BOEKINGWEBSITE          */
-        /* ========================================================== */
-        .footer-dark {
-            background: #0d1f2c;
-            color: #e0edf5;
-            padding: 48px 0 24px;
-            margin-top: 60px;
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
+        
+        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
+        .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
+        .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
+        .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+        
+        /* ========== EXTRA OPTIES LIJST ========== */
+        .extra-options-list{list-style:none;margin:0;padding:0}
+        .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .extra-options-list li:last-child{border-bottom:none}
+        .extra-options-list li i{color:var(--primary);width:24px}
+        .extra-options-list li .price-tag{background:var(--primary);color:white;padding:2px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:auto}
+        .extra-options-list li .price-tag.free{background:var(--accent-green)}
+        .extra-options-list li strong{min-width:120px}
+        .extra-options-list li span{color:var(--text-light)}
+        
+        /* ========== FOOTER - GOUDZAND KOPPEN ========== */
+        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
+        .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
+        .footer-grid h4{color:#c9a03d !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
+        .footer-grid a:hover{color:#c9a03d;text-decoration:underline}
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:#c9a03d;text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width:800px){
+            .hero-card{padding:30px 20px}
+            .hero-card h1{font-size:2rem}
+            .hero-card .hero-slogan{font-size:1.3rem}
+            .hero-card .hero-features{font-size:0.95rem}
+            .section-title{font-size:1.5rem}
+            .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
+            .lang-btn{font-size:0.7rem;padding:4px 10px}
+            .extra-options-list li strong{min-width:100px}
         }
-        .footer-grid {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 30px;
+        @media (max-width:500px){
+            .container{padding:0 12px}
+            .hero-card{padding:24px 16px}
+            .hero-card h1{font-size:1.5rem}
+            .hero-card .hero-slogan{font-size:1.1rem}
+            .hero-card .hero-features{font-size:0.8rem}
+            .hero-card .btn-primary{padding:14px 28px;font-size:0.95rem}
+            .language-switcher{top:10px;right:10px;gap:4px;padding:4px 8px}
+            .lang-btn{font-size:0.6rem;padding:3px 8px}
+            .route-grid,.features-grid{grid-template-columns:1fr}
+            .extra-options-list li{flex-wrap:wrap}
+            .extra-options-list li .price-tag{margin-left:0}
         }
-        .footer-grid h4 {
-            color: #e0edf5;
-            margin-bottom: 16px;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        .footer-grid a {
-            color: #e0edf5;
-            text-decoration: none;
-            line-height: 1.8;
-            display: block;
-        }
-        .footer-grid a:hover {
-            color: #c9a03d;
-            text-decoration: underline;
-        }
-        .footer-brand p {
-            color: #e0edf5;
-            line-height: 1.8;
-        }
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(224,237,245,0.2);
-            padding-top: 24px;
-            font-size: 0.85rem;
-        }
-        .footer-bottom a {
-            color: #c9a03d;
-            text-decoration: none;
-        }
-        .footer-bottom a:hover {
-            text-decoration: underline;
-        }
-        /* ========================================================== */
-
-        .lang-switcher{display:flex;gap:8px;align-items:center}
-        .lang-btn{background:transparent;border:1px solid var(--border-light);padding:6px 12px;border-radius:30px;cursor:pointer;font-weight:500;transition:all 0.2s}
-        .lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
-        @media (max-width:800px){.hero-card h1{font-size:2rem}.section-title{font-size:1.5rem}}
     </style>
 </head>
 <body>
 
 <div id="background-map"></div>
 
+<!-- ========== HAMBURGER MENU ========== -->
 <button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
 
+<!-- ========== SIDEBAR ========== -->
 <div class="sidebar-overlay" id="sidebarOverlay">
     <div class="sidebar">
         <div class="sidebar-header"><h3><i class="fas fa-car"></i> FleetConnect</h3><button class="close-menu" id="closeMenuBtn">&times;</button></div>
@@ -141,17 +147,37 @@
             <a href="#contact"><i class="fas fa-envelope"></i> <span data-i18n="nav_contact">Contact</span></a>
             <a href="/PV/PV.html#booking"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav_book">Reserveer nu</span></a>
         </div>
-        <div class="login-section"><a href="index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
+        <div class="login-section"><a href="/PV/index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
     </div>
 </div>
 
+<!-- ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
 <div class="content-overlay">
+    <!-- ========== HERO SECTIE - UNIFORM MET BRUSSEL ========== -->
     <section class="hero">
         <div class="container">
             <div class="hero-card">
-                <h1 data-i18n="hero_title"><i class="fas fa-taxi"></i> FleetConnect | Taxi Antwerpen</h1>
-                <p data-i18n="hero_subtitle">Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar</p>
-                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn"><i class="fas fa-calendar-check"></i> Boek nu uw rit</a>
+                <h1 data-i18n="hero_title">
+                    <i class="fas fa-taxi"></i> FleetConnect | Taxi Antwerpen
+                </h1>
+                <div style="height:16px;"></div>
+                <p class="hero-slogan" data-i18n="hero_slogan" style="font-weight:700;">
+                    <strong>"Uw rit, onze zorg. Vaste prijs, 24/7."</strong>
+                </p>
+                <div style="height:20px;"></div>
+                <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
+                    <strong>€1,50/km • Luchthaventransfers • Meertalige chauffeurs</strong>
+                </p>
+                <div style="height:30px;"></div>
+                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
+                    <i class="fas fa-calendar-check"></i> Boek nu →
+                </a>
             </div>
         </div>
     </section>
@@ -162,7 +188,7 @@
             <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Antwerpen – Diamantstad, Haven en Modehoofdstad</h2>
             <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Antwerpen is de op een na grootste stad van België en heeft een unieke, kosmopolitische uitstraling. De stad staat internationaal bekend als dé <strong>diamantstad</strong> en <strong>modehoofdstad</strong>, maar is ook de thuisbasis van de op een na grootste haven van Europa. De <strong>diamantwijk</strong> rond het Centraal Station is het kloppende hart van de wereldwijde diamanthandel. Met meer dan 1.470 bedrijven en maar liefst 70 verschillende nationaliteiten werken dagelijks duizenden handelaars, slijpers en veilingbedrijven.</p>
             <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Daarnaast is Antwerpen een <strong>internationaal gerenommeerde modestad</strong>, mede dankzij de legendarische <strong>Antwerpse Zes</strong> die veertig jaar geleden de mode-industrie op zijn kop zette. Het <strong>ModeMuseum (MoMu)</strong> en het <strong>KMSKA</strong> (Koninklijk Museum voor Schone Kunsten) bieden een schat aan culturele hoogtepunten. Het <strong>MAS (Museum aan de Stroom)</strong> op het Eilandje vertelt het verhaal van de haven en de stad.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>diamantkantoren, havenbedrijven, hotels en congrescentra</strong> in Antwerpen. Dankzij onze vloot van Mercedes, BMW en luxe minivans bieden we een onberispelijke, stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat internationale gasten en zakenreizigers zich meteen thuis voelen.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>luchthaventransfers, diamantkantoren, havenbedrijven, hotels en congrescentra</strong> in Antwerpen. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke, stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat internationale gasten en zakenreizigers zich meteen thuis voelen.</p>
         </div>
 
         <!-- Blok 2: Evenementen en zakenwijken -->
@@ -172,29 +198,144 @@
             <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Antwerp Expo</strong> (congres- en beurscentrum), het <strong>Eilandje</strong> (creatieve hub met het MAS en innovatieve kantoren), de <strong>Kantoorwijk Antwerpen-Noord</strong> (nabij de haven) en het <strong>Wetenschapspark</strong> (POM Antwerpen). Ook het iconische <strong>Havenhuis</strong>, een ontwerp van Zaha Hadid, is het kloppende hart van de haven en een visitekaartje van de moderne stad.</p>
         </div>
 
-        <!-- Nationale routes -->
-        <h2 class="section-title" data-i18n="routes_title">Populaire routes vanuit Antwerpen</h2>
+        <!-- ========== Luchthavenroutes - OPTIE A (6 luchthavens) ========== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Antwerpen
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
         <div class="route-grid">
-            <div class="route-card"><i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i><h3 data-i18n="route1_title">Antwerpen → Deurne (ANR)</h3><div class="route-price">€7,50</div><p data-i18n="route1_desc">5 km · ±15 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-plane-departure"></i><h3 data-i18n="route2_title">Antwerpen → Zaventem (BRU)</h3><div class="route-price">€67,50</div><p data-i18n="route2_desc">45 km · ±50 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-ship"></i><h3 data-i18n="route3_title">Antwerpen → Haven (Eilandje)</h3><div class="route-price">€10 - €18</div><p data-i18n="route3_desc">7-12 km · ±15-25 min</p></div>
-            <div class="route-card"><i class="fas fa-gem"></i><h3 data-i18n="route4_title">Centraal Station → Diamantwijk</h3><div class="route-price">€4,50</div><p data-i18n="route4_desc">3 km · ±8 min · veilig</p></div>
-            <div class="route-card"><i class="fas fa-music"></i><h3 data-i18n="route5_title">Centrum → Sportpaleis</h3><div class="route-price">€9 - €12</div><p data-i18n="route5_desc">6-8 km · ±15 min</p></div>
-            <div class="route-card"><i class="fas fa-train"></i><h3 data-i18n="route6_title">Antwerpen → Gent</h3><div class="route-price">€82,50</div><p data-i18n="route6_desc">55 km · ±60 min</p></div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
+                <h3 data-i18n="route1_title">Antwerpen → Deurne</h3>
+                <span class="route-airport-code">ANR</span>
+                <div class="route-price">€30,00</div>
+                <p data-i18n="route1_desc">5 km · ±15 min · minimumtarief</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route2_title">Antwerpen → Zaventem</h3>
+                <span class="route-airport-code">BRU</span>
+                <div class="route-price">€67,50</div>
+                <p data-i18n="route2_desc">45 km · ±50 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Antwerpen → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€120,00</div>
+                <p data-i18n="route3_desc">80 km · ±1u 15 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Antwerpen → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€120,00</div>
+                <p data-i18n="route4_desc">80 km · ±1u 10 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Antwerpen → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€240,00</div>
+                <p data-i18n="route5_desc">160 km · ±2u 00 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Antwerpen → Düsseldorf</h3>
+                <span class="route-airport-code">DUS</span>
+                <div class="route-price">€330,00</div>
+                <p data-i18n="route6_desc">220 km · ±2u 30 min · vaste prijs</p>
+            </div>
         </div>
 
-        <!-- Internationaal vervoer + servicepunten -->
+        <!-- ========== EXTRA OPTIES & MEERPRIJZEN ========== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="extras_title">➕ Extra opties – transparante meerprijzen</h2>
+            <p data-i18n="extras_intro" style="font-size:1.05rem; line-height:1.6; margin-bottom:20px;">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
+            <ul class="extra-options-list">
+                <li>
+                    <i class="fas fa-car"></i>
+                    <strong data-i18n="extras_break">Break model</strong>
+                    <span data-i18n="extras_break_desc">– Meer bagageruimte</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
+                    <span class="price-tag">+€15,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <strong data-i18n="extras_van">Mini Van</strong>
+                    <span data-i18n="extras_van_desc">– Tot 8 personen</span>
+                    <span class="price-tag">+€10,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <strong data-i18n="extras_meet">Meet &amp; Greet</strong>
+                    <span data-i18n="extras_meet_desc">– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-kiss"></i>
+                    <strong data-i18n="extras_kiss">Kiss &amp; Ride</strong>
+                    <span data-i18n="extras_kiss_desc">– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur</span>
+                    <span class="price-tag free">GRATIS</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========== Extra bestemmingen in Antwerpen ========== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Ook binnen Antwerpen
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Antwerpen en de regio. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-ship" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_haven">Haven (Eilandje)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_haven_desc">Vanaf €30,00 · 7-12 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-gem" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_diamond">Diamantwijk</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_diamond_desc">Vanaf €30,00 · 3 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-music" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_sportpaleis">Sportpaleis</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_sportpaleis_desc">Vanaf €30,00 · 6-8 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_gent">Gent</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gent_desc">€82,50 · 55 km</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Internationaal vervoer ========== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Antwerpen</h3>
-            <p data-i18n="international_sub">FleetConnect biedt betrouwbare ritten naar Nederland, Duitsland en Frankrijk. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
-            <ul style="margin: 16px 0 16px 20px; line-height:1.6;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±160 km – €290</li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±100 km – €220</li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±80 km – €120</li>
-                <li><strong data-i18n="int_dus">Düsseldorf (DE):</strong> ±220 km – €280</li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±140 km – €180</li>
-                <li><strong data-i18n="int_mst">Maastricht (NL):</strong> ±110 km – €165</li>
-                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±150 km – €225</li>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±160 km – <strong>€240</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±100 km – <strong>€150</strong></li>
+                <li><strong data-i18n="int_ein">Eindhoven (NL) – Airport:</strong> ±80 km – <strong>€120</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±140 km – <strong>€210</strong></li>
+                <li><strong data-i18n="int_mst">Maastricht (NL):</strong> ±110 km – <strong>€165</strong></li>
+                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±150 km – <strong>€225</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
@@ -204,12 +345,15 @@
             </div>
         </div>
 
-        <!-- Waarom FleetConnect - uitgebreide gridblokken -->
+        <!-- ========== Waarom FleetConnect - UNIFORM MET BRUSSEL ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Antwerpen?</h2>
         <div class="features-grid">
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Antwerpen door en door en vermijden files rond de Ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Antwerpen-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Antwerpen en vermijden files rond de Ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Antwerpen-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
@@ -228,8 +372,8 @@
 
         <!-- CTA -->
         <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
-            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Antwerpen of naar het buitenland?</h2>
-            <p style="margin:20px 0;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.</p>
+            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze luchthaventransfer of rit in Antwerpen?</h2>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
             <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
         </div>
     </div>
@@ -240,9 +384,9 @@
             <div class="contact-form">
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
-                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail"></div>
-                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2"></textarea></div>
+                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32470123456" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
             </div>
@@ -250,7 +394,7 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
+    <!-- FOOTER – MET GOUDZAND KOPPEN                              -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
@@ -301,166 +445,344 @@
         </div>
     </footer>
     <!-- ========================================================== -->
-    <!-- EINDE FOOTER                                               -->
-    <!-- ========================================================== -->
 
 </div>
 
 <script>
-    // Vertalingen woordenboek voor Antwerpen (NL/FR/EN)
+    // ============================================================
+    // VERTALINGEN WOORDENBOEK
+    // ============================================================
     const translations = {
         nl: {
-            language_label: "Taal / Language",
-            nav_home: "Home", nav_exclusive: "Exclusieve service", nav_fixed_prices: "Vaste prijzen", nav_premium_fleet: "Premium vloot",
-            nav_airport: "Luchthavenvervoer", nav_business: "Zakelijk vervoer", nav_events: "Events & Gala", nav_courier: "Koeriersdienst",
-            nav_contact: "Contact", nav_book: "Reserveer nu", login: "LOGIN",
+            // Hero - Uniform met Brussel
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Antwerpen",
-            hero_subtitle: "Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu uw rit",
+            hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
+            hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
+            // Intro
             intro_title: "Antwerpen – Diamantstad, Haven en Modehoofdstad",
             intro_p1: "Antwerpen is de op een na grootste stad van België en heeft een unieke, kosmopolitische uitstraling. De stad staat internationaal bekend als dé diamantstad en modehoofdstad, maar is ook de thuisbasis van de op een na grootste haven van Europa. De diamantwijk rond het Centraal Station is het kloppende hart van de wereldwijde diamanthandel. Met meer dan 1.470 bedrijven en maar liefst 70 verschillende nationaliteiten werken dagelijks duizenden handelaars, slijpers en veilingbedrijven.",
             intro_p2: "Daarnaast is Antwerpen een internationaal gerenommeerde modestad, mede dankzij de legendarische Antwerpse Zes die veertig jaar geleden de mode-industrie op zijn kop zette. Het ModeMuseum (MoMu) en het KMSKA (Koninklijk Museum voor Schone Kunsten) bieden een schat aan culturele hoogtepunten. Het MAS (Museum aan de Stroom) op het Eilandje vertelt het verhaal van de haven en de stad.",
-            intro_p3: "FleetConnect is de vertrouwde partner voor diamantkantoren, havenbedrijven, hotels en congrescentra in Antwerpen. Dankzij onze vloot van Mercedes, BMW en luxe minivans bieden we een onberispelijke, stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat internationale gasten en zakenreizigers zich meteen thuis voelen.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor luchthaventransfers, diamantkantoren, havenbedrijven, hotels en congrescentra in Antwerpen. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke, stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat internationale gasten en zakenreizigers zich meteen thuis voelen.",
+            // Events
             events_title: "Evenementen & zakenwijken in Antwerpen",
             events_p1: "Antwerpen bruist het hele jaar door van de evenementen. De belangrijkste trekpleisters zijn de gigantische concerten in het Sportpaleis (een van de grootste concertzalen van Europa) en de Lotto Arena. Daarnaast staat de stad op de internationale kalender met evenementen zoals het Antwerp.Fashion Festival in juni, de Tall Ships Races in juli en de Antwerp Design Week.",
             events_p2: "De belangrijkste zakenwijken zijn het Antwerp Expo (congres- en beurscentrum), het Eilandje (creatieve hub met het MAS en innovatieve kantoren), de Kantoorwijk Antwerpen-Noord (nabij de haven) en het Wetenschapspark (POM Antwerpen). Ook het iconische Havenhuis, een ontwerp van Zaha Hadid, is het kloppende hart van de haven.",
-            routes_title: "Populaire routes vanuit Antwerpen",
-            route1_title: "Antwerpen → Deurne (ANR)", route1_desc: "5 km · ±15 min · vaste prijs",
-            route2_title: "Antwerpen → Zaventem (BRU)", route2_desc: "45 km · ±50 min · vaste prijs",
-            route3_title: "Antwerpen → Haven (Eilandje)", route3_desc: "7-12 km · ±15-25 min",
-            route4_title: "Centraal Station → Diamantwijk", route4_desc: "3 km · ±8 min · veilig",
-            route5_title: "Centrum → Sportpaleis", route5_desc: "6-8 km · ±15 min",
-            route6_title: "Antwerpen → Gent", route6_desc: "55 km · ±60 min",
+            // Routes - OPTIE A (6 luchthavens)
+            routes_title: "✈️ Luchthaventransfers vanuit Antwerpen",
+            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Antwerpen → Deurne",
+            route1_desc: "5 km · ±15 min · minimumtarief",
+            route2_title: "Antwerpen → Zaventem",
+            route2_desc: "45 km · ±50 min · vaste prijs",
+            route3_title: "Antwerpen → Charleroi",
+            route3_desc: "80 km · ±1u 15 min · vaste prijs",
+            route4_title: "Antwerpen → Eindhoven",
+            route4_desc: "80 km · ±1u 10 min · vaste prijs",
+            route5_title: "Antwerpen → Amsterdam Schiphol",
+            route5_desc: "160 km · ±2u 00 min · vaste prijs",
+            route6_title: "Antwerpen → Düsseldorf",
+            route6_desc: "220 km · ±2u 30 min · vaste prijs",
+            // Extra opties
+            extras_title: "➕ Extra opties – transparante meerprijzen",
+            extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
+            extras_break: "Break model",
+            extras_break_desc: "– Meer bagageruimte",
+            extras_exclusive: "Exclusieve wagen",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Tot 8 personen",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            // Lokale bestemmingen
+            local_title: "📍 Ook binnen Antwerpen",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Antwerpen en de regio. Enkele voorbeelden:",
+            local_haven: "Haven (Eilandje)",
+            local_haven_desc: "Vanaf €30,00 · 7-12 km",
+            local_diamond: "Diamantwijk",
+            local_diamond_desc: "Vanaf €30,00 · 3 km",
+            local_sportpaleis: "Sportpaleis",
+            local_sportpaleis_desc: "Vanaf €30,00 · 6-8 km",
+            local_gent: "Gent",
+            local_gent_desc: "€82,50 · 55 km",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Antwerpen",
-            international_sub: "FleetConnect biedt betrouwbare ritten naar Nederland, Duitsland en Frankrijk. Richtprijzen (sedan, inclusief wachttijd en tol):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_dus: "Düsseldorf (DE)", int_lil: "Lille (Rijsel, FR)", int_mst: "Maastricht (NL)", int_aac: "Aken (DE)",
-            service1_title: "Vluchtmonitoring", service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
-            service2_title: "Documentatie", service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
-            service3_title: "Meertalige chauffeurs", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24-48u vooruit", service4_desc: "Internationale ritten plannen.",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_ein: "Eindhoven (NL) – Airport",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lil: "Lille (Rijsel, FR)",
+            int_mst: "Maastricht (NL)",
+            int_aac: "Aken (DE)",
+            service1_title: "Vluchtmonitoring",
+            service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
+            service2_title: "Documentatie",
+            service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
+            service3_title: "Meertalige chauffeurs",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Reserveer 24-48u vooruit",
+            service4_desc: "Internationale ritten plannen.",
+            // Why - Uniform met Brussel
             why_title: "Waarom FleetConnect in Antwerpen?",
-            why1_title: "Stipt & punctueel", why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Antwerpen en vermijden files rond de Ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_title: "Premium vloot", why2_desc: "Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
-            why3_title: "Vaste prijzen", why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Antwerpen-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
-            why4_title: "24/7 service", why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            why1_title: "Stipt & punctueel",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Antwerpen en vermijden files rond de Ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
+            why3_title: "Vaste prijzen",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Antwerpen-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
+            why4_title: "24/7 service",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            // Business
             business_title: "Zakelijk & hotelvervoer op maat",
             business_desc: "FleetConnect is de preferred partner van tientallen hotels in Antwerpen, waaronder Crowne Plaza Antwerp, Van der Valk, Novotel, en ibis Antwerpen Centrum. Voor congressen en evenementen werken wij samen met Antwerp Expo, de Handelsbeurs, het Sportpaleis en de Lotto Arena. Ook havenbedrijven, diamantkantoren en internationale logistieke spelers vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
+            // Discover
             discover_title: "Ontdek Antwerpen met FleetConnect",
             discover_p1: "Combineer uw zakelijke afspraak met een cultureel uitstapje. Bezoek het MAS, het Red Star Line Museum of het Rubenshuis. Of wandel over de Meir en de Keyserlei voor een onvergetelijke winkelervaring. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
-            cta_title: "Klaar voor een zorgeloze rit in Antwerpen of naar het buitenland?",
-            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.",
+            // CTA
+            cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Antwerpen?",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
+            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            footer_tagline: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridisch", footer_partners: "Partners"
+            // Sidebar nav
+            language_label: "Taal / Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusieve service",
+            nav_fixed_prices: "Vaste prijzen",
+            nav_premium_fleet: "Premium vloot",
+            nav_airport: "Luchthavenvervoer",
+            nav_business: "Zakelijk vervoer",
+            nav_events: "Events & Gala",
+            nav_courier: "Koeriersdienst",
+            nav_contact: "Contact",
+            nav_book: "Reserveer nu",
+            login: "LOGIN"
         },
         fr: {
-            language_label: "Langue",
-            nav_home: "Accueil", nav_exclusive: "Service exclusif", nav_fixed_prices: "Prix fixes", nav_premium_fleet: "Flotte premium",
-            nav_airport: "Transfert aéroport", nav_business: "Transport d'affaires", nav_events: "Événements & Gala", nav_courier: "Service de messagerie",
-            nav_contact: "Contact", nav_book: "Réservez maintenant", login: "CONNEXION",
+            // Hero - Uniform met Brussel
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Anvers",
-            hero_subtitle: "Prix fixe €1,50/km | Suivi de vol | Chauffeurs multilingues (NL/FR/EN/DE) | Disponible 24/7",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez votre trajet",
+            hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
+            hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
+            // Intro
             intro_title: "Anvers – Cité du diamant, port et capitale de la mode",
             intro_p1: "Anvers est la deuxième plus grande ville de Belgique et possède un caractère unique et cosmopolite. La ville est mondialement connue comme la cité du diamant et la capitale de la mode, mais abrite également le deuxième plus grand port d'Europe. Le quartier diamantaire autour de la Gare Centrale est le cœur battant du commerce mondial du diamant. Avec plus de 1 470 entreprises et pas moins de 70 nationalités différentes, des milliers de commerçants, tailleurs et sociétés de vente aux enchères y travaillent chaque jour.",
             intro_p2: "Anvers est également une ville de mode internationalement reconnue, grâce notamment aux légendaires Six d'Anvers qui ont révolutionné l'industrie de la mode il y a quarante ans. Le Musée de la Mode (MoMu) et le KMSKA (Musée royal des Beaux-Arts) offrent une richesse de trésors culturels. Le MAS (Musée à la Gare) sur l'Eilandje raconte l'histoire du port et de la ville.",
-            intro_p3: "FleetConnect est le partenaire de confiance des bureaux de diamant, des entreprises portuaires, des hôtels et des centres de congrès à Anvers. Grâce à notre flotte de Mercedes, BMW et minibus de luxe, nous offrons un service irréprochable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) permettent aux hôtes internationaux et aux voyageurs d'affaires de se sentir immédiatement à l'aise.",
+            intro_p3: "FleetConnect est le partenaire de confiance pour les transferts aéroport, les bureaux de diamant, les entreprises portuaires, les hôtels et les centres de congrès à Anvers. Grâce à notre flotte de Skoda, Mercedes Classe E, BMW Série 5 ou équivalent et minibus de luxe, nous offrons un service irréprochable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) permettent aux hôtes internationaux et aux voyageurs d'affaires de se sentir immédiatement à l'aise.",
             events_title: "Événements et quartiers d'affaires à Anvers",
             events_p1: "Anvers bouillonne d'événements toute l'année. Les principales attractions sont les concerts géants au Sportpaleis (l'une des plus grandes salles de concert d'Europe) et à la Lotto Arena. La ville figure également au calendrier international avec des événements tels que l'Antwerp.Fashion Festival en juin, les Tall Ships Races en juillet et l'Antwerp Design Week.",
-            events_p2: "Les principaux quartiers d'affaires sont l'Antwerp Expo (centre de congrès et de salons), l'Eilandje (pôle créatif avec le MAS et des bureaux innovants), le quartier de bureaux d'Anvers-Nord (près du port) et le Parc scientifique (POM Anvers). L'emblématique Maison du Port, conçue par Zaha Hadid, est le cœur battant du port et une carte de visite de la ville moderne.",
-            routes_title: "Itinéraires populaires depuis Anvers",
-            route1_title: "Anvers → Deurne (ANR)", route1_desc: "5 km · ±15 min · prix fixe",
-            route2_title: "Anvers → Zaventem (BRU)", route2_desc: "45 km · ±50 min · prix fixe",
-            route3_title: "Anvers → Port (Eilandje)", route3_desc: "7-12 km · ±15-25 min",
-            route4_title: "Gare Centrale → Quartier diamantaire", route4_desc: "3 km · ±8 min · sécurisé",
-            route5_title: "Centre → Sportpaleis", route5_desc: "6-8 km · ±15 min",
-            route6_title: "Anvers → Gand", route6_desc: "55 km · ±60 min",
+            events_p2: "Les principaux quartiers d'affaires sont l'Antwerp Expo (centre de congrès et de salons), l'Eilandje (pôle créatif avec le MAS et des bureaux innovants), le quartier de bureaux d'Anvers-Nord (près du port) et le Parc scientifique (POM Anvers). L'emblématique Maison du Port, conçue par Zaha Hadid, est le cœur battant du port.",
+            // Routes - OPTIE A (6 aéroports)
+            routes_title: "✈️ Transferts aéroport depuis Anvers",
+            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Anvers → Deurne",
+            route1_desc: "5 km · ±15 min · tarif minimum",
+            route2_title: "Anvers → Zaventem",
+            route2_desc: "45 km · ±50 min · prix fixe",
+            route3_title: "Anvers → Charleroi",
+            route3_desc: "80 km · ±1h 15 min · prix fixe",
+            route4_title: "Anvers → Eindhoven",
+            route4_desc: "80 km · ±1h 10 min · prix fixe",
+            route5_title: "Anvers → Amsterdam Schiphol",
+            route5_desc: "160 km · ±2h 00 min · prix fixe",
+            route6_title: "Anvers → Düsseldorf",
+            route6_desc: "220 km · ±2h 30 min · prix fixe",
+            extras_title: "➕ Options supplémentaires – suppléments transparents",
+            extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
+            extras_break: "Break modèle",
+            extras_break_desc: "– Plus d'espace bagages",
+            extras_exclusive: "Voiture exclusive",
+            extras_exclusive_desc: "– Mercedes Classe E / BMW Série 5",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Jusqu'à 8 personnes",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            // Local
+            local_title: "📍 À Anvers également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Anvers et dans la région. Quelques exemples :",
+            local_haven: "Port (Eilandje)",
+            local_haven_desc: "À partir de €30,00 · 7-12 km",
+            local_diamond: "Quartier diamantaire",
+            local_diamond_desc: "À partir de €30,00 · 3 km",
+            local_sportpaleis: "Sportpaleis",
+            local_sportpaleis_desc: "À partir de €30,00 · 6-8 km",
+            local_gent: "Gand",
+            local_gent_desc: "€82,50 · 55 km",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
+            // International
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Anvers",
-            international_sub: "FleetConnect propose des trajets fiables vers les Pays-Bas, l'Allemagne et la France. Prix indicatifs (berline, incluant temps d'attente et péages) :",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_dus: "Düsseldorf (DE)", int_lil: "Lille (FR)", int_mst: "Maastricht (NL)", int_aac: "Aix-la-Chapelle (DE)",
-            service1_title: "Suivi de vol", service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
-            service2_title: "Documentation", service2_desc: "Tous les papiers pour le transport transfrontalier.",
-            service3_title: "Chauffeurs multilingues", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24-48h à l'avance", service4_desc: "Planification des trajets internationaux.",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_ein: "Eindhoven (NL) – Airport",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lil: "Lille (FR)",
+            int_mst: "Maastricht (NL)",
+            int_aac: "Aix-la-Chapelle (DE)",
+            service1_title: "Suivi de vol",
+            service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
+            service2_title: "Documentation",
+            service2_desc: "Tous les papiers pour le transport transfrontalier.",
+            service3_title: "Chauffeurs multilingues",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Réservez 24-48h à l'avance",
+            service4_desc: "Planification des trajets internationaux.",
+            // Why
             why_title: "Pourquoi FleetConnect à Anvers?",
-            why1_title: "Ponctuel & fiable", why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues d'Anvers et évitent les embouteillages autour du Ring. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
-            why2_title: "Flotte premium", why2_desc: "Nos véhicules sont de premier ordre : Mercedes Classe E, BMW Série 5, Lexus et minibus de luxe (Mercedes Classe V). Tous les véhicules ont moins de 3 ans, avec sièges en cuir, climatisation, WiFi gratuit et bouteille d'eau. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
-            why3_title: "Prix fixes", why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Anvers-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
-            why4_title: "Service 24/7", why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues d'Anvers et évitent les embouteillages autour du Ring. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
+            why3_title: "Prix fixes",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Anvers-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
+            why4_title: "Service 24/7",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
             business_title: "Transport professionnel et hôtelier sur mesure",
             business_desc: "FleetConnect est le partenaire privilégié de dizaines d'hôtels à Anvers, dont Crowne Plaza Anvers, Van der Valk, Novotel et ibis Anvers Centre. Pour les congrès et événements, nous collaborons avec Anvers Expo, la Handelsbeurs, le Sportpaleis et la Lotto Arena. Les entreprises portuaires, les bureaux de diamant et les acteurs logistiques internationaux comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
             discover_title: "Découvrez Anvers avec FleetConnect",
             discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade culturelle. Visitez le MAS, le Red Star Line Museum ou la Maison de Rubens. Ou promenez-vous sur la Meir et la Keyserlei pour une expérience shopping inoubliable. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
             discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
-            cta_title: "Prêt pour un trajet sans souci à Anvers ou à l'étranger?",
-            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti.",
+            cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Anvers?",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
-            footer_tagline: "Transport professionnel en Belgique – Style, ponctualité et service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridique", footer_partners: "Partenaires"
+            language_label: "Langue",
+            nav_home: "Accueil",
+            nav_exclusive: "Service exclusif",
+            nav_fixed_prices: "Prix fixes",
+            nav_premium_fleet: "Flotte premium",
+            nav_airport: "Transfert aéroport",
+            nav_business: "Transport d'affaires",
+            nav_events: "Événements & Gala",
+            nav_courier: "Service de messagerie",
+            nav_contact: "Contact",
+            nav_book: "Réservez maintenant",
+            login: "CONNEXION"
         },
         en: {
-            language_label: "Language",
-            nav_home: "Home", nav_exclusive: "Exclusive service", nav_fixed_prices: "Fixed prices", nav_premium_fleet: "Premium fleet",
-            nav_airport: "Airport transfer", nav_business: "Business transport", nav_events: "Events & Gala", nav_courier: "Courier service",
-            nav_contact: "Contact", nav_book: "Book now", login: "LOGIN",
+            // Hero - Uniform met Brussel
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Antwerp",
-            hero_subtitle: "Fixed price €1.50/km | Flight monitoring | Multilingual drivers (NL/FR/EN/DE) | 24/7 available",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Book your ride now",
+            hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
+            hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
+            // Intro
             intro_title: "Antwerp – Diamond City, Port and Fashion Capital",
             intro_p1: "Antwerp is the second largest city in Belgium and has a unique, cosmopolitan character. The city is internationally known as the diamond city and fashion capital, but is also home to the second largest port in Europe. The diamond district around Central Station is the beating heart of the global diamond trade. With more than 1,470 companies and no fewer than 70 different nationalities, thousands of traders, cutters and auction houses work there every day.",
             intro_p2: "Antwerp is also an internationally renowned fashion city, thanks in part to the legendary Antwerp Six who shook up the fashion industry forty years ago. The Fashion Museum (MoMu) and the KMSKA (Royal Museum of Fine Arts) offer a wealth of cultural highlights. The MAS (Museum aan de Stroom) on the Eilandje tells the story of the port and the city.",
-            intro_p3: "FleetConnect is the trusted partner for diamond offices, port companies, hotels and conference centres in Antwerp. Thanks to our fleet of Mercedes, BMW and luxury minivans, we offer impeccable, punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure that international guests and business travellers feel right at home.",
+            intro_p3: "FleetConnect is the trusted partner for airport transfers, diamond offices, port companies, hotels and conference centres in Antwerp. Thanks to our fleet of Skoda, Mercedes E-Class, BMW 5 Series or equivalent and luxury minivans, we offer impeccable, punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure that international guests and business travellers feel right at home.",
             events_title: "Events & Business Districts in Antwerp",
             events_p1: "Antwerp is buzzing with events all year round. The main attractions are the giant concerts at the Sportpaleis (one of the largest concert halls in Europe) and the Lotto Arena. The city also features on the international calendar with events such as the Antwerp.Fashion Festival in June, the Tall Ships Races in July and Antwerp Design Week.",
-            events_p2: "The main business districts are Antwerp Expo (congress and exhibition centre), the Eilandje (creative hub with the MAS and innovative offices), the Antwerp-North office district (near the port) and the Science Park (POM Antwerp). The iconic Port House, designed by Zaha Hadid, is the beating heart of the port and a showpiece of the modern city.",
-            routes_title: "Popular routes from Antwerp",
-            route1_title: "Antwerp → Deurne (ANR)", route1_desc: "5 km · ±15 min · fixed price",
-            route2_title: "Antwerp → Zaventem (BRU)", route2_desc: "45 km · ±50 min · fixed price",
-            route3_title: "Antwerp → Port (Eilandje)", route3_desc: "7-12 km · ±15-25 min",
-            route4_title: "Central Station → Diamond District", route4_desc: "3 km · ±8 min · secure",
-            route5_title: "City Centre → Sportpaleis", route5_desc: "6-8 km · ±15 min",
-            route6_title: "Antwerp → Ghent", route6_desc: "55 km · ±60 min",
+            events_p2: "The main business districts are Antwerp Expo (congress and exhibition centre), the Eilandje (creative hub with the MAS and innovative offices), the Antwerp-North office district (near the port) and the Science Park (POM Antwerp). The iconic Port House, designed by Zaha Hadid, is the beating heart of the port.",
+            // Routes - OPTIE A (6 airports)
+            routes_title: "✈️ Airport transfers from Antwerp",
+            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Antwerp → Deurne",
+            route1_desc: "5 km · ±15 min · minimum fare",
+            route2_title: "Antwerp → Zaventem",
+            route2_desc: "45 km · ±50 min · fixed price",
+            route3_title: "Antwerp → Charleroi",
+            route3_desc: "80 km · ±1h 15 min · fixed price",
+            route4_title: "Antwerp → Eindhoven",
+            route4_desc: "80 km · ±1h 10 min · fixed price",
+            route5_title: "Antwerp → Amsterdam Schiphol",
+            route5_desc: "160 km · ±2h 00 min · fixed price",
+            route6_title: "Antwerp → Düsseldorf",
+            route6_desc: "220 km · ±2h 30 min · fixed price",
+            extras_title: "➕ Extra options – clear surcharges",
+            extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
+            extras_break: "Break model",
+            extras_break_desc: "– More luggage space",
+            extras_exclusive: "Exclusive car",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Up to 8 persons",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            // Local
+            local_title: "📍 Also in Antwerp",
+            local_desc: "In addition to airport transfers, we also provide reliable transport within Antwerp and the region. Some examples:",
+            local_haven: "Port (Eilandje)",
+            local_haven_desc: "From €30.00 · 7-12 km",
+            local_diamond: "Diamond District",
+            local_diamond_desc: "From €30.00 · 3 km",
+            local_sportpaleis: "Sportpaleis",
+            local_sportpaleis_desc: "From €30.00 · 6-8 km",
+            local_gent: "Ghent",
+            local_gent_desc: "€82.50 · 55 km",
+            local_cta: "Other destination? Request a free quote",
+            // International
             international_title: "<i class='fas fa-globe'></i> International transport from Antwerp",
-            international_sub: "FleetConnect offers reliable rides to the Netherlands, Germany and France. Indicative prices (sedan, including waiting time and tolls):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_dus: "Düsseldorf (DE)", int_lil: "Lille (FR)", int_mst: "Maastricht (NL)", int_aac: "Aachen (DE)",
-            service1_title: "Flight monitoring", service1_desc: "We track your flight; free waiting time in case of delay.",
-            service2_title: "Documentation", service2_desc: "All documents for cross-border transport.",
-            service3_title: "Multilingual drivers", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24-48h in advance", service4_desc: "Plan international trips.",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_ein: "Eindhoven (NL) – Airport",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lil: "Lille (FR)",
+            int_mst: "Maastricht (NL)",
+            int_aac: "Aachen (DE)",
+            service1_title: "Flight monitoring",
+            service1_desc: "We track your flight; free waiting time in case of delay.",
+            service2_title: "Documentation",
+            service2_desc: "All documents for cross-border transport.",
+            service3_title: "Multilingual drivers",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Book 24-48h in advance",
+            service4_desc: "Plan international trips.",
+            // Why
             why_title: "Why FleetConnect in Antwerp?",
-            why1_title: "Punctual & reliable", why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Antwerp's back streets and avoid traffic jams around the Ring. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
-            why2_title: "Premium fleet", why2_desc: "Our vehicles are top quality: Mercedes E-Class, BMW 5 Series, Lexus and luxury minivans (Mercedes V-Class). All vehicles are less than 3 years old, with leather seats, air conditioning, free WiFi and bottled water. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
-            why3_title: "Fixed prices", why3_desc: "No meter, no surprises. You pay €1.50 per kilometer – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Antwerp-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
-            why4_title: "24/7 service", why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            why1_title: "Punctual & reliable",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Antwerp's back streets and avoid traffic jams around the Ring. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
+            why3_title: "Fixed prices",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Antwerp-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
+            why4_title: "24/7 service",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
             business_title: "Customised business & hotel transport",
             business_desc: "FleetConnect is the preferred partner of dozens of hotels in Antwerp, including Crowne Plaza Antwerp, Van der Valk, Novotel, and ibis Antwerpen Centrum. For congresses and events, we work with Antwerp Expo, the Handelsbeurs, the Sportpaleis and the Lotto Arena. Port companies, diamond offices and international logistics players trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
             discover_title: "Discover Antwerp with FleetConnect",
             discover_p1: "Combine your business appointment with a cultural excursion. Visit the MAS, the Red Star Line Museum or the Rubenshuis. Or stroll along the Meir and the Keyserlei for an unforgettable shopping experience. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
             discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
-            cta_title: "Ready for a worry-free ride in Antwerp or abroad?",
-            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed.",
+            cta_title: "Ready for a worry-free airport transfer or ride in Antwerp?",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
             contact_name_label: "<i class='fas fa-user'></i> Your name *",
             contact_email_label: "<i class='fas fa-envelope'></i> Email *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Send",
-            footer_tagline: "Professional transport in Belgium – Style, punctuality and service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Legal", footer_partners: "Partners"
+            language_label: "Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusive service",
+            nav_fixed_prices: "Fixed prices",
+            nav_premium_fleet: "Premium fleet",
+            nav_airport: "Airport transfer",
+            nav_business: "Business transport",
+            nav_events: "Events & Gala",
+            nav_courier: "Courier service",
+            nav_contact: "Contact",
+            nav_book: "Book now",
+            login: "LOGIN"
         }
     };
 
+    // ============================================================
+    // HUIDIGE TAAL
+    // ============================================================
     let currentLang = 'nl';
 
     function translatePage() {
@@ -486,6 +808,7 @@
         document.documentElement.lang = currentLang;
     }
 
+    // Event listeners voor taalknoppen
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
@@ -496,12 +819,17 @@
         });
     });
 
+    // Initialiseer vertaling
     translatePage();
 
+    // ============================================================
+    // HAMBURGER MENU FUNCTIONALITEIT
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
+        
         if (hamburgerBtn) {
             hamburgerBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -530,10 +858,15 @@
                 document.body.style.overflow = '';
             }
         });
+        
+        // Contactformulier verzenden
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
-                alert(currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' : (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' : 'Message sent! We will contact you as soon as possible.'));
+                const msg = currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' :
+                           (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' :
+                            'Message sent! We will contact you as soon as possible.');
+                alert(msg);
             });
         }
     });
