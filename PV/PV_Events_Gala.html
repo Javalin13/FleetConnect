@@ -37,7 +37,13 @@
             width: 100%;
             height: 100%;
             z-index: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             filter: brightness(1.05) contrast(1.02);
+            opacity: 0.9;
         }
         .content-overlay {
             position: relative;
@@ -77,6 +83,8 @@
             font-weight: 600;
             transition: 0.2s;
             color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
         }
         .lang-btn:hover, .lang-btn.active {
             background: var(--primary);
@@ -100,6 +108,9 @@
         .breadcrumb i {
             margin: 0 8px;
             font-size: 0.7rem;
+        }
+        .breadcrumb .current {
+            color: var(--accent-gold);
         }
         .page-title {
             font-size: 2rem;
@@ -157,10 +168,21 @@
             align-items: center;
             gap: 12px;
         }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
         .feature-list li i {
             color: var(--accent-green);
             width: 24px;
             font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .feature-list li strong {
+            flex-shrink: 0;
+        }
+        .feature-list li span {
+            color: var(--text-light);
+            line-height: 1.6;
         }
         .highlight-box {
             background: linear-gradient(135deg, rgba(44,110,158,0.05) 0%, rgba(107,140,66,0.05) 100%);
@@ -168,6 +190,17 @@
             padding: 25px;
             border-radius: 20px;
             margin: 30px 0;
+        }
+        .highlight-box i {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
         }
         .btn-primary {
             background: var(--primary);
@@ -182,6 +215,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            font-family: 'Inter', sans-serif;
         }
         .btn-primary:hover {
             background: var(--primary-dark);
@@ -208,6 +242,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Inter', sans-serif;
         }
         .nav-tab:hover {
             border-color: var(--primary);
@@ -225,6 +260,8 @@
             margin-top: 40px;
             padding-top: 30px;
             border-top: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 16px;
         }
         .nav-pagination a {
             background: var(--primary);
@@ -237,10 +274,15 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            font-family: 'Inter', sans-serif;
         }
         .nav-pagination a:hover {
             background: var(--primary-dark);
         }
+
+        /* ========================================================== */
+        /* FOOTER STIJLING – EXACT GELIJK AAN BOEKINGWEBSITE          */
+        /* ========================================================== */
         .footer-dark {
             background: #0d1f2c;
             color: #e0edf5;
@@ -254,20 +296,25 @@
             gap: 40px;
             margin-bottom: 30px;
         }
-        .footer-brand h4, .footer-ryz3n h4, .footer-legal h4, .footer-partners h4 {
-            color: var(--primary);
+        .footer-grid h4 {
+            color: #e0edf5;
             margin-bottom: 16px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
         }
-        .footer-brand p, .footer-ryz3n a, .footer-legal a, .footer-partners a {
+        .footer-grid a {
             color: #e0edf5;
             text-decoration: none;
             line-height: 1.8;
             display: block;
         }
-        .footer-ryz3n a:hover, .footer-legal a:hover, .footer-partners a:hover {
-            color: var(--primary);
+        .footer-grid a:hover {
+            color: #c9a03d;
             text-decoration: underline;
+        }
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
         }
         .footer-bottom {
             text-align: center;
@@ -276,15 +323,31 @@
             font-size: 0.85rem;
         }
         .footer-bottom a {
-            color: var(--primary);
+            color: #c9a03d;
             text-decoration: none;
         }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        /* ========================================================== */
+
         @media (max-width: 768px) {
             .page-title { font-size: 1.5rem; }
             .content-card { padding: 25px; }
-            .language-switcher { top: 10px; right: 15px; gap: 6px; }
+            .language-switcher { top: 10px; right: 15px; gap: 6px; padding: 4px 10px; }
             .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
             .breadcrumb { padding-top: 50px; }
+            .nav-pagination { flex-direction: column; align-items: stretch; }
+            .nav-pagination a { justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+        }
+        @media (max-width: 500px) {
+            .container { padding: 0 12px; }
+            .content-card { padding: 18px; border-radius: 20px; }
+            .nav-tabs { gap: 6px; }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
+            .page-title { font-size: 1.3rem; }
+            .intro-text { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -293,7 +356,7 @@
 
 <div class="content-overlay">
     <div class="language-switcher">
-        <button class="lang-btn" data-lang="nl">NL</button>
+        <button class="lang-btn active" data-lang="nl">NL</button>
         <button class="lang-btn" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="en">EN</button>
     </div>
@@ -302,35 +365,35 @@
         <div class="breadcrumb">
             <a href="PV.html" data-i18n="breadcrumb-home">Home</a> 
             <i class="fas fa-chevron-right"></i> 
-            <span style="color: var(--accent-gold);" data-i18n="breadcrumb-current">Events & Gala</span>
+            <span class="current" data-i18n="breadcrumb-current">Events & Gala</span>
         </div>
         <h1 class="page-title"><i class="fas fa-glass-cheers"></i> <span data-i18n="page-title">Events & Gala</span></h1>
         <p class="intro-text" data-i18n="intro-text">Maak uw speciale moment onvergetelijk. Van bruiloften tot bedrijfsgala's – wij verzorgen het vervoer met classe en stijl.</p>
-        <a href="PV.html#booking" class="btn-primary"><i class="fas fa-calendar-check"></i> <span data-i18n="book-btn">Reserveer voor uw event</span></a>
+        <a href="PV.html#booking" class="btn-primary" data-i18n="book-btn"><i class="fas fa-calendar-check"></i> Reserveer voor uw event</a>
     </div>
 
     <div class="container">
         <div class="nav-tabs">
-            <a href="PV.html" class="nav-tab"><i class="fas fa-home"></i> <span data-i18n="tab-home">Home</span></a>
-            <a href="PV_Exclusieve_Service.html" class="nav-tab"><i class="fas fa-gem"></i> <span data-i18n="tab-exclusive">Exclusief</span></a>
-            <a href="PV-vaste-prijzen.html" class="nav-tab"><i class="fas fa-euro-sign"></i> <span data-i18n="tab-prices">Prijzen</span></a>
-            <a href="PV-premium-vloot.html" class="nav-tab"><i class="fas fa-car-side"></i> <span data-i18n="tab-fleet">Vloot</span></a>
-            <a href="PV_Luchthavenvervoer.html" class="nav-tab"><i class="fas fa-plane-departure"></i> <span data-i18n="tab-airport">Luchthaven</span></a>
-            <a href="PV_Zakelijk_Vervoer.html" class="nav-tab"><i class="fas fa-briefcase"></i> <span data-i18n="tab-business">Zakelijk</span></a>
-            <a href="PV_Events_Gala.html" class="nav-tab active"><i class="fas fa-glass-cheers"></i> <span data-i18n="tab-events">Events</span></a>
-            <a href="PV_Koeriersdienst.html" class="nav-tab"><i class="fas fa-file-signature"></i> <span data-i18n="tab-courier">Koerier</span></a>
+            <a href="PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="PV_Events_Gala.html" class="nav-tab active" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
         </div>
     </div>
 
     <div class="container">
         <div class="content-section">
             <div class="content-card">
-                <h2><span data-i18n="card-title">🥂 Onvergetelijke momenten beginnen met de juiste aankomst</span></h2>
+                <h2 data-i18n="card-title">🥂 Onvergetelijke momenten beginnen met de juiste aankomst</h2>
                 <p data-i18n="card-intro">Of u nu gaat trouwen, een jubileum viert of een bedrijfsgala organiseert – uw entourage moet perfect zijn. Fleetconnect zorgt voor een luxueuze en stijlvolle ervaring die bij uw event past.</p>
                 
                 <div class="highlight-box">
-                    <i class="fas fa-star" style="color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 15px; display: inline-block;"></i>
-                    <p style="font-size: 1.1rem; font-weight: 500;" data-i18n="highlight-text">"Uw speciale dag verdient een speciale rit – wij maken er een onvergetelijke ervaring van."</p>
+                    <i class="fas fa-star"></i>
+                    <p data-i18n="highlight-text">"Uw speciale dag verdient een speciale rit – wij maken er een onvergetelijke ervaring van."</p>
                 </div>
 
                 <h3 data-i18n="wedding-title">💍 Bruiloftsvervoer – sprookjesachtig en stijlvol</h3>
@@ -372,24 +435,68 @@
                 </ul>
 
                 <div class="nav-pagination">
-                    <a href="PV_Zakelijk_Vervoer.html"><i class="fas fa-arrow-left"></i> <span data-i18n="prev-link">Vorige: Zakelijk vervoer</span></a>
-                    <a href="PV_Koeriersdienst.html"><span data-i18n="next-link">Volgende: Koeriersdienst</span> <i class="fas fa-arrow-right"></i></a>
+                    <a href="PV_Zakelijk_Vervoer.html" data-i18n="prev-link"><i class="fas fa-arrow-left"></i> Vorige: Zakelijk vervoer</a>
+                    <a href="PV_Koeriersdienst.html" data-i18n="next-link">Volgende: Koeriersdienst <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- ========================================================== -->
+    <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
+    <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand"><h4><i class="fas fa-crown"></i> Fleetconnect</h4><p data-i18n="footer-brand-text">Premium taxivervoer in België – Stijl, stiptheid en service.</p></div>
-                <div class="footer-ryz3n"><h4>Fleetconnect | Digital Supremacy</h4><a href="/customer" data-i18n="footer-control">Customer portal</a><a href="/booking#booking" data-i18n="footer-dispatch">Book a ride</a><a href="/PV/PVprivacy.html" data-i18n="footer-legal">Privacy</a></div>
-                <div class="footer-legal"><h4 data-i18n="footer-legal-title">Juridisch</h4><a href="#" data-i18n="footer-tos">Algemene voorwaarden</a><a href="#" data-i18n="footer-privacy">Privacy</a><a href="#" data-i18n="footer-cookies">Cookiebeleid</a></div>
-                <div class="footer-partners"><h4 data-i18n="footer-partners-title">Partners</h4><a href="#">Horizon Of Infinity</a></div>
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden -->
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/taxi-brussels">Taxi Brussels</a>
+                    <a href="/taxi-antwerpen">Taxi Antwerp</a>
+                    <a href="/taxi-gent">Taxi Ghent</a>
+                    <a href="/taxi-zaventem">Taxi Zaventem</a>
+                    <a href="/taxi-leuven">Taxi Leuven</a>
+                    <a href="/taxi-mechelen">Taxi Mechelen</a>
+                    <a href="/taxi-waterloo">Taxi Waterloo</a>
+                    <a href="/taxi-brugge">Taxi Brugge</a>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
+                </div>
             </div>
-            <div class="footer-bottom"><span data-i18n="footer-copyright">© 2026 Fleetconnect – </span><a href="#">Fleetconnect</a></div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
         </div>
     </footer>
+    <!-- ========================================================== -->
+    <!-- EINDE FOOTER                                               -->
+    <!-- ========================================================== -->
+
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -517,7 +624,7 @@
     function setLanguage(lang) {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
+            if (translations[lang] && translations[lang][key] !== undefined) {
                 if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     el.placeholder = translations[lang][key];
                 } else {
@@ -533,7 +640,6 @@
         localStorage.setItem('preferredLanguage', lang);
     }
 
-    // BEPALING INITIËLE TAAL (prioriteit: URL parameter > localStorage > 'nl')
     function getInitialLanguage() {
         const urlParams = new URLSearchParams(window.location.search);
         const langParam = urlParams.get('lang');
@@ -547,32 +653,77 @@
         return 'nl';
     }
 
-    // TAALWISSELAAR KLIK
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
             setLanguage(lang);
-            // URL parameter verwijderen voor een schone URL
             const url = new URL(window.location.href);
             url.searchParams.delete('lang');
             window.history.replaceState({}, '', url);
         });
     });
 
-    // INITIËLE TAAL INSTELLEN
     const initialLang = getInitialLanguage();
     setLanguage(initialLang);
 
     // Leaflet kaart
-    var bgMap = L.map('background-map').setView([50.8503, 4.3517], 7);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
-        subdomains: 'abcd', maxZoom: 19, minZoom: 1
-    }).addTo(bgMap);
-    bgMap.dragging.disable(); bgMap.touchZoom.disable(); bgMap.doubleClickZoom.disable(); bgMap.scrollWheelZoom.disable(); bgMap.boxZoom.disable(); bgMap.keyboard.disable();
-    if (bgMap.tap) bgMap.tap.disable();
-    setTimeout(() => bgMap.invalidateSize(), 100);
-    window.addEventListener('resize', () => bgMap.invalidateSize());
+    (function initMap() {
+        try {
+            if (typeof L === 'undefined') {
+                console.warn('Leaflet is niet geladen.');
+                return;
+            }
+
+            const mapContainer = document.getElementById('background-map');
+            if (!mapContainer) {
+                console.warn('Element #background-map niet gevonden.');
+                return;
+            }
+
+            const bgMap = L.map('background-map', {
+                center: [50.8503, 4.3517],
+                zoom: 7,
+                zoomControl: false,
+                dragging: false,
+                touchZoom: false,
+                doubleClickZoom: false,
+                scrollWheelZoom: false,
+                boxZoom: false,
+                keyboard: false,
+                attributionControl: true
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                minZoom: 1
+            }).addTo(bgMap);
+
+            setTimeout(() => { bgMap.invalidateSize(); }, 200);
+
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
+            });
+
+            console.log('Leaflet-kaart succesvol geladen.');
+
+        } catch (error) {
+            console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
+            const mapContainer = document.getElementById('background-map');
+            if (mapContainer) {
+                mapContainer.style.backgroundImage = 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
+                mapContainer.style.backgroundSize = 'cover';
+                mapContainer.style.backgroundPosition = 'center';
+                mapContainer.style.backgroundRepeat = 'no-repeat';
+            }
+        }
+    })();
+
+    console.log('Fleetconnect - Events & Gala pagina geladen');
+    console.log('Huidige taal:', initialLang);
 </script>
 </body>
 </html>

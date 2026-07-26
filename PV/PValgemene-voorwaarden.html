@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Vaste prijzen | Fleetconnect</title>
+    <title>Algemene voorwaarden | Fleetconnect</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -36,7 +36,13 @@
         
         #background-map {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             filter: brightness(1.05) contrast(1.02);
+            opacity: 0.9;
         }
         .content-overlay {
             position: relative; z-index: 10;
@@ -49,7 +55,6 @@
         
         .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 24px; }
 
-        /* Taalwisselaar (rechtsboven) */
         .language-switcher {
             position: fixed;
             top: 20px;
@@ -72,6 +77,8 @@
             font-weight: 600;
             transition: 0.2s;
             color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
         }
         .lang-btn:hover, .lang-btn.active {
             background: var(--primary);
@@ -79,7 +86,6 @@
             border-color: var(--primary);
         }
 
-        /* Breadcrumb */
         .breadcrumb {
             margin: 30px 0 20px;
             font-size: 0.85rem;
@@ -96,6 +102,9 @@
         .breadcrumb i {
             margin: 0 8px;
             font-size: 0.7rem;
+        }
+        .breadcrumb .current {
+            color: var(--accent-gold);
         }
         .page-title {
             font-size: 2rem;
@@ -143,23 +152,8 @@
             margin-bottom: 16px;
             line-height: 1.6;
         }
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-        }
-        .price-table th, .price-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .price-table th {
-            background: rgba(44,110,158,0.1);
-            color: var(--primary);
-            font-weight: 700;
-        }
-        .price-table tr:hover {
-            background: rgba(44,110,158,0.05);
+        .content-card p strong {
+            color: var(--text-dark);
         }
         .feature-list {
             list-style: none;
@@ -184,6 +178,17 @@
             border-radius: 20px;
             margin: 30px 0;
         }
+        .highlight-box i {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
         .btn-primary {
             background: var(--primary);
             color: white;
@@ -197,73 +202,11 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            font-family: 'Inter', sans-serif;
         }
         .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-        }
-        
-        .nav-pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-light);
-        }
-        .nav-pagination a {
-            background: var(--primary);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .nav-pagination a:hover {
-            background: var(--primary-dark);
-        }
-        
-        .footer-dark {
-            background: #0d1f2c;
-            color: #e0edf5;
-            padding: 48px 0 24px;
-            margin-top: 60px;
-        }
-        .footer-grid {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-        .footer-brand h4, .footer-ryz3n h4, .footer-legal h4, .footer-partners h4 {
-            color: var(--primary);
-            margin-bottom: 16px;
-            font-size: 1.2rem;
-        }
-        .footer-brand p, .footer-ryz3n a, .footer-legal a, .footer-partners a {
-            color: #e0edf5;
-            text-decoration: none;
-            line-height: 1.8;
-            display: block;
-        }
-        .footer-ryz3n a:hover, .footer-legal a:hover, .footer-partners a:hover {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(224,237,245,0.2);
-            padding-top: 24px;
-            font-size: 0.85rem;
-        }
-        .footer-bottom a {
-            color: var(--primary);
-            text-decoration: none;
         }
         
         .nav-tabs {
@@ -287,6 +230,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Inter', sans-serif;
         }
         .nav-tab:hover {
             border-color: var(--primary);
@@ -298,13 +242,72 @@
             border-color: var(--primary);
         }
         
+        /* ========================================================== */
+        /* FOOTER STIJLING – EXACT GELIJK AAN BOEKINGWEBSITE          */
+        /* ========================================================== */
+        .footer-dark {
+            background: #0d1f2c;
+            color: #e0edf5;
+            padding: 48px 0 24px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .footer-grid h4 {
+            color: #e0edf5;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .footer-grid a {
+            color: #e0edf5;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+        }
+        .footer-grid a:hover {
+            color: #c9a03d;
+            text-decoration: underline;
+        }
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(224,237,245,0.2);
+            padding-top: 24px;
+            font-size: 0.85rem;
+        }
+        .footer-bottom a {
+            color: #c9a03d;
+            text-decoration: none;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        /* ========================================================== */
+        
         @media (max-width: 768px) {
             .page-title { font-size: 1.5rem; }
             .content-card { padding: 25px; }
-            .price-table th, .price-table td { padding: 10px; font-size: 0.85rem; }
-            .language-switcher { top: 10px; right: 15px; gap: 6px; }
+            .language-switcher { top: 10px; right: 15px; gap: 6px; padding: 4px 10px; }
             .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
             .breadcrumb { padding-top: 50px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+        }
+        @media (max-width: 500px) {
+            .container { padding: 0 12px; }
+            .content-card { padding: 18px; border-radius: 20px; }
+            .nav-tabs { gap: 6px; }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
+            .page-title { font-size: 1.3rem; }
+            .intro-text { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -314,323 +317,301 @@
 
 <div class="content-overlay">
     <div class="language-switcher">
-        <button class="lang-btn" data-lang="nl">NL</button>
+        <button class="lang-btn active" data-lang="nl">NL</button>
         <button class="lang-btn" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="en">EN</button>
     </div>
 
     <div class="container">
         <div class="breadcrumb">
-            <a href="PV.html" data-i18n="breadcrumb-home">Home</a> <i class="fas fa-chevron-right"></i> 
-            <span style="color: var(--accent-gold);" data-i18n="breadcrumb-current">Vaste prijzen</span>
+            <a href="/PV/PV.html" data-i18n="breadcrumb-home">Home</a> <i class="fas fa-chevron-right"></i> 
+            <span class="current" data-i18n="breadcrumb-current">Algemene voorwaarden</span>
         </div>
-        <h1 class="page-title"><i class="fas fa-euro-sign"></i> <span data-i18n="page-title">Vaste prijzen</span></h1>
-        <p class="intro-text" data-i18n="intro-text">Geen verrassingen, geen meters, geen discussie. Bij Fleetconnect betaalt u altijd een transparante, vooraf vastgestelde prijs – ongeacht files of omwegen.</p>
-        <a href="PV.html#booking" class="btn-primary"><i class="fas fa-calculator"></i> <span data-i18n="book-btn">Bereken direct uw prijs</span></a>
+        <h1 class="page-title"><i class="fas fa-file-contract"></i> <span data-i18n="page-title">Algemene voorwaarden</span></h1>
+        <p class="intro-text" data-i18n="intro-text">Lees onderstaande algemene voorwaarden zorgvuldig. Door gebruik te maken van onze diensten gaat u akkoord met deze bepalingen. FleetConnect conformeert zich aan de Belgische wetgeving, in het bijzonder het decreet van 29 maart 2019 betreffende het individueel bezoldigd personenvervoer.</p>
     </div>
 
     <div class="container">
         <div class="nav-tabs">
-            <a href="PV.html" class="nav-tab"><i class="fas fa-home"></i> <span data-i18n="tab-home">Home</span></a>
-            <a href="PV_Exclusieve_Service.html" class="nav-tab"><i class="fas fa-gem"></i> <span data-i18n="tab-exclusive">Exclusief</span></a>
-            <a href="PV-vaste-prijzen.html" class="nav-tab active"><i class="fas fa-euro-sign"></i> <span data-i18n="tab-prices">Prijzen</span></a>
-            <a href="PV-premium-vloot.html" class="nav-tab"><i class="fas fa-car-side"></i> <span data-i18n="tab-fleet">Vloot</span></a>
-            <a href="PV_Luchthavenvervoer.html" class="nav-tab"><i class="fas fa-plane-departure"></i> <span data-i18n="tab-airport">Luchthaven</span></a>
-            <a href="PV_Zakelijk_Vervoer.html" class="nav-tab"><i class="fas fa-briefcase"></i> <span data-i18n="tab-business">Zakelijk</span></a>
-            <a href="PV_Events_Gala.html" class="nav-tab"><i class="fas fa-glass-cheers"></i> <span data-i18n="tab-events">Events</span></a>
-            <a href="PV_Koeriersdienst.html" class="nav-tab"><i class="fas fa-file-signature"></i> <span data-i18n="tab-courier">Koerier</span></a>
+            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
         </div>
     </div>
 
     <div class="container">
         <div class="content-section">
             <div class="content-card">
-                <h2><span data-i18n="card-title">💰 Hoe werkt ons vaste-prijzen model?</span></h2>
-                <p data-i18n="card-intro">Traditionele taxi's gebruiken een meter die blijft doorlopen bij elk rood licht, elke file en elke omweg. Bij Fleetconnect doen we dat anders. U ontvangt bij uw reservering direct een vaste prijs die niet verandert – ook niet als er onverwachte vertraging optreedt.</p>
+                <h2 data-i18n="article1-title">📜 Artikel 1 – Definities</h2>
+                <p data-i18n="article1-text">In deze algemene voorwaarden wordt verstaan onder:</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> <strong>FleetConnect</strong> <span>– de onderneming die taxivervoer aanbiedt onder de handelsnaam FleetConnect.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Klant</strong> <span>– de natuurlijke of rechtspersoon die met FleetConnect een vervoersovereenkomst aangaat.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Rit</strong> <span>– het feitelijk vervoer van personen en/of goederen per voertuig.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Vergunning</strong> <span>– de vergunning voor de exploitatie van een dienst voor individueel bezoldigd personenvervoer, afgegeven door de bevoegde gemeente overeenkomstig het decreet van 29 maart 2019.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Bestuurderspas</strong> <span>– de pas die de geschiktheid van de bestuurder aantoont overeenkomstig het decreet.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Straattaxi</strong> <span>– de exploitatie waarbij het voertuig ter beschikking wordt gesteld van het publiek op de openbare weg.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Dienststaat</strong> <span>– de registratie van alle ritten en dienstgegevens.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Vervoerbewijs</strong> <span>– de ritbon met de wettelijk vereiste gegevens.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>App</strong> <span>– de (in ontwikkeling zijnde) mobiele applicatie van FleetConnect voor reserveringen.</span></li>
+                </ul>
+                
+                <h2 data-i18n="article2-title">📜 Artikel 2 – Wettelijke basis en vergunning</h2>
+                <p data-i18n="article2-text">FleetConnect beschikt over een geldige vergunning voor de exploitatie van een dienst voor individueel bezoldigd personenvervoer, afgegeven door de bevoegde gemeente overeenkomstig het decreet van 29 maart 2019 betreffende het individueel bezoldigd personenvervoer. De vergunning wordt op verzoek van de klant getoond.</p>
+                
+                <h2 data-i18n="article3-title">📜 Artikel 3 – Bestuurders</h2>
+                <p data-i18n="article3-text">Alle bestuurders van FleetConnect zijn in het bezit van een geldige bestuurderspas en voldoen aan de wettelijke vereisten betreffende moraliteit, beroepsbekwaamheid en talenkennis zoals voorzien in het decreet. De bestuurders zijn minimaal 21 jaar oud en beschikken over een geldig rijbewijs B dat minimaal 3 jaar in bezit is.</p>
+                
+                <h2 data-i18n="article4-title">📜 Artikel 4 – Voertuigen</h2>
+                <p data-i18n="article4-text">De voertuigen van FleetConnect zijn, naar constructie en uitrusting, geschikt voor het vervoer van ten hoogste negen personen, de bestuurder inbegrepen. De voertuigen voldoen aan de geldende milieu- en veiligheidsnormen. FleetConnect streeft naar een duurzame vloot en zal de wettelijke milieunormen steeds respecteren.</p>
+                
+                <h2 data-i18n="article5-title">📜 Artikel 5 – Tarieven</h2>
+                <p data-i18n="article5-text">FleetConnect hanteert uitsluitend vaste prijzen, zoals toegestaan voor straattaxi's. De tarieven worden duidelijk kenbaar gemaakt via de reserveringsapplicatie (in ontwikkeling) en op de website. Het wettelijk minimumtarief wordt steeds gerespecteerd. De prijsberekening is transparant en vooraf inzichtelijk voor de klant.</p>
+                
+                <h2 data-i18n="article6-title">📜 Artikel 6 – Dienststaat en administratie</h2>
+                <p data-i18n="article6-text">FleetConnect houdt een volledige dienststaat bij waarin alle ritten worden geregistreerd, overeenkomstig de wettelijke bepalingen. Deze gegevens worden minimaal 5 jaar bewaard en worden op verzoek ter beschikking gesteld van de bevoegde autoriteiten.</p>
+                
+                <h2 data-i18n="article7-title">📜 Artikel 7 – Vervoerbewijs</h2>
+                <p data-i18n="article7-text">Na elke rit wordt een vervoerbewijs afgeleverd met de wettelijk vereiste vermeldingen, waaronder het te betalen bedrag en de klachtenprocedure. Bij reserveringen via de app wordt het vervoerbewijs digitaal ter beschikking gesteld.</p>
+                
+                <h2 data-i18n="article8-title">📜 Artikel 8 – Wachttijd en annulering</h2>
+                <p data-i18n="article8-text">De chauffeur wacht maximaal 30 minuten gratis na het afgesproken tijdstip. Daarna wordt een wachttarief van €35,00/uur in rekening gebracht. Annulering is kosteloos tot 2 uur voor de rit. Bij annulering binnen 2 uur voor de rit wordt 50% van de ritprijs in rekening gebracht. Bij no-show (de klant verschijnt niet op de afgesproken plaats en tijd) wordt 100% van de ritprijs gefactureerd.</p>
+                
+                <h2 data-i18n="article9-title">📜 Artikel 9 – Bagage en aansprakelijkheid</h2>
+                <p data-i18n="article9-text">Standaard bagage is inbegrepen. FleetConnect is niet aansprakelijk voor verlies, diefstal of beschadiging van bagage, tenzij sprake is van opzet of grove schuld van de chauffeur. De klant dient waardevolle spullen altijd zelf in bewaring te nemen.</p>
+                
+                <h2 data-i18n="article10-title">📜 Artikel 10 – Klachten</h2>
+                <p data-i18n="article10-text">Klachten dienen binnen 7 dagen na de rit schriftelijk te worden ingediend via <strong>info@fleetconnect.be</strong>. FleetConnect zal binnen 14 dagen een inhoudelijke reactie geven. Klachten kunnen ook worden ingediend bij het wettelijk klachtenorgaan van de Vlaamse administratie.</p>
+                
+                <h2 data-i18n="article11-title">📜 Artikel 11 – Toepasselijk recht</h2>
+                <p data-i18n="article11-text">Op alle overeenkomsten met FleetConnect is het Belgisch recht van toepassing. Geschillen worden voorgelegd aan de bevoegde rechter in het gerechtelijk arrondissement waar FleetConnect haar maatschappelijke zetel heeft.</p>
                 
                 <div class="highlight-box">
-                    <i class="fas fa-shield-alt" style="color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 15px; display: inline-block;"></i>
-                    <p style="font-size: 1.1rem; font-weight: 500;" data-i18n="highlight-text">"U betaalt exact wat u ziet – geen cent meer. Dat is onze belofte."</p>
+                    <i class="fas fa-gavel"></i>
+                    <p><strong>Laatst bijgewerkt:</strong> 26 juli 2026</p>
+                    <p style="font-size:0.95rem; font-weight:400; margin-top:10px;">FleetConnect conformeert zich aan de Belgische wetgeving, in het bijzonder het decreet van 29 maart 2019 betreffende het individueel bezoldigd personenvervoer.</p>
                 </div>
-
-                <h3 data-i18n="formula-title">📏 Onze prijsformule</h3>
-                <p data-i18n="formula-text">Wij hanteren een eenvoudige en eerlijke formule: <strong>€1,50 per kilometer</strong>, vermenigvuldigd met de exacte routeafstand. Deze prijs is all-in, inclusief:</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <span data-i18n="fuel">Alle brandstofkosten</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span data-i18n="tax">Btw en alle belastingen</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span data-i18n="toll">Weg- en tolgelden</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span data-i18n="wait">Wacht- en parkeerkosten</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span data-i18n="driver">Chauffeurservice</span></li>
-                </ul>
-
-                <h3 data-i18n="examples-title">🗺️ Voorbeeldprijzen populaire routes</h3>
-                <table class="price-table">
-                    <thead>
-                        <tr><th data-i18n="table-route">Route</th><th data-i18n="table-dist">Afstand</th><th data-i18n="table-price">Vaste prijs</th><th data-i18n="table-time">Reistijd</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td data-i18n="route1">Antwerpen Centraal → Brussel Airport (Zaventem)</td><td>45 km</td><td><strong>€ 67,50</strong></td><td data-i18n="time1">± 40 min</td></tr>
-                        <tr><td data-i18n="route2">Brussel Zuid (Midi) → Charleroi Airport (CRL)</td><td>58 km</td><td><strong>€ 87,00</strong></td><td data-i18n="time2">± 50 min</td></tr>
-                        <tr><td data-i18n="route3">Gent Sint-Pieters → Brugge Centrum</td><td>48 km</td><td><strong>€ 72,00</strong></td><td data-i18n="time3">± 45 min</td></tr>
-                        <tr><td data-i18n="route4">Luik-Guillemins → Maastricht (NL)</td><td>32 km</td><td><strong>€ 48,00</strong></td><td data-i18n="time4">± 35 min</td></tr>
-                        <tr><td data-i18n="route5">Leuven → Brussel Centraal</td><td>28 km</td><td><strong>€ 42,00</strong></td><td data-i18n="time5">± 30 min</td></tr>
-                        <tr><td data-i18n="route6">Namen → Charleroi Airport</td><td>38 km</td><td><strong>€ 57,00</strong></td><td data-i18n="time6">± 35 min</td></tr>
-                    </tbody>
-                </table>
-
-                <h3 data-i18n="return-title">🔄 Heen en terug – dubbele rit, dubbele zekerheid</h3>
-                <p data-i18n="return-text">Voor ritten die u later dezelfde dag of een andere dag terugkeert, bieden wij een speciale <strong>retour-regeling</strong>. U betaalt eenvoudigweg 2× de enkele ritprijs, met de garantie dat dezelfde chauffeur (indien gewenst) u weer komt ophalen. Geen zoektocht naar een nieuwe taxi, geen onzekerheid over de prijs.</p>
-
-                <h3 data-i18n="extras-title">➕ Extra opties – meerprijzen die duidelijk zijn</h3>
-                <p data-i18n="extras-intro">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-car"></i> <strong data-i18n="break-label">Break model</strong> <span data-i18n="break-text">– Meer bagageruimte: + €5</span></li>
-                    <li><i class="fas fa-star"></i> <strong data-i18n="exclusive-label">Exclusieve wagen</strong> <span data-i18n="exclusive-text">(Mercedes E-Klasse / BMW 5 Serie): + €15</span></li>
-                    <li><i class="fas fa-users"></i> <strong data-i18n="van-label">Mini Van</strong> <span data-i18n="van-text">(tot 8 personen): + €10</span></li>
-                    <li><i class="fas fa-handshake"></i> <strong data-i18n="meet-label">Meet & Greet</strong> <span data-i18n="meet-text">– Chauffeur wacht met naamplaatje: + €0 (gratis)</span></li>
-                    <li><i class="fas fa-kiss"></i> <strong data-i18n="kiss-label">Kiss & Ride</strong> <span data-i18n="kiss-text">– Snelle stop voor drop-off: + €0 (gratis)</span></li>
-                </ul>
-            </div>
-
-            <div class="content-card">
-                <h2><span data-i18n="payment-title">💳 Betaalmogelijkheden – flexibel en veilig</span></h2>
-                <p data-i18n="payment-intro">U kiest hoe u betaalt. Wij accepteren alle gangbare betaalmethoden, zonder verborgen toeslagen:</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-money-bill-wave"></i> <strong data-i18n="pay-cash">Cash</strong> <span data-i18n="pay-cash-text">– Contant betalen bij de chauffeur</span></li>
-                    <li><i class="fas fa-credit-card"></i> <strong data-i18n="pay-card">Bancontact / Visa / Mastercard</strong> <span data-i18n="pay-card-text">– Terminal aan boord</span></li>
-                    <li><i class="fas fa-mobile-alt"></i> <strong data-i18n="pay-mobile">Payconiq / Bank app</strong> <span data-i18n="pay-mobile-text">– Scan de QR-code</span></li>
-                    <li><i class="fas fa-file-invoice"></i> <strong data-i18n="pay-invoice">Factuur (zakelijk)</strong> <span data-i18n="pay-invoice-text">– Voor bedrijven met BTW-nummer</span></li>
-                </ul>
-                <div class="highlight-box">
-                    <p><span data-i18n="tip-text"><strong>💡 Tip voor zakelijke klanten:</strong> Vraag uw factuur aan bij de reservering. Wij sturen deze binnen 24 uur naar uw e-mailadres, inclusief BTW-specificatie.</span></p>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h2><span data-i18n="faq-title">❓ Veelgestelde vragen over vaste prijzen</span></h2>
-                
-                <h3 data-i18n="faq-q1">🚦 Wat als er een file is? Wordt de prijs dan hoger?</h3>
-                <p data-i18n="faq-a1"><strong>Nee.</strong> De prijs is gebaseerd op de routeafstand, niet op de tijd. U betaalt nooit extra voor files, omleidingen of vertraging. Dit is het grote voordeel van vaste prijzen ten opzichte van een taximeter.</p>
-                
-                <h3 data-i18n="faq-q2">🛑 Wat als ik een tussenstop wil maken?</h3>
-                <p data-i18n="faq-a2">Kleine tussenstops (maximaal 5 minuten) zijn inbegrepen. Voor langere stops of extra afwijkingen berekenen wij een klein supplement van €5 per extra stop. Dit wordt vooraf met u gecommuniceerd.</p>
-                
-                <h3 data-i18n="faq-q3">🧳 Is bagage inbegrepen?</h3>
-                <p data-i18n="faq-a3">Ja, standaard bagage (2 koffers + handbagage per passagier) is inbegrepen. Voor excessieve bagage of speciale items (zoals ski's, golftassen, of fietsen) kan een kleine toeslag gelden – altijd vooraf besproken.</p>
-                
-                <h3 data-i18n="faq-q4">📅 Kan ik annuleren zonder kosten?</h3>
-                <p data-i18n="faq-a4">U kunt gratis annuleren tot 2 uur voor de rit. Bij annulering binnen 2 uur voor de rit rekenen wij 50% van de ritprijs. Voor no-show (niet komen opdagen) wordt de volledige prijs in rekening gebracht.</p>
-            </div>
-
-            <div class="nav-pagination">
-                <a href="PV_Exclusieve_Service.html"><i class="fas fa-arrow-left"></i> <span data-i18n="prev-link">Vorige: Exclusieve service</span></a>
-                <a href="PV-premium-vloot.html"><span data-i18n="next-link">Volgende: Premium vloot</span> <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </div>
 
+    <!-- ========================================================== -->
+    <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
+    <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
+                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
-                    <h4><i class="fas fa-crown"></i> Fleetconnect</h4>
-                    <p data-i18n="footer-brand-text">Premium taxivervoer in België – Stijl, stiptheid en service.</p>
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
                 </div>
-                <div class="footer-ryz3n">
-                    <h4>Fleetconnect | Digital Supremacy</h4>
-                    <a href="/customer" data-i18n="footer-control">Customer portal</a>
-                    <a href="/booking#booking" data-i18n="footer-dispatch">Book a ride</a>
-                    <a href="/PV/PVprivacy.html" data-i18n="footer-legal">Privacy</a>
+
+                <!-- Kolom 2: Populaire steden -->
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/taxi-brussels">Taxi Brussels</a>
+                    <a href="/taxi-antwerpen">Taxi Antwerp</a>
+                    <a href="/taxi-gent">Taxi Ghent</a>
+                    <a href="/taxi-zaventem">Taxi Zaventem</a>
+                    <a href="/taxi-leuven">Taxi Leuven</a>
+                    <a href="/taxi-mechelen">Taxi Mechelen</a>
+                    <a href="/taxi-waterloo">Taxi Waterloo</a>
+                    <a href="/taxi-brugge">Taxi Brugge</a>
                 </div>
+
+                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
-                    <h4 data-i18n="footer-legal-title">Juridisch</h4>
-                    <a href="#" data-i18n="footer-tos">Algemene voorwaarden</a>
-                    <a href="#" data-i18n="footer-privacy">Privacy</a>
-                    <a href="#" data-i18n="footer-cookies">Cookiebeleid</a>
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                 </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
-                    <h4 data-i18n="footer-partners-title">Partners</h4>
-                    <a href="#">Horizon Of Infinity</a>
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
                 </div>
             </div>
-            <div class="footer-bottom"><span data-i18n="footer-copyright">© 2026 Fleetconnect – </span><a href="#">Fleetconnect</a></div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
         </div>
     </footer>
+    <!-- ========================================================== -->
+    <!-- EINDE FOOTER                                               -->
+    <!-- ========================================================== -->
+
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     const translations = {
         nl: {
-            "breadcrumb-home": "Home", "breadcrumb-current": "Vaste prijzen", "page-title": "Vaste prijzen",
-            "intro-text": "Geen verrassingen, geen meters, geen discussie. Bij Fleetconnect betaalt u altijd een transparante, vooraf vastgestelde prijs – ongeacht files of omwegen.",
-            "book-btn": "Bereken direct uw prijs",
-            "tab-home": "Home", "tab-exclusive": "Exclusief", "tab-prices": "Prijzen", "tab-fleet": "Vloot", "tab-airport": "Luchthaven", "tab-business": "Zakelijk", "tab-events": "Events", "tab-courier": "Koerier",
-            "card-title": "💰 Hoe werkt ons vaste-prijzen model?",
-            "card-intro": "Traditionele taxi's gebruiken een meter die blijft doorlopen bij elk rood licht, elke file en elke omweg. Bij Fleetconnect doen we dat anders. U ontvangt bij uw reservering direct een vaste prijs die niet verandert – ook niet als er onverwachte vertraging optreedt.",
-            "highlight-text": "\"U betaalt exact wat u ziet – geen cent meer. Dat is onze belofte.\"",
-            "formula-title": "📏 Onze prijsformule",
-            "formula-text": "Wij hanteren een eenvoudige en eerlijke formule: €1,50 per kilometer, vermenigvuldigd met de exacte routeafstand. Deze prijs is all-in, inclusief:",
-            "fuel": "Alle brandstofkosten",
-            "tax": "Btw en alle belastingen",
-            "toll": "Weg- en tolgelden",
-            "wait": "Wacht- en parkeerkosten",
-            "driver": "Chauffeurservice",
-            "examples-title": "🗺️ Voorbeeldprijzen populaire routes",
-            "table-route": "Route", "table-dist": "Afstand", "table-price": "Vaste prijs", "table-time": "Reistijd",
-            "route1": "Antwerpen Centraal → Brussel Airport (Zaventem)", "time1": "± 40 min",
-            "route2": "Brussel Zuid (Midi) → Charleroi Airport (CRL)", "time2": "± 50 min",
-            "route3": "Gent Sint-Pieters → Brugge Centrum", "time3": "± 45 min",
-            "route4": "Luik-Guillemins → Maastricht (NL)", "time4": "± 35 min",
-            "route5": "Leuven → Brussel Centraal", "time5": "± 30 min",
-            "route6": "Namen → Charleroi Airport", "time6": "± 35 min",
-            "return-title": "🔄 Heen en terug – dubbele rit, dubbele zekerheid",
-            "return-text": "Voor ritten die u later dezelfde dag of een andere dag terugkeert, bieden wij een speciale retour-regeling. U betaalt eenvoudigweg 2× de enkele ritprijs, met de garantie dat dezelfde chauffeur (indien gewenst) u weer komt ophalen. Geen zoektocht naar een nieuwe taxi, geen onzekerheid over de prijs.",
-            "extras-title": "➕ Extra opties – meerprijzen die duidelijk zijn",
-            "extras-intro": "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
-            "break-label": "Break model", "break-text": "– Meer bagageruimte: + €5",
-            "exclusive-label": "Exclusieve wagen", "exclusive-text": "(Mercedes E-Klasse / BMW 5 Serie): + €15",
-            "van-label": "Mini Van", "van-text": "(tot 8 personen): + €10",
-            "meet-label": "Meet & Greet", "meet-text": "– Chauffeur wacht met naamplaatje: + €0 (gratis)",
-            "kiss-label": "Kiss & Ride", "kiss-text": "– Snelle stop voor drop-off: + €0 (gratis)",
-            "payment-title": "💳 Betaalmogelijkheden – flexibel en veilig",
-            "payment-intro": "U kiest hoe u betaalt. Wij accepteren alle gangbare betaalmethoden, zonder verborgen toeslagen:",
-            "pay-cash": "Cash", "pay-cash-text": "– Contant betalen bij de chauffeur",
-            "pay-card": "Bancontact / Visa / Mastercard", "pay-card-text": "– Terminal aan boord",
-            "pay-mobile": "Payconiq / Bank app", "pay-mobile-text": "– Scan de QR-code",
-            "pay-invoice": "Factuur (zakelijk)", "pay-invoice-text": "– Voor bedrijven met BTW-nummer",
-            "tip-text": "💡 Tip voor zakelijke klanten: Vraag uw factuur aan bij de reservering. Wij sturen deze binnen 24 uur naar uw e-mailadres, inclusief BTW-specificatie.",
-            "faq-title": "❓ Veelgestelde vragen over vaste prijzen",
-            "faq-q1": "🚦 Wat als er een file is? Wordt de prijs dan hoger?",
-            "faq-a1": "Nee. De prijs is gebaseerd op de routeafstand, niet op de tijd. U betaalt nooit extra voor files, omleidingen of vertraging. Dit is het grote voordeel van vaste prijzen ten opzichte van een taximeter.",
-            "faq-q2": "🛑 Wat als ik een tussenstop wil maken?",
-            "faq-a2": "Kleine tussenstops (maximaal 5 minuten) zijn inbegrepen. Voor langere stops of extra afwijkingen berekenen wij een klein supplement van €5 per extra stop. Dit wordt vooraf met u gecommuniceerd.",
-            "faq-q3": "🧳 Is bagage inbegrepen?",
-            "faq-a3": "Ja, standaard bagage (2 koffers + handbagage per passagier) is inbegrepen. Voor excessieve bagage of speciale items (zoals ski's, golftassen, of fietsen) kan een kleine toeslag gelden – altijd vooraf besproken.",
-            "faq-q4": "📅 Kan ik annuleren zonder kosten?",
-            "faq-a4": "U kunt gratis annuleren tot 2 uur voor de rit. Bij annulering binnen 2 uur voor de rit rekenen wij 50% van de ritprijs. Voor no-show (niet komen opdagen) wordt de volledige prijs in rekening gebracht.",
-            "prev-link": "Vorige: Exclusieve service", "next-link": "Volgende: Premium vloot",
-            "footer-brand-text": "Premium taxivervoer in België – Stijl, stiptheid en service.",
-            "footer-control": "Control Panel", "footer-dispatch": "Taxi Dispatch", "footer-legal": "Legal & Privacy",
-            "footer-legal-title": "Juridisch", "footer-tos": "Algemene voorwaarden", "footer-privacy": "Privacy", "footer-cookies": "Cookiebeleid",
-            "footer-partners-title": "Partners", "footer-copyright": "© 2026 Fleetconnect – "
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "Algemene voorwaarden",
+            "page-title": "Algemene voorwaarden",
+            "intro-text": "Lees onderstaande algemene voorwaarden zorgvuldig. Door gebruik te maken van onze diensten gaat u akkoord met deze bepalingen. FleetConnect conformeert zich aan de Belgische wetgeving, in het bijzonder het decreet van 29 maart 2019 betreffende het individueel bezoldigd personenvervoer.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusief",
+            "tab-prices": "Prijzen",
+            "tab-fleet": "Vloot",
+            "tab-airport": "Luchthaven",
+            "tab-business": "Zakelijk",
+            "tab-events": "Events",
+            "tab-courier": "Koerier",
+            
+            "article1-title": "📜 Artikel 1 – Definities",
+            "article1-text": "In deze algemene voorwaarden wordt verstaan onder: FleetConnect: de onderneming die taxivervoer aanbiedt onder de handelsnaam FleetConnect; Klant: de natuurlijke of rechtspersoon die met FleetConnect een vervoersovereenkomst aangaat; Rit: het feitelijk vervoer van personen en/of goederen per voertuig; Vergunning: de vergunning voor de exploitatie van een dienst voor individueel bezoldigd personenvervoer, afgegeven door de bevoegde gemeente overeenkomstig het decreet van 29 maart 2019; Bestuurderspas: de pas die de geschiktheid van de bestuurder aantoont overeenkomstig het decreet; Straattaxi: de exploitatie waarbij het voertuig ter beschikking wordt gesteld van het publiek op de openbare weg; Dienststaat: de registratie van alle ritten en dienstgegevens; Vervoerbewijs: de ritbon met de wettelijk vereiste gegevens; App: de (in ontwikkeling zijnde) mobiele applicatie van FleetConnect voor reserveringen.",
+            
+            "article2-title": "📜 Artikel 2 – Wettelijke basis en vergunning",
+            "article2-text": "FleetConnect beschikt over een geldige vergunning voor de exploitatie van een dienst voor individueel bezoldigd personenvervoer, afgegeven door de bevoegde gemeente overeenkomstig het decreet van 29 maart 2019 betreffende het individueel bezoldigd personenvervoer. De vergunning wordt op verzoek van de klant getoond.",
+            
+            "article3-title": "📜 Artikel 3 – Bestuurders",
+            "article3-text": "Alle bestuurders van FleetConnect zijn in het bezit van een geldige bestuurderspas en voldoen aan de wettelijke vereisten betreffende moraliteit, beroepsbekwaamheid en talenkennis zoals voorzien in het decreet. De bestuurders zijn minimaal 21 jaar oud en beschikken over een geldig rijbewijs B dat minimaal 3 jaar in bezit is.",
+            
+            "article4-title": "📜 Artikel 4 – Voertuigen",
+            "article4-text": "De voertuigen van FleetConnect zijn, naar constructie en uitrusting, geschikt voor het vervoer van ten hoogste negen personen, de bestuurder inbegrepen. De voertuigen voldoen aan de geldende milieu- en veiligheidsnormen. FleetConnect streeft naar een duurzame vloot en zal de wettelijke milieunormen steeds respecteren.",
+            
+            "article5-title": "📜 Artikel 5 – Tarieven",
+            "article5-text": "FleetConnect hanteert uitsluitend vaste prijzen, zoals toegestaan voor straattaxi's. De tarieven worden duidelijk kenbaar gemaakt via de reserveringsapplicatie (in ontwikkeling) en op de website. Het wettelijk minimumtarief wordt steeds gerespecteerd. De prijsberekening is transparant en vooraf inzichtelijk voor de klant.",
+            
+            "article6-title": "📜 Artikel 6 – Dienststaat en administratie",
+            "article6-text": "FleetConnect houdt een volledige dienststaat bij waarin alle ritten worden geregistreerd, overeenkomstig de wettelijke bepalingen. Deze gegevens worden minimaal 5 jaar bewaard en worden op verzoek ter beschikking gesteld van de bevoegde autoriteiten.",
+            
+            "article7-title": "📜 Artikel 7 – Vervoerbewijs",
+            "article7-text": "Na elke rit wordt een vervoerbewijs afgeleverd met de wettelijk vereiste vermeldingen, waaronder het te betalen bedrag en de klachtenprocedure. Bij reserveringen via de app wordt het vervoerbewijs digitaal ter beschikking gesteld.",
+            
+            "article8-title": "📜 Artikel 8 – Wachttijd en annulering",
+            "article8-text": "De chauffeur wacht maximaal 30 minuten gratis na het afgesproken tijdstip. Daarna wordt een wachttarief van €35,00/uur in rekening gebracht. Annulering is kosteloos tot 2 uur voor de rit. Bij annulering binnen 2 uur voor de rit wordt 50% van de ritprijs in rekening gebracht. Bij no-show (de klant verschijnt niet op de afgesproken plaats en tijd) wordt 100% van de ritprijs gefactureerd.",
+            
+            "article9-title": "📜 Artikel 9 – Bagage en aansprakelijkheid",
+            "article9-text": "Standaard bagage is inbegrepen. FleetConnect is niet aansprakelijk voor verlies, diefstal of beschadiging van bagage, tenzij sprake is van opzet of grove schuld van de chauffeur. De klant dient waardevolle spullen altijd zelf in bewaring te nemen.",
+            
+            "article10-title": "📜 Artikel 10 – Klachten",
+            "article10-text": "Klachten dienen binnen 7 dagen na de rit schriftelijk te worden ingediend via info@fleetconnect.be. FleetConnect zal binnen 14 dagen een inhoudelijke reactie geven. Klachten kunnen ook worden ingediend bij het wettelijk klachtenorgaan van de Vlaamse administratie.",
+            
+            "article11-title": "📜 Artikel 11 – Toepasselijk recht",
+            "article11-text": "Op alle overeenkomsten met FleetConnect is het Belgisch recht van toepassing. Geschillen worden voorgelegd aan de bevoegde rechter in het gerechtelijk arrondissement waar FleetConnect haar maatschappelijke zetel heeft."
         },
         fr: {
-            "breadcrumb-home": "Accueil", "breadcrumb-current": "Prix fixes", "page-title": "Prix fixes",
-            "intro-text": "Pas de surprises, pas de compteur, pas de discussion. Chez Fleetconnect, vous payez toujours un prix transparent et fixé à l'avance – quels que soient les embouteillages ou les détours.",
-            "book-btn": "Calculez votre prix immédiatement",
-            "tab-home": "Accueil", "tab-exclusive": "Exclusif", "tab-prices": "Prix fixes", "tab-fleet": "Flotte", "tab-airport": "Aéroport", "tab-business": "Affaires", "tab-events": "Événements", "tab-courier": "Messagerie",
-            "card-title": "💰 Comment fonctionne notre modèle de prix fixes?",
-            "card-intro": "Les taxis traditionnels utilisent un compteur qui continue de tourner à chaque feu rouge, chaque embouteillage et chaque détour. Chez Fleetconnect, nous faisons différemment. Vous recevez un prix fixe lors de votre réservation, qui ne change pas – même en cas de retard imprévu.",
-            "highlight-text": "\"Vous payez exactement ce que vous voyez – pas un centime de plus. C'est notre promesse.\"",
-            "formula-title": "📏 Notre formule de prix",
-            "formula-text": "Nous appliquons une formule simple et équitable : 1,50 € par kilomètre, multiplié par la distance exacte de l'itinéraire. Ce prix est tout compris, incluant :",
-            "fuel": "Tous les frais de carburant",
-            "tax": "TVA et toutes les taxes",
-            "toll": "Frais de route et de péage",
-            "wait": "Frais d'attente et de stationnement",
-            "driver": "Service de chauffeur",
-            "examples-title": "🗺️ Exemples de prix pour les trajets populaires",
-            "table-route": "Itinéraire", "table-dist": "Distance", "table-price": "Prix fixe", "table-time": "Temps de trajet",
-            "route1": "Anvers-Central → Aéroport de Bruxelles (Zaventem)", "time1": "± 40 min",
-            "route2": "Bruxelles-Midi → Aéroport de Charleroi (CRL)", "time2": "± 50 min",
-            "route3": "Gand Saint-Pierre → Centre de Bruges", "time3": "± 45 min",
-            "route4": "Liège-Guillemins → Maastricht (NL)", "time4": "± 35 min",
-            "route5": "Louvain → Bruxelles-Central", "time5": "± 30 min",
-            "route6": "Namur → Aéroport de Charleroi", "time6": "± 35 min",
-            "return-title": "🔄 Aller-retour – double trajet, double certitude",
-            "return-text": "Pour les trajets que vous effectuez plus tard le même jour ou un autre jour, nous proposons une formule spéciale aller-retour. Vous payez simplement 2× le prix du simple, avec la garantie que le même chauffeur (si vous le souhaitez) revienne vous chercher. Pas de recherche d'un nouveau taxi, pas d'incertitude sur le prix.",
-            "extras-title": "➕ Options supplémentaires – suppléments clairs",
-            "extras-intro": "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
-            "break-label": "Break / familiale", "break-text": "– Plus d'espace bagages : +5 €",
-            "exclusive-label": "Voiture exclusive", "exclusive-text": "(Mercedes Classe E / BMW Série 5) : +15 €",
-            "van-label": "Mini Van", "van-text": "(jusqu'à 8 personnes) : +10 €",
-            "meet-label": "Meet & Greet", "meet-text": "– Chauffeur vous attend avec une pancarte : +0 € (gratuit)",
-            "kiss-label": "Kiss & Ride", "kiss-text": "– Arrêt rapide pour déposer : +0 € (gratuit)",
-            "payment-title": "💳 Moyens de paiement – flexibles et sécurisés",
-            "payment-intro": "Vous choisissez comment payer. Nous acceptons tous les modes de paiement courants, sans frais cachés :",
-            "pay-cash": "Espèces", "pay-cash-text": "– Paiement en espèces au chauffeur",
-            "pay-card": "Bancontact / Visa / Mastercard", "pay-card-text": "– Terminal à bord",
-            "pay-mobile": "Payconiq / App bancaire", "pay-mobile-text": "– Scannez le code QR",
-            "pay-invoice": "Facture (professionnel)", "pay-invoice-text": "– Pour les entreprises avec numéro de TVA",
-            "tip-text": "💡 Conseil pour les clients professionnels : Demandez votre facture lors de la réservation. Nous vous l'enverrons sous 24 heures à votre adresse e-mail, avec le détail de la TVA.",
-            "faq-title": "❓ Questions fréquentes sur les prix fixes",
-            "faq-q1": "🚦 Que se passe-t-il en cas d'embouteillage ? Le prix augmente-t-il ?",
-            "faq-a1": "Non. Le prix est basé sur la distance de l'itinéraire, pas sur le temps. Vous ne payez jamais de supplément pour les embouteillages, déviations ou retards. C'est le grand avantage des prix fixes par rapport au taxi à compteur.",
-            "faq-q2": "🛑 Que faire si je veux faire un arrêt intermédiaire ?",
-            "faq-a2": "Les petits arrêts (5 minutes maximum) sont inclus. Pour les arrêts plus longs ou les écarts supplémentaires, nous appliquons un petit supplément de 5 € par arrêt supplémentaire. Cela vous sera communiqué à l'avance.",
-            "faq-q3": "🧳 Les bagages sont-ils inclus ?",
-            "faq-a3": "Oui, les bagages standards (2 valises + bagage à main par passager) sont inclus. Pour les bagages excessifs ou les articles spéciaux (skis, sacs de golf, vélos), un petit supplément peut s'appliquer – toujours convenu à l'avance.",
-            "faq-q4": "📅 Puis-je annuler sans frais ?",
-            "faq-a4": "Vous pouvez annuler gratuitement jusqu'à 2 heures avant le trajet. En cas d'annulation moins de 2 heures avant le trajet, nous facturons 50 % du prix du trajet. En cas de no-show (vous ne vous présentez pas), le prix total est facturé.",
-            "prev-link": "Précédent : Service exclusif", "next-link": "Suivant : Flotte premium",
-            "footer-brand-text": "Service de taxi premium en Belgique – Style, ponctualité et service.",
-            "footer-control": "Panneau de contrôle", "footer-dispatch": "Répartition des taxis", "footer-legal": "Juridique et confidentialité",
-            "footer-legal-title": "Juridique", "footer-tos": "Conditions générales", "footer-privacy": "Confidentialité", "footer-cookies": "Politique de cookies",
-            "footer-partners-title": "Partenaires", "footer-copyright": "© 2026 Fleetconnect – "
+            "breadcrumb-home": "Accueil",
+            "breadcrumb-current": "Conditions générales",
+            "page-title": "Conditions générales",
+            "intro-text": "Veuillez lire attentivement les conditions générales ci-dessous. En utilisant nos services, vous acceptez ces dispositions. FleetConnect se conforme à la législation belge, en particulier le décret du 29 mars 2019 relatif au transport rémunéré de personnes.",
+            "tab-home": "Accueil",
+            "tab-exclusive": "Exclusif",
+            "tab-prices": "Prix fixes",
+            "tab-fleet": "Flotte",
+            "tab-airport": "Aéroport",
+            "tab-business": "Affaires",
+            "tab-events": "Événements",
+            "tab-courier": "Messagerie",
+            
+            "article1-title": "📜 Article 1 – Définitions",
+            "article1-text": "Dans les présentes conditions générales, on entend par : FleetConnect : l'entreprise proposant des services de taxi sous la marque FleetConnect ; Client : la personne physique ou morale concluant un contrat de transport avec FleetConnect ; Trajet : le transport effectif de personnes et/ou de marchandises par véhicule ; Agrément : l'agrément pour l'exploitation d'un service de transport rémunéré de personnes, délivré par la commune compétente conformément au décret du 29 mars 2019 ; Carte de conducteur : la carte attestant de la qualification du conducteur conformément au décret ; Taxi de rue : l'exploitation par laquelle le véhicule est mis à la disposition du public sur la voie publique ; Registre de service : l'enregistrement de toutes les courses et données de service ; Titre de transport : le ticket de course avec les mentions légalement requises ; Application : l'application mobile (en développement) de FleetConnect pour les réservations.",
+            
+            "article2-title": "📜 Article 2 – Base légale et agrément",
+            "article2-text": "FleetConnect dispose d'un agrément valable pour l'exploitation d'un service de transport rémunéré de personnes, délivré par la commune compétente conformément au décret du 29 mars 2019 relatif au transport rémunéré de personnes. L'agrément est présenté à la demande du client.",
+            
+            "article3-title": "📜 Article 3 – Conducteurs",
+            "article3-text": "Tous les conducteurs de FleetConnect sont titulaires d'une carte de conducteur valable et satisfont aux exigences légales en matière de moralité, de compétence professionnelle et de connaissances linguistiques prévues par le décret. Les conducteurs sont âgés d'au moins 21 ans et sont titulaires d'un permis de conduire B valable depuis au moins 3 ans.",
+            
+            "article4-title": "📜 Article 4 – Véhicules",
+            "article4-text": "Les véhicules de FleetConnect sont, par leur construction et leur équipement, aptes au transport de neuf personnes au maximum, conducteur compris. Les véhicules respectent les normes environnementales et de sécurité en vigueur. FleetConnect vise une flotte durable et respectera toujours les normes environnementales légales.",
+            
+            "article5-title": "📜 Article 5 – Tarifs",
+            "article5-text": "FleetConnect applique exclusivement des prix fixes, comme autorisé pour les taxis de rue. Les tarifs sont clairement indiqués via l'application de réservation (en développement) et sur le site web. Le tarif minimum légal est toujours respecté. Le calcul du prix est transparent et accessible à l'avance pour le client.",
+            
+            "article6-title": "📜 Article 6 – Registre de service et administration",
+            "article6-text": "FleetConnect tient un registre de service complet dans lequel toutes les courses sont enregistrées, conformément aux dispositions légales. Ces données sont conservées pendant au moins 5 ans et sont mises à disposition des autorités compétentes sur demande.",
+            
+            "article7-title": "📜 Article 7 – Titre de transport",
+            "article7-text": "Après chaque course, un titre de transport est délivré avec les mentions légalement requises, y compris le montant à payer et la procédure de réclamation. Pour les réservations via l'application, le titre de transport est mis à disposition numériquement.",
+            
+            "article8-title": "📜 Article 8 – Temps d'attente et annulation",
+            "article8-text": "Le conducteur attend gratuitement 30 minutes maximum après l'heure convenue. Au-delà, un tarif d'attente de €35,00/heure est facturé. L'annulation est gratuite jusqu'à 2 heures avant la course. En cas d'annulation moins de 2 heures avant la course, 50% du prix de la course est facturé. En cas de no-show (le client ne se présente pas à l'heure et au lieu convenus), 100% du prix de la course est facturé.",
+            
+            "article9-title": "📜 Article 9 – Bagages et responsabilité",
+            "article9-text": "Les bagages standards sont inclus. FleetConnect n'est pas responsable de la perte, du vol ou des dommages aux bagages, sauf en cas de dol ou de faute lourde du conducteur. Le client doit toujours garder les objets de valeur sous sa propre surveillance.",
+            
+            "article10-title": "📜 Article 10 – Réclamations",
+            "article10-text": "Les réclamations doivent être soumises par écrit dans les 7 jours suivant la course à info@fleetconnect.be. FleetConnect donnera une réponse substantielle dans les 14 jours. Les réclamations peuvent également être soumises à l'organe de réclamation légal de l'administration flamande.",
+            
+            "article11-title": "📜 Article 11 – Droit applicable",
+            "article11-text": "Tous les contrats avec FleetConnect sont régis par le droit belge. Les litiges seront soumis au juge compétent de l'arrondissement judiciaire où FleetConnect a son siège social."
         },
         en: {
-            "breadcrumb-home": "Home", "breadcrumb-current": "Fixed prices", "page-title": "Fixed prices",
-            "intro-text": "No surprises, no meters, no discussion. At Fleetconnect you always pay a transparent, pre-determined price – regardless of traffic jams or detours.",
-            "book-btn": "Calculate your price now",
-            "tab-home": "Home", "tab-exclusive": "Exclusive", "tab-prices": "Prices", "tab-fleet": "Fleet", "tab-airport": "Airport", "tab-business": "Business", "tab-events": "Events", "tab-courier": "Courier",
-            "card-title": "💰 How does our fixed-price model work?",
-            "card-intro": "Traditional taxis use a meter that keeps running at every red light, every traffic jam and every detour. At Fleetconnect we do things differently. You receive a fixed price at the time of booking that does not change – even if unexpected delays occur.",
-            "highlight-text": "\"You pay exactly what you see – not a cent more. That is our promise.\"",
-            "formula-title": "📏 Our pricing formula",
-            "formula-text": "We use a simple and fair formula: €1.50 per kilometer, multiplied by the exact route distance. This price is all-inclusive, including:",
-            "fuel": "All fuel costs",
-            "tax": "VAT and all taxes",
-            "toll": "Road and toll fees",
-            "wait": "Waiting and parking costs",
-            "driver": "Driver service",
-            "examples-title": "🗺️ Example prices for popular routes",
-            "table-route": "Route", "table-dist": "Distance", "table-price": "Fixed price", "table-time": "Travel time",
-            "route1": "Antwerp Central → Brussels Airport (Zaventem)", "time1": "± 40 min",
-            "route2": "Brussels South (Midi) → Charleroi Airport (CRL)", "time2": "± 50 min",
-            "route3": "Ghent Sint-Pieters → Bruges Center", "time3": "± 45 min",
-            "route4": "Liège-Guillemins → Maastricht (NL)", "time4": "± 35 min",
-            "route5": "Leuven → Brussels Central", "time5": "± 30 min",
-            "route6": "Namur → Charleroi Airport", "time6": "± 35 min",
-            "return-title": "🔄 Round trip – double ride, double certainty",
-            "return-text": "For rides that you return later the same day or another day, we offer a special round-trip arrangement. You simply pay 2× the one-way fare, with the guarantee that the same driver (if desired) will pick you up again. No searching for a new taxi, no uncertainty about the price.",
-            "extras-title": "➕ Extra options – clear surcharges",
-            "extras-intro": "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
-            "break-label": "Break / Station wagon", "break-text": "– More luggage space: + €5",
-            "exclusive-label": "Exclusive car", "exclusive-text": "(Mercedes E-Class / BMW 5 Series): + €15",
-            "van-label": "Mini Van", "van-text": "(up to 8 persons): + €10",
-            "meet-label": "Meet & Greet", "meet-text": "– Driver waits with name sign: + €0 (free)",
-            "kiss-label": "Kiss & Ride", "kiss-text": "– Quick stop for drop-off: + €0 (free)",
-            "payment-title": "💳 Payment methods – flexible and secure",
-            "payment-intro": "You choose how to pay. We accept all common payment methods, with no hidden fees:",
-            "pay-cash": "Cash", "pay-cash-text": "– Pay in cash to the driver",
-            "pay-card": "Bancontact / Visa / Mastercard", "pay-card-text": "– Terminal on board",
-            "pay-mobile": "Payconiq / Banking app", "pay-mobile-text": "– Scan the QR code",
-            "pay-invoice": "Invoice (business)", "pay-invoice-text": "– For companies with VAT number",
-            "tip-text": "💡 Tip for business customers: Request your invoice when booking. We will send it to your email address within 24 hours, including VAT breakdown.",
-            "faq-title": "❓ Frequently asked questions about fixed prices",
-            "faq-q1": "🚦 What if there is a traffic jam? Will the price increase?",
-            "faq-a1": "No. The price is based on the route distance, not on time. You never pay extra for traffic jams, detours or delays. This is the major advantage of fixed prices over a taximeter.",
-            "faq-q2": "🛑 What if I want to make an intermediate stop?",
-            "faq-a2": "Small stops (maximum 5 minutes) are included. For longer stops or extra deviations, we charge a small supplement of €5 per extra stop. This will be communicated to you in advance.",
-            "faq-q3": "🧳 Is luggage included?",
-            "faq-a3": "Yes, standard luggage (2 suitcases + hand luggage per passenger) is included. For excessive luggage or special items (such as skis, golf bags, or bicycles), a small surcharge may apply – always agreed in advance.",
-            "faq-q4": "📅 Can I cancel without costs?",
-            "faq-a4": "You can cancel free of charge up to 2 hours before the ride. For cancellation within 2 hours of the ride, we charge 50% of the ride price. For no-show, the full price is charged.",
-            "prev-link": "Previous: Exclusive service", "next-link": "Next: Premium fleet",
-            "footer-brand-text": "Premium taxi transport in Belgium – Style, punctuality and service.",
-            "footer-control": "Control Panel", "footer-dispatch": "Taxi Dispatch", "footer-legal": "Legal & Privacy",
-            "footer-legal-title": "Legal", "footer-tos": "Terms & Conditions", "footer-privacy": "Privacy", "footer-cookies": "Cookie Policy",
-            "footer-partners-title": "Partners", "footer-copyright": "© 2026 Fleetconnect – "
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "Terms & Conditions",
+            "page-title": "Terms & Conditions",
+            "intro-text": "Please read the following terms and conditions carefully. By using our services, you agree to these provisions. FleetConnect complies with Belgian legislation, in particular the decree of 29 March 2019 regarding individual paid passenger transport.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusive",
+            "tab-prices": "Prices",
+            "tab-fleet": "Fleet",
+            "tab-airport": "Airport",
+            "tab-business": "Business",
+            "tab-events": "Events",
+            "tab-courier": "Courier",
+            
+            "article1-title": "📜 Article 1 – Definitions",
+            "article1-text": "In these terms and conditions, the following definitions apply: FleetConnect: the company offering taxi services under the trade name FleetConnect; Client: the natural or legal person entering into a transport agreement with FleetConnect; Ride: the actual transport of persons and/or goods by vehicle; Permit: the permit for the operation of an individual paid passenger transport service, issued by the competent municipality in accordance with the decree of 29 March 2019; Driver card: the card demonstrating the suitability of the driver in accordance with the decree; Street taxi: the operation whereby the vehicle is made available to the public on the public highway; Service record: the registration of all rides and service data; Transport document: the ride ticket with the legally required details; App: the (under development) mobile application of FleetConnect for reservations.",
+            
+            "article2-title": "📜 Article 2 – Legal basis and permit",
+            "article2-text": "FleetConnect holds a valid permit for the operation of an individual paid passenger transport service, issued by the competent municipality in accordance with the decree of 29 March 2019 regarding individual paid passenger transport. The permit is shown upon request of the client.",
+            
+            "article3-title": "📜 Article 3 – Drivers",
+            "article3-text": "All drivers of FleetConnect hold a valid driver card and comply with the legal requirements regarding morality, professional competence and language skills as provided for in the decree. The drivers are at least 21 years old and hold a valid driving licence B that has been held for at least 3 years.",
+            
+            "article4-title": "📜 Article 4 – Vehicles",
+            "article4-text": "The vehicles of FleetConnect are, by construction and equipment, suitable for the transport of a maximum of nine persons, the driver included. The vehicles comply with the applicable environmental and safety standards. FleetConnect aims for a sustainable fleet and will always respect the legal environmental standards.",
+            
+            "article5-title": "📜 Article 5 – Tariffs",
+            "article5-text": "FleetConnect applies exclusively fixed prices, as permitted for street taxis. The tariffs are clearly communicated via the reservation application (under development) and on the website. The legal minimum tariff is always respected. The price calculation is transparent and clear to the client in advance.",
+            
+            "article6-title": "📜 Article 6 – Service record and administration",
+            "article6-text": "FleetConnect keeps a complete service record in which all rides are registered, in accordance with the legal provisions. This data is kept for at least 5 years and is made available to the competent authorities upon request.",
+            
+            "article7-title": "📜 Article 7 – Transport document",
+            "article7-text": "After each ride, a transport document is delivered with the legally required details, including the amount to be paid and the complaints procedure. For reservations via the app, the transport document is made available digitally.",
+            
+            "article8-title": "📜 Article 8 – Waiting time and cancellation",
+            "article8-text": "The driver waits a maximum of 30 minutes free of charge after the agreed time. After that, a waiting tariff of €35.00/hour is charged. Cancellation is free of charge up to 2 hours before the ride. In case of cancellation within 2 hours before the ride, 50% of the ride price is charged. In case of no-show (the client does not show up at the agreed place and time), 100% of the ride price is charged.",
+            
+            "article9-title": "📜 Article 9 – Luggage and liability",
+            "article9-text": "Standard luggage is included. FleetConnect is not liable for loss, theft or damage to luggage, unless there is intent or gross negligence on the part of the driver. The client must always keep valuable items in their own custody.",
+            
+            "article10-title": "📜 Article 10 – Complaints",
+            "article10-text": "Complaints must be submitted in writing within 7 days after the ride to info@fleetconnect.be. FleetConnect will provide a substantive response within 14 days. Complaints can also be submitted to the legal complaints body of the Flemish administration.",
+            
+            "article11-title": "📜 Article 11 – Applicable law",
+            "article11-text": "All agreements with FleetConnect are governed by Belgian law. Disputes shall be submitted to the competent court in the judicial district where FleetConnect has its registered office."
         }
     };
 
     function setLanguage(lang) {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = translations[lang][key];
-                else el.innerHTML = translations[lang][key];
+            if (translations[lang] && translations[lang][key] !== undefined) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = translations[lang][key];
+                } else {
+                    el.innerHTML = translations[lang][key];
+                }
             }
         });
         document.documentElement.lang = lang;
@@ -641,53 +622,87 @@
         localStorage.setItem('preferredLanguage', lang);
     }
 
-    // Bepaling initiële taal (prioriteit: URL parameter > localStorage > 'nl')
     function getInitialLanguage() {
         const urlParams = new URLSearchParams(window.location.search);
         const langParam = urlParams.get('lang');
-        if (langParam && (langParam === 'nl' || langParam === 'fr' || langParam === 'en')) {
-            return langParam;
-        }
+        if (langParam && (langParam === 'nl' || langParam === 'fr' || langParam === 'en')) return langParam;
         const savedLang = localStorage.getItem('preferredLanguage');
-        if (savedLang && (savedLang === 'nl' || savedLang === 'fr' || savedLang === 'en')) {
-            return savedLang;
-        }
+        if (savedLang && (savedLang === 'nl' || savedLang === 'fr' || savedLang === 'en')) return savedLang;
         return 'nl';
     }
 
-    // Taalwisselaar klik
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
             setLanguage(lang);
-            // Verwijder de ?lang= parameter uit de URL voor een schone weergave
             const url = new URL(window.location.href);
             url.searchParams.delete('lang');
             window.history.replaceState({}, '', url);
         });
     });
 
-    // Initiële taal instellen
     const initialLang = getInitialLanguage();
     setLanguage(initialLang);
 
-    // Leaflet map
-    var bgMap = L.map('background-map').setView([50.8503, 4.3517], 7);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19,
-        minZoom: 1
-    }).addTo(bgMap);
-    bgMap.dragging.disable();
-    bgMap.touchZoom.disable();
-    bgMap.doubleClickZoom.disable();
-    bgMap.scrollWheelZoom.disable();
-    bgMap.boxZoom.disable();
-    bgMap.keyboard.disable();
-    if (bgMap.tap) bgMap.tap.disable();
-    setTimeout(() => bgMap.invalidateSize(), 100);
-    window.addEventListener('resize', () => bgMap.invalidateSize());
+    // Leaflet kaart
+    (function initMap() {
+        try {
+            if (typeof L === 'undefined') {
+                console.warn('Leaflet is niet geladen.');
+                return;
+            }
+
+            const mapContainer = document.getElementById('background-map');
+            if (!mapContainer) {
+                console.warn('Element #background-map niet gevonden.');
+                return;
+            }
+
+            const bgMap = L.map('background-map', {
+                center: [50.8503, 4.3517],
+                zoom: 7,
+                zoomControl: false,
+                dragging: false,
+                touchZoom: false,
+                doubleClickZoom: false,
+                scrollWheelZoom: false,
+                boxZoom: false,
+                keyboard: false,
+                attributionControl: true
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                minZoom: 1
+            }).addTo(bgMap);
+
+            setTimeout(() => { bgMap.invalidateSize(); }, 200);
+
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
+            });
+
+            console.log('Leaflet-kaart succesvol geladen.');
+
+        } catch (error) {
+            console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
+            const mapContainer = document.getElementById('background-map');
+            if (mapContainer) {
+                mapContainer.style.backgroundImage = 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
+                mapContainer.style.backgroundSize = 'cover';
+                mapContainer.style.backgroundPosition = 'center';
+                mapContainer.style.backgroundRepeat = 'no-repeat';
+            }
+        }
+    })();
+
+    console.log('Fleetconnect - Algemene voorwaarden pagina geladen');
+    console.log('Huidige taal:', initialLang);
+    console.log('De algemene voorwaarden zijn volledig conform het decreet van 29 maart 2019.');
 </script>
 </body>
 </html>

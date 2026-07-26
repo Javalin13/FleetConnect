@@ -6,86 +6,292 @@
     <title>FAQ – Veelgestelde vragen | FleetConnect</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
-            height: 100vh;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
+        :root {
+            --bg-body: #f4f7fc;
+            --primary: #2c6e9e;
+            --primary-dark: #1e4a6e;
+            --accent-gold: #c9a03d;
+            --accent-green: #6b8c42;
+            --text-dark: #1a2a3a;
+            --text-light: #4a627a;
+            --white: #ffffff;
+            --card-bg: rgba(255,255,255,0.92);
+            --border-light: #e2edf7;
+            --shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
-        #background-map {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        .floating-container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 24px;
-            height: calc(100vh - 80px);
-            overflow-y: auto;
-        }
-        .floating-container::-webkit-scrollbar { width: 6px; }
-        .floating-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
-        .floating-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.3); border-radius: 10px; }
         
-        .content-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 40px 48px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            margin-bottom: 24px;
-            position: relative;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; height: 100%; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
         }
-        .language-menu {
-            position: absolute;
+        
+        #background-map {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: brightness(1.05) contrast(1.02);
+            opacity: 0.9;
+        }
+        .content-overlay {
+            position: relative; z-index: 10;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(1px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 24px; }
+
+        .language-switcher {
+            position: fixed;
             top: 20px;
-            right: 30px;
+            right: 20px;
             display: flex;
             gap: 12px;
-            background: rgba(255,255,255,0.7);
+            z-index: 1000;
+            background: rgba(255,255,255,0.9);
             padding: 6px 12px;
             border-radius: 40px;
             backdrop-filter: blur(4px);
             border: 1px solid rgba(0,0,0,0.1);
         }
         .lang-btn {
-            background: none;
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            padding: 6px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .breadcrumb {
+            margin: 30px 0 20px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding-top: 60px;
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumb i {
+            margin: 0 8px;
+            font-size: 0.7rem;
+        }
+        .breadcrumb .current {
+            color: var(--accent-gold);
+        }
+        .page-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .page-title i {
+            color: var(--accent-gold);
+            margin-right: 15px;
+        }
+        .intro-text {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+        
+        .content-section {
+            padding: 40px 0 60px;
+        }
+        .content-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-light);
+            border-radius: 32px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        .content-card h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 20px;
+        }
+        .content-card h3 {
+            color: var(--text-dark);
+            font-size: 1.3rem;
+            margin: 25px 0 15px 0;
+        }
+        .content-card p {
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        .content-card p strong {
+            color: var(--text-dark);
+        }
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .feature-list li i {
+            color: var(--accent-green);
+            width: 24px;
+            font-size: 1.2rem;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(44,110,158,0.05) 0%, rgba(107,140,66,0.05) 100%);
+            border-left: 4px solid var(--accent-gold);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        .highlight-box i {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
             border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .nav-tab {
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border-light);
+            padding: 10px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: var(--text-dark);
             font-weight: 600;
             font-size: 0.85rem;
-            cursor: pointer;
-            padding: 4px 10px;
-            border-radius: 30px;
-            transition: all 0.2s;
-            color: #1a5c8c;
-        }
-        .lang-btn.active {
-            background: #2c7da0;
-            color: white;
-        }
-        .lang-btn:hover:not(.active) {
-            background: rgba(44,125,160,0.2);
-        }
-        h1 {
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-family: 'Inter', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1a2a3a;
-            border-left: 4px solid #2c7da0;
-            padding-left: 20px;
-            margin-bottom: 32px;
-            margin-top: 0;
         }
+        .nav-tab:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .nav-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* ========================================================== */
+        /* FOOTER – EXACT GELIJK AAN ALGEMENE VOORWAARDEN (IN CONTAINER) */
+        /* ========================================================== */
+        .footer-dark {
+            background: #0d1f2c;
+            color: #e0edf5;
+            padding: 48px 0 24px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .footer-grid h4 {
+            color: #e0edf5;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .footer-grid a {
+            color: #e0edf5;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+        }
+        .footer-grid a:hover {
+            color: #c9a03d;
+            text-decoration: underline;
+        }
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(224,237,245,0.2);
+            padding-top: 24px;
+            font-size: 0.85rem;
+        }
+        .footer-bottom a {
+            color: #c9a03d;
+            text-decoration: none;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        /* ========================================================== */
+        
+        /* ===== FAQ SPECIFIEKE STIJLEN ===== */
         .faq-item {
             background: rgba(255, 255, 255, 0.6);
             border: 1px solid rgba(0,0,0,0.05);
@@ -121,182 +327,368 @@
         }
         .faq-answer a { color: #2c7da0; }
         
-        .footer-links {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 20px 32px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .footer-links a {
-            margin: 0 12px;
-            font-size: 0.8rem;
-            color: #1a5c8c;
-        }
-        .footer-links a:hover { color: #2c7da0; }
-        .back-home-btn {
-            display: inline-block;
-            background: #2c7da0;
-            color: white;
-            padding: 10px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-top: 16px;
-            transition: background 0.2s;
-        }
-        .back-home-btn:hover {
-            background: #1a5c8c;
-            text-decoration: none;
-        }
-        @media (max-width: 700px) {
-            .content-card { padding: 24px 20px; }
-            h1 { font-size: 1.5rem; }
+        @media (max-width: 768px) {
+            .page-title { font-size: 1.5rem; }
+            .content-card { padding: 25px; }
+            .language-switcher { top: 10px; right: 15px; gap: 6px; padding: 4px 10px; }
+            .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
+            .breadcrumb { padding-top: 50px; }
+            .footer-grid { flex-direction: column; gap: 24px; }
             .faq-question { padding: 14px 18px; font-size: 0.9rem; }
-            .floating-container { margin: 20px auto; height: calc(100vh - 40px); padding: 0 16px; }
-            .footer-links a { display: inline-block; margin: 6px 8px; }
-            .language-menu { top: 10px; right: 15px; gap: 6px; }
-            .lang-btn { font-size: 0.7rem; padding: 2px 6px; }
+        }
+        @media (max-width: 500px) {
+            .container { padding: 0 12px; }
+            .content-card { padding: 18px; border-radius: 20px; }
+            .nav-tabs { gap: 6px; }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
+            .page-title { font-size: 1.3rem; }
+            .intro-text { font-size: 0.95rem; }
+            .faq-question { font-size: 0.85rem; padding: 12px 14px; }
         }
     </style>
 </head>
 <body>
-    <div id="background-map"></div>
-    <div class="floating-container">
-        <div class="content-card">
-            <div class="language-menu">
-                <button class="lang-btn active" data-lang="nl">NL</button>
-                <button class="lang-btn" data-lang="fr">FR</button>
-                <button class="lang-btn" data-lang="en">EN</button>
-            </div>
-            <h1 id="faq-title">Veelgestelde vragen</h1>
-            <div id="faq-container">
-                <!-- FAQ items worden dynamisch gegenereerd via JS -->
-            </div>
-            <hr>
-            <p id="copyright" style="text-align:center; font-size:0.8rem;">© 2026 FleetConnect – DZ Collection</p>
+
+<div id="background-map"></div>
+
+<div class="content-overlay">
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="nl">NL</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/PV/PV.html" data-i18n="breadcrumb-home">Home</a> <i class="fas fa-chevron-right"></i> 
+            <span class="current" data-i18n="breadcrumb-current">FAQ</span>
         </div>
-        
-        <div class="footer-links" id="footer-links">
-            <a href="PV.html" id="home-link">🏠 Home</a> |
-            <a href="PVfaq.html" id="faq-link">❓ FAQ</a> |
-            <a href="PVprivacy.html" id="privacy-link">🔒 Privacy</a> |
-            <a href="PVcookiebeleid.html" id="cookie-link">🍪 Cookiebeleid</a> |
-            <a href="PValgemene-voorwaarden.html" id="terms-link">📜 Voorwaarden</a>
-            <div style="margin-top: 16px;">
-                <a href="PV.html" class="back-home-btn" id="back-home-btn">← Terug naar hoofdpagina</a>
+        <h1 class="page-title"><i class="fas fa-question-circle"></i> <span data-i18n="page-title">Veelgestelde vragen</span></h1>
+        <p class="intro-text" data-i18n="intro-text">Hier vindt u antwoorden op de meest gestelde vragen over onze diensten. Staat uw vraag er niet tussen? Neem dan gerust contact met ons op.</p>
+    </div>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section">
+            <div class="content-card">
+                <div id="faq-container">
+                    <!-- FAQ items worden dynamisch gegenereerd via JS -->
+                </div>
             </div>
         </div>
     </div>
-    
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('background-map').setView([50.85, 4.35], 13);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CartoDB',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(map);
-        
-        // Vertalingen voor FAQ
-        const faqTranslations = {
-            nl: {
-                title: "Veelgestelde vragen",
-                items: [
-                    { q: "📞 Hoe boek ik een taxi bij jullie?", a: "U kunt een taxi boeken via ons online boekingsformulier op de hoofdpagina <a href='PV.html'>PV.html</a>, telefonisch of per e-mail." },
-                    { q: "💰 Hoe worden de tarieven berekend?", a: "Wij hanteren een vast tarief van <strong>€1,50 per kilometer</strong>. De prijs wordt vooraf getoond in het boekingsformulier. Er kunnen toeslagen gelden voor nachtritten (23:00-07:00) of extra wachttijd." },
-                    { q: "🗓️ Kan ik een rit annuleren? Wat zijn de kosten?", a: "U kunt kosteloos annuleren tot 60 minuten vóór de ophaaltijd. Binnen 60 minuten is 50% verschuldigd. Binnen 15 minuten of bij no-show is 100% verschuldigd." },
-                    { q: "✈️ Wat als mijn vlucht vertraging heeft?", a: "Geef bij het boeken uw vluchtnummer door. Wij monitoren de actuele aankomsttijd. De eerste 60 minuten wachttijd zijn gratis." },
-                    { q: "🧳 Hoeveel bagage mag ik meenemen?", a: "In een standaard auto maximaal 2 koffers en 1 handbagagestuk. Voor extra bagage kan een toeslag gelden." },
-                    { q: "👨‍👩‍👧‍👦 Zijn er kinderzitjes beschikbaar?", a: "Ja, op verzoek kunnen wij kinderzitjes beschikbaar stellen. Dit dient minimaal 24 uur van tevoren te worden aangegeven." },
-                    { q: "🐾 Mag ik mijn huisdier meenemen?", a: "Kleine huisdieren in een reismand zijn toegestaan. Grotere honden alleen na overleg. Geleidehonden mogen altijd kosteloos mee." },
-                    { q: "🛡️ Hoe worden mijn persoonsgegevens beschermd?", a: "Wij verwerken persoonsgegevens in overeenstemming met de AVG. Lees meer in onze <a href='PVprivacy.html'>privacyverklaring</a>." },
-                    { q: "📝 Hoe dien ik een klacht in?", a: "Klachten kunt u indienen via <a href='mailto:klachten@fleetconnect.be'>klachten@fleetconnect.be</a>. Wij nemen uw klacht binnen 14 werkdagen in behandeling." },
-                    { q: "🌍 Bieden jullie ook internationaal vervoer aan?", a: "Ja, wij verzorgen taxivervoer naar buurlanden. Neem contact met ons op voor een offerte op maat." }
-                ],
-                copyright: "© 2026 FleetConnect – DZ Collection",
-                footer: { home: "🏠 Home", faq: "❓ FAQ", privacy: "🔒 Privacy", cookie: "🍪 Cookiebeleid", terms: "📜 Voorwaarden", back: "← Terug naar hoofdpagina" }
-            },
-            fr: {
-                title: "Questions fréquentes",
-                items: [
-                    { q: "📞 Comment réserver un taxi chez vous ?", a: "Vous pouvez réserver un taxi via notre formulaire de réservation en ligne sur la page d'accueil <a href='PV.html'>PV.html</a>, par téléphone ou par e-mail." },
-                    { q: "💰 Comment les tarifs sont-ils calculés ?", a: "Nous appliquons un tarif fixe de <strong>€1,50 par kilomètre</strong>. Le prix est affiché à l'avance dans le formulaire de réservation. Des suppléments peuvent s'appliquer pour les courses de nuit (23h00-07h00) ou les temps d'attente supplémentaires." },
-                    { q: "🗓️ Puis-je annuler une course ? Quels sont les frais ?", a: "Vous pouvez annuler gratuitement jusqu'à 60 minutes avant l'heure de prise en charge. Dans les 60 minutes, 50% est dû. Dans les 15 minutes ou en cas de non-présentation, 100% est dû." },
-                    { q: "✈️ Que faire si mon vol est retardé ?", a: "Indiquez votre numéro de vol lors de la réservation. Nous surveillons l'heure d'arrivée réelle. Les 60 premières minutes d'attente sont gratuites." },
-                    { q: "🧳 Combien de bagages puis-je emporter ?", a: "Dans une voiture standard : maximum 2 valises et 1 bagage à main. Des suppléments peuvent s'appliquer pour les bagages supplémentaires." },
-                    { q: "👨‍👩‍👧‍👦 Des sièges enfants sont-ils disponibles ?", a: "Oui, sur demande, nous pouvons fournir des sièges enfants. Cela doit être signalé au moins 24 heures à l'avance." },
-                    { q: "🐾 Puis-je emmener mon animal de compagnie ?", a: "Les petits animaux en cage de transport sont autorisés. Les gros chiens uniquement après accord. Les chiens d'assistance sont toujours acceptés gratuitement." },
-                    { q: "🛡️ Comment mes données personnelles sont-elles protégées ?", a: "Nous traitons les données personnelles conformément au RGPD. En savoir plus dans notre <a href='PVprivacy.html'>déclaration de confidentialité</a>." },
-                    { q: "📝 Comment déposer une réclamation ?", a: "Vous pouvez soumettre votre réclamation à <a href='mailto:klachten@fleetconnect.be'>klachten@fleetconnect.be</a>. Nous traiterons votre réclamation dans les 14 jours ouvrables." },
-                    { q: "🌍 Proposez-vous également des transports internationaux ?", a: "Oui, nous assurons des transports en taxi vers les pays voisins. Contactez-nous pour un devis personnalisé." }
-                ],
-                copyright: "© 2026 FleetConnect – DZ Collection",
-                footer: { home: "🏠 Accueil", faq: "❓ FAQ", privacy: "🔒 Confidentialité", cookie: "🍪 Politique des cookies", terms: "📜 Conditions", back: "← Retour à la page d'accueil" }
-            },
-            en: {
-                title: "Frequently Asked Questions",
-                items: [
-                    { q: "📞 How do I book a taxi with you?", a: "You can book a taxi via our online booking form on the homepage <a href='PV.html'>PV.html</a>, by phone or by email." },
-                    { q: "💰 How are the rates calculated?", a: "We charge a fixed rate of <strong>€1.50 per kilometer</strong>. The price is shown in advance in the booking form. Surcharges may apply for night rides (11:00 PM – 7:00 AM) or extra waiting time." },
-                    { q: "🗓️ Can I cancel a ride? What are the costs?", a: "You can cancel free of charge up to 60 minutes before pick-up time. Within 60 minutes, 50% is due. Within 15 minutes or no-show, 100% is due." },
-                    { q: "✈️ What if my flight is delayed?", a: "Provide your flight number when booking. We monitor the actual arrival time. The first 60 minutes of waiting are free." },
-                    { q: "🧳 How much luggage can I take?", a: "In a standard car: max 2 suitcases and 1 carry-on. Extra charges may apply for additional luggage." },
-                    { q: "👨‍👩‍👧‍👦 Are child seats available?", a: "Yes, upon request we can provide child seats. This must be indicated at least 24 hours in advance." },
-                    { q: "🐾 Can I bring my pet?", a: "Small pets in a carrier are allowed. Larger dogs only after consultation. Guide dogs are always allowed free of charge." },
-                    { q: "🛡️ How is my personal data protected?", a: "We process personal data in accordance with the GDPR. Read more in our <a href='PVprivacy.html'>privacy statement</a>." },
-                    { q: "📝 How do I file a complaint?", a: "You can submit complaints to <a href='mailto:klachten@fleetconnect.be'>klachten@fleetconnect.be</a>. We will handle your complaint within 14 working days." },
-                    { q: "🌍 Do you also offer international transport?", a: "Yes, we provide taxi transport to neighbouring countries. Contact us for a custom quote." }
-                ],
-                copyright: "© 2026 FleetConnect – DZ Collection",
-                footer: { home: "🏠 Home", faq: "❓ FAQ", privacy: "🔒 Privacy", cookie: "🍪 Cookie Policy", terms: "📜 Terms", back: "← Back to homepage" }
-            }
-        };
-        
-        function renderFAQ(lang) {
-            const data = faqTranslations[lang];
-            document.getElementById('faq-title').innerText = data.title;
-            const container = document.getElementById('faq-container');
-            container.innerHTML = '';
-            data.items.forEach((item, idx) => {
-                const faqDiv = document.createElement('div');
-                faqDiv.className = 'faq-item';
-                faqDiv.innerHTML = `
-                    <div class="faq-question" onclick="toggleAnswer(this)">${item.q}<span class="toggle-icon">+</span></div>
-                    <div class="faq-answer">${item.a}</div>
-                `;
-                container.appendChild(faqDiv);
-            });
-            document.getElementById('copyright').innerText = data.copyright;
-            // Footer
-            document.getElementById('home-link').innerHTML = data.footer.home;
-            document.getElementById('faq-link').innerHTML = data.footer.faq;
-            document.getElementById('privacy-link').innerHTML = data.footer.privacy;
-            document.getElementById('cookie-link').innerHTML = data.footer.cookie;
-            document.getElementById('terms-link').innerHTML = data.footer.terms;
-            document.getElementById('back-home-btn').innerHTML = data.footer.back;
-            // Update active class
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
+
+    <!-- ========================================================== -->
+    <!-- FOOTER – EXACT GELIJK AAN ALGEMENE VOORWAARDEN             -->
+    <!-- ========================================================== -->
+    <footer class="footer-dark">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden -->
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/taxi-brussels">Taxi Brussels</a>
+                    <a href="/taxi-antwerpen">Taxi Antwerp</a>
+                    <a href="/taxi-gent">Taxi Ghent</a>
+                    <a href="/taxi-zaventem">Taxi Zaventem</a>
+                    <a href="/taxi-leuven">Taxi Leuven</a>
+                    <a href="/taxi-mechelen">Taxi Mechelen</a>
+                    <a href="/taxi-waterloo">Taxi Waterloo</a>
+                    <a href="/taxi-brugge">Taxi Brugge</a>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
+                </div>
+            </div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
+        </div>
+    </footer>
+    <!-- ========================================================== -->
+    <!-- EINDE FOOTER                                               -->
+    <!-- ========================================================== -->
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // ============================================================
+    // 1. VERTALINGEN (i18n) – zelfde als in uw voorbeeld
+    // ============================================================
+
+    const faqTranslations = {
+        nl: {
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "FAQ",
+            "page-title": "Veelgestelde vragen",
+            "intro-text": "Hier vindt u antwoorden op de meest gestelde vragen over onze diensten. Staat uw vraag er niet tussen? Neem dan gerust contact met ons op.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusief",
+            "tab-prices": "Prijzen",
+            "tab-fleet": "Vloot",
+            "tab-airport": "Luchthaven",
+            "tab-business": "Zakelijk",
+            "tab-events": "Events",
+            "tab-courier": "Koerier",
+            items: [
+                { q: "📞 Hoe boek ik een taxi bij jullie?", a: "U kunt een taxi boeken via ons online boekingsformulier op de hoofdpagina <a href='PV.html'>PV.html</a>, telefonisch of per e-mail." },
+                { q: "💰 Hoe worden de tarieven berekend?", a: "Wij hanteren een vast tarief van <strong>€1,50 per kilometer</strong>. De prijs wordt vooraf getoond in het boekingsformulier. Er kunnen toeslagen gelden voor nachtritten (23:00-07:00) of extra wachttijd." },
+                { q: "🗓️ Kan ik een rit annuleren? Wat zijn de kosten?", a: "U kunt kosteloos annuleren tot <strong>2 uur</strong> vóór de ophaaltijd. Binnen <strong>2 uur</strong> is 50% verschuldigd. Bij no-show is 100% verschuldigd." },
+                { q: "✈️ Wat als mijn vlucht vertraging heeft?", a: "Geef bij het boeken uw vluchtnummer door. Wij monitoren de actuele aankomsttijd. De eerste <strong>30 minuten</strong> wachttijd zijn gratis. Daarna wordt €35,00/uur in rekening gebracht." },
+                { q: "🧳 Hoeveel bagage mag ik meenemen?", a: "In een standaard auto maximaal 2 koffers en 1 handbagagestuk. Voor extra bagage kan een toeslag gelden." },
+                { q: "👨‍👩‍👧‍👦 Zijn er kinderzitjes beschikbaar?", a: "Ja, op verzoek kunnen wij kinderzitjes beschikbaar stellen. Dit dient minimaal 24 uur van tevoren te worden aangegeven." },
+                { q: "🐾 Mag ik mijn huisdier meenemen?", a: "Kleine huisdieren in een reismand zijn toegestaan. Grotere honden alleen na overleg. Geleidehonden mogen altijd kosteloos mee." },
+                { q: "🛡️ Hoe worden mijn persoonsgegevens beschermd?", a: "Wij verwerken persoonsgegevens in overeenstemming met de AVG. Lees meer in onze <a href='PVprivacy.html'>privacyverklaring</a>." },
+                { q: "📝 Hoe dien ik een klacht in?", a: "Klachten kunt u indienen via <a href='mailto:klachten@fleetconnect.be'>klachten@fleetconnect.be</a>. Wij nemen uw klacht binnen 14 werkdagen in behandeling." },
+                { q: "🌍 Bieden jullie ook internationaal vervoer aan?", a: "Ja, wij verzorgen taxivervoer naar buurlanden. Neem contact met ons op voor een offerte op maat." }
+            ]
+        },
+        fr: {
+            "breadcrumb-home": "Accueil",
+            "breadcrumb-current": "FAQ",
+            "page-title": "Questions fréquentes",
+            "intro-text": "Vous trouverez ici les réponses aux questions les plus fréquentes sur nos services. Votre question ne figure pas dans la liste ? N'hésitez pas à nous contacter.",
+            "tab-home": "Accueil",
+            "tab-exclusive": "Exclusif",
+            "tab-prices": "Prix fixes",
+            "tab-fleet": "Flotte",
+            "tab-airport": "Aéroport",
+            "tab-business": "Affaires",
+            "tab-events": "Événements",
+            "tab-courier": "Messagerie",
+            items: [
+                { q: "📞 Comment réserver un taxi chez vous ?", a: "Vous pouvez réserver un taxi via notre formulaire de réservation en ligne sur la page d'accueil <a href='PV.html'>PV.html</a>, par téléphone ou par e-mail." },
+                { q: "💰 Comment les tarifs sont-ils calculés ?", a: "Nous appliquons un tarif fixe de <strong>€1,50 par kilomètre</strong>. Le prix est affiché à l'avance dans le formulaire de réservation. Des suppléments peuvent s'appliquer pour les courses de nuit (23h00-07h00) ou les temps d'attente supplémentaires." },
+                { q: "🗓️ Puis-je annuler une course ? Quels sont les frais ?", a: "Vous pouvez annuler gratuitement jusqu'à <strong>2 heures</strong> avant l'heure de prise en charge. Dans les <strong>2 heures</strong>, 50% est dû. En cas de non-présentation, 100% est dû." },
+                { q: "✈️ Que faire si mon vol est retardé ?", a: "Indiquez votre numéro de vol lors de la réservation. Nous surveillons l'heure d'arrivée réelle. Les <strong>30 premières minutes</strong> d'attente sont gratuites. Au-delà, €35,00/heure est facturé." },
+                { q: "🧳 Combien de bagages puis-je emporter ?", a: "Dans une voiture standard : maximum 2 valises et 1 bagage à main. Des suppléments peuvent s'appliquer pour les bagages supplémentaires." },
+                { q: "👨‍👩‍👧‍👦 Des sièges enfants sont-ils disponibles ?", a: "Oui, sur demande, nous pouvons fournir des sièges enfants. Cela doit être signalé au moins 24 heures à l'avance." },
+                { q: "🐾 Puis-je emmener mon animal de compagnie ?", a: "Les petits animaux en cage de transport sont autorisés. Les gros chiens uniquement après accord. Les chiens d'assistance sont toujours acceptés gratuitement." },
+                { q: "🛡️ Comment mes données personnelles sont-elles protégées ?", a: "Nous traitons les données personnelles conformément au RGPD. En savoir plus dans notre <a href='PVprivacy.html'>déclaration de confidentialité</a>." },
+                { q: "📝 Comment déposer une réclamation ?", a: "Vous pouvez soumettre votre réclamation à <a href='mailto:klachten@fleetconnect.be'>klachten@fleetconnect.be</a>. Nous traiterons votre réclamation dans les 14 jours ouvrables." },
+                { q: "🌍 Proposez-vous également des transports internationaux ?", a: "Oui, nous assurons des transports en taxi vers les pays voisins. Contactez-nous pour un devis personnalisé." }
+            ]
+        },
+        en: {
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "FAQ",
+            "page-title": "Frequently Asked Questions",
+            "intro-text": "Here you will find answers to the most frequently asked questions about our services. Is your question not listed? Please feel free to contact us.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusive",
+            "tab-prices": "Prices",
+            "tab-fleet": "Fleet",
+            "tab-airport": "Airport",
+            "tab-business": "Business",
+            "tab-events": "Events",
+            "tab-courier": "Courier",
+            items: [
+                { q: "📞 How do I book a taxi with you?", a: "You can book a taxi via our online booking form on the homepage <a href='PV.html'>PV.html</a>, by phone or by email." },
+                { q: "💰 How are the rates calculated?", a: "We charge a fixed rate of <strong>€1.50 per kilometer</strong>. The price is shown in advance in the booking form. Surcharges may apply for night rides (11:00 PM – 7:00 AM) or extra waiting time." },
+                { q: "🗓️ Can I cancel a ride? What are the costs?", a: "You can cancel free of charge up to <strong>2 hours</strong> before pick-up time. Within <strong>2 hours</strong>, 50% is due. In case of no-show, 100% is due." },
+                { q: "✈️ What if my flight is delayed?", a: "Provide your flight number when booking. We monitor the actual arrival time. The first <strong>30 minutes</strong> of waiting are free. After that, €35.00/hour is charged." },
+                { q: "🧳 How much luggage can I take?", a: "In a standard car: max 2 suitcases and 1 carry-on. Extra charges may apply for additional luggage." },
+                { q: "👨‍👩‍👧‍👦 Are child seats available?", a: "Yes, upon request we can provide child seats. This must be indicated at least 24 hours in advance." },
+                { q: "🐾 Can I bring my pet?", a: "Small pets in a carrier are allowed. Larger dogs only after consultation. Guide dogs are always allowed free of charge." },
+                { q: "🛡️ How is my personal data protected?", a: "We process personal data in accordance with the GDPR. Read more in our <a href='PVprivacy.html'>privacy statement</a>." },
+                { q: "📝 How do I file a complaint?", a: "You can submit complaints to <a href='mailto:klachten@fleetconnect.be'>klachten@fleetconnect.be</a>. We will handle your complaint within 14 working days." },
+                { q: "🌍 Do you also offer international transport?", a: "Yes, we provide taxi transport to neighbouring countries. Contact us for a custom quote." }
+            ]
         }
+    };
+
+    // ============================================================
+    // 2. SET LANGUAGE FUNCTIE
+    // ============================================================
+
+    function setLanguage(lang) {
+        const data = faqTranslations[lang];
         
-        window.toggleAnswer = function(element) {
-            const answer = element.nextElementSibling;
-            const icon = element.querySelector('.toggle-icon');
-            answer.classList.toggle('open');
-            icon.textContent = answer.classList.contains('open') ? '−' : '+';
-        };
+        // Breadcrumb
+        document.querySelector('[data-i18n="breadcrumb-home"]').innerText = data["breadcrumb-home"];
+        document.querySelector('[data-i18n="breadcrumb-current"]').innerText = data["breadcrumb-current"];
         
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                renderFAQ(btn.getAttribute('data-lang'));
-            });
+        // Titel en intro
+        document.querySelector('[data-i18n="page-title"]').innerText = data["page-title"];
+        document.querySelector('[data-i18n="intro-text"]').innerText = data["intro-text"];
+        
+        // Navigatietabs
+        document.querySelector('[data-i18n="tab-home"]').innerText = data["tab-home"];
+        document.querySelector('[data-i18n="tab-exclusive"]').innerText = data["tab-exclusive"];
+        document.querySelector('[data-i18n="tab-prices"]').innerText = data["tab-prices"];
+        document.querySelector('[data-i18n="tab-fleet"]').innerText = data["tab-fleet"];
+        document.querySelector('[data-i18n="tab-airport"]').innerText = data["tab-airport"];
+        document.querySelector('[data-i18n="tab-business"]').innerText = data["tab-business"];
+        document.querySelector('[data-i18n="tab-events"]').innerText = data["tab-events"];
+        document.querySelector('[data-i18n="tab-courier"]').innerText = data["tab-courier"];
+        
+        // FAQ items
+        const container = document.getElementById('faq-container');
+        container.innerHTML = '';
+        data.items.forEach((item) => {
+            const faqDiv = document.createElement('div');
+            faqDiv.className = 'faq-item';
+            faqDiv.innerHTML = `
+                <div class="faq-question" onclick="toggleAnswer(this)">${item.q}<span class="toggle-icon">+</span></div>
+                <div class="faq-answer">${item.a}</div>
+            `;
+            container.appendChild(faqDiv);
         });
         
-        renderFAQ('nl');
-    </script>
+        // Active class
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+        localStorage.setItem('preferredLanguage', lang);
+    }
+
+    // ============================================================
+    // 3. TOGGLE FUNCTIE
+    // ============================================================
+
+    window.toggleAnswer = function(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('.toggle-icon');
+        answer.classList.toggle('open');
+        icon.textContent = answer.classList.contains('open') ? '−' : '+';
+    };
+
+    // ============================================================
+    // 4. INITIËLE TAAL BEPALING
+    // ============================================================
+
+    function getInitialLanguage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam && (langParam === 'nl' || langParam === 'fr' || langParam === 'en')) return langParam;
+        const savedLang = localStorage.getItem('preferredLanguage');
+        if (savedLang && (savedLang === 'nl' || savedLang === 'fr' || savedLang === 'en')) return savedLang;
+        return 'nl';
+    }
+
+    // ============================================================
+    // 5. TAALSWITCHER KLIK
+    // ============================================================
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
+            const url = new URL(window.location.href);
+            url.searchParams.delete('lang');
+            window.history.replaceState({}, '', url);
+        });
+    });
+
+    // ============================================================
+    // 6. INITIËLE TAAL INSTELLEN
+    // ============================================================
+
+    const initialLang = getInitialLanguage();
+    setLanguage(initialLang);
+
+    // ============================================================
+    // 7. LEAFLET KAART (IDEM ALS ALGEMENE VOORWAARDEN)
+    // ============================================================
+
+    (function initMap() {
+        try {
+            if (typeof L === 'undefined') {
+                console.warn('Leaflet is niet geladen.');
+                return;
+            }
+
+            const mapContainer = document.getElementById('background-map');
+            if (!mapContainer) {
+                console.warn('Element #background-map niet gevonden.');
+                return;
+            }
+
+            const bgMap = L.map('background-map', {
+                center: [50.8503, 4.3517],
+                zoom: 7,
+                zoomControl: false,
+                dragging: false,
+                touchZoom: false,
+                doubleClickZoom: false,
+                scrollWheelZoom: false,
+                boxZoom: false,
+                keyboard: false,
+                attributionControl: true
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                minZoom: 1
+            }).addTo(bgMap);
+
+            setTimeout(() => { bgMap.invalidateSize(); }, 200);
+
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
+            });
+
+            console.log('Leaflet-kaart succesvol geladen.');
+
+        } catch (error) {
+            console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
+            const mapContainer = document.getElementById('background-map');
+            if (mapContainer) {
+                mapContainer.style.backgroundImage = 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
+                mapContainer.style.backgroundSize = 'cover';
+                mapContainer.style.backgroundPosition = 'center';
+                mapContainer.style.backgroundRepeat = 'no-repeat';
+            }
+        }
+    })();
+
+    console.log('FleetConnect - FAQ pagina geladen');
+    console.log('Huidige taal:', initialLang);
+    console.log('Footer exact gelijk aan Algemene Voorwaarden (in container)');
+    console.log('Annuleringstermijn: 2 uur (conform AV)');
+    console.log('Wachttijd: 30 min gratis, daarna €35/uur (conform AV)');
+</script>
 </body>
 </html>

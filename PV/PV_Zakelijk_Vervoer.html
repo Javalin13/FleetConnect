@@ -37,7 +37,13 @@
             width: 100%;
             height: 100%;
             z-index: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             filter: brightness(1.05) contrast(1.02);
+            opacity: 0.9;
         }
         .content-overlay {
             position: relative;
@@ -77,6 +83,8 @@
             font-weight: 600;
             transition: 0.2s;
             color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
         }
         .lang-btn:hover, .lang-btn.active {
             background: var(--primary);
@@ -100,6 +108,9 @@
         .breadcrumb i {
             margin: 0 8px;
             font-size: 0.7rem;
+        }
+        .breadcrumb .current {
+            color: var(--accent-gold);
         }
         .page-title {
             font-size: 2rem;
@@ -157,10 +168,21 @@
             align-items: center;
             gap: 12px;
         }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
         .feature-list li i {
             color: var(--accent-green);
             width: 24px;
             font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .feature-list li strong {
+            flex-shrink: 0;
+        }
+        .feature-list li span {
+            color: var(--text-light);
+            line-height: 1.6;
         }
         .highlight-box {
             background: linear-gradient(135deg, rgba(44,110,158,0.05) 0%, rgba(107,140,66,0.05) 100%);
@@ -168,6 +190,17 @@
             padding: 25px;
             border-radius: 20px;
             margin: 30px 0;
+        }
+        .highlight-box i {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
         }
         .btn-primary {
             background: var(--primary);
@@ -182,6 +215,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            font-family: 'Inter', sans-serif;
         }
         .btn-primary:hover {
             background: var(--primary-dark);
@@ -208,6 +242,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Inter', sans-serif;
         }
         .nav-tab:hover {
             border-color: var(--primary);
@@ -225,6 +260,8 @@
             margin-top: 40px;
             padding-top: 30px;
             border-top: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            gap: 16px;
         }
         .nav-pagination a {
             background: var(--primary);
@@ -237,10 +274,15 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            font-family: 'Inter', sans-serif;
         }
         .nav-pagination a:hover {
             background: var(--primary-dark);
         }
+
+        /* ========================================================== */
+        /* FOOTER STIJLING – EXACT GELIJK AAN BOEKINGWEBSITE          */
+        /* ========================================================== */
         .footer-dark {
             background: #0d1f2c;
             color: #e0edf5;
@@ -254,20 +296,25 @@
             gap: 40px;
             margin-bottom: 30px;
         }
-        .footer-brand h4, .footer-ryz3n h4, .footer-legal h4, .footer-partners h4 {
-            color: var(--primary);
+        .footer-grid h4 {
+            color: #e0edf5;
             margin-bottom: 16px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
         }
-        .footer-brand p, .footer-ryz3n a, .footer-legal a, .footer-partners a {
+        .footer-grid a {
             color: #e0edf5;
             text-decoration: none;
             line-height: 1.8;
             display: block;
         }
-        .footer-ryz3n a:hover, .footer-legal a:hover, .footer-partners a:hover {
-            color: var(--primary);
+        .footer-grid a:hover {
+            color: #c9a03d;
             text-decoration: underline;
+        }
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
         }
         .footer-bottom {
             text-align: center;
@@ -276,15 +323,31 @@
             font-size: 0.85rem;
         }
         .footer-bottom a {
-            color: var(--primary);
+            color: #c9a03d;
             text-decoration: none;
         }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        /* ========================================================== */
+
         @media (max-width: 768px) {
             .page-title { font-size: 1.5rem; }
             .content-card { padding: 25px; }
-            .language-switcher { top: 10px; right: 15px; gap: 6px; }
+            .language-switcher { top: 10px; right: 15px; gap: 6px; padding: 4px 10px; }
             .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
             .breadcrumb { padding-top: 50px; }
+            .nav-pagination { flex-direction: column; align-items: stretch; }
+            .nav-pagination a { justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+        }
+        @media (max-width: 500px) {
+            .container { padding: 0 12px; }
+            .content-card { padding: 18px; border-radius: 20px; }
+            .nav-tabs { gap: 6px; }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
+            .page-title { font-size: 1.3rem; }
+            .intro-text { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -293,7 +356,7 @@
 
 <div class="content-overlay">
     <div class="language-switcher">
-        <button class="lang-btn" data-lang="nl">NL</button>
+        <button class="lang-btn active" data-lang="nl">NL</button>
         <button class="lang-btn" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="en">EN</button>
     </div>
@@ -302,35 +365,35 @@
         <div class="breadcrumb">
             <a href="PV.html" data-i18n="breadcrumb-home">Home</a> 
             <i class="fas fa-chevron-right"></i> 
-            <span style="color: var(--accent-gold);" data-i18n="breadcrumb-current">Zakelijk vervoer</span>
+            <span class="current" data-i18n="breadcrumb-current">Zakelijk vervoer</span>
         </div>
         <h1 class="page-title"><i class="fas fa-briefcase"></i> <span data-i18n="page-title">Zakelijk vervoer</span></h1>
         <p class="intro-text" data-i18n="intro-text">Professioneel, discreet en efficiënt. Perfect voor zakenreizigers die waarde hechten aan tijd, comfort en uitstraling.</p>
-        <a href="PV.html#booking" class="btn-primary"><i class="fas fa-calendar-check"></i> <span data-i18n="book-btn">Reserveer uw zakelijke rit</span></a>
+        <a href="PV.html#booking" class="btn-primary" data-i18n="book-btn"><i class="fas fa-calendar-check"></i> Reserveer uw zakelijke rit</a>
     </div>
 
     <div class="container">
         <div class="nav-tabs">
-            <a href="PV.html" class="nav-tab"><i class="fas fa-home"></i> <span data-i18n="tab-home">Home</span></a>
-            <a href="PV_Exclusieve_Service.html" class="nav-tab"><i class="fas fa-gem"></i> <span data-i18n="tab-exclusive">Exclusief</span></a>
-            <a href="PV-vaste-prijzen.html" class="nav-tab"><i class="fas fa-euro-sign"></i> <span data-i18n="tab-prices">Prijzen</span></a>
-            <a href="PV-premium-vloot.html" class="nav-tab"><i class="fas fa-car-side"></i> <span data-i18n="tab-fleet">Vloot</span></a>
-            <a href="PV_Luchthavenvervoer.html" class="nav-tab"><i class="fas fa-plane-departure"></i> <span data-i18n="tab-airport">Luchthaven</span></a>
-            <a href="PV_Zakelijk_Vervoer.html" class="nav-tab active"><i class="fas fa-briefcase"></i> <span data-i18n="tab-business">Zakelijk</span></a>
-            <a href="PV_Events_Gala.html" class="nav-tab"><i class="fas fa-glass-cheers"></i> <span data-i18n="tab-events">Events</span></a>
-            <a href="PV_Koeriersdienst.html" class="nav-tab"><i class="fas fa-file-signature"></i> <span data-i18n="tab-courier">Koerier</span></a>
+            <a href="PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="PV_Zakelijk_Vervoer.html" class="nav-tab active" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
         </div>
     </div>
 
     <div class="container">
         <div class="content-section">
             <div class="content-card">
-                <h2><span data-i18n="card-title">💼 Executive class voor de veeleisende zakenreiziger</span></h2>
+                <h2 data-i18n="card-title">💼 Executive class voor de veeleisende zakenreiziger</h2>
                 <p data-i18n="card-intro">Eerste indrukken zijn cruciaal in de zakenwereld. Fleetconnect zorgt ervoor dat u stijlvol en ontspannen aankomt bij uw afspraken. Onze executive service is ontworpen voor professionals die het beste verwachten.</p>
                 
                 <div class="highlight-box">
-                    <i class="fas fa-star" style="color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 15px; display: inline-block;"></i>
-                    <p style="font-size: 1.1rem; font-weight: 500;" data-i18n="highlight-text">"Tijd is geld – bij Fleetconnect verspillen we geen minuut van uw kostbare tijd."</p>
+                    <i class="fas fa-star"></i>
+                    <p data-i18n="highlight-text">"Tijd is geld – bij Fleetconnect verspillen we geen minuut van uw kostbare tijd."</p>
                 </div>
 
                 <h3 data-i18n="fleet-title">🚘 Wagenpark voor zakelijk gebruik</h3>
@@ -356,158 +419,306 @@
 
                 <h3 data-i18n="waiting-title">⏱️ Wachturen en meerdaagse verhuur</h3>
                 <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="waiting-1-label">Wachturen</strong> <span data-i18n="waiting-1-text">– De eerste 15 minuten wachttijd zijn gratis, daarna €0,50 per minuut</span></li>
+                    <li><i class="fas fa-check-circle"></i> <strong data-i18n="waiting-1-label">Wachturen</strong> <span data-i18n="waiting-1-text">– De eerste 30 minuten wachttijd zijn gratis, daarna €35,00/uur (te betalen aan chauffeur)</span></li>
                     <li><i class="fas fa-check-circle"></i> <strong data-i18n="waiting-2-label">Meerdaagse verhuur</strong> <span data-i18n="waiting-2-text">– Vaste prijs per dag (8 uur) inclusief chauffeur</span></li>
                     <li><i class="fas fa-check-circle"></i> <strong data-i18n="waiting-3-label">Meerdere stops</strong> <span data-i18n="waiting-3-text">– Maximaal 3 stops inbegrepen, extra stops €5 per stop</span></li>
                 </ul>
 
                 <h3 data-i18n="faq-title">❓ Veelgestelde vragen zakelijk</h3>
                 <ul class="feature-list">
-                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q1">Kan ik een vast tarief afspreken voor vaste routes?</strong> <span data-i18n="faq-a1">- Ja, voor bedrijven met vaste trajecten bieden wij contractprijzen.</span></li>
-                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q2">Wordt de chauffeur op de hoogte gesteld van vertraging?</strong> <span data-i18n="faq-a2">- Absoluut, wij monitoren live verkeersinformatie.</span></li>
-                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q3">Kan ik dezelfde chauffeur elke dag krijgen?</strong> <span data-i18n="faq-a3">- Ja, wij kunnen een vaste chauffeur aan uw bedrijf toewijzen.</span></li>
+                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q1">Kan ik een vast tarief afspreken voor vaste routes?</strong> <span data-i18n="faq-a1">– Ja, voor bedrijven met vaste trajecten bieden wij contractprijzen.</span></li>
+                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q2">Wordt de chauffeur op de hoogte gesteld van vertraging?</strong> <span data-i18n="faq-a2">– Absoluut, wij monitoren live verkeersinformatie.</span></li>
+                    <li><i class="fas fa-question-circle"></i> <strong data-i18n="faq-q3">Kan ik dezelfde chauffeur elke dag krijgen?</strong> <span data-i18n="faq-a3">– Ja, wij kunnen een vaste chauffeur aan uw bedrijf toewijzen.</span></li>
                 </ul>
 
                 <div class="nav-pagination">
-                    <a href="PV_Luchthavenvervoer.html"><i class="fas fa-arrow-left"></i> <span data-i18n="prev-link">Vorige: Luchthavenvervoer</span></a>
-                    <a href="PV_Events_Gala.html"><span data-i18n="next-link">Volgende: Events & Gala</span> <i class="fas fa-arrow-right"></i></a>
+                    <a href="PV_Luchthavenvervoer.html" data-i18n="prev-link"><i class="fas fa-arrow-left"></i> Vorige: Luchthavenvervoer</a>
+                    <a href="PV_Events_Gala.html" data-i18n="next-link">Volgende: Events & Gala <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- ========================================================== -->
+    <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
+    <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand"><h4><i class="fas fa-crown"></i> Fleetconnect</h4><p data-i18n="footer-brand-text">Premium taxivervoer in België – Stijl, stiptheid en service.</p></div>
-                <div class="footer-ryz3n"><h4>Fleetconnect | Digital Supremacy</h4><a href="/customer" data-i18n="footer-control">Customer portal</a><a href="/booking#booking" data-i18n="footer-dispatch">Book a ride</a><a href="/PV/PVprivacy.html" data-i18n="footer-legal">Privacy</a></div>
-                <div class="footer-legal"><h4 data-i18n="footer-legal-title">Juridisch</h4><a href="#" data-i18n="footer-tos">Algemene voorwaarden</a><a href="#" data-i18n="footer-privacy">Privacy</a><a href="#" data-i18n="footer-cookies">Cookiebeleid</a></div>
-                <div class="footer-partners"><h4 data-i18n="footer-partners-title">Partners</h4><a href="#">Horizon Of Infinity</a></div>
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden -->
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/taxi-brussels">Taxi Brussels</a>
+                    <a href="/taxi-antwerpen">Taxi Antwerp</a>
+                    <a href="/taxi-gent">Taxi Ghent</a>
+                    <a href="/taxi-zaventem">Taxi Zaventem</a>
+                    <a href="/taxi-leuven">Taxi Leuven</a>
+                    <a href="/taxi-mechelen">Taxi Mechelen</a>
+                    <a href="/taxi-waterloo">Taxi Waterloo</a>
+                    <a href="/taxi-brugge">Taxi Brugge</a>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
+                </div>
             </div>
-            <div class="footer-bottom"><span data-i18n="footer-copyright">© 2026 Fleetconnect – </span><a href="#">Fleetconnect</a></div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
         </div>
     </footer>
+    <!-- ========================================================== -->
+    <!-- EINDE FOOTER                                               -->
+    <!-- ========================================================== -->
+
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+    // ============================================================
+    // 1. TAALFUNCTIONALITEIT (i18n) - VOLLEDIG WERKEND
+    // ============================================================
+
     const translations = {
         nl: {
-            "breadcrumb-home": "Home", "breadcrumb-current": "Zakelijk vervoer", "page-title": "Zakelijk vervoer",
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "Zakelijk vervoer",
+            "page-title": "Zakelijk vervoer",
             "intro-text": "Professioneel, discreet en efficiënt. Perfect voor zakenreizigers die waarde hechten aan tijd, comfort en uitstraling.",
             "book-btn": "Reserveer uw zakelijke rit",
-            "tab-home": "Home", "tab-exclusive": "Exclusief", "tab-prices": "Prijzen", "tab-fleet": "Vloot", "tab-airport": "Luchthaven", "tab-business": "Zakelijk", "tab-events": "Events", "tab-courier": "Koerier",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusief",
+            "tab-prices": "Prijzen",
+            "tab-fleet": "Vloot",
+            "tab-airport": "Luchthaven",
+            "tab-business": "Zakelijk",
+            "tab-events": "Events",
+            "tab-courier": "Koerier",
             "card-title": "💼 Executive class voor de veeleisende zakenreiziger",
             "card-intro": "Eerste indrukken zijn cruciaal in de zakenwereld. Fleetconnect zorgt ervoor dat u stijlvol en ontspannen aankomt bij uw afspraken. Onze executive service is ontworpen voor professionals die het beste verwachten.",
             "highlight-text": "\"Tijd is geld – bij Fleetconnect verspillen we geen minuut van uw kostbare tijd.\"",
             "fleet-title": "🚘 Wagenpark voor zakelijk gebruik",
-            "fleet-1-label": "Mercedes-Benz E-Klasse / BMW 5 Serie", "fleet-1-text": "– De standaard voor executive travel",
-            "fleet-2-label": "WiFi aan boord", "fleet-2-text": "– Blijf productief tijdens de rit",
-            "fleet-3-label": "Oplaadpunten", "fleet-3-text": "– USB-A, USB-C en 230V stopcontact",
-            "fleet-4-label": "Stilte zone", "fleet-4-text": "– Telefoongesprekken of werken in alle rust",
-            "fleet-5-label": "Kranten en magazines", "fleet-5-text": "– Blijf op de hoogte",
+            "fleet-1-label": "Mercedes-Benz E-Klasse / BMW 5 Serie",
+            "fleet-1-text": "– De standaard voor executive travel",
+            "fleet-2-label": "WiFi aan boord",
+            "fleet-2-text": "– Blijf productief tijdens de rit",
+            "fleet-3-label": "Oplaadpunten",
+            "fleet-3-text": "– USB-A, USB-C en 230V stopcontact",
+            "fleet-4-label": "Stilte zone",
+            "fleet-4-text": "– Telefoongesprekken of werken in alle rust",
+            "fleet-5-label": "Kranten en magazines",
+            "fleet-5-text": "– Blijf op de hoogte",
             "invoicing-title": "📄 Facturatie-opties voor bedrijven",
             "invoicing-intro": "Wij begrijpen dat bedrijven flexibele betaalopties nodig hebben. Daarom bieden wij:",
-            "invoicing-1-label": "Maandfactuur", "invoicing-1-text": "– Overzichtelijke verzamelfactuur voor alle ritten",
-            "invoicing-2-label": "Vooraf betalen", "invoicing-2-text": "– Via overschrijving of bancontact",
-            "invoicing-3-label": "BTW-specificatie", "invoicing-3-text": "– Volledige BTW-uitsplitsing op factuur",
-            "invoicing-4-label": "Zakelijke korting", "invoicing-4-text": "– Bij 10+ ritten per maand ontvangt u 10% korting",
+            "invoicing-1-label": "Maandfactuur",
+            "invoicing-1-text": "– Overzichtelijke verzamelfactuur voor alle ritten",
+            "invoicing-2-label": "Vooraf betalen",
+            "invoicing-2-text": "– Via overschrijving of bancontact",
+            "invoicing-3-label": "BTW-specificatie",
+            "invoicing-3-text": "– Volledige BTW-uitsplitsing op factuur",
+            "invoicing-4-label": "Zakelijke korting",
+            "invoicing-4-text": "– Bij 10+ ritten per maand ontvangt u 10% korting",
             "nda-title": "🤝 NDA en discretie",
             "nda-text": "Voor vertrouwelijke zakenbesprekingen bieden wij een Non-Disclosure Agreement (NDA) aan. Uw gesprekken blijven strikt vertrouwelijk – onze chauffeurs zijn getraind in discretie en professionaliteit.",
             "waiting-title": "⏱️ Wachturen en meerdaagse verhuur",
-            "waiting-1-label": "Wachturen", "waiting-1-text": "– De eerste 15 minuten wachttijd zijn gratis, daarna €0,50 per minuut",
-            "waiting-2-label": "Meerdaagse verhuur", "waiting-2-text": "– Vaste prijs per dag (8 uur) inclusief chauffeur",
-            "waiting-3-label": "Meerdere stops", "waiting-3-text": "– Maximaal 3 stops inbegrepen, extra stops €5 per stop",
+            "waiting-1-label": "Wachturen",
+            "waiting-1-text": "– De eerste 30 minuten wachttijd zijn gratis, daarna €35,00/uur (te betalen aan chauffeur)",
+            "waiting-2-label": "Meerdaagse verhuur",
+            "waiting-2-text": "– Vaste prijs per dag (8 uur) inclusief chauffeur",
+            "waiting-3-label": "Meerdere stops",
+            "waiting-3-text": "– Maximaal 3 stops inbegrepen, extra stops €5 per stop",
             "faq-title": "❓ Veelgestelde vragen zakelijk",
-            "faq-q1": "Kan ik een vast tarief afspreken voor vaste routes?", "faq-a1": "- Ja, voor bedrijven met vaste trajecten bieden wij contractprijzen.",
-            "faq-q2": "Wordt de chauffeur op de hoogte gesteld van vertraging?", "faq-a2": "- Absoluut, wij monitoren live verkeersinformatie.",
-            "faq-q3": "Kan ik dezelfde chauffeur elke dag krijgen?", "faq-a3": "- Ja, wij kunnen een vaste chauffeur aan uw bedrijf toewijzen.",
-            "prev-link": "Vorige: Luchthavenvervoer", "next-link": "Volgende: Events & Gala",
+            "faq-q1": "Kan ik een vast tarief afspreken voor vaste routes?",
+            "faq-a1": "– Ja, voor bedrijven met vaste trajecten bieden wij contractprijzen.",
+            "faq-q2": "Wordt de chauffeur op de hoogte gesteld van vertraging?",
+            "faq-a2": "– Absoluut, wij monitoren live verkeersinformatie.",
+            "faq-q3": "Kan ik dezelfde chauffeur elke dag krijgen?",
+            "faq-a3": "– Ja, wij kunnen een vaste chauffeur aan uw bedrijf toewijzen.",
+            "prev-link": "Vorige: Luchthavenvervoer",
+            "next-link": "Volgende: Events & Gala",
             "footer-brand-text": "Premium taxivervoer in België – Stijl, stiptheid en service.",
-            "footer-control": "Control Panel", "footer-dispatch": "Taxi Dispatch", "footer-legal": "Legal & Privacy",
-            "footer-legal-title": "Juridisch", "footer-tos": "Algemene voorwaarden", "footer-privacy": "Privacy", "footer-cookies": "Cookiebeleid",
-            "footer-partners-title": "Partners", "footer-copyright": "© 2026 Fleetconnect – "
+            "footer-control": "Control Panel",
+            "footer-dispatch": "Taxi Dispatch",
+            "footer-legal": "Legal & Privacy",
+            "footer-legal-title": "Juridisch",
+            "footer-tos": "Algemene voorwaarden",
+            "footer-privacy": "Privacy",
+            "footer-cookies": "Cookiebeleid",
+            "footer-partners-title": "Partners",
+            "footer-copyright": "© 2026 Fleetconnect – "
         },
         fr: {
-            "breadcrumb-home": "Accueil", "breadcrumb-current": "Transport d'affaires", "page-title": "Transport d'affaires",
+            "breadcrumb-home": "Accueil",
+            "breadcrumb-current": "Transport d'affaires",
+            "page-title": "Transport d'affaires",
             "intro-text": "Professionnel, discret et efficace. Parfait pour les voyageurs d'affaires qui attachent de l'importance au temps, au confort et à l'image.",
             "book-btn": "Réservez votre trajet d'affaires",
-            "tab-home": "Accueil", "tab-exclusive": "Exclusif", "tab-prices": "Prix fixes", "tab-fleet": "Flotte", "tab-airport": "Aéroport", "tab-business": "Affaires", "tab-events": "Événements", "tab-courier": "Messagerie",
+            "tab-home": "Accueil",
+            "tab-exclusive": "Exclusif",
+            "tab-prices": "Prix fixes",
+            "tab-fleet": "Flotte",
+            "tab-airport": "Aéroport",
+            "tab-business": "Affaires",
+            "tab-events": "Événements",
+            "tab-courier": "Messagerie",
             "card-title": "💼 Classe executive pour le voyageur d'affaires exigeant",
             "card-intro": "Les premières impressions sont cruciales dans le monde des affaires. Fleetconnect vous assure d'arriver avec style et détente à vos rendez-vous. Notre service executive est conçu pour les professionnels qui attendent le meilleur.",
             "highlight-text": "\"Le temps, c'est de l'argent – chez Fleetconnect, nous ne perdons pas une minute de votre temps précieux.\"",
             "fleet-title": "🚘 Parc automobile pour usage professionnel",
-            "fleet-1-label": "Mercedes-Benz Classe E / BMW Série 5", "fleet-1-text": "– La norme pour les déplacements executives",
-            "fleet-2-label": "WiFi à bord", "fleet-2-text": "– Restez productif pendant le trajet",
-            "fleet-3-label": "Points de charge", "fleet-3-text": "– USB-A, USB-C et prise 230V",
-            "fleet-4-label": "Zone de silence", "fleet-4-text": "– Appels ou travail en toute tranquillité",
-            "fleet-5-label": "Journaux et magazines", "fleet-5-text": "– Restez informé",
+            "fleet-1-label": "Mercedes-Benz Classe E / BMW Série 5",
+            "fleet-1-text": "– La norme pour les déplacements executives",
+            "fleet-2-label": "WiFi à bord",
+            "fleet-2-text": "– Restez productif pendant le trajet",
+            "fleet-3-label": "Points de charge",
+            "fleet-3-text": "– USB-A, USB-C et prise 230V",
+            "fleet-4-label": "Zone de silence",
+            "fleet-4-text": "– Appels ou travail en toute tranquillité",
+            "fleet-5-label": "Journaux et magazines",
+            "fleet-5-text": "– Restez informé",
             "invoicing-title": "📄 Options de facturation pour les entreprises",
             "invoicing-intro": "Nous comprenons que les entreprises ont besoin d'options de paiement flexibles. C'est pourquoi nous proposons :",
-            "invoicing-1-label": "Facture mensuelle", "invoicing-1-text": "– Facture récapitulative claire pour toutes les courses",
-            "invoicing-2-label": "Paiement anticipé", "invoicing-2-text": "– Par virement ou bancontact",
-            "invoicing-3-label": "Détail de la TVA", "invoicing-3-text": "– Ventilation complète de la TVA sur la facture",
-            "invoicing-4-label": "Remise professionnelle", "invoicing-4-text": "– Pour 10+ courses par mois, vous bénéficiez de 10% de réduction",
+            "invoicing-1-label": "Facture mensuelle",
+            "invoicing-1-text": "– Facture récapitulative claire pour toutes les courses",
+            "invoicing-2-label": "Paiement anticipé",
+            "invoicing-2-text": "– Par virement ou bancontact",
+            "invoicing-3-label": "Détail de la TVA",
+            "invoicing-3-text": "– Ventilation complète de la TVA sur la facture",
+            "invoicing-4-label": "Remise professionnelle",
+            "invoicing-4-text": "– Pour 10+ courses par mois, vous bénéficiez de 10% de réduction",
             "nda-title": "🤝 NDA et discrétion",
             "nda-text": "Pour les réunions d'affaires confidentielles, nous proposons un accord de non-divulgation (NDA). Vos conversations restent strictement confidentielles – nos chauffeurs sont formés à la discrétion et au professionnalisme.",
             "waiting-title": "⏱️ Heures d'attente et location de plusieurs jours",
-            "waiting-1-label": "Heures d'attente", "waiting-1-text": "– Les 15 premières minutes d'attente sont gratuites, puis 0,50 € par minute",
-            "waiting-2-label": "Location de plusieurs jours", "waiting-2-text": "– Prix fixe par jour (8 heures) chauffeur inclus",
-            "waiting-3-label": "Plusieurs arrêts", "waiting-3-text": "– Jusqu'à 3 arrêts inclus, arrêts supplémentaires 5 € par arrêt",
+            "waiting-1-label": "Heures d'attente",
+            "waiting-1-text": "– Les 30 premières minutes d'attente sont gratuites, puis 35,00 €/heure (à payer au chauffeur)",
+            "waiting-2-label": "Location de plusieurs jours",
+            "waiting-2-text": "– Prix fixe par jour (8 heures) chauffeur inclus",
+            "waiting-3-label": "Plusieurs arrêts",
+            "waiting-3-text": "– Jusqu'à 3 arrêts inclus, arrêts supplémentaires 5 € par arrêt",
             "faq-title": "❓ Questions fréquentes – affaires",
-            "faq-q1": "Puis-je convenir d'un tarif fixe pour des trajets réguliers ?", "faq-a1": "- Oui, pour les entreprises avec des trajets fixes, nous proposons des prix contractuels.",
-            "faq-q2": "Le chauffeur est-il informé en cas de retard ?", "faq-a2": "- Absolument, nous surveillons les informations de trafic en direct.",
-            "faq-q3": "Puis-je avoir le même chauffeur chaque jour ?", "faq-a3": "- Oui, nous pouvons attribuer un chauffeur attitré à votre entreprise.",
-            "prev-link": "Précédent : Transport aéroport", "next-link": "Suivant : Événements & Gala",
+            "faq-q1": "Puis-je convenir d'un tarif fixe pour des trajets réguliers ?",
+            "faq-a1": "– Oui, pour les entreprises avec des trajets fixes, nous proposons des prix contractuels.",
+            "faq-q2": "Le chauffeur est-il informé en cas de retard ?",
+            "faq-a2": "– Absolument, nous surveillons les informations de trafic en direct.",
+            "faq-q3": "Puis-je avoir le même chauffeur chaque jour ?",
+            "faq-a3": "– Oui, nous pouvons attribuer un chauffeur attitré à votre entreprise.",
+            "prev-link": "Précédent : Transport aéroport",
+            "next-link": "Suivant : Événements & Gala",
             "footer-brand-text": "Service de taxi premium en Belgique – Style, ponctualité et service.",
-            "footer-control": "Panneau de contrôle", "footer-dispatch": "Répartition des taxis", "footer-legal": "Juridique et confidentialité",
-            "footer-legal-title": "Juridique", "footer-tos": "Conditions générales", "footer-privacy": "Confidentialité", "footer-cookies": "Politique de cookies",
-            "footer-partners-title": "Partenaires", "footer-copyright": "© 2026 Fleetconnect – "
+            "footer-control": "Panneau de contrôle",
+            "footer-dispatch": "Répartition des taxis",
+            "footer-legal": "Juridique et confidentialité",
+            "footer-legal-title": "Juridique",
+            "footer-tos": "Conditions générales",
+            "footer-privacy": "Confidentialité",
+            "footer-cookies": "Politique de cookies",
+            "footer-partners-title": "Partenaires",
+            "footer-copyright": "© 2026 Fleetconnect – "
         },
         en: {
-            "breadcrumb-home": "Home", "breadcrumb-current": "Business transport", "page-title": "Business transport",
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "Business transport",
+            "page-title": "Business transport",
             "intro-text": "Professional, discreet and efficient. Perfect for business travelers who value time, comfort and image.",
             "book-btn": "Book your business ride",
-            "tab-home": "Home", "tab-exclusive": "Exclusive", "tab-prices": "Prices", "tab-fleet": "Fleet", "tab-airport": "Airport", "tab-business": "Business", "tab-events": "Events", "tab-courier": "Courier",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusive",
+            "tab-prices": "Prices",
+            "tab-fleet": "Fleet",
+            "tab-airport": "Airport",
+            "tab-business": "Business",
+            "tab-events": "Events",
+            "tab-courier": "Courier",
             "card-title": "💼 Executive class for the demanding business traveler",
             "card-intro": "First impressions are crucial in the business world. Fleetconnect ensures you arrive stylishly and relaxed at your appointments. Our executive service is designed for professionals who expect the best.",
             "highlight-text": "\"Time is money – at Fleetconnect we don't waste a minute of your valuable time.\"",
             "fleet-title": "🚘 Fleet for business use",
-            "fleet-1-label": "Mercedes-Benz E-Class / BMW 5 Series", "fleet-1-text": "– The standard for executive travel",
-            "fleet-2-label": "Onboard WiFi", "fleet-2-text": "– Stay productive during the ride",
-            "fleet-3-label": "Charging points", "fleet-3-text": "– USB-A, USB-C and 230V outlet",
-            "fleet-4-label": "Quiet zone", "fleet-4-text": "– Phone calls or work in complete peace",
-            "fleet-5-label": "Newspapers and magazines", "fleet-5-text": "– Stay informed",
+            "fleet-1-label": "Mercedes-Benz E-Class / BMW 5 Series",
+            "fleet-1-text": "– The standard for executive travel",
+            "fleet-2-label": "Onboard WiFi",
+            "fleet-2-text": "– Stay productive during the ride",
+            "fleet-3-label": "Charging points",
+            "fleet-3-text": "– USB-A, USB-C and 230V outlet",
+            "fleet-4-label": "Quiet zone",
+            "fleet-4-text": "– Phone calls or work in complete peace",
+            "fleet-5-label": "Newspapers and magazines",
+            "fleet-5-text": "– Stay informed",
             "invoicing-title": "📄 Invoicing options for companies",
             "invoicing-intro": "We understand that companies need flexible payment options. That's why we offer:",
-            "invoicing-1-label": "Monthly invoice", "invoicing-1-text": "– Clear consolidated invoice for all rides",
-            "invoicing-2-label": "Prepayment", "invoicing-2-text": "– By bank transfer or bancontact",
-            "invoicing-3-label": "VAT specification", "invoicing-3-text": "– Full VAT breakdown on invoice",
-            "invoicing-4-label": "Business discount", "invoicing-4-text": "– For 10+ rides per month you receive 10% discount",
+            "invoicing-1-label": "Monthly invoice",
+            "invoicing-1-text": "– Clear consolidated invoice for all rides",
+            "invoicing-2-label": "Prepayment",
+            "invoicing-2-text": "– By bank transfer or bancontact",
+            "invoicing-3-label": "VAT specification",
+            "invoicing-3-text": "– Full VAT breakdown on invoice",
+            "invoicing-4-label": "Business discount",
+            "invoicing-4-text": "– For 10+ rides per month you receive 10% discount",
             "nda-title": "🤝 NDA and discretion",
             "nda-text": "For confidential business meetings we offer a Non-Disclosure Agreement (NDA). Your conversations remain strictly confidential – our drivers are trained in discretion and professionalism.",
             "waiting-title": "⏱️ Waiting time and multi-day rental",
-            "waiting-1-label": "Waiting time", "waiting-1-text": "– The first 15 minutes of waiting are free, then €0.50 per minute",
-            "waiting-2-label": "Multi-day rental", "waiting-2-text": "– Fixed price per day (8 hours) including driver",
-            "waiting-3-label": "Multiple stops", "waiting-3-text": "– Maximum 3 stops included, extra stops €5 per stop",
+            "waiting-1-label": "Waiting time",
+            "waiting-1-text": "– The first 30 minutes of waiting are free, then €35.00/hour (payable to the driver)",
+            "waiting-2-label": "Multi-day rental",
+            "waiting-2-text": "– Fixed price per day (8 hours) including driver",
+            "waiting-3-label": "Multiple stops",
+            "waiting-3-text": "– Maximum 3 stops included, extra stops €5 per stop",
             "faq-title": "❓ Frequently asked questions – business",
-            "faq-q1": "Can I agree on a fixed rate for regular routes?", "faq-a1": "- Yes, for companies with fixed routes we offer contract prices.",
-            "faq-q2": "Is the driver informed of delays?", "faq-a2": "- Absolutely, we monitor live traffic information.",
-            "faq-q3": "Can I have the same driver every day?", "faq-a3": "- Yes, we can assign a dedicated driver to your company.",
-            "prev-link": "Previous: Airport transport", "next-link": "Next: Events & Gala",
+            "faq-q1": "Can I agree on a fixed rate for regular routes?",
+            "faq-a1": "– Yes, for companies with fixed routes we offer contract prices.",
+            "faq-q2": "Is the driver informed of delays?",
+            "faq-a2": "– Absolutely, we monitor live traffic information.",
+            "faq-q3": "Can I have the same driver every day?",
+            "faq-a3": "– Yes, we can assign a dedicated driver to your company.",
+            "prev-link": "Previous: Airport transport",
+            "next-link": "Next: Events & Gala",
             "footer-brand-text": "Premium taxi transport in Belgium – Style, punctuality and service.",
-            "footer-control": "Control Panel", "footer-dispatch": "Taxi Dispatch", "footer-legal": "Legal & Privacy",
-            "footer-legal-title": "Legal", "footer-tos": "Terms & Conditions", "footer-privacy": "Privacy", "footer-cookies": "Cookie Policy",
-            "footer-partners-title": "Partners", "footer-copyright": "© 2026 Fleetconnect – "
+            "footer-control": "Control Panel",
+            "footer-dispatch": "Taxi Dispatch",
+            "footer-legal": "Legal & Privacy",
+            "footer-legal-title": "Legal",
+            "footer-tos": "Terms & Conditions",
+            "footer-privacy": "Privacy",
+            "footer-cookies": "Cookie Policy",
+            "footer-partners-title": "Partners",
+            "footer-copyright": "© 2026 Fleetconnect – "
         }
     };
+
+    // ============================================================
+    // 2. SET LANGUAGE FUNCTIE
+    // ============================================================
 
     function setLanguage(lang) {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = translations[lang][key];
-                else el.innerHTML = translations[lang][key];
+            if (translations[lang] && translations[lang][key] !== undefined) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = translations[lang][key];
+                } else {
+                    el.innerHTML = translations[lang][key];
+                }
             }
         });
         document.documentElement.lang = lang;
@@ -518,7 +729,10 @@
         localStorage.setItem('preferredLanguage', lang);
     }
 
-    // Bepaling initiële taal (prioriteit: URL parameter > localStorage > 'nl')
+    // ============================================================
+    // 3. INITIËLE TAAL BEPALING
+    // ============================================================
+
     function getInitialLanguage() {
         const urlParams = new URLSearchParams(window.location.search);
         const langParam = urlParams.get('lang');
@@ -532,32 +746,96 @@
         return 'nl';
     }
 
-    // Taalwisselaar klik
+    // ============================================================
+    // 4. TAALSWITCHER KLIK
+    // ============================================================
+
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
             setLanguage(lang);
-            // Verwijder de ?lang= parameter uit de URL voor een schone weergave
             const url = new URL(window.location.href);
             url.searchParams.delete('lang');
             window.history.replaceState({}, '', url);
         });
     });
 
-    // Initiële taal instellen
+    // ============================================================
+    // 5. INITIËLE TAAL INSTELLEN
+    // ============================================================
+
     const initialLang = getInitialLanguage();
     setLanguage(initialLang);
 
-    // Leaflet kaart
-    var bgMap = L.map('background-map').setView([50.8503, 4.3517], 7);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
-        subdomains: 'abcd', maxZoom: 19, minZoom: 1
-    }).addTo(bgMap);
-    bgMap.dragging.disable(); bgMap.touchZoom.disable(); bgMap.doubleClickZoom.disable(); bgMap.scrollWheelZoom.disable(); bgMap.boxZoom.disable(); bgMap.keyboard.disable();
-    if (bgMap.tap) bgMap.tap.disable();
-    setTimeout(() => bgMap.invalidateSize(), 100);
-    window.addEventListener('resize', () => bgMap.invalidateSize());
+    // ============================================================
+    // 6. LEAFLET KAART - MET FALLBACK
+    // ============================================================
+
+    (function initMap() {
+        try {
+            if (typeof L === 'undefined') {
+                console.warn('Leaflet is niet geladen.');
+                return;
+            }
+
+            const mapContainer = document.getElementById('background-map');
+            if (!mapContainer) {
+                console.warn('Element #background-map niet gevonden.');
+                return;
+            }
+
+            const bgMap = L.map('background-map', {
+                center: [50.8503, 4.3517],
+                zoom: 7,
+                zoomControl: false,
+                dragging: false,
+                touchZoom: false,
+                doubleClickZoom: false,
+                scrollWheelZoom: false,
+                boxZoom: false,
+                keyboard: false,
+                attributionControl: true
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                minZoom: 1
+            }).addTo(bgMap);
+
+            setTimeout(() => { bgMap.invalidateSize(); }, 200);
+
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
+            });
+
+            console.log('Leaflet-kaart succesvol geladen.');
+
+        } catch (error) {
+            console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
+            const mapContainer = document.getElementById('background-map');
+            if (mapContainer) {
+                mapContainer.style.backgroundImage = 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
+                mapContainer.style.backgroundSize = 'cover';
+                mapContainer.style.backgroundPosition = 'center';
+                mapContainer.style.backgroundRepeat = 'no-repeat';
+            }
+        }
+    })();
+
+    // ============================================================
+    // 7. CONSOLE BERICHTEN
+    // ============================================================
+
+    console.log('Fleetconnect - Zakelijk vervoer pagina geladen');
+    console.log('Huidige taal:', initialLang);
+    console.log('Interne links: PV.html, PV_Exclusieve_Service.html, PV-vaste-prijzen.html, PV-premium-vloot.html, PV_Luchthavenvervoer.html, PV_Zakelijk_Vervoer.html, PV_Events_Gala.html, PV_Koeriersdienst.html');
+    console.log('Taalswitcher werkt met NL/FR/EN vertalingen.');
+    console.log('Alle informatie is conform de andere Fleetconnect pagina\'s.');
+    console.log('Wachturen: 30 minuten gratis, daarna €35,00/uur.');
 </script>
 </body>
 </html>
