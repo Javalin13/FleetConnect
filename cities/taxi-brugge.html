@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>FleetConnect | Taxi Brugge – UNESCO-werelderfgoed & middeleeuwse parel</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Brugge. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. Ritten naar Oostende (OST), Zaventem, Gent, Antwerpen, Parijs, Amsterdam. 24/7 beschikbaar.">
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Brugge. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. Luchthaventransfers naar Zaventem (BRU), Oostende (OST), Antwerpen (ANR), Charleroi (CRL), Eindhoven (EIN) en Amsterdam (AMS). 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Dezelfde stijl als in Antwerpen – volledig herhaald */
+        /* ===== BASIS ===== */
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
-        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
         body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
         .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
         .container{width:100%;max-width:1300px;margin:0 auto;padding:0 24px}
-        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem}
+
+        /* ===== HAMBURGER & SIDEBAR ===== */
+        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem;transition:0.2s}
         .hamburger-btn:hover{background:var(--primary-dark)}
         .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1001;visibility:hidden;opacity:0;transition:all 0.3s ease}
         .sidebar-overlay.active{visibility:visible;opacity:1}
@@ -25,100 +27,109 @@
         .sidebar-header h3{color:white;display:flex;align-items:center;gap:8px}
         .close-menu{background:rgba(255,255,255,0.2);border:none;font-size:1.5rem;cursor:pointer;color:white;width:32px;height:32px;border-radius:50%}
         .sidebar-nav{display:flex;flex-direction:column;padding:20px 16px;gap:8px;flex:1;overflow-y:auto}
-        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light)}
+        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light);transition:0.2s}
         .sidebar-nav a i{width:24px;color:var(--primary)}
         .sidebar-nav a:hover{background:#eef2fa;border-color:var(--primary)}
         .login-section{padding:16px;border-top:1px solid var(--border-light);margin-top:auto;flex-shrink:0}
-        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px}
+        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
+        .login-btn:hover{opacity:0.9}
+
+        /* ===== TAALSWITCHER (fixed) ===== */
+        .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
+        .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
+        .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+
+        /* ===== HERO ===== */
         .hero{padding:80px 0 40px;text-align:center}
-        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:40px 30px;border-radius:48px;border:1px solid var(--border-light)}
-        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary)}
-        .hero-card p{font-size:1.2rem;color:var(--text-light);margin-bottom:20px}
-        .btn-primary{background:var(--primary);color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-primary:hover{background:var(--primary-dark)}
+        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
+        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
+        .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
+        .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
+        .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
+        .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
+        .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
+
+        /* ===== SECTIES ===== */
         .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
-        .route-grid, .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
-        .route-card, .feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
-        .route-card:hover, .feature-card:hover{transform:translateY(-4px)}
+        .route-grid,.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
+        .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
+        .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
         .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
         .feature-card{text-align:center}
         .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
         .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
         .international-box{background:#e8f0f8;border-left:5px solid var(--accent-gold);padding:24px;margin:30px 0;border-radius:20px}
         .service-points{display:flex;flex-wrap:wrap;gap:20px;margin:20px 0}
         .service-point{flex:1;background:white;padding:16px;border-radius:16px;text-align:center}
+
+        /* ===== EXTRA OPTIES LIJST ===== */
+        .extra-options-list{list-style:none;margin:0;padding:0}
+        .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .extra-options-list li:last-child{border-bottom:none}
+        .extra-options-list li i{color:var(--primary);width:24px}
+        .extra-options-list li .price-tag{background:var(--primary);color:white;padding:2px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:auto}
+        .extra-options-list li .price-tag.free{background:var(--accent-green)}
+        .extra-options-list li strong{min-width:120px}
+        .extra-options-list li span{color:var(--text-light)}
+
+        /* ===== CONTACT ===== */
         .contact-wrapper{width:100%;display:flex;justify-content:center;padding:0 16px}
         .contact-row{background:white;border-radius:44px;padding:30px;margin:40px 0;border:1px solid var(--border-light);width:100%;max-width:600px}
         .contact-form h3{margin-bottom:20px;color:var(--primary);text-align:center}
         .compact-form{display:flex;flex-direction:column;gap:16px}
         .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
+        .compact-form input:focus,.compact-form textarea:focus{outline:none;border-color:var(--primary)}
         .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
-        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-whatsapp:hover{background:#128C7E}
-        .lang-switcher{display:flex;gap:8px;align-items:center}
-        .lang-btn{background:transparent;border:1px solid var(--border-light);padding:6px 12px;border-radius:30px;cursor:pointer;font-weight:500;transition:all 0.2s}
-        .lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
 
-        /* ========================================================== */
-        /* FOOTER STIJLING – EXACT GELIJK AAN BOEKINGWEBSITE          */
-        /* ========================================================== */
-        .footer-dark {
-            background: #0d1f2c;
-            color: #e0edf5;
-            padding: 48px 0 24px;
-            margin-top: 60px;
-        }
-        .footer-grid {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-        .footer-grid h4 {
-            color: #e0edf5;
-            margin-bottom: 16px;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        .footer-grid a {
-            color: #e0edf5;
-            text-decoration: none;
-            line-height: 1.8;
-            display: block;
-        }
-        .footer-grid a:hover {
-            color: #c9a03d;
-            text-decoration: underline;
-        }
-        .footer-brand p {
-            color: #e0edf5;
-            line-height: 1.8;
-        }
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(224,237,245,0.2);
-            padding-top: 24px;
-            font-size: 0.85rem;
-        }
-        .footer-bottom a {
-            color: #c9a03d;
-            text-decoration: none;
-        }
-        .footer-bottom a:hover {
-            text-decoration: underline;
-        }
-        /* ========================================================== */
+        /* ===== FOOTER ===== */
+        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
+        .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
+        .footer-grid h4{color:#c9a03d !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
+        .footer-grid a:hover{color:#c9a03d;text-decoration:underline}
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:#c9a03d;text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
 
-        @media (max-width:800px){.hero-card h1{font-size:2rem}.section-title{font-size:1.5rem}}
+        /* ===== RESPONSIVE ===== */
+        @media (max-width:800px){
+            .hero-card{padding:30px 20px}
+            .hero-card h1{font-size:2rem}
+            .hero-card .hero-slogan{font-size:1.3rem}
+            .hero-card .hero-features{font-size:0.95rem}
+            .section-title{font-size:1.5rem}
+            .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
+            .lang-btn{font-size:0.7rem;padding:4px 10px}
+            .extra-options-list li strong{min-width:100px}
+        }
+        @media (max-width:500px){
+            .container{padding:0 12px}
+            .hero-card{padding:24px 16px}
+            .hero-card h1{font-size:1.5rem}
+            .hero-card .hero-slogan{font-size:1.1rem}
+            .hero-card .hero-features{font-size:0.8rem}
+            .hero-card .btn-primary{padding:14px 28px;font-size:0.95rem}
+            .language-switcher{top:10px;right:10px;gap:4px;padding:4px 8px}
+            .lang-btn{font-size:0.6rem;padding:3px 8px}
+            .route-grid,.features-grid{grid-template-columns:1fr}
+            .extra-options-list li{flex-wrap:wrap}
+            .extra-options-list li .price-tag{margin-left:0}
+        }
     </style>
 </head>
 <body>
 
 <div id="background-map"></div>
 
+<!-- ===== HAMBURGER ===== -->
 <button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
 
+<!-- ===== SIDEBAR ===== -->
 <div class="sidebar-overlay" id="sidebarOverlay">
     <div class="sidebar">
         <div class="sidebar-header"><h3><i class="fas fa-car"></i> FleetConnect</h3><button class="close-menu" id="closeMenuBtn">&times;</button></div>
@@ -145,19 +156,39 @@
     </div>
 </div>
 
+<!-- ===== TAALSWITCHER (fixed) ===== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
 <div class="content-overlay">
+
+    <!-- ===== HERO ===== -->
     <section class="hero">
         <div class="container">
             <div class="hero-card">
                 <h1 data-i18n="hero_title"><i class="fas fa-taxi"></i> FleetConnect | Taxi Brugge</h1>
-                <p data-i18n="hero_subtitle">Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar</p>
-                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn"><i class="fas fa-calendar-check"></i> Boek nu uw rit</a>
+                <div style="height:16px;"></div>
+                <p class="hero-slogan" data-i18n="hero_slogan" style="font-weight:700;">
+                    <strong>"Uw rit, onze zorg. Vaste prijs, 24/7."</strong>
+                </p>
+                <div style="height:20px;"></div>
+                <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
+                    <strong>€1,50/km • Luchthaventransfers • Meertalige chauffeurs</strong>
+                </p>
+                <div style="height:30px;"></div>
+                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
+                    <i class="fas fa-calendar-check"></i> Boek nu →
+                </a>
             </div>
         </div>
     </section>
 
     <div class="container">
-        <!-- Blok 1: Introductie Brugge -->
+
+        <!-- ===== INTRO ===== -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Brugge – UNESCO-werelderfgoed, stad van water en cultuur</h2>
             <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Brugge, ook wel het <strong>Venetië van het Noorden</strong>, is een van de best bewaarde middeleeuwse steden van Europa. De hele historische binnenstad staat op de <strong>UNESCO Werelderfgoedlijst</strong> en trekt jaarlijks miljoenen bezoekers. Met zijn schilderachtige grachten, het <strong>Belfort</strong> op de Grote Markt, de <strong>Heilig-Bloedbasiliek</strong> en het <strong>Groeningemuseum</strong> (met Vlaamse Primitieven) ademt de stad kunst en geschiedenis.</p>
@@ -165,36 +196,161 @@
             <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>hotels, congrescentra, havenbedrijven en internationale instellingen</strong> in Brugge. Onze Mercedes-, BMW- en luxe-minivans zorgen voor een comfortabele en stipte ervaring. Onze meertalige chauffeurs (NL/FR/EN/DE) verwelkomen gasten uit alle hoeken van de wereld.</p>
         </div>
 
-        <!-- Blok 2: Evenementen en zakenwijken -->
+        <!-- ===== EVENEMENTEN ===== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Brugge</h2>
             <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Brugge kent een rijk evenementenkalender. De bekendste zijn de <strong>Heilig-Bloedprocessie</strong> (mei), het <strong>Brugse Beerfestival</strong> (februari), het <strong>Kerstmarkt</strong> (december) en het <strong>MAF – Museum of Fine Arts</strong> evenementen. Ook het <strong>Concertgebouw Brugge</strong> trekt internationale artiesten en biedt een podium voor klassieke en hedendaagse muziek.</p>
             <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Congrescentrum Oost-Vlaanderen</strong> (in de buurt van het station), de <strong>Kantorenzone aan de Gistelse Steenweg</strong> en het <strong>Business Park Brugge</strong> (bij de E40). Ook de <strong>Zeebrugse haven</strong> met zijn maritieme cluster is een belangrijke economische motor.</p>
         </div>
 
-        <!-- Nationale routes -->
-        <h2 class="section-title" data-i18n="routes_title">Populaire routes vanuit Brugge</h2>
+        <!-- ===== LUCHTHAVENROUTES ===== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Brugge
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
         <div class="route-grid">
-            <div class="route-card"><i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i><h3 data-i18n="route1_title">Brugge → Oostende (OST)</h3><div class="route-price">€37,50</div><p data-i18n="route1_desc">25 km · ±30 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-plane-departure"></i><h3 data-i18n="route2_title">Brugge → Zaventem (BRU)</h3><div class="route-price">€150</div><p data-i18n="route2_desc">100 km · ±70 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-ship"></i><h3 data-i18n="route3_title">Brugge → Zeebrugge (haven)</h3><div class="route-price">€18</div><p data-i18n="route3_desc">12 km · ±15-20 min</p></div>
-            <div class="route-card"><i class="fas fa-city"></i><h3 data-i18n="route4_title">Station → Historisch Centrum</h3><div class="route-price">€6</div><p data-i18n="route4_desc">4 km · ±10 min · 1.500 m</p></div>
-            <div class="route-card"><i class="fas fa-music"></i><h3 data-i18n="route5_title">Centrum → Concertgebouw</h3><div class="route-price">€4,50</div><p data-i18n="route5_desc">3 km · ±8 min</p></div>
-            <div class="route-card"><i class="fas fa-train"></i><h3 data-i18n="route6_title">Brugge → Gent</h3><div class="route-price">€60</div><p data-i18n="route6_desc">40 km · ±45 min</p></div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
+                <h3 data-i18n="route1_title">Brugge → Zaventem</h3>
+                <span class="route-airport-code">BRU</span>
+                <div class="route-price">€150,00</div>
+                <p data-i18n="route1_desc">100 km · ±70 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route2_title">Brugge → Oostende</h3>
+                <span class="route-airport-code">OST</span>
+                <div class="route-price">€37,50</div>
+                <p data-i18n="route2_desc">25 km · ±30 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Brugge → Antwerpen (Deurne)</h3>
+                <span class="route-airport-code">ANR</span>
+                <div class="route-price">€142,50</div>
+                <p data-i18n="route3_desc">95 km · ±60 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Brugge → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€225,00</div>
+                <p data-i18n="route4_desc">150 km · ±1u 40 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Brugge → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€270,00</div>
+                <p data-i18n="route5_desc">180 km · ±2u 00 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Brugge → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€337,50</div>
+                <p data-i18n="route6_desc">225 km · ±2u 30 min · vaste prijs</p>
+            </div>
         </div>
 
-        <!-- Internationaal vervoer + servicepunten -->
+        <!-- ===== EXTRA OPTIES ===== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="extras_title">➕ Extra opties – transparante meerprijzen</h2>
+            <p data-i18n="extras_intro" style="font-size:1.05rem; line-height:1.6; margin-bottom:20px;">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
+            <ul class="extra-options-list">
+                <li>
+                    <i class="fas fa-car"></i>
+                    <strong data-i18n="extras_break">Break model</strong>
+                    <span data-i18n="extras_break_desc">– Meer bagageruimte</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
+                    <span class="price-tag">+€15,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <strong data-i18n="extras_van">Mini Van</strong>
+                    <span data-i18n="extras_van_desc">– Tot 8 personen</span>
+                    <span class="price-tag">+€10,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <strong data-i18n="extras_meet">Meet &amp; Greet</strong>
+                    <span data-i18n="extras_meet_desc">– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-kiss"></i>
+                    <strong data-i18n="extras_kiss">Kiss &amp; Ride</strong>
+                    <span data-i18n="extras_kiss_desc">– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur</span>
+                    <span class="price-tag free">GRATIS</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ===== LOKALE BESTEMMINGEN ===== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Ook binnen Brugge en regio
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Brugge en de omliggende steden. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-church" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_markt">Station → Grote Markt</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_markt_desc">Vanaf €30,00 · 4 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-music" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_concert">Centrum → Concertgebouw</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_concert_desc">Vanaf €30,00 · 3 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-ship" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_zeebrugge">Brugge → Zeebrugge</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_zeebrugge_desc">Vanaf €30,00 · 12 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-umbrella-beach" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_blankenberge">Brugge → Blankenberge</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_blankenberge_desc">Vanaf €30,00 · 15 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_gent">Brugge → Gent</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gent_desc">€60,00 · 40 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_oostende">Brugge → Oostende (stad)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_oostende_desc">€37,50 · 25 km</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ===== INTERNATIONAAL ===== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Brugge</h3>
             <p data-i18n="international_sub">FleetConnect biedt betrouwbare ritten naar Nederland, Frankrijk en Duitsland. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
-            <ul style="margin: 16px 0 16px 20px; line-height:1.6;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±225 km – €325</li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±170 km – €260</li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±180 km – €275</li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – €450</li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±75 km – €130</li>
-                <li><strong data-i18n="int_mst">Maastricht (NL):</strong> ±180 km – €270</li>
-                <li><strong data-i18n="int_dus">Düsseldorf (DE):</strong> ±280 km – €380</li>
+            <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
+                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±225 km – <strong>€325</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±170 km – <strong>€260</strong></li>
+                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±180 km – <strong>€275</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – <strong>€450</strong></li>
+                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±75 km – <strong>€130</strong></li>
+                <li><strong data-i18n="int_mst">Maastricht (NL):</strong> ±180 km – <strong>€270</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE):</strong> ±280 km – <strong>€380</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
@@ -204,7 +360,7 @@
             </div>
         </div>
 
-        <!-- Waarom FleetConnect - uitgebreide gridblokken -->
+        <!-- ===== WAAROM FLEETCONNECT ===== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Brugge?</h2>
         <div class="features-grid">
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de kronkelende straatjes van Brugge en vermijden de drukte rond de binnenstad. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
@@ -213,49 +369,46 @@
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
-        <!-- Zakelijk & hotelvervoer -->
+        <!-- ===== ZAKELIJK & HOTEL ===== -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
             <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van tientallen hotels in Brugge, waaronder het <strong>Hotel Dukes' Palace</strong>, <strong>Crowne Plaza Brugge</strong>, <strong>Van der Valk Brugge</strong> en <strong>ibis Brugge Centrum</strong>. Voor congressen en evenementen werken wij samen met het <strong>Concertgebouw</strong>, het <strong>Congrescentrum Oost-Vlaanderen</strong> en de <strong>Beurshalle</strong>. Ook havenbedrijven (Zeebrugge) en internationale instellingen zoals het <strong>College of Europe</strong> vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
         </div>
 
-        <!-- Extra blok: cultuur en bezienswaardigheden -->
+        <!-- ===== CULTUUR ===== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Brugge met FleetConnect</h2>
             <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een cultureel uitstapje. Bezoek het <strong>Groeningemuseum</strong>, de <strong>Heilig-Bloedbasiliek</strong>, het <strong>Belfort</strong> of maak een <strong>boottocht op de reien</strong>. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.</p>
             <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
         </div>
 
-        <!-- CTA -->
+        <!-- ===== CTA ===== -->
         <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
             <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Brugge of naar het buitenland?</h2>
-            <p style="margin:20px 0;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.</p>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
             <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
         </div>
     </div>
 
-    <!-- CONTACTFORMULIER -->
+    <!-- ===== CONTACT ===== -->
     <div class="contact-wrapper" id="contact">
         <div class="contact-row">
             <div class="contact-form">
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
-                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail"></div>
-                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2"></textarea></div>
+                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32470123456" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- FOOTER – EXACT GELIJK AAN BOEKINGWEBSITE                   -->
-    <!-- ========================================================== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
                     <h4><i class="fas fa-car"></i> FleetConnect</h4>
                     <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
@@ -263,8 +416,6 @@
                     <a href="/PV/index.html">Klantportaal</a>
                     <a href="/partner-login">Partner login</a>
                 </div>
-
-                <!-- Kolom 2: Populaire steden -->
                 <div class="footer-cities">
                     <h4>Populaire steden</h4>
                     <a href="/taxi-brussels">Taxi Brussels</a>
@@ -276,8 +427,6 @@
                     <a href="/taxi-waterloo">Taxi Waterloo</a>
                     <a href="/taxi-brugge">Taxi Brugge</a>
                 </div>
-
-                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
                     <h4>Legal</h4>
                     <a href="/PV/PVfaq.html">FAQ</a>
@@ -285,88 +434,160 @@
                     <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
                     <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                 </div>
-
-                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
                     <h4>FleetConnect</h4>
                     <a href="mailto:support@fleetconnect.be">Support</a>
                     <a href="/booking#contact">Contact</a>
                 </div>
             </div>
-
-            <!-- Footer bottom -->
             <div class="footer-bottom">
                 2026 FleetConnect - <a href="/">FleetConnect</a>
             </div>
         </div>
     </footer>
-    <!-- ========================================================== -->
-    <!-- EINDE FOOTER                                               -->
-    <!-- ========================================================== -->
 
 </div>
 
 <script>
-    // Vertalingen voor Brugge (NL/FR/EN)
+    // ================================================================
+    // VERTALINGEN – Brugge (NL/FR/EN)
+    // ================================================================
     const translations = {
         nl: {
+            // Sidebar
             language_label: "Taal / Language",
-            nav_home: "Home", nav_exclusive: "Exclusieve service", nav_fixed_prices: "Vaste prijzen", nav_premium_fleet: "Premium vloot",
-            nav_airport: "Luchthavenvervoer", nav_business: "Zakelijk vervoer", nav_events: "Events & Gala", nav_courier: "Koeriersdienst",
-            nav_contact: "Contact", nav_book: "Reserveer nu", login: "LOGIN",
+            nav_home: "Home",
+            nav_exclusive: "Exclusieve service",
+            nav_fixed_prices: "Vaste prijzen",
+            nav_premium_fleet: "Premium vloot",
+            nav_airport: "Luchthavenvervoer",
+            nav_business: "Zakelijk vervoer",
+            nav_events: "Events & Gala",
+            nav_courier: "Koeriersdienst",
+            nav_contact: "Contact",
+            nav_book: "Reserveer nu",
+            login: "LOGIN",
+            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Brugge",
-            hero_subtitle: "Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu uw rit",
+            hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
+            hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
+            // Intro
             intro_title: "Brugge – UNESCO-werelderfgoed, stad van water en cultuur",
             intro_p1: "Brugge, ook wel het Venetië van het Noorden, is een van de best bewaarde middeleeuwse steden van Europa. De hele historische binnenstad staat op de UNESCO Werelderfgoedlijst en trekt jaarlijks miljoenen bezoekers. Met zijn schilderachtige grachten, het Belfort op de Grote Markt, de Heilig-Bloedbasiliek en het Groeningemuseum (met Vlaamse Primitieven) ademt de stad kunst en geschiedenis.",
             intro_p2: "Naast toerisme is Brugge een belangrijke economische hub in West-Vlaanderen, met een bloeiende sector in logistiek, gezondheidszorg en hoger onderwijs (o.a. het College of Europe). De Brugse binnenhavens (Zeebrugge) zijn een van de grootste havencomplexen van Europa, wat de stad een internationaal karakter geeft.",
             intro_p3: "FleetConnect is de vertrouwde partner voor hotels, congrescentra, havenbedrijven en internationale instellingen in Brugge. Onze Mercedes-, BMW- en luxe-minivans zorgen voor een comfortabele en stipte ervaring. Onze meertalige chauffeurs (NL/FR/EN/DE) verwelkomen gasten uit alle hoeken van de wereld.",
+            // Evenementen
             events_title: "Evenementen & zakenwijken in Brugge",
             events_p1: "Brugge kent een rijk evenementenkalender. De bekendste zijn de Heilig-Bloedprocessie (mei), het Brugse Beerfestival (februari), het Kerstmarkt (december) en het MAF – Museum of Fine Arts evenementen. Ook het Concertgebouw Brugge trekt internationale artiesten en biedt een podium voor klassieke en hedendaagse muziek.",
             events_p2: "De belangrijkste zakenwijken zijn het Congrescentrum Oost-Vlaanderen (in de buurt van het station), de Kantorenzone aan de Gistelse Steenweg en het Business Park Brugge (bij de E40). Ook de Zeebrugse haven met zijn maritieme cluster is een belangrijke economische motor.",
-            routes_title: "Populaire routes vanuit Brugge",
-            route1_title: "Brugge → Oostende (OST)", route1_desc: "25 km · ±30 min · vaste prijs",
-            route2_title: "Brugge → Zaventem (BRU)", route2_desc: "100 km · ±70 min · vaste prijs",
-            route3_title: "Brugge → Zeebrugge (haven)", route3_desc: "12 km · ±15-20 min",
-            route4_title: "Station → Historisch Centrum", route4_desc: "4 km · ±10 min · 1.500 m",
-            route5_title: "Centrum → Concertgebouw", route5_desc: "3 km · ±8 min",
-            route6_title: "Brugge → Gent", route6_desc: "40 km · ±45 min",
+            // Luchthavenroutes
+            routes_title: "✈️ Luchthaventransfers vanuit Brugge",
+            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Brugge → Zaventem",
+            route1_desc: "100 km · ±70 min · vaste prijs",
+            route2_title: "Brugge → Oostende",
+            route2_desc: "25 km · ±30 min · vaste prijs",
+            route3_title: "Brugge → Antwerpen (Deurne)",
+            route3_desc: "95 km · ±60 min · vaste prijs",
+            route4_title: "Brugge → Charleroi",
+            route4_desc: "150 km · ±1u 40 min · vaste prijs",
+            route5_title: "Brugge → Eindhoven",
+            route5_desc: "180 km · ±2u 00 min · vaste prijs",
+            route6_title: "Brugge → Amsterdam Schiphol",
+            route6_desc: "225 km · ±2u 30 min · vaste prijs",
+            // Extra opties
+            extras_title: "➕ Extra opties – transparante meerprijzen",
+            extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
+            extras_break: "Break model",
+            extras_break_desc: "– Meer bagageruimte",
+            extras_exclusive: "Exclusieve wagen",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Tot 8 personen",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            // Lokale bestemmingen
+            local_title: "📍 Ook binnen Brugge en regio",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Brugge en de omliggende steden. Enkele voorbeelden:",
+            local_markt: "Station → Grote Markt",
+            local_markt_desc: "Vanaf €30,00 · 4 km",
+            local_concert: "Centrum → Concertgebouw",
+            local_concert_desc: "Vanaf €30,00 · 3 km",
+            local_zeebrugge: "Brugge → Zeebrugge",
+            local_zeebrugge_desc: "Vanaf €30,00 · 12 km",
+            local_blankenberge: "Brugge → Blankenberge",
+            local_blankenberge_desc: "Vanaf €30,00 · 15 km",
+            local_gent: "Brugge → Gent",
+            local_gent_desc: "€60,00 · 40 km",
+            local_oostende: "Brugge → Oostende (stad)",
+            local_oostende_desc: "€37,50 · 25 km",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            // Internationaal
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Brugge",
             international_sub: "FleetConnect biedt betrouwbare ritten naar Nederland, Frankrijk en Duitsland. Richtprijzen (sedan, inclusief wachttijd en tol):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Parijs (FR)", int_lil: "Lille (Rijsel, FR)", int_mst: "Maastricht (NL)", int_dus: "Düsseldorf (DE)",
-            service1_title: "Vluchtmonitoring", service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
-            service2_title: "Documentatie", service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
-            service3_title: "Meertalige chauffeurs", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24-48u vooruit", service4_desc: "Internationale ritten plannen.",
+            int_ams: "Amsterdam (NL)",
+            int_rot: "Rotterdam (NL)",
+            int_ein: "Eindhoven (NL)",
+            int_par: "Parijs (FR)",
+            int_lil: "Lille (Rijsel, FR)",
+            int_mst: "Maastricht (NL)",
+            int_dus: "Düsseldorf (DE)",
+            service1_title: "Vluchtmonitoring",
+            service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
+            service2_title: "Documentatie",
+            service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
+            service3_title: "Meertalige chauffeurs",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Reserveer 24-48u vooruit",
+            service4_desc: "Internationale ritten plannen.",
+            // Waarom
             why_title: "Waarom FleetConnect in Brugge?",
-            why1_title: "Stipt & punctueel", why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de kronkelende straatjes van Brugge en vermijden de drukte rond de binnenstad. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_title: "Premium vloot", why2_desc: "Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
-            why3_title: "Vaste prijzen", why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Brugge-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
-            why4_title: "24/7 service", why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            why1_title: "Stipt & punctueel",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de kronkelende straatjes van Brugge en vermijden de drukte rond de binnenstad. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_title: "Premium vloot",
+            why2_desc: "Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
+            why3_title: "Vaste prijzen",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Brugge-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
+            why4_title: "24/7 service",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            // Zakelijk
             business_title: "Zakelijk & hotelvervoer op maat",
             business_desc: "FleetConnect is de preferred partner van tientallen hotels in Brugge, waaronder Hotel Dukes' Palace, Crowne Plaza Brugge, Van der Valk Brugge en ibis Brugge Centrum. Voor congressen en evenementen werken wij samen met het Concertgebouw, het Congrescentrum Oost-Vlaanderen en de Beurshalle. Ook havenbedrijven (Zeebrugge) en internationale instellingen zoals het College of Europe vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
+            // Cultuur
             discover_title: "Ontdek Brugge met FleetConnect",
             discover_p1: "Combineer uw zakelijke afspraak met een cultureel uitstapje. Bezoek het Groeningemuseum, de Heilig-Bloedbasiliek, het Belfort of maak een boottocht op de reien. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
+            // CTA
             cta_title: "Klaar voor een zorgeloze rit in Brugge of naar het buitenland?",
-            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
+            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
-            contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            footer_tagline: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridisch", footer_partners: "Partners"
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur"
         },
         fr: {
             language_label: "Langue",
-            nav_home: "Accueil", nav_exclusive: "Service exclusif", nav_fixed_prices: "Prix fixes", nav_premium_fleet: "Flotte premium",
-            nav_airport: "Transfert aéroport", nav_business: "Transport d'affaires", nav_events: "Événements & Gala", nav_courier: "Service de messagerie",
-            nav_contact: "Contact", nav_book: "Réservez maintenant", login: "CONNEXION",
+            nav_home: "Accueil",
+            nav_exclusive: "Service exclusif",
+            nav_fixed_prices: "Prix fixes",
+            nav_premium_fleet: "Flotte premium",
+            nav_airport: "Transfert aéroport",
+            nav_business: "Transport d'affaires",
+            nav_events: "Événements & Gala",
+            nav_courier: "Service de messagerie",
+            nav_contact: "Contact",
+            nav_book: "Réservez maintenant",
+            login: "CONNEXION",
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Bruges",
-            hero_subtitle: "Prix fixe €1,50/km | Suivi de vol | Chauffeurs multilingues (NL/FR/EN/DE) | Disponible 24/7",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez votre trajet",
+            hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
+            hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
             intro_title: "Bruges – Patrimoine mondial de l'UNESCO, ville d'eau et de culture",
             intro_p1: "Bruges, également surnommée la Venise du Nord, est l'une des villes médiévales les mieux préservées d'Europe. L'ensemble du centre historique est classé au patrimoine mondial de l'UNESCO et attire des millions de visiteurs chaque année. Avec ses canaux pittoresques, son beffroi sur la Grand-Place, la basilique du Saint-Sang et le Groeningemuseum (avec les primitifs flamands), la ville respire l'art et l'histoire.",
             intro_p2: "Outre le tourisme, Bruges est un pôle économique important en Flandre occidentale, avec des secteurs florissants dans la logistique, les soins de santé et l'enseignement supérieur (notamment le Collège d'Europe). Les ports intérieurs de Bruges (Zeebrugge) sont l'un des plus grands complexes portuaires d'Europe, ce qui donne à la ville un caractère international.",
@@ -374,49 +595,104 @@
             events_title: "Événements et quartiers d'affaires à Bruges",
             events_p1: "Bruges possède un riche calendrier d'événements. Les plus connus sont la Procession du Saint-Sang (mai), le Brugse Beerfestival (février), le Marché de Noël (décembre) et les événements du MAF – Musée des Beaux-Arts. Le Concertgebouw Bruges attire également des artistes internationaux et offre une scène pour la musique classique et contemporaine.",
             events_p2: "Les principaux quartiers d'affaires sont le Congrescentrum Oost-Vlaanderen (près de la gare), la zone de bureaux le long de la Gistelse Steenweg et le Business Park Brugge (près de l'E40). Le port de Zeebrugge avec son cluster maritime est également un moteur économique important.",
-            routes_title: "Itinéraires populaires depuis Bruges",
-            route1_title: "Bruges → Ostende (OST)", route1_desc: "25 km · ±30 min · prix fixe",
-            route2_title: "Bruges → Zaventem (BRU)", route2_desc: "100 km · ±70 min · prix fixe",
-            route3_title: "Bruges → Zeebrugge (port)", route3_desc: "12 km · ±15-20 min",
-            route4_title: "Gare → Centre historique", route4_desc: "4 km · ±10 min · 1.500 m",
-            route5_title: "Centre → Concertgebouw", route5_desc: "3 km · ±8 min",
-            route6_title: "Bruges → Gand", route6_desc: "40 km · ±45 min",
+            routes_title: "✈️ Transferts aéroport depuis Bruges",
+            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Bruges → Zaventem",
+            route1_desc: "100 km · ±70 min · prix fixe",
+            route2_title: "Bruges → Ostende",
+            route2_desc: "25 km · ±30 min · prix fixe",
+            route3_title: "Bruges → Anvers (Deurne)",
+            route3_desc: "95 km · ±60 min · prix fixe",
+            route4_title: "Bruges → Charleroi",
+            route4_desc: "150 km · ±1h 40 min · prix fixe",
+            route5_title: "Bruges → Eindhoven",
+            route5_desc: "180 km · ±2h 00 min · prix fixe",
+            route6_title: "Bruges → Amsterdam Schiphol",
+            route6_desc: "225 km · ±2h 30 min · prix fixe",
+            extras_title: "➕ Options supplémentaires – suppléments transparents",
+            extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
+            extras_break: "Break modèle",
+            extras_break_desc: "– Plus d'espace bagages",
+            extras_exclusive: "Voiture exclusive",
+            extras_exclusive_desc: "– Mercedes Classe E / BMW Série 5",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Jusqu'à 8 personnes",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            local_title: "📍 À Bruges et dans la région",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Bruges et dans les villes voisines. Quelques exemples :",
+            local_markt: "Gare → Grand-Place",
+            local_markt_desc: "À partir de €30,00 · 4 km",
+            local_concert: "Centre → Concertgebouw",
+            local_concert_desc: "À partir de €30,00 · 3 km",
+            local_zeebrugge: "Bruges → Zeebrugge",
+            local_zeebrugge_desc: "À partir de €30,00 · 12 km",
+            local_blankenberge: "Bruges → Blankenberge",
+            local_blankenberge_desc: "À partir de €30,00 · 15 km",
+            local_gent: "Bruges → Gand",
+            local_gent_desc: "€60,00 · 40 km",
+            local_oostende: "Bruges → Ostende (ville)",
+            local_oostende_desc: "€37,50 · 25 km",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Bruges",
             international_sub: "FleetConnect propose des trajets fiables vers les Pays-Bas, la France et l'Allemagne. Prix indicatifs (berline, incluant temps d'attente et péages) :",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_mst: "Maastricht (NL)", int_dus: "Düsseldorf (DE)",
-            service1_title: "Suivi de vol", service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
-            service2_title: "Documentation", service2_desc: "Tous les papiers pour le transport transfrontalier.",
-            service3_title: "Chauffeurs multilingues", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24-48h à l'avance", service4_desc: "Planification des trajets internationaux.",
+            int_ams: "Amsterdam (NL)",
+            int_rot: "Rotterdam (NL)",
+            int_ein: "Eindhoven (NL)",
+            int_par: "Paris (FR)",
+            int_lil: "Lille (FR)",
+            int_mst: "Maastricht (NL)",
+            int_dus: "Düsseldorf (DE)",
+            service1_title: "Suivi de vol",
+            service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
+            service2_title: "Documentation",
+            service2_desc: "Tous les papiers pour le transport transfrontalier.",
+            service3_title: "Chauffeurs multilingues",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Réservez 24-48h à l'avance",
+            service4_desc: "Planification des trajets internationaux.",
             why_title: "Pourquoi FleetConnect à Bruges?",
-            why1_title: "Ponctuel & fiable", why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les ruelles sinueuses de Bruges et évitent les embouteillages autour du centre-ville. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
-            why2_title: "Flotte premium", why2_desc: "Nos véhicules sont de premier ordre : Mercedes Classe E, BMW Série 5, Lexus et minibus de luxe (Mercedes Classe V). Tous les véhicules ont moins de 3 ans, avec sièges en cuir, climatisation, WiFi gratuit et bouteille d'eau. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
-            why3_title: "Prix fixes", why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Bruges-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
-            why4_title: "Service 24/7", why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les ruelles sinueuses de Bruges et évitent les embouteillages autour du centre-ville. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_title: "Flotte premium",
+            why2_desc: "Nos véhicules sont de premier ordre : Mercedes Classe E, BMW Série 5, Lexus et minibus de luxe (Mercedes Classe V). Tous les véhicules ont moins de 3 ans, avec sièges en cuir, climatisation, WiFi gratuit et bouteille d'eau. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
+            why3_title: "Prix fixes",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Bruges-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
+            why4_title: "Service 24/7",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
             business_title: "Transport professionnel et hôtelier sur mesure",
             business_desc: "FleetConnect est le partenaire privilégié de dizaines d'hôtels à Bruges, dont l'Hôtel Dukes' Palace, le Crowne Plaza Bruges, le Van der Valk Bruges et l'ibis Bruges Centre. Pour les congrès et événements, nous collaborons avec le Concertgebouw, le Congrescentrum Oost-Vlaanderen et la Beurshalle. Les entreprises portuaires (Zeebrugge) et les institutions internationales comme le Collège d'Europe comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
             discover_title: "Découvrez Bruges avec FleetConnect",
             discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade culturelle. Visitez le Groeningemuseum, la basilique du Saint-Sang, le beffroi ou faites une promenade en bateau sur les canaux. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
             discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
             cta_title: "Prêt pour un trajet sans souci à Bruges ou à l'étranger?",
-            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti.",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
-            contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
-            footer_tagline: "Transport professionnel en Belgique – Style, ponctualité et service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridique", footer_partners: "Partenaires"
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer"
         },
         en: {
             language_label: "Language",
-            nav_home: "Home", nav_exclusive: "Exclusive service", nav_fixed_prices: "Fixed prices", nav_premium_fleet: "Premium fleet",
-            nav_airport: "Airport transfer", nav_business: "Business transport", nav_events: "Events & Gala", nav_courier: "Courier service",
-            nav_contact: "Contact", nav_book: "Book now", login: "LOGIN",
+            nav_home: "Home",
+            nav_exclusive: "Exclusive service",
+            nav_fixed_prices: "Fixed prices",
+            nav_premium_fleet: "Premium fleet",
+            nav_airport: "Airport transfer",
+            nav_business: "Business transport",
+            nav_events: "Events & Gala",
+            nav_courier: "Courier service",
+            nav_contact: "Contact",
+            nav_book: "Book now",
+            login: "LOGIN",
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Bruges",
-            hero_subtitle: "Fixed price €1.50/km | Flight monitoring | Multilingual drivers (NL/FR/EN/DE) | 24/7 available",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Book your ride now",
+            hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
+            hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
             intro_title: "Bruges – UNESCO World Heritage, city of water and culture",
             intro_p1: "Bruges, also known as the Venice of the North, is one of the best-preserved medieval cities in Europe. The entire historic centre is a UNESCO World Heritage Site and attracts millions of visitors each year. With its picturesque canals, the Belfry on the Market Square, the Basilica of the Holy Blood and the Groeningemuseum (with Flemish Primitives), the city breathes art and history.",
             intro_p2: "Besides tourism, Bruges is an important economic hub in West Flanders, with thriving sectors in logistics, healthcare and higher education (including the College of Europe). The Bruges inner ports (Zeebrugge) are one of the largest port complexes in Europe, giving the city an international character.",
@@ -424,40 +700,86 @@
             events_title: "Events & Business Districts in Bruges",
             events_p1: "Bruges has a rich calendar of events. The best known are the Procession of the Holy Blood (May), the Brugse Beerfestival (February), the Christmas Market (December) and the MAF – Museum of Fine Arts events. The Concertgebouw Bruges also attracts international artists and offers a stage for classical and contemporary music.",
             events_p2: "The main business districts are the Congrescentrum Oost-Vlaanderen (near the station), the office zone along the Gistelse Steenweg and the Business Park Brugge (near the E40). The port of Zeebrugge with its maritime cluster is also an important economic engine.",
-            routes_title: "Popular routes from Bruges",
-            route1_title: "Bruges → Ostend (OST)", route1_desc: "25 km · ±30 min · fixed price",
-            route2_title: "Bruges → Zaventem (BRU)", route2_desc: "100 km · ±70 min · fixed price",
-            route3_title: "Bruges → Zeebrugge (port)", route3_desc: "12 km · ±15-20 min",
-            route4_title: "Station → Historic Centre", route4_desc: "4 km · ±10 min · 1,500 m",
-            route5_title: "Centre → Concertgebouw", route5_desc: "3 km · ±8 min",
-            route6_title: "Bruges → Ghent", route6_desc: "40 km · ±45 min",
+            routes_title: "✈️ Airport transfers from Bruges",
+            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Bruges → Zaventem",
+            route1_desc: "100 km · ±70 min · fixed price",
+            route2_title: "Bruges → Ostend",
+            route2_desc: "25 km · ±30 min · fixed price",
+            route3_title: "Bruges → Antwerp (Deurne)",
+            route3_desc: "95 km · ±60 min · fixed price",
+            route4_title: "Bruges → Charleroi",
+            route4_desc: "150 km · ±1h 40 min · fixed price",
+            route5_title: "Bruges → Eindhoven",
+            route5_desc: "180 km · ±2h 00 min · fixed price",
+            route6_title: "Bruges → Amsterdam Schiphol",
+            route6_desc: "225 km · ±2h 30 min · fixed price",
+            extras_title: "➕ Extra options – clear surcharges",
+            extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
+            extras_break: "Break model",
+            extras_break_desc: "– More luggage space",
+            extras_exclusive: "Exclusive car",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Up to 8 persons",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            local_title: "📍 Also in Bruges and region",
+            local_desc: "In addition to airport transfers, we provide reliable transport within Bruges and the surrounding cities. Some examples:",
+            local_markt: "Station → Grote Markt",
+            local_markt_desc: "From €30.00 · 4 km",
+            local_concert: "Centre → Concertgebouw",
+            local_concert_desc: "From €30.00 · 3 km",
+            local_zeebrugge: "Bruges → Zeebrugge",
+            local_zeebrugge_desc: "From €30.00 · 12 km",
+            local_blankenberge: "Bruges → Blankenberge",
+            local_blankenberge_desc: "From €30.00 · 15 km",
+            local_gent: "Bruges → Ghent",
+            local_gent_desc: "€60.00 · 40 km",
+            local_oostende: "Bruges → Ostend (city)",
+            local_oostende_desc: "€37.50 · 25 km",
+            local_cta: "Other destination? Request a free quote",
             international_title: "<i class='fas fa-globe'></i> International transport from Bruges",
             international_sub: "FleetConnect offers reliable rides to the Netherlands, France and Germany. Indicative prices (sedan, including waiting time and tolls):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_mst: "Maastricht (NL)", int_dus: "Düsseldorf (DE)",
-            service1_title: "Flight monitoring", service1_desc: "We track your flight; free waiting time in case of delay.",
-            service2_title: "Documentation", service2_desc: "All documents for cross-border transport.",
-            service3_title: "Multilingual drivers", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24-48h in advance", service4_desc: "Plan international trips.",
+            int_ams: "Amsterdam (NL)",
+            int_rot: "Rotterdam (NL)",
+            int_ein: "Eindhoven (NL)",
+            int_par: "Paris (FR)",
+            int_lil: "Lille (FR)",
+            int_mst: "Maastricht (NL)",
+            int_dus: "Düsseldorf (DE)",
+            service1_title: "Flight monitoring",
+            service1_desc: "We track your flight; free waiting time in case of delay.",
+            service2_title: "Documentation",
+            service2_desc: "All documents for cross-border transport.",
+            service3_title: "Multilingual drivers",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Book 24-48h in advance",
+            service4_desc: "Plan international trips.",
             why_title: "Why FleetConnect in Bruges?",
-            why1_title: "Punctual & reliable", why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know the winding streets of Bruges and avoid traffic around the city centre. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
-            why2_title: "Premium fleet", why2_desc: "Our vehicles are top quality: Mercedes E-Class, BMW 5 Series, Lexus and luxury minivans (Mercedes V-Class). All vehicles are less than 3 years old, with leather seats, air conditioning, free WiFi and bottled water. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
-            why3_title: "Fixed prices", why3_desc: "No meter, no surprises. You pay €1.50 per kilometer – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Bruges-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
-            why4_title: "24/7 service", why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            why1_title: "Punctual & reliable",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know the winding streets of Bruges and avoid traffic around the city centre. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_title: "Premium fleet",
+            why2_desc: "Our vehicles are top quality: Mercedes E-Class, BMW 5 Series, Lexus and luxury minivans (Mercedes V-Class). All vehicles are less than 3 years old, with leather seats, air conditioning, free WiFi and bottled water. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
+            why3_title: "Fixed prices",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Bruges-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
+            why4_title: "24/7 service",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
             business_title: "Customised business & hotel transport",
             business_desc: "FleetConnect is the preferred partner of dozens of hotels in Bruges, including Hotel Dukes' Palace, Crowne Plaza Bruges, Van der Valk Bruges and ibis Bruges Centre. For congresses and events, we work with the Concertgebouw, the Congrescentrum Oost-Vlaanderen and the Beurshalle. Port companies (Zeebrugge) and international institutions like the College of Europe trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
             discover_title: "Discover Bruges with FleetConnect",
             discover_p1: "Combine your business appointment with a cultural excursion. Visit the Groeningemuseum, the Basilica of the Holy Blood, the Belfry or take a boat trip on the canals. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
             discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
             cta_title: "Ready for a worry-free ride in Bruges or abroad?",
-            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed.",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
             contact_name_label: "<i class='fas fa-user'></i> Your name *",
             contact_email_label: "<i class='fas fa-envelope'></i> Email *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
-            contact_send_btn: "<i class='fas fa-paper-plane'></i> Send",
-            footer_tagline: "Professional transport in Belgium – Style, punctuality and service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Legal", footer_partners: "Partners"
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Send"
         }
     };
 
@@ -477,11 +799,7 @@
             }
         });
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            if (btn.getAttribute('data-lang') === currentLang) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
         });
         document.documentElement.lang = currentLang;
     }
@@ -533,7 +851,10 @@
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
-                alert(currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' : (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' : 'Message sent! We will contact you as soon as possible.'));
+                const msg = currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' :
+                           (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' :
+                            'Message sent! We will contact you as soon as possible.');
+                alert(msg);
             });
         }
     });
