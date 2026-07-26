@@ -241,7 +241,7 @@
         }
         
         /* ========================================================== */
-        /* FOOTER – EXACT GELIJK AAN ALGEMENE VOORWAARDEN (IN CONTAINER) */
+        /* FOOTER - UNIFORM BLAUW (zoals alle stadspagina's)          */
         /* ========================================================== */
         .footer-dark {
             background: #0d1f2c;
@@ -257,7 +257,7 @@
             margin-bottom: 30px;
         }
         .footer-grid h4 {
-            color: #e0edf5;
+            color: var(--primary) !important;
             margin-bottom: 16px;
             font-size: 1.1rem;
             font-weight: 700;
@@ -267,15 +267,41 @@
             text-decoration: none;
             line-height: 1.8;
             display: block;
+            transition: 0.2s;
         }
         .footer-grid a:hover {
-            color: #c9a03d;
+            color: var(--primary);
             text-decoration: underline;
         }
         .footer-brand p {
             color: #e0edf5;
             line-height: 1.8;
         }
+        
+        /* ===== DROPDOWN STIJLEN ===== */
+        .footer-city-select {
+            background: #1a2f3f;
+            color: #e0edf5;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+            max-width: 220px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 8px;
+            appearance: auto;
+        }
+        .footer-city-select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        .footer-city-select option {
+            background: #0d1f2c;
+            color: #e0edf5;
+        }
+        
         .footer-bottom {
             text-align: center;
             border-top: 1px solid rgba(224,237,245,0.2);
@@ -283,7 +309,7 @@
             font-size: 0.85rem;
         }
         .footer-bottom a {
-            color: #c9a03d;
+            color: var(--primary);
             text-decoration: none;
         }
         .footer-bottom a:hover {
@@ -333,8 +359,9 @@
             .language-switcher { top: 10px; right: 15px; gap: 6px; padding: 4px 10px; }
             .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
             .breadcrumb { padding-top: 50px; }
-            .footer-grid { flex-direction: column; gap: 24px; }
+            .footer-grid { gap: 24px; }
             .faq-question { padding: 14px 18px; font-size: 0.9rem; }
+            .footer-city-select { max-width: 100%; }
         }
         @media (max-width: 500px) {
             .container { padding: 0 12px; }
@@ -391,7 +418,7 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – EXACT GELIJK AAN ALGEMENE VOORWAARDEN             -->
+    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR               -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
@@ -405,17 +432,45 @@
                     <a href="/partner-login">Partner login</a>
                 </div>
 
-                <!-- Kolom 2: Populaire steden -->
+                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
                     <h4>Populaire steden</h4>
-                    <a href="/taxi-brussels">Taxi Brussels</a>
-                    <a href="/taxi-antwerpen">Taxi Antwerp</a>
-                    <a href="/taxi-gent">Taxi Ghent</a>
-                    <a href="/taxi-zaventem">Taxi Zaventem</a>
-                    <a href="/taxi-leuven">Taxi Leuven</a>
-                    <a href="/taxi-mechelen">Taxi Mechelen</a>
-                    <a href="/taxi-waterloo">Taxi Waterloo</a>
-                    <a href="/taxi-brugge">Taxi Brugge</a>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
+
+                    <!-- Label en dropdown voor overige steden -->
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Kolom 3: Legal -->
