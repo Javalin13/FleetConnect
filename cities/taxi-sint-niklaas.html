@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Sint-Niklaas – Waaslandhoofdstad & groene stad</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Sint-Niklaas. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. Ritten naar Zaventem (BRU), Antwerpen, Gent, Brussel, Lille. 24/7 beschikbaar.">
+    <title>FleetConnect | Taxi Sint‑Niklaas – Waaslandhoofdstad & groene stad</title>
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Sint‑Niklaas. Vaste prijs €1,50/km. Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Antwerpen (ANR), Lille (LIL), Eindhoven (EIN), Amsterdam (AMS). 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Dezelfde stijl als in Antwerpen – volledig herhaald */
+        /* ===== VOLLEDIGE STIJL – EXACT HETZELFDE ALS ZAVENTEM ===== */
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
-        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
         body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
         .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
         .container{width:100%;max-width:1300px;margin:0 auto;padding:0 24px}
-        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem}
+        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem;transition:0.2s}
         .hamburger-btn:hover{background:var(--primary-dark)}
         .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1001;visibility:hidden;opacity:0;transition:all 0.3s ease}
         .sidebar-overlay.active{visibility:visible;opacity:1}
@@ -25,22 +25,31 @@
         .sidebar-header h3{color:white;display:flex;align-items:center;gap:8px}
         .close-menu{background:rgba(255,255,255,0.2);border:none;font-size:1.5rem;cursor:pointer;color:white;width:32px;height:32px;border-radius:50%}
         .sidebar-nav{display:flex;flex-direction:column;padding:20px 16px;gap:8px;flex:1;overflow-y:auto}
-        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light)}
+        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light);transition:0.2s}
         .sidebar-nav a i{width:24px;color:var(--primary)}
         .sidebar-nav a:hover{background:#eef2fa;border-color:var(--primary)}
         .login-section{padding:16px;border-top:1px solid var(--border-light);margin-top:auto;flex-shrink:0}
-        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px}
+        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
+        .login-btn:hover{opacity:0.9}
+
+        /* ===== HERO ===== */
         .hero{padding:80px 0 40px;text-align:center}
-        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:40px 30px;border-radius:48px;border:1px solid var(--border-light)}
-        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary)}
-        .hero-card p{font-size:1.2rem;color:var(--text-light);margin-bottom:20px}
-        .btn-primary{background:var(--primary);color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-primary:hover{background:var(--primary-dark)}
+        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
+        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
+        .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
+        .hero-card .hero-slogan i{color:var(--primary)}
+        .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
+        .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
+        .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
+
+        .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
         .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
-        .route-grid, .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
-        .route-card, .feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
-        .route-card:hover, .feature-card:hover{transform:translateY(-4px)}
+        .route-grid,.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
+        .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
+        .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
         .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
         .feature-card{text-align:center}
         .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
         .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
@@ -52,24 +61,75 @@
         .contact-form h3{margin-bottom:20px;color:var(--primary);text-align:center}
         .compact-form{display:flex;flex-direction:column;gap:16px}
         .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
+        .compact-form input:focus,.compact-form textarea:focus{outline:none;border-color:var(--primary)}
         .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
-        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-whatsapp:hover{background:#128C7E}
-        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:40px}
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
+
+        /* ===== TAALSWITCHER - RECHTSBOVEN (FIXED) ===== */
+        .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
+        .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
+        .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+
+        /* ===== EXTRA OPTIES LIJST ===== */
+        .extra-options-list{list-style:none;margin:0;padding:0}
+        .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .extra-options-list li:last-child{border-bottom:none}
+        .extra-options-list li i{color:var(--primary);width:24px}
+        .extra-options-list li .price-tag{background:var(--primary);color:white;padding:2px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:auto}
+        .extra-options-list li .price-tag.free{background:var(--accent-green)}
+        .extra-options-list li strong{min-width:120px}
+        .extra-options-list li span{color:var(--text-light)}
+
+        /* ===== FOOTER - UNIFORM BLAUW ===== */
+        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
-        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px}
-        .lang-switcher{display:flex;gap:8px;align-items:center}
-        .lang-btn{background:transparent;border:1px solid var(--border-light);padding:6px 12px;border-radius:30px;cursor:pointer;font-weight:500;transition:all 0.2s}
-        .lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
-        @media (max-width:800px){.hero-card h1{font-size:2rem}.section-title{font-size:1.5rem}}
+        .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
+        .footer-grid a:hover{color:var(--primary);text-decoration:underline}
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        .footer-city-select{background:#1a2f3f;color:#e0edf5;border:1px solid var(--primary);border-radius:8px;padding:8px 12px;width:100%;max-width:220px;font-family:'Inter',sans-serif;font-size:0.95rem;cursor:pointer;margin-top:8px;appearance:auto}
+        .footer-city-select:focus{outline:none;border-color:#ffffff}
+        .footer-city-select option{background:#0d1f2c;color:#e0edf5}
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:var(--primary);text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width:800px){
+            .hero-card{padding:30px 20px}
+            .hero-card h1{font-size:2rem}
+            .hero-card .hero-slogan{font-size:1.3rem}
+            .hero-card .hero-features{font-size:0.95rem}
+            .section-title{font-size:1.5rem}
+            .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
+            .lang-btn{font-size:0.7rem;padding:4px 10px}
+            .extra-options-list li strong{min-width:100px}
+            .footer-city-select{max-width:100%}
+        }
+        @media (max-width:500px){
+            .container{padding:0 12px}
+            .hero-card{padding:24px 16px}
+            .hero-card h1{font-size:1.5rem}
+            .hero-card .hero-slogan{font-size:1.1rem}
+            .hero-card .hero-features{font-size:0.8rem}
+            .hero-card .btn-primary{padding:14px 28px;font-size:0.95rem}
+            .language-switcher{top:10px;right:10px;gap:4px;padding:4px 8px}
+            .lang-btn{font-size:0.6rem;padding:3px 8px}
+            .route-grid,.features-grid{grid-template-columns:1fr}
+            .extra-options-list li{flex-wrap:wrap}
+            .extra-options-list li .price-tag{margin-left:0}
+        }
     </style>
 </head>
 <body>
 
 <div id="background-map"></div>
 
+<!-- ===== HAMBURGER ===== -->
 <button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
 
+<!-- ===== SIDEBAR ===== -->
 <div class="sidebar-overlay" id="sidebarOverlay">
     <div class="sidebar">
         <div class="sidebar-header"><h3><i class="fas fa-car"></i> FleetConnect</h3><button class="close-menu" id="closeMenuBtn">&times;</button></div>
@@ -92,283 +152,659 @@
             <a href="#contact"><i class="fas fa-envelope"></i> <span data-i18n="nav_contact">Contact</span></a>
             <a href="/PV/PV.html#booking"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav_book">Reserveer nu</span></a>
         </div>
-        <div class="login-section"><a href="index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
+        <div class="login-section"><a href="/PV/index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
     </div>
 </div>
 
+<!-- ===== TAALSWITCHER - RECHTSBOVEN (FIXED) ===== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
 <div class="content-overlay">
+    <!-- ===== HERO ===== -->
     <section class="hero">
         <div class="container">
             <div class="hero-card">
-                <h1 data-i18n="hero_title"><i class="fas fa-taxi"></i> FleetConnect | Taxi Sint-Niklaas</h1>
-                <p data-i18n="hero_subtitle">Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar</p>
-                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn"><i class="fas fa-calendar-check"></i> Boek nu uw rit</a>
+                <h1 data-i18n="hero_title">
+                    <i class="fas fa-taxi"></i> FleetConnect | Taxi Sint‑Niklaas
+                </h1>
+                <div style="height:16px;"></div>
+                <p class="hero-slogan" data-i18n="hero_slogan" style="font-weight:700;">
+                    <strong>"Uw rit, onze zorg. Vaste prijs, 24/7."</strong>
+                </p>
+                <div style="height:20px;"></div>
+                <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
+                    <strong>€1,50/km • Luchthaventransfers • Meertalige chauffeurs</strong>
+                </p>
+                <div style="height:30px;"></div>
+                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
+                    <i class="fas fa-calendar-check"></i> Boek nu →
+                </a>
             </div>
         </div>
     </section>
 
     <div class="container">
-        <!-- Blok 1: Introductie Sint-Niklaas -->
+        <!-- ===== INTRO ===== -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Sint-Niklaas – Waaslandhoofdstad & groene stad</h2>
-            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Sint-Niklaas is de hoofdstad van het Waasland en de grootste stad van Oost-Vlaanderen na Gent. De stad staat bekend om haar <strong>Grote Markt</strong>, een van de grootste marktpleinen van België, met het imposante <strong>stadhuis</strong> en de <strong>Sint-Nicolaaskerk</strong>. Sint-Niklaas is een bruisende winkelstad met een gezellig centrum vol boetieks, restaurants en terrassen.</p>
-            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">De stad heeft een groene uitstraling dankzij het uitgestrekte <strong>Park Zwijnaarde</strong> en de vele groene zones. Economisch is Sint-Niklaas een regionaal knooppunt met sterke sectoren in <strong>handel, logistiek, zorg en onderwijs</strong>. De nabijheid van Antwerpen en Gent, en de goede verbindingen via de E17, maken de stad aantrekkelijk voor pendelaars en bedrijven.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>hotels, winkelcentra, zorginstellingen en evenementenorganisatoren</strong> in Sint-Niklaas. Onze luxe Mercedes-, BMW- en minivans garanderen een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat bezoekers en zakenreizigers zich meteen thuis voelen.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Sint‑Niklaas – Waaslandhoofdstad & groene stad</h2>
+            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Sint‑Niklaas is de hoofdstad van het Waasland en de grootste stad van Oost‑Vlaanderen na Gent. De stad staat bekend om haar <strong>Grote Markt</strong>, een van de grootste marktpleinen van België, met het imposante <strong>stadhuis</strong> en de <strong>Sint‑Nicolaaskerk</strong>. Sint‑Niklaas is een bruisende winkelstad met een gezellig centrum vol boetieks, restaurants en terrassen.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">De stad heeft een groene uitstraling dankzij het uitgestrekte <strong>Park Zwijnaarde</strong> en de vele groene zones. Economisch is Sint‑Niklaas een regionaal knooppunt met sterke sectoren in <strong>handel, logistiek, zorg en onderwijs</strong>. De nabijheid van Antwerpen en Gent, en de goede verbindingen via de E17, maken de stad aantrekkelijk voor pendelaars en bedrijven.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>hotels, winkelcentra, zorginstellingen en evenementenorganisatoren</strong> in Sint‑Niklaas. Onze luxe Mercedes‑, BMW‑ en minivans garanderen een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat bezoekers en zakenreizigers zich meteen thuis voelen.</p>
         </div>
 
-        <!-- Blok 2: Evenementen en zakenwijken -->
+        <!-- ===== EVENEMENTEN ===== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Sint-Niklaas</h2>
-            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Sint-Niklaas heeft een levendige evenementenkalender. Hoogtepunten zijn de <strong>Stadsfeesten</strong> in juli, de <strong>Kerstmarkt</strong> op de Grote Markt, het <strong>Waasland Festival</strong> en de <strong>Foor</strong> (jaarlijkse kermis). Ook het <strong>Theater De Witte Ring</strong> en het <strong>CC De Kluize</strong> bieden het hele jaar door culturele voorstellingen.</p>
-            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Waasland</strong> (Sint-Niklaas-Zuid), de <strong>Kantoorzone rond het station</strong> en het <strong>Businesspark De Sterre</strong>. Het <strong>Cultuurcentrum De Kluize</strong> en de <strong>Evenementenhal Waasland</strong> zijn populaire locaties voor zakelijke bijeenkomsten en beurzen.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Sint‑Niklaas</h2>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Sint‑Niklaas heeft een levendige evenementenkalender. Hoogtepunten zijn de <strong>Stadsfeesten</strong> in juli, de <strong>Kerstmarkt</strong> op de Grote Markt, het <strong>Waasland Festival</strong> en de <strong>Foor</strong> (jaarlijkse kermis). Ook het <strong>Theater De Witte Ring</strong> en het <strong>CC De Kluize</strong> bieden het hele jaar door culturele voorstellingen.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Waasland</strong> (Sint‑Niklaas‑Zuid), de <strong>Kantoorzone rond het station</strong> en het <strong>Businesspark De Sterre</strong>. Het <strong>Cultuurcentrum De Kluize</strong> en de <strong>Evenementenhal Waasland</strong> zijn populaire locaties voor zakelijke bijeenkomsten en beurzen.</p>
         </div>
 
-        <!-- Nationale routes -->
-        <h2 class="section-title" data-i18n="routes_title">Populaire routes vanuit Sint-Niklaas</h2>
+        <!-- ===== L UCHTHAVENROUTES – 6 VASTE BESTEMMINGEN ===== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Sint‑Niklaas
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens en steden in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
         <div class="route-grid">
-            <div class="route-card"><i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i><h3 data-i18n="route1_title">Sint-Niklaas → Zaventem (BRU)</h3><div class="route-price">€52,50</div><p data-i18n="route1_desc">35 km · ±40 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-plane-departure"></i><h3 data-i18n="route2_title">Sint-Niklaas → Antwerpen</h3><div class="route-price">€22,50</div><p data-i18n="route2_desc">15 km · ±25 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-train"></i><h3 data-i18n="route3_title">Sint-Niklaas → Gent</h3><div class="route-price">€30</div><p data-i18n="route3_desc">20 km · ±25 min</p></div>
-            <div class="route-card"><i class="fas fa-city"></i><h3 data-i18n="route4_title">Station → Grote Markt</h3><div class="route-price">€4,50</div><p data-i18n="route4_desc">2,5 km · ±6 min</p></div>
-            <div class="route-card"><i class="fas fa-building"></i><h3 data-i18n="route5_title">Centrum → Bedrijventerrein Zuid</h3><div class="route-price">€6</div><p data-i18n="route5_desc">4 km · ±8 min</p></div>
-            <div class="route-card"><i class="fas fa-train"></i><h3 data-i18n="route6_title">Sint-Niklaas → Brussel</h3><div class="route-price">€52,50</div><p data-i18n="route6_desc">35 km · ±40 min</p></div>
+            <!-- 1. Zaventem (BRU) -->
+            <div class="route-card">
+                <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
+                <h3 data-i18n="route1_title">Sint‑Niklaas → Zaventem (BRU)</h3>
+                <span class="route-airport-code">BRU</span>
+                <div class="route-price">€52,50</div>
+                <p data-i18n="route1_desc">35 km · ±40 min · vaste prijs</p>
+            </div>
+            <!-- 2. Charleroi (CRL) -->
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route2_title">Sint‑Niklaas → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€135,00</div>
+                <p data-i18n="route2_desc">90 km · ±75 min · vaste prijs</p>
+            </div>
+            <!-- 3. Antwerpen (ANR) -->
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Sint‑Niklaas → Antwerpen</h3>
+                <span class="route-airport-code">ANR</span>
+                <div class="route-price">€30,00</div>
+                <p data-i18n="route3_desc">20 km · ±25 min · minimumtarief</p>
+            </div>
+            <!-- 4. Lille (LIL) -->
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Sint‑Niklaas → Lille</h3>
+                <span class="route-airport-code">LIL</span>
+                <div class="route-price">€150,00</div>
+                <p data-i18n="route4_desc">100 km · ±70 min · vaste prijs</p>
+            </div>
+            <!-- 5. Eindhoven (EIN) -->
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Sint‑Niklaas → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€120,00</div>
+                <p data-i18n="route5_desc">80 km · ±55 min · vaste prijs</p>
+            </div>
+            <!-- 6. Amsterdam Schiphol (AMS) -->
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Sint‑Niklaas → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€255,00</div>
+                <p data-i18n="route6_desc">170 km · ±2u · vaste prijs</p>
+            </div>
         </div>
 
-        <!-- Internationaal vervoer + servicepunten -->
+        <!-- ===== EXTRA OPTIES – MEERPRIJZEN ===== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="extras_title">➕ Extra opties – transparante meerprijzen</h2>
+            <p data-i18n="extras_intro" style="font-size:1.05rem; line-height:1.6; margin-bottom:20px;">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
+            <ul class="extra-options-list">
+                <li>
+                    <i class="fas fa-car"></i>
+                    <strong data-i18n="extras_break">Break model</strong>
+                    <span data-i18n="extras_break_desc">– Meer bagageruimte</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E‑Klasse / BMW 5 Serie</span>
+                    <span class="price-tag">+€15,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <strong data-i18n="extras_van">Mini Van</strong>
+                    <span data-i18n="extras_van_desc">– Tot 8 personen</span>
+                    <span class="price-tag">+€10,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <strong data-i18n="extras_meet">Meet &amp; Greet</strong>
+                    <span data-i18n="extras_meet_desc">– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-kiss"></i>
+                    <strong data-i18n="extras_kiss">Kiss &amp; Ride</strong>
+                    <span data-i18n="extras_kiss_desc">– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur</span>
+                    <span class="price-tag free">GRATIS</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ===== LOKALE BESTEMMINGEN – PRIJZEN MINIMUM €30 ===== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Ook in de regio
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer naar andere bestemmingen in de regio. Alle ritten hebben een minimumtarief van €30,00. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_gent">Gent</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gent_desc">€30,00 · 20 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-building" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_antwerpen">Antwerpen (Stad)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_antwerpen_desc">€30,00 · 20 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-shopping-bag" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_sint-niklaas_centrum">Centrum Sint‑Niklaas</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_sint-niklaas_centrum_desc">Vanaf €30,00 · 2‑5 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-briefcase" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_bedrijventerrein">Bedrijventerrein Zuid</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_bedrijventerrein_desc">Vanaf €30,00 · 4 km</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ===== INTERNATIONAAL VERVOER ===== -->
         <div class="international-box">
-            <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Sint-Niklaas</h3>
-            <p data-i18n="international_sub">FleetConnect biedt betrouwbare ritten naar Nederland, Frankrijk en Duitsland. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
-            <ul style="margin: 16px 0 16px 20px; line-height:1.6;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±170 km – €265</li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±120 km – €190</li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±100 km – €160</li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – €430</li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±110 km – €160</li>
-                <li><strong data-i18n="int_dus">Düsseldorf (DE):</strong> ±190 km – €270</li>
-                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±150 km – €230</li>
+            <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Sint‑Niklaas</h3>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Sint‑Niklaas, gelegen aan de E17 en dicht bij de Nederlandse grens, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±170 km – <strong>€255</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – <strong>€480</strong></li>
+                <li><strong data-i18n="int_lil">Lille (Rijsel, FR) – Airport:</strong> ±100 km – <strong>€150</strong></li>
+                <li><strong data-i18n="int_ein">Eindhoven (NL) – Airport:</strong> ±80 km – <strong>€120</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±120 km – <strong>€180</strong></li>
+                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±150 km – <strong>€225</strong></li>
+                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±250 km – <strong>€375</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
                 <div class="service-point"><i class="fas fa-file-contract"></i><h4 data-i18n="service2_title">Documentatie</h4><p data-i18n="service2_desc">Alle papieren voor grensoverschrijdend vervoer.</p></div>
                 <div class="service-point"><i class="fas fa-language"></i><h4 data-i18n="service3_title">Meertalige chauffeurs</h4><p data-i18n="service3_desc">NL, FR, EN, DE.</p></div>
-                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24-48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
+                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24‑48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
             </div>
         </div>
 
-        <!-- Waarom FleetConnect - uitgebreide gridblokken -->
-        <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Sint-Niklaas?</h2>
+        <!-- ===== WAAROM FLEETCONNECT ===== -->
+        <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Sint‑Niklaas?</h2>
         <div class="features-grid">
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Sint-Niklaas en de omliggende snelwegen (E17, E34) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Sint-Niklaas-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Sint‑Niklaas en de omliggende snelwegen (E17, E34) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Sint‑Niklaas‑Zaventem) hanteren we een all‑in vast tarief. Transparant en eerlijk.</p></div>
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
-        <!-- Zakelijk & hotelvervoer -->
+        <!-- ===== ZAKELIJK & HOTELVERVOER ===== -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
-            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Sint-Niklaas, waaronder <strong>Hotel Chamade</strong>, <strong>Hotel Serwir</strong>, <strong>B&B De Strop</strong> en <strong>ibis Sint-Niklaas</strong>. Voor congressen en zakelijke evenementen werken wij samen met het <strong>CC De Kluize</strong>, de <strong>Evenementenhal Waasland</strong> en <strong>De Witte Ring</strong>. Ook bedrijven in het <strong>Bedrijventerrein Waasland</strong> en de zorgsector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk, hotel‑ en luchthavenvervoer op maat</h2>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Sint‑Niklaas, waaronder <strong>Hotel Chamade</strong>, <strong>Hotel Serwir</strong>, <strong>B&B De Strop</strong> en <strong>ibis Sint‑Niklaas</strong>. Voor congressen en zakelijke evenementen werken wij samen met het <strong>CC De Kluize</strong>, de <strong>Evenementenhal Waasland</strong> en <strong>De Witte Ring</strong>. Ook bedrijven in het <strong>Bedrijventerrein Waasland</strong> en de zorgsector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.</p>
         </div>
 
-        <!-- Extra blok: cultuur en bezienswaardigheden -->
+        <!-- ===== ONTDEK SINT‑NIKLAAS ===== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Sint-Niklaas met FleetConnect</h2>
-            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een ontspannen uitstapje. Wandel over de <strong>Grote Markt</strong>, bezoek de <strong>Sint-Nicolaaskerk</strong> of het <strong>Stedelijk Museum</strong>. Ook een wandeling in het <strong>Park Zwijnaarde</strong> of een fietstocht langs de <strong>Durme</strong> is aan te raden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Sint‑Niklaas met FleetConnect</h2>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een ontspannen uitstapje. Wandel over de <strong>Grote Markt</strong>, bezoek de <strong>Sint‑Nicolaaskerk</strong> of het <strong>Stedelijk Museum</strong>. Ook een wandeling in het <strong>Park Zwijnaarde</strong> of een fietstocht langs de <strong>Durme</strong> is aan te raden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een <strong>Meet & Greet</strong> op de luchthaven, inclusief bordje met uw naam.</p>
             <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
         </div>
 
-        <!-- CTA -->
+        <!-- ===== CTA ===== -->
         <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
-            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Sint-Niklaas of naar het buitenland?</h2>
-            <p style="margin:20px 0;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.</p>
+            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze luchthaventransfer of rit in Sint‑Niklaas?</h2>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
             <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
         </div>
     </div>
 
-    <!-- CONTACTFORMULIER -->
+    <!-- ===== CONTACTFORMULIER ===== -->
     <div class="contact-wrapper" id="contact">
         <div class="contact-row">
             <div class="contact-form">
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
-                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail"></div>
-                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2"></textarea></div>
+                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E‑mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32470123456" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- ===== FOOTER – UNIFORM BLAUW + CITY DROPDOWN ===== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand"><h4><i class="fas fa-car"></i> FleetConnect</h4><p data-i18n="footer_tagline">Professioneel taxivervoer in België – Stijl, stiptheid en service.</p></div>
-                <div class="footer-ryz3n"><h4 data-i18n="footer_digital">FleetConnect | Digital</h4><a href="#">Control Panel</a><br><a href="#">Taxi Dispatch</a><br><a href="#">Legal & Privacy</a></div>
-                <div class="footer-legal"><h4 data-i18n="footer_legal">Juridisch</h4><a href="/PV/PVfaq.html">❓ FAQ</a><br><a href="/PV/PVprivacy.html">🔒 Privacy</a><br><a href="/PV/PVcookiebeleid.html">🍪 Cookiebeleid</a><br><a href="/PV/PValgemene-voorwaarden.html">📜 Algemene voorwaarden</a></div>
-                <div class="footer-partners"><h4 data-i18n="footer_partners">Partners</h4><a href="#">Support</a></div>
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België – Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
+
+                    <!-- Label en dropdown voor overige steden -->
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
+                </div>
             </div>
-            <div class="footer-bottom">© 2026 FleetConnect – <a href="#">FleetConnect</a></div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
         </div>
     </footer>
 </div>
 
 <script>
-    // Vertalingen voor Sint-Niklaas (NL/FR/EN)
+    // ============================================================
+    // VERTALINGEN – EXACT DEZELFDE SLEUTELS ALS ZAVENTEM
+    // ============================================================
     const translations = {
         nl: {
-            language_label: "Taal / Language",
-            nav_home: "Home", nav_exclusive: "Exclusieve service", nav_fixed_prices: "Vaste prijzen", nav_premium_fleet: "Premium vloot",
-            nav_airport: "Luchthavenvervoer", nav_business: "Zakelijk vervoer", nav_events: "Events & Gala", nav_courier: "Koeriersdienst",
-            nav_contact: "Contact", nav_book: "Reserveer nu", login: "LOGIN",
-            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Sint-Niklaas",
-            hero_subtitle: "Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu uw rit",
-            intro_title: "Sint-Niklaas – Waaslandhoofdstad & groene stad",
-            intro_p1: "Sint-Niklaas is de hoofdstad van het Waasland en de grootste stad van Oost-Vlaanderen na Gent. De stad staat bekend om haar Grote Markt, een van de grootste marktpleinen van België, met het imposante stadhuis en de Sint-Nicolaaskerk. Sint-Niklaas is een bruisende winkelstad met een gezellig centrum vol boetieks, restaurants en terrassen.",
-            intro_p2: "De stad heeft een groene uitstraling dankzij het uitgestrekte Park Zwijnaarde en de vele groene zones. Economisch is Sint-Niklaas een regionaal knooppunt met sterke sectoren in handel, logistiek, zorg en onderwijs. De nabijheid van Antwerpen en Gent, en de goede verbindingen via de E17, maken de stad aantrekkelijk voor pendelaars en bedrijven.",
-            intro_p3: "FleetConnect is de vertrouwde partner voor hotels, winkelcentra, zorginstellingen en evenementenorganisatoren in Sint-Niklaas. Onze luxe Mercedes-, BMW- en minivans garanderen een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat bezoekers en zakenreizigers zich meteen thuis voelen.",
-            events_title: "Evenementen & zakenwijken in Sint-Niklaas",
-            events_p1: "Sint-Niklaas heeft een levendige evenementenkalender. Hoogtepunten zijn de Stadsfeesten in juli, de Kerstmarkt op de Grote Markt, het Waasland Festival en de Foor (jaarlijkse kermis). Ook het Theater De Witte Ring en het CC De Kluize bieden het hele jaar door culturele voorstellingen.",
-            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Waasland (Sint-Niklaas-Zuid), de Kantoorzone rond het station en het Businesspark De Sterre. Het Cultuurcentrum De Kluize en de Evenementenhal Waasland zijn populaire locaties voor zakelijke bijeenkomsten en beurzen.",
-            routes_title: "Populaire routes vanuit Sint-Niklaas",
-            route1_title: "Sint-Niklaas → Zaventem (BRU)", route1_desc: "35 km · ±40 min · vaste prijs",
-            route2_title: "Sint-Niklaas → Antwerpen", route2_desc: "15 km · ±25 min · vaste prijs",
-            route3_title: "Sint-Niklaas → Gent", route3_desc: "20 km · ±25 min",
-            route4_title: "Station → Grote Markt", route4_desc: "2,5 km · ±6 min",
-            route5_title: "Centrum → Bedrijventerrein Zuid", route5_desc: "4 km · ±8 min",
-            route6_title: "Sint-Niklaas → Brussel", route6_desc: "35 km · ±40 min",
-            international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Sint-Niklaas",
-            international_sub: "FleetConnect biedt betrouwbare ritten naar Nederland, Frankrijk en Duitsland. Richtprijzen (sedan, inclusief wachttijd en tol):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Parijs (FR)", int_lil: "Lille (Rijsel, FR)", int_dus: "Düsseldorf (DE)", int_aac: "Aken (DE)",
-            service1_title: "Vluchtmonitoring", service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
-            service2_title: "Documentatie", service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
-            service3_title: "Meertalige chauffeurs", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24-48u vooruit", service4_desc: "Internationale ritten plannen.",
-            why_title: "Waarom FleetConnect in Sint-Niklaas?",
-            why1_title: "Stipt & punctueel", why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Sint-Niklaas en de omliggende snelwegen (E17, E34) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_title: "Premium vloot", why2_desc: "Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
-            why3_title: "Vaste prijzen", why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Sint-Niklaas-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
-            why4_title: "24/7 service", why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
-            business_title: "Zakelijk & hotelvervoer op maat",
-            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Sint-Niklaas, waaronder Hotel Chamade, Hotel Serwir, B&B De Strop en ibis Sint-Niklaas. Voor congressen en zakelijke evenementen werken wij samen met het CC De Kluize, de Evenementenhal Waasland en De Witte Ring. Ook bedrijven in het Bedrijventerrein Waasland en de zorgsector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
-            discover_title: "Ontdek Sint-Niklaas met FleetConnect",
-            discover_p1: "Combineer uw zakelijke afspraak met een ontspannen uitstapje. Wandel over de Grote Markt, bezoek de Sint-Nicolaaskerk of het Stedelijk Museum. Ook een wandeling in het Park Zwijnaarde of een fietstocht langs de Durme is aan te raden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            // Hero
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Sint‑Niklaas",
+            hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
+            hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
+            // Intro
+            intro_title: "Sint‑Niklaas – Waaslandhoofdstad & groene stad",
+            intro_p1: "Sint‑Niklaas is de hoofdstad van het Waasland en de grootste stad van Oost‑Vlaanderen na Gent. De stad staat bekend om haar Grote Markt, een van de grootste marktpleinen van België, met het imposante stadhuis en de Sint‑Nicolaaskerk. Sint‑Niklaas is een bruisende winkelstad met een gezellig centrum vol boetieks, restaurants en terrassen.",
+            intro_p2: "De stad heeft een groene uitstraling dankzij het uitgestrekte Park Zwijnaarde en de vele groene zones. Economisch is Sint‑Niklaas een regionaal knooppunt met sterke sectoren in handel, logistiek, zorg en onderwijs. De nabijheid van Antwerpen en Gent, en de goede verbindingen via de E17, maken de stad aantrekkelijk voor pendelaars en bedrijven.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor hotels, winkelcentra, zorginstellingen en evenementenorganisatoren in Sint‑Niklaas. Onze luxe Mercedes‑, BMW‑ en minivans garanderen een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat bezoekers en zakenreizigers zich meteen thuis voelen.",
+            // Events
+            events_title: "Evenementen & zakenwijken in Sint‑Niklaas",
+            events_p1: "Sint‑Niklaas heeft een levendige evenementenkalender. Hoogtepunten zijn de Stadsfeesten in juli, de Kerstmarkt op de Grote Markt, het Waasland Festival en de Foor (jaarlijkse kermis). Ook het Theater De Witte Ring en het CC De Kluize bieden het hele jaar door culturele voorstellingen.",
+            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Waasland (Sint‑Niklaas‑Zuid), de Kantoorzone rond het station en het Businesspark De Sterre. Het Cultuurcentrum De Kluize en de Evenementenhal Waasland zijn populaire locaties voor zakelijke bijeenkomsten en beurzen.",
+            // Routes - 6 luchthavens
+            routes_title: "✈️ Luchthaventransfers vanuit Sint‑Niklaas",
+            routes_sub: "Van en naar alle belangrijke luchthavens en steden in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Sint‑Niklaas → Zaventem (BRU)",
+            route1_desc: "35 km · ±40 min · vaste prijs",
+            route2_title: "Sint‑Niklaas → Charleroi",
+            route2_desc: "90 km · ±75 min · vaste prijs",
+            route3_title: "Sint‑Niklaas → Antwerpen",
+            route3_desc: "20 km · ±25 min · minimumtarief",
+            route4_title: "Sint‑Niklaas → Lille",
+            route4_desc: "100 km · ±70 min · vaste prijs",
+            route5_title: "Sint‑Niklaas → Eindhoven",
+            route5_desc: "80 km · ±55 min · vaste prijs",
+            route6_title: "Sint‑Niklaas → Amsterdam Schiphol",
+            route6_desc: "170 km · ±2u · vaste prijs",
+            // Extra opties
+            extras_title: "➕ Extra opties – transparante meerprijzen",
+            extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
+            extras_break: "Break model",
+            extras_break_desc: "– Meer bagageruimte",
+            extras_exclusive: "Exclusieve wagen",
+            extras_exclusive_desc: "– Mercedes E‑Klasse / BMW 5 Serie",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Tot 8 personen",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            // Lokale bestemmingen - prijzen minimaal €30
+            local_title: "📍 Ook in de regio",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer naar andere bestemmingen in de regio. Alle ritten hebben een minimumtarief van €30,00. Enkele voorbeelden:",
+            local_gent: "Gent",
+            local_gent_desc: "€30,00 · 20 km",
+            local_antwerpen: "Antwerpen (Stad)",
+            local_antwerpen_desc: "€30,00 · 20 km",
+            local_sint-niklaas_centrum: "Centrum Sint‑Niklaas",
+            local_sint-niklaas_centrum_desc: "Vanaf €30,00 · 2‑5 km",
+            local_bedrijventerrein: "Bedrijventerrein Zuid",
+            local_bedrijventerrein_desc: "Vanaf €30,00 · 4 km",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            // International
+            international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Sint‑Niklaas",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Sint‑Niklaas, gelegen aan de E17 en dicht bij de Nederlandse grens, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_par: "Parijs (FR)",
+            int_lil: "Lille (Rijsel, FR) – Airport",
+            int_ein: "Eindhoven (NL) – Airport",
+            int_rot: "Rotterdam (NL)",
+            int_aac: "Aken (DE)",
+            int_lux: "Luxemburg (LU)",
+            service1_title: "Vluchtmonitoring",
+            service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
+            service2_title: "Documentatie",
+            service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
+            service3_title: "Meertalige chauffeurs",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Reserveer 24‑48u vooruit",
+            service4_desc: "Internationale ritten plannen.",
+            // Why
+            why_title: "Waarom FleetConnect in Sint‑Niklaas?",
+            why1_title: "Stipt & punctueel",
+            why1_desc: "Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Sint‑Niklaas en de omliggende snelwegen (E17, E34) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.",
+            why3_title: "Vaste prijzen",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Sint‑Niklaas‑Zaventem) hanteren we een all‑in vast tarief. Transparant en eerlijk.",
+            why4_title: "24/7 service",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            // Business
+            business_title: "Zakelijk, hotel‑ en luchthavenvervoer op maat",
+            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Sint‑Niklaas, waaronder Hotel Chamade, Hotel Serwir, B&B De Strop en ibis Sint‑Niklaas. Voor congressen en zakelijke evenementen werken wij samen met het CC De Kluize, de Evenementenhal Waasland en De Witte Ring. Ook bedrijven in het Bedrijventerrein Waasland en de zorgsector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.",
+            // Discover
+            discover_title: "Ontdek Sint‑Niklaas met FleetConnect",
+            discover_p1: "Combineer uw zakelijke afspraak met een ontspannen uitstapje. Wandel over de Grote Markt, bezoek de Sint‑Nicolaaskerk of het Stedelijk Museum. Ook een wandeling in het Park Zwijnaarde of een fietstocht langs de Durme is aan te raden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
-            cta_title: "Klaar voor een zorgeloze rit in Sint-Niklaas of naar het buitenland?",
-            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.",
+            // CTA
+            cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Sint‑Niklaas?",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
+            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            footer_tagline: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridisch", footer_partners: "Partners"
+            // Sidebar / footer
+            language_label: "Taal / Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusieve service",
+            nav_fixed_prices: "Vaste prijzen",
+            nav_premium_fleet: "Premium vloot",
+            nav_airport: "Luchthavenvervoer",
+            nav_business: "Zakelijk vervoer",
+            nav_events: "Events & Gala",
+            nav_courier: "Koeriersdienst",
+            nav_contact: "Contact",
+            nav_book: "Reserveer nu",
+            login: "LOGIN"
         },
         fr: {
-            language_label: "Langue",
-            nav_home: "Accueil", nav_exclusive: "Service exclusif", nav_fixed_prices: "Prix fixes", nav_premium_fleet: "Flotte premium",
-            nav_airport: "Transfert aéroport", nav_business: "Transport d'affaires", nav_events: "Événements & Gala", nav_courier: "Service de messagerie",
-            nav_contact: "Contact", nav_book: "Réservez maintenant", login: "CONNEXION",
-            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Saint-Nicolas",
-            hero_subtitle: "Prix fixe €1,50/km | Suivi de vol | Chauffeurs multilingues (NL/FR/EN/DE) | Disponible 24/7",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez votre trajet",
-            intro_title: "Saint-Nicolas – Capitale du Pays de Waes & ville verte",
-            intro_p1: "Saint-Nicolas est la capitale du Pays de Waes et la plus grande ville de Flandre-Orientale après Gand. La ville est connue pour sa Grand-Place, l'une des plus grandes places de Belgique, avec l'imposant hôtel de ville et l'église Saint-Nicolas. Saint-Nicolas est une ville commerçante animée avec un centre-ville agréable rempli de boutiques, restaurants et terrasses.",
-            intro_p2: "La ville a un caractère vert grâce au vaste Parc Zwijnaarde et aux nombreuses zones vertes. Économiquement, Saint-Nicolas est un nœud régional avec des secteurs forts dans le commerce, la logistique, les soins de santé et l'éducation. La proximité d'Anvers et de Gand, et les bonnes connexions via l'E17, rendent la ville attractive pour les navetteurs et les entreprises.",
-            intro_p3: "FleetConnect est le partenaire de confiance des hôtels, centres commerciaux, institutions de soins et organisateurs d'événements à Saint-Nicolas. Nos luxueuses Mercedes, BMW et minibus garantissent un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) veillent à ce que les visiteurs et voyageurs d'affaires se sentent immédiatement à l'aise.",
-            events_title: "Événements et quartiers d'affaires à Saint-Nicolas",
-            events_p1: "Saint-Nicolas possède un calendrier d'événements animé. Les temps forts sont les Fêtes de la Ville en juillet, le Marché de Noël sur la Grand-Place, le Festival du Pays de Waes et la Foire (kermesse annuelle). Le Théâtre De Witte Ring et le CC De Kluize proposent également des spectacles culturels toute l'année.",
-            events_p2: "Les principaux quartiers d'affaires sont la zone d'activités Waasland (Saint-Nicolas-Sud), la zone de bureaux autour de la gare et le Businesspark De Sterre. Le Centre Culturel De Kluize et la Salle des Fêtes Waasland sont des lieux prisés pour les réunions d'affaires et les salons.",
-            routes_title: "Itinéraires populaires depuis Saint-Nicolas",
-            route1_title: "Saint-Nicolas → Zaventem (BRU)", route1_desc: "35 km · ±40 min · prix fixe",
-            route2_title: "Saint-Nicolas → Anvers", route2_desc: "15 km · ±25 min · prix fixe",
-            route3_title: "Saint-Nicolas → Gand", route3_desc: "20 km · ±25 min",
-            route4_title: "Gare → Grand-Place", route4_desc: "2,5 km · ±6 min",
-            route5_title: "Centre → Zone d'activités Sud", route5_desc: "4 km · ±8 min",
-            route6_title: "Saint-Nicolas → Bruxelles", route6_desc: "35 km · ±40 min",
-            international_title: "<i class='fas fa-globe'></i> Transport international depuis Saint-Nicolas",
-            international_sub: "FleetConnect propose des trajets fiables vers les Pays-Bas, la France et l'Allemagne. Prix indicatifs (berline, incluant temps d'attente et péages) :",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_dus: "Düsseldorf (DE)", int_aac: "Aix-la-Chapelle (DE)",
-            service1_title: "Suivi de vol", service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
-            service2_title: "Documentation", service2_desc: "Tous les papiers pour le transport transfrontalier.",
-            service3_title: "Chauffeurs multilingues", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24-48h à l'avance", service4_desc: "Planification des trajets internationaux.",
-            why_title: "Pourquoi FleetConnect à Saint-Nicolas?",
-            why1_title: "Ponctuel & fiable", why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Saint-Nicolas et les autoroutes environnantes (E17, E34). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
-            why2_title: "Flotte premium", why2_desc: "Nos véhicules sont de premier ordre : Mercedes Classe E, BMW Série 5, Lexus et minibus de luxe (Mercedes Classe V). Tous les véhicules ont moins de 3 ans, avec sièges en cuir, climatisation, WiFi gratuit et bouteille d'eau. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
-            why3_title: "Prix fixes", why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Saint-Nicolas-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
-            why4_title: "Service 24/7", why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
-            business_title: "Transport professionnel et hôtelier sur mesure",
-            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Saint-Nicolas, dont Hotel Chamade, Hotel Serwir, B&B De Strop et ibis Saint-Nicolas. Pour les congrès et événements professionnels, nous collaborons avec le CC De Kluize, la Salle des Fêtes Waasland et De Witte Ring. Les entreprises de la zone d'activités Waasland et du secteur de la santé comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
-            discover_title: "Découvrez Saint-Nicolas avec FleetConnect",
-            discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade relaxante. Promenez-vous sur la Grand-Place, visitez l'église Saint-Nicolas ou le Musée de la Ville. Une promenade dans le Parc Zwijnaarde ou une balade à vélo le long de la Durme est également recommandée. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
+            // (alle vertalingen in het Frans – identieke sleutels, inhoud aangepast)
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Saint‑Nicolas",
+            hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
+            hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
+            intro_title: "Saint‑Nicolas – Capitale du Pays de Waes & ville verte",
+            intro_p1: "Saint‑Nicolas est la capitale du Pays de Waes et la plus grande ville de Flandre‑Orientale après Gand. La ville est connue pour sa Grand‑Place, l'une des plus grandes places de Belgique, avec l'imposant hôtel de ville et l'église Saint‑Nicolas. Saint‑Nicolas est une ville commerçante animée avec un centre‑ville agréable rempli de boutiques, restaurants et terrasses.",
+            intro_p2: "La ville a un caractère vert grâce au vaste Parc Zwijnaarde et aux nombreuses zones vertes. Économiquement, Saint‑Nicolas est un nœud régional avec des secteurs forts dans le commerce, la logistique, les soins de santé et l'éducation. La proximité d'Anvers et de Gand, et les bonnes connexions via l'E17, rendent la ville attractive pour les navetteurs et les entreprises.",
+            intro_p3: "FleetConnect est le partenaire de confiance des hôtels, centres commerciaux, institutions de soins et organisateurs d'événements à Saint‑Nicolas. Nos luxueuses Mercedes, BMW et minibus garantissent un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) veillent à ce que les visiteurs et voyageurs d'affaires se sentent immédiatement à l'aise.",
+            events_title: "Événements et quartiers d'affaires à Saint‑Nicolas",
+            events_p1: "Saint‑Nicolas possède un calendrier d'événements animé. Les temps forts sont les Fêtes de la Ville en juillet, le Marché de Noël sur la Grand‑Place, le Festival du Pays de Waes et la Foire (kermesse annuelle). Le Théâtre De Witte Ring et le CC De Kluize proposent également des spectacles culturels toute l'année.",
+            events_p2: "Les principaux quartiers d'affaires sont la zone d'activités Waasland (Saint‑Nicolas‑Sud), la zone de bureaux autour de la gare et le Businesspark De Sterre. Le Centre Culturel De Kluize et la Salle des Fêtes Waasland sont des lieux prisés pour les réunions d'affaires et les salons.",
+            routes_title: "✈️ Transferts aéroport depuis Saint‑Nicolas",
+            routes_sub: "Vers et depuis tous les aéroports et villes importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Saint‑Nicolas → Zaventem (BRU)",
+            route1_desc: "35 km · ±40 min · prix fixe",
+            route2_title: "Saint‑Nicolas → Charleroi",
+            route2_desc: "90 km · ±75 min · prix fixe",
+            route3_title: "Saint‑Nicolas → Anvers",
+            route3_desc: "20 km · ±25 min · tarif minimum",
+            route4_title: "Saint‑Nicolas → Lille",
+            route4_desc: "100 km · ±70 min · prix fixe",
+            route5_title: "Saint‑Nicolas → Eindhoven",
+            route5_desc: "80 km · ±55 min · prix fixe",
+            route6_title: "Saint‑Nicolas → Amsterdam Schiphol",
+            route6_desc: "170 km · ±2h · prix fixe",
+            extras_title: "➕ Options supplémentaires – suppléments transparents",
+            extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
+            extras_break: "Break modèle",
+            extras_break_desc: "– Plus d'espace bagages",
+            extras_exclusive: "Voiture exclusive",
+            extras_exclusive_desc: "– Mercedes Classe E / BMW Série 5",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Jusqu'à 8 personnes",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            local_title: "📍 Dans la région également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables vers d'autres destinations de la région. Tous les trajets ont un tarif minimum de €30,00. Quelques exemples :",
+            local_gent: "Gand",
+            local_gent_desc: "€30,00 · 20 km",
+            local_antwerpen: "Anvers (Ville)",
+            local_antwerpen_desc: "€30,00 · 20 km",
+            local_sint-niklaas_centrum: "Centre Saint‑Nicolas",
+            local_sint-niklaas_centrum_desc: "À partir de €30,00 · 2‑5 km",
+            local_bedrijventerrein: "Zone d'activités Sud",
+            local_bedrijventerrein_desc: "À partir de €30,00 · 4 km",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
+            international_title: "<i class='fas fa-globe'></i> Transport international depuis Saint‑Nicolas",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Depuis Saint‑Nicolas, situé sur l'E17 et proche de la frontière néerlandaise, vous êtes idéalement positionné pour les transferts internationaux. Prix indicatifs (berline, incluant temps d'attente et péages) :",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_par: "Paris (FR)",
+            int_lil: "Lille (FR) – Airport",
+            int_ein: "Eindhoven (NL) – Airport",
+            int_rot: "Rotterdam (NL)",
+            int_aac: "Aix‑la‑Chapelle (DE)",
+            int_lux: "Luxembourg (LU)",
+            service1_title: "Suivi de vol",
+            service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
+            service2_title: "Documentation",
+            service2_desc: "Tous les papiers pour le transport transfrontalier.",
+            service3_title: "Chauffeurs multilingues",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Réservez 24‑48h à l'avance",
+            service4_desc: "Planification des trajets internationaux.",
+            why_title: "Pourquoi FleetConnect à Saint‑Nicolas?",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Saint‑Nicolas et les autoroutes environnantes (E17, E34). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit.",
+            why3_title: "Prix fixes",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week‑ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Saint‑Nicolas‑Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
+            why4_title: "Service 24/7",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            business_title: "Transport professionnel, hôtelier et aéroportuaire sur mesure",
+            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Saint‑Nicolas, dont Hotel Chamade, Hotel Serwir, B&B De Strop et ibis Saint‑Nicolas. Pour les congrès et événements professionnels, nous collaborons avec le CC De Kluize, la Salle des Fêtes Waasland et De Witte Ring. Les entreprises de la zone d'activités Waasland et du secteur de la santé comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
+            discover_title: "Découvrez Saint‑Nicolas avec FleetConnect",
+            discover_p1: "Combinez votre rendez‑vous d'affaires avec une escapade relaxante. Promenez‑vous sur la Grand‑Place, visitez l'église Saint‑Nicolas ou le Musée de la Ville. Une promenade dans le Parc Zwijnaarde ou une balade à vélo le long de la Durme est également recommandée. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
             discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
-            cta_title: "Prêt pour un trajet sans souci à Saint-Nicolas ou à l'étranger?",
-            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti.",
+            cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Saint‑Nicolas?",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
-            footer_tagline: "Transport professionnel en Belgique – Style, ponctualité et service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridique", footer_partners: "Partenaires"
+            language_label: "Langue",
+            nav_home: "Accueil",
+            nav_exclusive: "Service exclusif",
+            nav_fixed_prices: "Prix fixes",
+            nav_premium_fleet: "Flotte premium",
+            nav_airport: "Transfert aéroport",
+            nav_business: "Transport d'affaires",
+            nav_events: "Événements & Gala",
+            nav_courier: "Service de messagerie",
+            nav_contact: "Contact",
+            nav_book: "Réservez maintenant",
+            login: "CONNEXION"
         },
         en: {
-            language_label: "Language",
-            nav_home: "Home", nav_exclusive: "Exclusive service", nav_fixed_prices: "Fixed prices", nav_premium_fleet: "Premium fleet",
-            nav_airport: "Airport transfer", nav_business: "Business transport", nav_events: "Events & Gala", nav_courier: "Courier service",
-            nav_contact: "Contact", nav_book: "Book now", login: "LOGIN",
-            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Sint-Niklaas",
-            hero_subtitle: "Fixed price €1.50/km | Flight monitoring | Multilingual drivers (NL/FR/EN/DE) | 24/7 available",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Book your ride now",
-            intro_title: "Sint-Niklaas – Capital of the Waasland & green city",
-            intro_p1: "Sint-Niklaas is the capital of the Waasland region and the largest city in East Flanders after Ghent. The city is known for its Grote Markt, one of the largest market squares in Belgium, with the imposing town hall and St. Nicholas Church. Sint-Niklaas is a bustling shopping city with a cosy centre full of boutiques, restaurants and terraces.",
-            intro_p2: "The city has a green character thanks to the extensive Park Zwijnaarde and many green areas. Economically, Sint-Niklaas is a regional hub with strong sectors in trade, logistics, healthcare and education. The proximity of Antwerp and Ghent, and good connections via the E17, make the city attractive for commuters and businesses.",
-            intro_p3: "FleetConnect is the trusted partner for hotels, shopping centres, healthcare institutions and event organisers in Sint-Niklaas. Our luxurious Mercedes, BMW and minivans guarantee a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure that visitors and business travellers feel right at home.",
-            events_title: "Events & Business Districts in Sint-Niklaas",
-            events_p1: "Sint-Niklaas has a lively events calendar. Highlights are the City Festivities in July, the Christmas Market on the Grote Markt, the Waasland Festival and the Fair (annual funfair). The De Witte Ring Theatre and CC De Kluize also offer cultural performances throughout the year.",
-            events_p2: "The main business districts are the Waasland industrial estate (Sint-Niklaas-Zuid), the office zone around the station and the Businesspark De Sterre. The De Kluize Cultural Centre and the Waasland Event Hall are popular venues for business meetings and trade fairs.",
-            routes_title: "Popular routes from Sint-Niklaas",
-            route1_title: "Sint-Niklaas → Zaventem (BRU)", route1_desc: "35 km · ±40 min · fixed price",
-            route2_title: "Sint-Niklaas → Antwerp", route2_desc: "15 km · ±25 min · fixed price",
-            route3_title: "Sint-Niklaas → Ghent", route3_desc: "20 km · ±25 min",
-            route4_title: "Station → Grote Markt", route4_desc: "2.5 km · ±6 min",
-            route5_title: "Centre → South Industrial Estate", route5_desc: "4 km · ±8 min",
-            route6_title: "Sint-Niklaas → Brussels", route6_desc: "35 km · ±40 min",
-            international_title: "<i class='fas fa-globe'></i> International transport from Sint-Niklaas",
-            international_sub: "FleetConnect offers reliable rides to the Netherlands, France and Germany. Indicative prices (sedan, including waiting time and tolls):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_dus: "Düsseldorf (DE)", int_aac: "Aachen (DE)",
-            service1_title: "Flight monitoring", service1_desc: "We track your flight; free waiting time in case of delay.",
-            service2_title: "Documentation", service2_desc: "All documents for cross-border transport.",
-            service3_title: "Multilingual drivers", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24-48h in advance", service4_desc: "Plan international trips.",
-            why_title: "Why FleetConnect in Sint-Niklaas?",
-            why1_title: "Punctual & reliable", why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Sint-Niklaas's back streets and the surrounding highways (E17, E34). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
-            why2_title: "Premium fleet", why2_desc: "Our vehicles are top quality: Mercedes E-Class, BMW 5 Series, Lexus and luxury minivans (Mercedes V-Class). All vehicles are less than 3 years old, with leather seats, air conditioning, free WiFi and bottled water. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
-            why3_title: "Fixed prices", why3_desc: "No meter, no surprises. You pay €1.50 per kilometer – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Sint-Niklaas-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
-            why4_title: "24/7 service", why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
-            business_title: "Customised business & hotel transport",
-            business_desc: "FleetConnect is the preferred partner of several hotels in Sint-Niklaas, including Hotel Chamade, Hotel Serwir, B&B De Strop and ibis Sint-Niklaas. For congresses and business events, we work with CC De Kluize, the Waasland Event Hall and De Witte Ring. Companies in the Waasland industrial estate and the healthcare sector trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
-            discover_title: "Discover Sint-Niklaas with FleetConnect",
+            // (alle vertalingen in het Engels – identieke sleutels, inhoud aangepast)
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Sint‑Niklaas",
+            hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
+            hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
+            intro_title: "Sint‑Niklaas – Capital of the Waasland & green city",
+            intro_p1: "Sint‑Niklaas is the capital of the Waasland region and the largest city in East Flanders after Ghent. The city is known for its Grote Markt, one of the largest market squares in Belgium, with the imposing town hall and St. Nicholas Church. Sint‑Niklaas is a bustling shopping city with a cosy centre full of boutiques, restaurants and terraces.",
+            intro_p2: "The city has a green character thanks to the extensive Park Zwijnaarde and many green areas. Economically, Sint‑Niklaas is a regional hub with strong sectors in trade, logistics, healthcare and education. The proximity of Antwerp and Ghent, and good connections via the E17, make the city attractive for commuters and businesses.",
+            intro_p3: "FleetConnect is the trusted partner for hotels, shopping centres, healthcare institutions and event organisers in Sint‑Niklaas. Our luxurious Mercedes, BMW and minivans guarantee a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure that visitors and business travellers feel right at home.",
+            events_title: "Events & Business Districts in Sint‑Niklaas",
+            events_p1: "Sint‑Niklaas has a lively events calendar. Highlights are the City Festivities in July, the Christmas Market on the Grote Markt, the Waasland Festival and the Fair (annual funfair). The De Witte Ring Theatre and CC De Kluize also offer cultural performances throughout the year.",
+            events_p2: "The main business districts are the Waasland industrial estate (Sint‑Niklaas‑Zuid), the office zone around the station and the Businesspark De Sterre. The De Kluize Cultural Centre and the Waasland Event Hall are popular venues for business meetings and trade fairs.",
+            routes_title: "✈️ Airport transfers from Sint‑Niklaas",
+            routes_sub: "To and from all major airports and cities in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Sint‑Niklaas → Zaventem (BRU)",
+            route1_desc: "35 km · ±40 min · fixed price",
+            route2_title: "Sint‑Niklaas → Charleroi",
+            route2_desc: "90 km · ±75 min · fixed price",
+            route3_title: "Sint‑Niklaas → Antwerp",
+            route3_desc: "20 km · ±25 min · minimum fare",
+            route4_title: "Sint‑Niklaas → Lille",
+            route4_desc: "100 km · ±70 min · fixed price",
+            route5_title: "Sint‑Niklaas → Eindhoven",
+            route5_desc: "80 km · ±55 min · fixed price",
+            route6_title: "Sint‑Niklaas → Amsterdam Schiphol",
+            route6_desc: "170 km · ±2h · fixed price",
+            extras_title: "➕ Extra options – clear surcharges",
+            extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
+            extras_break: "Break model",
+            extras_break_desc: "– More luggage space",
+            extras_exclusive: "Exclusive car",
+            extras_exclusive_desc: "– Mercedes E‑Class / BMW 5 Series",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Up to 8 persons",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            local_title: "📍 Also in the region",
+            local_desc: "In addition to airport transfers, we also provide reliable transport to other destinations in the region. All rides have a minimum fare of €30.00. Some examples:",
+            local_gent: "Ghent",
+            local_gent_desc: "€30.00 · 20 km",
+            local_antwerpen: "Antwerp (City)",
+            local_antwerpen_desc: "€30.00 · 20 km",
+            local_sint-niklaas_centrum: "Sint‑Niklaas Centre",
+            local_sint-niklaas_centrum_desc: "From €30.00 · 2‑5 km",
+            local_bedrijventerrein: "South Industrial Estate",
+            local_bedrijventerrein_desc: "From €30.00 · 4 km",
+            local_cta: "Other destination? Request a free quote",
+            international_title: "<i class='fas fa-globe'></i> International transport from Sint‑Niklaas",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. From Sint‑Niklaas, situated on the E17 and close to the Dutch border, you are ideally positioned for international transfers. Indicative prices (sedan, including waiting time and tolls):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_par: "Paris (FR)",
+            int_lil: "Lille (FR) – Airport",
+            int_ein: "Eindhoven (NL) – Airport",
+            int_rot: "Rotterdam (NL)",
+            int_aac: "Aachen (DE)",
+            int_lux: "Luxembourg (LU)",
+            service1_title: "Flight monitoring",
+            service1_desc: "We track your flight; free waiting time in case of delay.",
+            service2_title: "Documentation",
+            service2_desc: "All documents for cross‑border transport.",
+            service3_title: "Multilingual drivers",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Book 24‑48h in advance",
+            service4_desc: "Plan international trips.",
+            why_title: "Why FleetConnect in Sint‑Niklaas?",
+            why1_title: "Punctual & reliable",
+            why1_desc: "Thanks to real‑time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Sint‑Niklaas's back streets and the surrounding highways (E17, E34). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E‑Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V‑Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi.",
+            why3_title: "Fixed prices",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick‑up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Sint‑Niklaas‑Zaventem), we offer an all‑in fixed rate.",
+            why4_title: "24/7 service",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            business_title: "Customised business, hotel & airport transport",
+            business_desc: "FleetConnect is the preferred partner of several hotels in Sint‑Niklaas, including Hotel Chamade, Hotel Serwir, B&B De Strop and ibis Sint‑Niklaas. For congresses and business events, we work with CC De Kluize, the Waasland Event Hall and De Witte Ring. Companies in the Waasland industrial estate and the healthcare sector trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
+            discover_title: "Discover Sint‑Niklaas with FleetConnect",
             discover_p1: "Combine your business appointment with a relaxing outing. Stroll across the Grote Markt, visit St. Nicholas Church or the City Museum. A walk in Park Zwijnaarde or a bike ride along the Durme is also recommended. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
             discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
-            cta_title: "Ready for a worry-free ride in Sint-Niklaas or abroad?",
-            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed.",
+            cta_title: "Ready for a worry‑free airport transfer or ride in Sint‑Niklaas?",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
             contact_name_label: "<i class='fas fa-user'></i> Your name *",
             contact_email_label: "<i class='fas fa-envelope'></i> Email *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Send",
-            footer_tagline: "Professional transport in Belgium – Style, punctuality and service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Legal", footer_partners: "Partners"
+            language_label: "Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusive service",
+            nav_fixed_prices: "Fixed prices",
+            nav_premium_fleet: "Premium fleet",
+            nav_airport: "Airport transfer",
+            nav_business: "Business transport",
+            nav_events: "Events & Gala",
+            nav_courier: "Courier service",
+            nav_contact: "Contact",
+            nav_book: "Book now",
+            login: "LOGIN"
         }
     };
 
+    // ============================================================
+    // TAALINSTELLING & VERTALING
+    // ============================================================
     let currentLang = 'nl';
 
     function translatePage() {
@@ -406,10 +842,14 @@
 
     translatePage();
 
+    // ============================================================
+    // HAMBURGER MENU
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
+
         if (hamburgerBtn) {
             hamburgerBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -438,10 +878,15 @@
                 document.body.style.overflow = '';
             }
         });
+
+        // Contactformulier verzenden
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
-                alert(currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' : (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' : 'Message sent! We will contact you as soon as possible.'));
+                const msg = currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' :
+                           (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' :
+                            'Message sent! We will contact you as soon as possible.');
+                alert(msg);
             });
         }
     });

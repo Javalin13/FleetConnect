@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Steenokkerzeel – Groene gemeente met kasteeltraditie</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Steenokkerzeel. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. Ritten naar Zaventem (BRU), Brussel, Mechelen, Leuven, Antwerpen. 24/7 beschikbaar.">
+    <title>FleetConnect | Taxi Steenokkerzeel – Groene gemeente met kasteeltraditie & luchthaventransfers</title>
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Steenokkerzeel. Vaste prijs €1,50/km (min. €30). Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Deurne (ANR), Eindhoven, Amsterdam, Lille. 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Dezelfde stijl als in Overijse – volledig identiek */
+        /* --- Alle stijlen zijn identiek aan de template --- */
         *{margin:0;padding:0;box-sizing:border-box}
-        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
-        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
+        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1513639776629-7b61b0a6b1b5?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
         body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
         .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
         .container{width:100%;max-width:1300px;margin:0 auto;padding:0 24px}
-        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem}
+        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem;transition:0.2s}
         .hamburger-btn:hover{background:var(--primary-dark)}
         .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1001;visibility:hidden;opacity:0;transition:all 0.3s ease}
         .sidebar-overlay.active{visibility:visible;opacity:1}
@@ -25,22 +25,31 @@
         .sidebar-header h3{color:white;display:flex;align-items:center;gap:8px}
         .close-menu{background:rgba(255,255,255,0.2);border:none;font-size:1.5rem;cursor:pointer;color:white;width:32px;height:32px;border-radius:50%}
         .sidebar-nav{display:flex;flex-direction:column;padding:20px 16px;gap:8px;flex:1;overflow-y:auto}
-        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light)}
+        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light);transition:0.2s}
         .sidebar-nav a i{width:24px;color:var(--primary)}
         .sidebar-nav a:hover{background:#eef2fa;border-color:var(--primary)}
         .login-section{padding:16px;border-top:1px solid var(--border-light);margin-top:auto;flex-shrink:0}
-        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px}
+        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
+        .login-btn:hover{opacity:0.9}
+        
+        /* ========== HERO SECTIE ========== */
         .hero{padding:80px 0 40px;text-align:center}
-        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:40px 30px;border-radius:48px;border:1px solid var(--border-light)}
-        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary)}
-        .hero-card p{font-size:1.2rem;color:var(--text-light);margin-bottom:20px}
-        .btn-primary{background:var(--primary);color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-primary:hover{background:var(--primary-dark)}
+        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
+        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
+        .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
+        .hero-card .hero-slogan i{color:var(--primary)}
+        .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
+        .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
+        .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
+        
+        .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
         .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
-        .route-grid, .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
-        .route-card, .feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
-        .route-card:hover, .feature-card:hover{transform:translateY(-4px)}
+        .route-grid,.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
+        .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
+        .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
         .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
         .feature-card{text-align:center}
         .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
         .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
@@ -52,24 +61,97 @@
         .contact-form h3{margin-bottom:20px;color:var(--primary);text-align:center}
         .compact-form{display:flex;flex-direction:column;gap:16px}
         .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
+        .compact-form input:focus,.compact-form textarea:focus{outline:none;border-color:var(--primary)}
         .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
-        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
-        .btn-whatsapp:hover{background:#128C7E}
-        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:40px}
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
+        
+        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
+        .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
+        .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
+        .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+        
+        /* ========== EXTRA OPTIES LIJST ========== */
+        .extra-options-list{list-style:none;margin:0;padding:0}
+        .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .extra-options-list li:last-child{border-bottom:none}
+        .extra-options-list li i{color:var(--primary);width:24px}
+        .extra-options-list li .price-tag{background:var(--primary);color:white;padding:2px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:auto}
+        .extra-options-list li .price-tag.free{background:var(--accent-green)}
+        .extra-options-list li strong{min-width:120px}
+        .extra-options-list li span{color:var(--text-light)}
+        
+        /* ========== FOOTER - UNIFORM BLAUW ========== */
+        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
-        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px}
-        .lang-switcher{display:flex;gap:8px;align-items:center}
-        .lang-btn{background:transparent;border:1px solid var(--border-light);padding:6px 12px;border-radius:30px;cursor:pointer;font-weight:500;transition:all 0.2s}
-        .lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
-        @media (max-width:800px){.hero-card h1{font-size:2rem}.section-title{font-size:1.5rem}}
+        .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
+        .footer-grid a:hover{color:var(--primary);text-decoration:underline}
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        
+        /* ========== DROPDOWN STIJLEN ========== */
+        .footer-city-select {
+            background: #1a2f3f;
+            color: #e0edf5;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+            max-width: 220px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 8px;
+            appearance: auto;
+        }
+        .footer-city-select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        .footer-city-select option {
+            background: #0d1f2c;
+            color: #e0edf5;
+        }
+        
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:var(--primary);text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width:800px){
+            .hero-card{padding:30px 20px}
+            .hero-card h1{font-size:2rem}
+            .hero-card .hero-slogan{font-size:1.3rem}
+            .hero-card .hero-features{font-size:0.95rem}
+            .section-title{font-size:1.5rem}
+            .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
+            .lang-btn{font-size:0.7rem;padding:4px 10px}
+            .extra-options-list li strong{min-width:100px}
+            .footer-city-select{max-width:100%}
+        }
+        @media (max-width:500px){
+            .container{padding:0 12px}
+            .hero-card{padding:24px 16px}
+            .hero-card h1{font-size:1.5rem}
+            .hero-card .hero-slogan{font-size:1.1rem}
+            .hero-card .hero-features{font-size:0.8rem}
+            .hero-card .btn-primary{padding:14px 28px;font-size:0.95rem}
+            .language-switcher{top:10px;right:10px;gap:4px;padding:4px 8px}
+            .lang-btn{font-size:0.6rem;padding:3px 8px}
+            .route-grid,.features-grid{grid-template-columns:1fr}
+            .extra-options-list li{flex-wrap:wrap}
+            .extra-options-list li .price-tag{margin-left:0}
+        }
     </style>
 </head>
 <body>
 
 <div id="background-map"></div>
 
+<!-- ========== HAMBURGER MENU ========== -->
 <button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
 
+<!-- ========== SIDEBAR ========== -->
 <div class="sidebar-overlay" id="sidebarOverlay">
     <div class="sidebar">
         <div class="sidebar-header"><h3><i class="fas fa-car"></i> FleetConnect</h3><button class="close-menu" id="closeMenuBtn">&times;</button></div>
@@ -92,17 +174,37 @@
             <a href="#contact"><i class="fas fa-envelope"></i> <span data-i18n="nav_contact">Contact</span></a>
             <a href="/PV/PV.html#booking"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav_book">Reserveer nu</span></a>
         </div>
-        <div class="login-section"><a href="index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
+        <div class="login-section"><a href="/PV/index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
     </div>
 </div>
 
+<!-- ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
 <div class="content-overlay">
+    <!-- ========== HERO SECTIE - UNIFORM ========== -->
     <section class="hero">
         <div class="container">
             <div class="hero-card">
-                <h1 data-i18n="hero_title"><i class="fas fa-taxi"></i> FleetConnect | Taxi Steenokkerzeel</h1>
-                <p data-i18n="hero_subtitle">Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar</p>
-                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn"><i class="fas fa-calendar-check"></i> Boek nu uw rit</a>
+                <h1 data-i18n="hero_title">
+                    <i class="fas fa-taxi"></i> FleetConnect | Taxi Steenokkerzeel
+                </h1>
+                <div style="height:16px;"></div>
+                <p class="hero-slogan" data-i18n="hero_slogan" style="font-weight:700;">
+                    <strong>"Uw rit, onze zorg. Vaste prijs, 24/7."</strong>
+                </p>
+                <div style="height:20px;"></div>
+                <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
+                    <strong>€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs</strong>
+                </p>
+                <div style="height:30px;"></div>
+                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
+                    <i class="fas fa-calendar-check"></i> Boek nu →
+                </a>
             </div>
         </div>
     </section>
@@ -113,7 +215,7 @@
             <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Steenokkerzeel – Groene gemeente met kasteeltraditie</h2>
             <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Steenokkerzeel is een gemeente in de provincie Vlaams-Brabant, gelegen in de <strong>Brusselse rand</strong> en vlakbij de luchthaven van Zaventem. De gemeente staat bekend om haar <strong>kasteel</strong> – het <strong>Kasteel van Steenokkerzeel</strong>, een prachtig waterkasteel uit de 14e eeuw, omgeven door een groot park – en haar <strong>groene omgeving</strong>. De <strong>Sint-Remigiuskerk</strong> en het gezellige dorpsplein met typische Brabantse huizen bepalen het historische centrum. De <strong>Zennevallei</strong> biedt uitgestrekte wandel- en fietsgebieden.</p>
             <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Dankzij de uitstekende verbindingen via de <strong>E19</strong> en de <strong>N1</strong> is Steenokkerzeel een ideale woonplaats voor pendelaars naar Brussel, Mechelen, Leuven en Antwerpen. Ook de nabijheid van de luchthaven maakt het een strategische plek voor zakelijke reizigers. De gemeente heeft een bloeiend verenigingsleven en organiseert jaarlijks tal van evenementen, zoals de <strong>Steenokkerzeelse Kermis</strong>, de <strong>Kasteelfeesten</strong> en de sfeervolle <strong>Kerstmarkt</strong>.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, evenementenorganisatoren en families</strong> in Steenokkerzeel. Onze moderne Mercedes-, BMW- en minivans garanderen een comfortabele en stipte service. Met onze meertalige chauffeurs (NL/FR/EN/DE) zorgen wij voor een professionele ontvangst van nationale en internationale gasten.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, evenementenorganisatoren en families</strong> in Steenokkerzeel. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.</p>
         </div>
 
         <!-- Blok 2: Evenementen en zakenwijken -->
@@ -123,29 +225,143 @@
             <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Steenokkerzeel-Noord</strong>, de <strong>Kantoorzone langs de E19</strong> en het <strong>Business Park Steenokkerzeel</strong>. Het <strong>Kasteelpark</strong> en het <strong>Cultureel Centrum</strong> zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.</p>
         </div>
 
-        <!-- Nationale routes -->
-        <h2 class="section-title" data-i18n="routes_title">Populaire routes vanuit Steenokkerzeel</h2>
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Steenokkerzeel
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
         <div class="route-grid">
-            <div class="route-card"><i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i><h3 data-i18n="route1_title">Steenokkerzeel → Zaventem (BRU)</h3><div class="route-price">€12</div><p data-i18n="route1_desc">8 km · ±10 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-city"></i><h3 data-i18n="route2_title">Steenokkerzeel → Brussel</h3><div class="route-price">€22,50</div><p data-i18n="route2_desc">15 km · ±20 min · vaste prijs</p></div>
-            <div class="route-card"><i class="fas fa-train"></i><h3 data-i18n="route3_title">Steenokkerzeel → Mechelen</h3><div class="route-price">€18</div><p data-i18n="route3_desc">12 km · ±12 min</p></div>
-            <div class="route-card"><i class="fas fa-university"></i><h3 data-i18n="route4_title">Steenokkerzeel → Leuven</h3><div class="route-price">€45</div><p data-i18n="route4_desc">30 km · ±25 min</p></div>
-            <div class="route-card"><i class="fas fa-ship"></i><h3 data-i18n="route5_title">Steenokkerzeel → Antwerpen</h3><div class="route-price">€60</div><p data-i18n="route5_desc">40 km · ±35 min</p></div>
-            <div class="route-card"><i class="fas fa-tree"></i><h3 data-i18n="route6_title">Centrum → Kasteel</h3><div class="route-price">€3</div><p data-i18n="route6_desc">1,5 km · ±3 min</p></div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
+                <h3 data-i18n="route1_title">Steenokkerzeel → Zaventem</h3>
+                <span class="route-airport-code">BRU</span>
+                <div class="route-price">€30,00</div>
+                <p data-i18n="route1_desc">8 km · ±10 min · minimumtarief</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route2_title">Steenokkerzeel → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€90,00</div>
+                <p data-i18n="route2_desc">60 km · ±55 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Steenokkerzeel → Deurne</h3>
+                <span class="route-airport-code">ANR</span>
+                <div class="route-price">€52,50</div>
+                <p data-i18n="route3_desc">35 km · ±40 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Steenokkerzeel → Lille</h3>
+                <span class="route-airport-code">LIL</span>
+                <div class="route-price">€180,00</div>
+                <p data-i18n="route4_desc">120 km · ±1u 15 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Steenokkerzeel → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€135,00</div>
+                <p data-i18n="route5_desc">90 km · ±1u 05 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Steenokkerzeel → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€315,00</div>
+                <p data-i18n="route6_desc">210 km · ±2u 15 min · vaste prijs</p>
+            </div>
         </div>
 
-        <!-- Internationaal vervoer + servicepunten -->
+        <!-- ========== EXTRA OPTIES & MEERPRIJZEN ========== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="extras_title">➕ Extra opties – transparante meerprijzen</h2>
+            <p data-i18n="extras_intro" style="font-size:1.05rem; line-height:1.6; margin-bottom:20px;">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
+            <ul class="extra-options-list">
+                <li>
+                    <i class="fas fa-car"></i>
+                    <strong data-i18n="extras_break">Break model</strong>
+                    <span data-i18n="extras_break_desc">– Meer bagageruimte</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
+                    <span class="price-tag">+€15,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <strong data-i18n="extras_van">Mini Van</strong>
+                    <span data-i18n="extras_van_desc">– Tot 8 personen</span>
+                    <span class="price-tag">+€10,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <strong data-i18n="extras_meet">Meet &amp; Greet</strong>
+                    <span data-i18n="extras_meet_desc">– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-kiss"></i>
+                    <strong data-i18n="extras_kiss">Kiss &amp; Ride</strong>
+                    <span data-i18n="extras_kiss_desc">– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur</span>
+                    <span class="price-tag free">GRATIS</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========== Extra bestemmingen in Steenokkerzeel ========== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Ook binnen Steenokkerzeel
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Steenokkerzeel en de regio. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-castle" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_kasteel">Kasteel</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kasteel_desc">Vanaf €30,00 · 1-2 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-church" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_kerk">Sint-Remigiuskerk</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kerk_desc">Vanaf €30,00 · 0,5-1 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-tree" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_zennevallei">Zennevallei</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_zennevallei_desc">Vanaf €30,00 · 3-4 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Brussel</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€30,00 · 15 km</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Internationaal vervoer ========== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Steenokkerzeel</h3>
-            <p data-i18n="international_sub">FleetConnect biedt betrouwbare ritten naar Nederland, Frankrijk en Duitsland. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
-            <ul style="margin: 16px 0 16px 20px; line-height:1.6;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±215 km – €320</li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±175 km – €260</li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±135 km – €200</li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±325 km – €440</li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±115 km – €170</li>
-                <li><strong data-i18n="int_dus">Düsseldorf (DE):</strong> ±235 km – €330</li>
-                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±175 km – €260</li>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±210 km – <strong>€315</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±170 km – <strong>€255</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – <strong>€480</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lon">Londen (UK) – via Eurotunnel:</strong> ±380 km – <strong>€570</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
@@ -155,12 +371,15 @@
             </div>
         </div>
 
-        <!-- Waarom FleetConnect - uitgebreide gridblokken -->
+        <!-- ========== Waarom FleetConnect - UNIFORM ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Steenokkerzeel?</h2>
         <div class="features-grid">
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Steenokkerzeel en de omliggende snelwegen (E19, N1) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Steenokkerzeel-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Steenokkerzeel-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
@@ -180,7 +399,7 @@
         <!-- CTA -->
         <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
             <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Steenokkerzeel of naar het buitenland?</h2>
-            <p style="margin:20px 0;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.</p>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
             <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
         </div>
     </div>
@@ -191,184 +410,398 @@
             <div class="contact-form">
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
-                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail"></div>
-                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2"></textarea></div>
+                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32470123456" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- ========================================================== -->
+    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
+    <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand"><h4><i class="fas fa-car"></i> FleetConnect</h4><p data-i18n="footer_tagline">Professioneel taxivervoer in België – Stijl, stiptheid en service.</p></div>
-                <div class="footer-ryz3n"><h4 data-i18n="footer_digital">FleetConnect | Digital</h4><a href="#">Control Panel</a><br><a href="#">Taxi Dispatch</a><br><a href="#">Legal & Privacy</a></div>
-                <div class="footer-legal"><h4 data-i18n="footer_legal">Juridisch</h4><a href="/PV/PVfaq.html">❓ FAQ</a><br><a href="/PV/PVprivacy.html">🔒 Privacy</a><br><a href="/PV/PVcookiebeleid.html">🍪 Cookiebeleid</a><br><a href="/PV/PValgemene-voorwaarden.html">📜 Algemene voorwaarden</a></div>
-                <div class="footer-partners"><h4 data-i18n="footer_partners">Partners</h4><a href="#">Support</a></div>
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
+                </div>
+
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                </div>
+
+                <div class="footer-partners">
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
+                </div>
             </div>
-            <div class="footer-bottom">© 2026 FleetConnect – <a href="#">FleetConnect</a></div>
+
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
         </div>
     </footer>
+    <!-- ========================================================== -->
+
 </div>
 
 <script>
-    // Vertalingen voor Steenokkerzeel (NL/FR/EN)
+    // ============================================================
+    // VERTALINGEN WOORDENBOEK - STEENOKKERZEEL
+    // ============================================================
     const translations = {
         nl: {
-            language_label: "Taal / Language",
-            nav_home: "Home", nav_exclusive: "Exclusieve service", nav_fixed_prices: "Vaste prijzen", nav_premium_fleet: "Premium vloot",
-            nav_airport: "Luchthavenvervoer", nav_business: "Zakelijk vervoer", nav_events: "Events & Gala", nav_courier: "Koeriersdienst",
-            nav_contact: "Contact", nav_book: "Reserveer nu", login: "LOGIN",
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Steenokkerzeel",
-            hero_subtitle: "Vaste prijs €1,50/km | Vluchtmonitoring | Meertalige chauffeurs (NL/FR/EN/DE) | 24/7 beschikbaar",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu uw rit",
+            hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
+            hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
             intro_title: "Steenokkerzeel – Groene gemeente met kasteeltraditie",
             intro_p1: "Steenokkerzeel is een gemeente in de provincie Vlaams-Brabant, gelegen in de Brusselse rand en vlakbij de luchthaven van Zaventem. De gemeente staat bekend om haar kasteel – het Kasteel van Steenokkerzeel, een prachtig waterkasteel uit de 14e eeuw, omgeven door een groot park – en haar groene omgeving. De Sint-Remigiuskerk en het gezellige dorpsplein met typische Brabantse huizen bepalen het historische centrum. De Zennevallei biedt uitgestrekte wandel- en fietsgebieden.",
             intro_p2: "Dankzij de uitstekende verbindingen via de E19 en de N1 is Steenokkerzeel een ideale woonplaats voor pendelaars naar Brussel, Mechelen, Leuven en Antwerpen. Ook de nabijheid van de luchthaven maakt het een strategische plek voor zakelijke reizigers. De gemeente heeft een bloeiend verenigingsleven en organiseert jaarlijks tal van evenementen, zoals de Steenokkerzeelse Kermis, de Kasteelfeesten en de sfeervolle Kerstmarkt.",
-            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, evenementenorganisatoren en families in Steenokkerzeel. Onze moderne Mercedes-, BMW- en minivans garanderen een comfortabele en stipte service. Met onze meertalige chauffeurs (NL/FR/EN/DE) zorgen wij voor een professionele ontvangst van nationale en internationale gasten.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, evenementenorganisatoren en families in Steenokkerzeel. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.",
             events_title: "Evenementen & zakenwijken in Steenokkerzeel",
             events_p1: "Steenokkerzeel heeft een gevarieerd aanbod aan evenementen. Jaarlijkse hoogtepunten zijn de Steenokkerzeelse Kermis in augustus, de Kasteelfeesten met concerten en theatervoorstellingen, de gezellige Kerstmarkt op het Dorpsplein en de Historische stoet rond de Sint-Remigiuskerk. Ook het Cultureel Centrum Steenokkerzeel biedt het hele jaar door voorstellingen, concerten en tentoonstellingen.",
             events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Steenokkerzeel-Noord, de Kantoorzone langs de E19 en het Business Park Steenokkerzeel. Het Kasteelpark en het Cultureel Centrum zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.",
-            routes_title: "Populaire routes vanuit Steenokkerzeel",
-            route1_title: "Steenokkerzeel → Zaventem (BRU)", route1_desc: "8 km · ±10 min · vaste prijs",
-            route2_title: "Steenokkerzeel → Brussel", route2_desc: "15 km · ±20 min · vaste prijs",
-            route3_title: "Steenokkerzeel → Mechelen", route3_desc: "12 km · ±12 min",
-            route4_title: "Steenokkerzeel → Leuven", route4_desc: "30 km · ±25 min",
-            route5_title: "Steenokkerzeel → Antwerpen", route5_desc: "40 km · ±35 min",
-            route6_title: "Centrum → Kasteel", route6_desc: "1,5 km · ±3 min",
+            routes_title: "✈️ Luchthaventransfers vanuit Steenokkerzeel",
+            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Steenokkerzeel → Zaventem",
+            route1_desc: "8 km · ±10 min · minimumtarief",
+            route2_title: "Steenokkerzeel → Charleroi",
+            route2_desc: "60 km · ±55 min · vaste prijs",
+            route3_title: "Steenokkerzeel → Deurne",
+            route3_desc: "35 km · ±40 min · vaste prijs",
+            route4_title: "Steenokkerzeel → Lille",
+            route4_desc: "120 km · ±1u 15 min · vaste prijs",
+            route5_title: "Steenokkerzeel → Eindhoven",
+            route5_desc: "90 km · ±1u 05 min · vaste prijs",
+            route6_title: "Steenokkerzeel → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2u 15 min · vaste prijs",
+            extras_title: "➕ Extra opties – transparante meerprijzen",
+            extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
+            extras_break: "Break model",
+            extras_break_desc: "– Meer bagageruimte",
+            extras_exclusive: "Exclusieve wagen",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Tot 8 personen",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            local_title: "📍 Ook binnen Steenokkerzeel",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Steenokkerzeel en de regio. Enkele voorbeelden:",
+            local_kasteel: "Kasteel",
+            local_kasteel_desc: "Vanaf €30,00 · 1-2 km",
+            local_kerk: "Sint-Remigiuskerk",
+            local_kerk_desc: "Vanaf €30,00 · 0,5-1 km",
+            local_zennevallei: "Zennevallei",
+            local_zennevallei_desc: "Vanaf €30,00 · 3-4 km",
+            local_brussel: "Brussel",
+            local_brussel_desc: "€30,00 · 15 km",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Steenokkerzeel",
-            international_sub: "FleetConnect biedt betrouwbare ritten naar Nederland, Frankrijk en Duitsland. Richtprijzen (sedan, inclusief wachttijd en tol):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Parijs (FR)", int_lil: "Lille (Rijsel, FR)", int_dus: "Düsseldorf (DE)", int_aac: "Aken (DE)",
-            service1_title: "Vluchtmonitoring", service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
-            service2_title: "Documentatie", service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
-            service3_title: "Meertalige chauffeurs", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24-48u vooruit", service4_desc: "Internationale ritten plannen.",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Parijs (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxemburg (LU)",
+            int_lon: "Londen (UK) – via Eurotunnel",
+            service1_title: "Vluchtmonitoring",
+            service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
+            service2_title: "Documentatie",
+            service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
+            service3_title: "Meertalige chauffeurs",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Reserveer 24-48u vooruit",
+            service4_desc: "Internationale ritten plannen.",
             why_title: "Waarom FleetConnect in Steenokkerzeel?",
-            why1_title: "Stipt & punctueel", why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Steenokkerzeel en de omliggende snelwegen (E19, N1) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_title: "Premium vloot", why2_desc: "Onze wagens zijn van topkwaliteit: Mercedes E-Klasse, BMW 5-serie, Lexus en luxe minivans (Mercedes V-Klasse). Alle voertuigen zijn maximaal 3 jaar oud, voorzien van lederen zetels, airco, gratis WiFi en flessenwater. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
-            why3_title: "Vaste prijzen", why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Steenokkerzeel-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
-            why4_title: "24/7 service", why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            why1_title: "Stipt & punctueel",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Steenokkerzeel en de omliggende snelwegen (E19, N1) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
+            why3_title: "Vaste prijzen",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Steenokkerzeel-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
+            why4_title: "24/7 service",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
             business_title: "Zakelijk & hotelvervoer op maat",
             business_desc: "FleetConnect is de preferred partner van verschillende hotels in Steenokkerzeel, waaronder Hotel Steenokkerzeel, B&B Ter Elst, Van der Valk Steenokkerzeel en ibis Steenokkerzeel. Voor congressen en zakelijke evenementen werken wij samen met het Cultureel Centrum Steenokkerzeel, het Business Park Steenokkerzeel en het Kasteelpark. Ook bedrijven in de logistieke sector, de evenementenbranche en de dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
             discover_title: "Ontdek Steenokkerzeel met FleetConnect",
             discover_p1: "Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek het Kasteel van Steenokkerzeel, de Sint-Remigiuskerk en wandel door het prachtige Kasteelpark of de Zennevallei. Ook het gezellige Dorpsplein met zijn terrasjes en typische Brabantse huizen is een bezoek waard. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
             cta_title: "Klaar voor een zorgeloze rit in Steenokkerzeel of naar het buitenland?",
-            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            footer_tagline: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridisch", footer_partners: "Partners"
+            language_label: "Taal / Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusieve service",
+            nav_fixed_prices: "Vaste prijzen",
+            nav_premium_fleet: "Premium vloot",
+            nav_airport: "Luchthavenvervoer",
+            nav_business: "Zakelijk vervoer",
+            nav_events: "Events & Gala",
+            nav_courier: "Koeriersdienst",
+            nav_contact: "Contact",
+            nav_book: "Reserveer nu",
+            login: "LOGIN"
         },
         fr: {
-            language_label: "Langue",
-            nav_home: "Accueil", nav_exclusive: "Service exclusif", nav_fixed_prices: "Prix fixes", nav_premium_fleet: "Flotte premium",
-            nav_airport: "Transfert aéroport", nav_business: "Transport d'affaires", nav_events: "Événements & Gala", nav_courier: "Service de messagerie",
-            nav_contact: "Contact", nav_book: "Réservez maintenant", login: "CONNEXION",
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Steenokkerzeel",
-            hero_subtitle: "Prix fixe €1,50/km | Suivi de vol | Chauffeurs multilingues (NL/FR/EN/DE) | Disponible 24/7",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez votre trajet",
+            hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
+            hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
             intro_title: "Steenokkerzeel – Commune verte à la tradition castrale",
             intro_p1: "Steenokkerzeel est une commune du Brabant flamand, située dans la périphérie bruxelloise et à proximité de l'aéroport de Zaventem. La commune est connue pour son château – le Château de Steenokkerzeel, un magnifique château d'eau du XIVe siècle entouré d'un grand parc – et son environnement verdoyant. L'église Saint-Remigius et la place du village avec ses maisons typiques brabançonnes caractérisent le centre historique. La Vallée de la Senne offre de vastes espaces de randonnée et de cyclisme.",
             intro_p2: "Grâce aux excellentes liaisons via l'E19 et la N1, Steenokkerzeel est un lieu de résidence idéal pour les navetteurs vers Bruxelles, Malines, Louvain et Anvers. La proximité de l'aéroport en fait également un emplacement stratégique pour les voyageurs d'affaires. La commune possède une vie associative dynamique et organise de nombreux événements chaque année, comme la Foire de Steenokkerzeel, les Fêtes du Château et le Marché de Noël.",
-            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, organisateurs d'événements et familles à Steenokkerzeel. Nos Mercedes, BMW et minibus modernes garantissent un confort et une ponctualité irréprochables. Avec nos chauffeurs multilingues (NL/FR/EN/DE), nous assurons un accueil professionnel aux invités nationaux et internationaux.",
+            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, organisateurs d'événements et familles à Steenokkerzeel. Notre flotte de Mercedes Classe E, BMW Série 5, Skoda et minibus de luxe garantit un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) assurent un accueil impeccable aux invités internationaux et aux voyageurs d'affaires.",
             events_title: "Événements et quartiers d'affaires à Steenokkerzeel",
             events_p1: "Steenokkerzeel propose une offre d'événements variée. Les temps forts annuels sont la Foire de Steenokkerzeel en août, les Fêtes du Château avec concerts et spectacles, le Marché de Noël sur la Place du Village et le Défilé Historique autour de l'église Saint-Remigius. Le Centre Culturel de Steenokkerzeel propose également des spectacles, concerts et expositions toute l'année.",
             events_p2: "Les principaux quartiers d'affaires sont la zone industrielle de Steenokkerzeel-Nord, la zone de bureaux le long de l'E19 et le Business Park Steenokkerzeel. Le Parc du Château et le Centre Culturel sont des lieux prisés pour les séminaires, fêtes d'entreprise et congrès.",
-            routes_title: "Itinéraires populaires depuis Steenokkerzeel",
-            route1_title: "Steenokkerzeel → Zaventem (BRU)", route1_desc: "8 km · ±10 min · prix fixe",
-            route2_title: "Steenokkerzeel → Bruxelles", route2_desc: "15 km · ±20 min · prix fixe",
-            route3_title: "Steenokkerzeel → Malines", route3_desc: "12 km · ±12 min",
-            route4_title: "Steenokkerzeel → Louvain", route4_desc: "30 km · ±25 min",
-            route5_title: "Steenokkerzeel → Anvers", route5_desc: "40 km · ±35 min",
-            route6_title: "Centre → Château", route6_desc: "1,5 km · ±3 min",
+            routes_title: "✈️ Transferts aéroport depuis Steenokkerzeel",
+            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Steenokkerzeel → Zaventem",
+            route1_desc: "8 km · ±10 min · tarif minimum",
+            route2_title: "Steenokkerzeel → Charleroi",
+            route2_desc: "60 km · ±55 min · prix fixe",
+            route3_title: "Steenokkerzeel → Deurne",
+            route3_desc: "35 km · ±40 min · prix fixe",
+            route4_title: "Steenokkerzeel → Lille",
+            route4_desc: "120 km · ±1h 15 min · prix fixe",
+            route5_title: "Steenokkerzeel → Eindhoven",
+            route5_desc: "90 km · ±1h 05 min · prix fixe",
+            route6_title: "Steenokkerzeel → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2h 15 min · prix fixe",
+            extras_title: "➕ Options supplémentaires – suppléments transparents",
+            extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
+            extras_break: "Break modèle",
+            extras_break_desc: "– Plus d'espace bagages",
+            extras_exclusive: "Voiture exclusive",
+            extras_exclusive_desc: "– Mercedes Classe E / BMW Série 5",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Jusqu'à 8 personnes",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            local_title: "📍 A Steenokkerzeel également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Steenokkerzeel et dans la région. Quelques exemples :",
+            local_kasteel: "Château",
+            local_kasteel_desc: "À partir de €30,00 · 1-2 km",
+            local_kerk: "Église Saint-Remigius",
+            local_kerk_desc: "À partir de €30,00 · 0,5-1 km",
+            local_zennevallei: "Vallée de la Senne",
+            local_zennevallei_desc: "À partir de €30,00 · 3-4 km",
+            local_brussel: "Bruxelles",
+            local_brussel_desc: "€30,00 · 15 km",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Steenokkerzeel",
-            international_sub: "FleetConnect propose des trajets fiables vers les Pays-Bas, la France et l'Allemagne. Prix indicatifs (berline, incluant temps d'attente et péages) :",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_dus: "Düsseldorf (DE)", int_aac: "Aix-la-Chapelle (DE)",
-            service1_title: "Suivi de vol", service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
-            service2_title: "Documentation", service2_desc: "Tous les papiers pour le transport transfrontalier.",
-            service3_title: "Chauffeurs multilingues", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24-48h à l'avance", service4_desc: "Planification des trajets internationaux.",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxembourg (LU)",
+            int_lon: "Londres (UK) – via Eurotunnel",
+            service1_title: "Suivi de vol",
+            service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
+            service2_title: "Documentation",
+            service2_desc: "Tous les papiers pour le transport transfrontalier.",
+            service3_title: "Chauffeurs multilingues",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Réservez 24-48h à l'avance",
+            service4_desc: "Planification des trajets internationaux.",
             why_title: "Pourquoi FleetConnect à Steenokkerzeel?",
-            why1_title: "Ponctuel & fiable", why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Steenokkerzeel et les autoroutes environnantes (E19, N1). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
-            why2_title: "Flotte premium", why2_desc: "Nos véhicules sont de premier ordre : Mercedes Classe E, BMW Série 5, Lexus et minibus de luxe (Mercedes Classe V). Tous les véhicules ont moins de 3 ans, avec sièges en cuir, climatisation, WiFi gratuit et bouteille d'eau. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
-            why3_title: "Prix fixes", why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Steenokkerzeel-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
-            why4_title: "Service 24/7", why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Steenokkerzeel et les autoroutes environnantes (E19, N1). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
+            why3_title: "Prix fixes",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Steenokkerzeel-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
+            why4_title: "Service 24/7",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
             business_title: "Transport professionnel et hôtelier sur mesure",
             business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Steenokkerzeel, dont Hotel Steenokkerzeel, B&B Ter Elst, Van der Valk Steenokkerzeel et ibis Steenokkerzeel. Pour les congrès et événements professionnels, nous collaborons avec le Centre Culturel de Steenokkerzeel, le Business Park Steenokkerzeel et le Parc du Château. Les entreprises du secteur logistique, de l'événementiel et des services comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
             discover_title: "Découvrez Steenokkerzeel avec FleetConnect",
             discover_p1: "Combinez votre rendez-vous d'affaires avec une découverte culturelle. Visitez le Château de Steenokkerzeel, l'église Saint-Remigius et promenez-vous dans le magnifique Parc du Château ou dans la Vallée de la Senne. La place du village avec ses terrasses et ses maisons typiques brabançonnes vaut également le détour. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la région. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
             discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
             cta_title: "Prêt pour un trajet sans souci à Steenokkerzeel ou à l'étranger?",
-            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti.",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
-            footer_tagline: "Transport professionnel en Belgique – Style, ponctualité et service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Juridique", footer_partners: "Partenaires"
+            language_label: "Langue",
+            nav_home: "Accueil",
+            nav_exclusive: "Service exclusif",
+            nav_fixed_prices: "Prix fixes",
+            nav_premium_fleet: "Flotte premium",
+            nav_airport: "Transfert aéroport",
+            nav_business: "Transport d'affaires",
+            nav_events: "Événements & Gala",
+            nav_courier: "Service de messagerie",
+            nav_contact: "Contact",
+            nav_book: "Réservez maintenant",
+            login: "CONNEXION"
         },
         en: {
-            language_label: "Language",
-            nav_home: "Home", nav_exclusive: "Exclusive service", nav_fixed_prices: "Fixed prices", nav_premium_fleet: "Premium fleet",
-            nav_airport: "Airport transfer", nav_business: "Business transport", nav_events: "Events & Gala", nav_courier: "Courier service",
-            nav_contact: "Contact", nav_book: "Book now", login: "LOGIN",
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Steenokkerzeel",
-            hero_subtitle: "Fixed price €1.50/km | Flight monitoring | Multilingual drivers (NL/FR/EN/DE) | 24/7 available",
-            hero_btn: "<i class='fas fa-calendar-check'></i> Book your ride now",
+            hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
+            hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
             intro_title: "Steenokkerzeel – Green municipality with a castle tradition",
             intro_p1: "Steenokkerzeel is a municipality in Flemish Brabant, located in the Brussels periphery and near Zaventem airport. The municipality is known for its castle – the Castle of Steenokkerzeel, a beautiful 14th-century moated castle surrounded by a large park – and its green environment. St. Remigius Church and the cosy village square with typical Brabant houses characterise the historic centre. The Senne Valley offers extensive walking and cycling areas.",
             intro_p2: "Thanks to excellent connections via the E19 and the N1, Steenokkerzeel is an ideal place to live for commuters to Brussels, Mechelen, Leuven and Antwerp. The proximity to the airport also makes it a strategic location for business travellers. The municipality has a thriving community life and organises many events annually, such as the Steenokkerzeel Fair, the Castle Festivities and the cosy Christmas Market.",
-            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, event organisers and families in Steenokkerzeel. Our modern Mercedes, BMW and minivans guarantee a comfortable and punctual service. With our multilingual drivers (NL/FR/EN/DE), we offer a professional welcome for national and international guests.",
+            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, event organisers and families in Steenokkerzeel. Our fleet of Mercedes E-Class, BMW 5 Series, Skoda and luxury minivans provides a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure a flawless welcome for international guests and business travellers.",
             events_title: "Events & Business Districts in Steenokkerzeel",
             events_p1: "Steenokkerzeel offers a varied events programme. Annual highlights are the Steenokkerzeel Fair in August, the Castle Festivities with concerts and theatre performances, the cosy Christmas Market on the Village Square and the Historical Procession around St. Remigius Church. The Steenokkerzeel Cultural Centre also offers performances, concerts and exhibitions throughout the year.",
             events_p2: "The main business districts are the Steenokkerzeel-Noord industrial estate, the office zone along the E19 and the Steenokkerzeel Business Park. The Castle Park and the Cultural Centre are popular venues for seminars, corporate parties and congresses.",
-            routes_title: "Popular routes from Steenokkerzeel",
-            route1_title: "Steenokkerzeel → Zaventem (BRU)", route1_desc: "8 km · ±10 min · fixed price",
-            route2_title: "Steenokkerzeel → Brussels", route2_desc: "15 km · ±20 min · fixed price",
-            route3_title: "Steenokkerzeel → Mechelen", route3_desc: "12 km · ±12 min",
-            route4_title: "Steenokkerzeel → Leuven", route4_desc: "30 km · ±25 min",
-            route5_title: "Steenokkerzeel → Antwerp", route5_desc: "40 km · ±35 min",
-            route6_title: "Centre → Castle", route6_desc: "1.5 km · ±3 min",
+            routes_title: "✈️ Airport transfers from Steenokkerzeel",
+            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Steenokkerzeel → Zaventem",
+            route1_desc: "8 km · ±10 min · minimum fare",
+            route2_title: "Steenokkerzeel → Charleroi",
+            route2_desc: "60 km · ±55 min · fixed price",
+            route3_title: "Steenokkerzeel → Deurne",
+            route3_desc: "35 km · ±40 min · fixed price",
+            route4_title: "Steenokkerzeel → Lille",
+            route4_desc: "120 km · ±1h 15 min · fixed price",
+            route5_title: "Steenokkerzeel → Eindhoven",
+            route5_desc: "90 km · ±1h 05 min · fixed price",
+            route6_title: "Steenokkerzeel → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2h 15 min · fixed price",
+            extras_title: "➕ Extra options – clear surcharges",
+            extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
+            extras_break: "Break model",
+            extras_break_desc: "– More luggage space",
+            extras_exclusive: "Exclusive car",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Up to 8 persons",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            local_title: "📍 Also in Steenokkerzeel",
+            local_desc: "In addition to airport transfers, we also provide reliable transport within Steenokkerzeel and the region. Some examples:",
+            local_kasteel: "Castle",
+            local_kasteel_desc: "From €30.00 · 1-2 km",
+            local_kerk: "St. Remigius Church",
+            local_kerk_desc: "From €30.00 · 0.5-1 km",
+            local_zennevallei: "Senne Valley",
+            local_zennevallei_desc: "From €30.00 · 3-4 km",
+            local_brussel: "Brussels",
+            local_brussel_desc: "€30.00 · 15 km",
+            local_cta: "Other destination? Request a free quote",
             international_title: "<i class='fas fa-globe'></i> International transport from Steenokkerzeel",
-            international_sub: "FleetConnect offers reliable rides to the Netherlands, France and Germany. Indicative prices (sedan, including waiting time and tolls):",
-            int_ams: "Amsterdam (NL)", int_rot: "Rotterdam (NL)", int_ein: "Eindhoven (NL)", int_par: "Paris (FR)", int_lil: "Lille (FR)", int_dus: "Düsseldorf (DE)", int_aac: "Aachen (DE)",
-            service1_title: "Flight monitoring", service1_desc: "We track your flight; free waiting time in case of delay.",
-            service2_title: "Documentation", service2_desc: "All documents for cross-border transport.",
-            service3_title: "Multilingual drivers", service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24-48h in advance", service4_desc: "Plan international trips.",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxembourg (LU)",
+            int_lon: "London (UK) – via Eurotunnel",
+            service1_title: "Flight monitoring",
+            service1_desc: "We track your flight; free waiting time in case of delay.",
+            service2_title: "Documentation",
+            service2_desc: "All documents for cross-border transport.",
+            service3_title: "Multilingual drivers",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Book 24-48h in advance",
+            service4_desc: "Plan international trips.",
             why_title: "Why FleetConnect in Steenokkerzeel?",
-            why1_title: "Punctual & reliable", why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Steenokkerzeel's back streets and the surrounding highways (E19, N1). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
-            why2_title: "Premium fleet", why2_desc: "Our vehicles are top quality: Mercedes E-Class, BMW 5 Series, Lexus and luxury minivans (Mercedes V-Class). All vehicles are less than 3 years old, with leather seats, air conditioning, free WiFi and bottled water. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
-            why3_title: "Fixed prices", why3_desc: "No meter, no surprises. You pay €1.50 per kilometer – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Steenokkerzeel-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
-            why4_title: "24/7 service", why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            why1_title: "Punctual & reliable",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Steenokkerzeel's back streets and the surrounding highways (E19, N1). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
+            why3_title: "Fixed prices",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Steenokkerzeel-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
+            why4_title: "24/7 service",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
             business_title: "Customised business & hotel transport",
             business_desc: "FleetConnect is the preferred partner of several hotels in Steenokkerzeel, including Hotel Steenokkerzeel, B&B Ter Elst, Van der Valk Steenokkerzeel and ibis Steenokkerzeel. For congresses and business events, we work with the Steenokkerzeel Cultural Centre, the Steenokkerzeel Business Park and the Castle Park. Companies in the logistics sector, events industry and services trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
             discover_title: "Discover Steenokkerzeel with FleetConnect",
             discover_p1: "Combine your business appointment with a cultural exploration. Visit the Castle of Steenokkerzeel, St. Remigius Church and walk through the beautiful Castle Park or the Senne Valley. The lively Village Square with its terraces and typical Brabant houses is also worth a visit. Our drivers also act as informal guides and are happy to give you tips about the region. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
             discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
             cta_title: "Ready for a worry-free ride in Steenokkerzeel or abroad?",
-            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed.",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
             contact_name_label: "<i class='fas fa-user'></i> Your name *",
             contact_email_label: "<i class='fas fa-envelope'></i> Email *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Send",
-            footer_tagline: "Professional transport in Belgium – Style, punctuality and service.",
-            footer_digital: "FleetConnect | Digital", footer_legal: "Legal", footer_partners: "Partners"
+            language_label: "Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusive service",
+            nav_fixed_prices: "Fixed prices",
+            nav_premium_fleet: "Premium fleet",
+            nav_airport: "Airport transfer",
+            nav_business: "Business transport",
+            nav_events: "Events & Gala",
+            nav_courier: "Courier service",
+            nav_contact: "Contact",
+            nav_book: "Book now",
+            login: "LOGIN"
         }
     };
 
+    // ============================================================
+    // HUIDIGE TAAL
+    // ============================================================
     let currentLang = 'nl';
 
     function translatePage() {
@@ -406,10 +839,14 @@
 
     translatePage();
 
+    // ============================================================
+    // HAMBURGER MENU FUNCTIONALITEIT
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
+        
         if (hamburgerBtn) {
             hamburgerBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -438,10 +875,14 @@
                 document.body.style.overflow = '';
             }
         });
+        
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
-                alert(currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' : (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' : 'Message sent! We will contact you as soon as possible.'));
+                const msg = currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' :
+                           (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' :
+                            'Message sent! We will contact you as soon as possible.');
+                alert(msg);
             });
         }
     });
