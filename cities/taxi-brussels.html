@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Brussel – Professioneel & internationaal</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Brussel. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. 24/7.">
+    <title>FleetConnect | Taxi Brussel – Hoofdstad van Europa & luchthaventransfers</title>
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Brussel. Vaste prijs €1,50/km (min. €30). Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Deurne (ANR), Eindhoven, Amsterdam, Lille. 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* --- Alle stijlen zijn identiek aan de template --- */
         *{margin:0;padding:0;box-sizing:border-box}
-        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
+        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1513639776629-7b61b0a6b1b5?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
         :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
         body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
         .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
@@ -48,6 +49,7 @@
         .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
         .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
         .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
         .feature-card{text-align:center}
         .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
         .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
@@ -79,15 +81,40 @@
         .extra-options-list li strong{min-width:120px}
         .extra-options-list li span{color:var(--text-light)}
         
-        /* ========== FOOTER - GOUDZAND KOPPEN ========== */
+        /* ========== FOOTER - UNIFORM BLAUW ========== */
         .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
-        .footer-grid h4{color:#c9a03d !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
         .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
-        .footer-grid a:hover{color:#c9a03d;text-decoration:underline}
+        .footer-grid a:hover{color:var(--primary);text-decoration:underline}
         .footer-brand p{color:#e0edf5;line-height:1.8}
+        
+        /* ========== DROPDOWN STIJLEN ========== */
+        .footer-city-select {
+            background: #1a2f3f;
+            color: #e0edf5;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+            max-width: 220px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 8px;
+            appearance: auto;
+        }
+        .footer-city-select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        .footer-city-select option {
+            background: #0d1f2c;
+            color: #e0edf5;
+        }
+        
         .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
-        .footer-bottom a{color:#c9a03d;text-decoration:none}
+        .footer-bottom a{color:var(--primary);text-decoration:none}
         .footer-bottom a:hover{text-decoration:underline}
         
         /* ========== RESPONSIVE ========== */
@@ -100,6 +127,7 @@
             .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
             .lang-btn{font-size:0.7rem;padding:4px 10px}
             .extra-options-list li strong{min-width:100px}
+            .footer-city-select{max-width:100%}
         }
         @media (max-width:500px){
             .container{padding:0 12px}
@@ -158,7 +186,7 @@
 </div>
 
 <div class="content-overlay">
-    <!-- ========== HERO SECTIE - OPTIE A (BLAUWE SLOGAN + VETGEDRUKT) ========== -->
+    <!-- ========== HERO SECTIE - UNIFORM ========== -->
     <section class="hero">
         <div class="container">
             <div class="hero-card">
@@ -171,7 +199,7 @@
                 </p>
                 <div style="height:20px;"></div>
                 <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
-                    <strong>€1,50/km • Vluchtmonitoring • Meertalige chauffeurs</strong>
+                    <strong>€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs</strong>
                 </p>
                 <div style="height:30px;"></div>
                 <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
@@ -184,57 +212,69 @@
     <div class="container">
         <!-- Blok 1: Introductie Brussel -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Brussel – Hoofdstad van België en Europa</h2>
-            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Brussel is de politieke en administratieve hoofdstad van België, maar ook het kloppend hart van de Europese Unie. Duizenden Europarlementsleden, diplomaten, lobbyisten en internationale zakenmensen reizen dagelijks door de stad. De Europese Wijk (Wetstraat) herbergt de Europese Commissie, de Raad van de EU en het Europees Parlement. Daarnaast is Brussel de thuisbasis van de NAVO en tal van multinationals. De Louizalaan is het exclusieve winkel- en zakencentrum, terwijl de Noordwijk het financiële hart vormt.</p>
-            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Culturele hoogtepunten zijn de Grote Markt met het stadhuis, Manneken Pis, het Atomium, het Koninklijk Paleis en het Jubelpark. Deze trekken jaarlijks miljoenen toeristen. Ook de Koninklijke Musea voor Schone Kunsten, Magrittemuseum, Autoworld en het Museum voor Natuurwetenschappen zijn wereldberoemd. Brussel telt tientallen congressen en beurzen, zoals in Brussels Expo (Heizel), Square Brussels Meeting Centre en Tour & Taxis.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is al jaren de vertrouwde partner voor hotels, congrescentra en bedrijven in Brussel. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke service. Onze chauffeurs spreken Nederlands, Frans, Engels en Duits – essentieel voor de internationale Brusselse gemeenschap.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Brussel – Hoofdstad van Europa & bruisende grootstad</h2>
+            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Brussel is de hoofdstad van België en het politieke hart van Europa. De stad herbergt de Europese instellingen, waaronder de Europese Commissie, het Europees Parlement en de Raad van de EU. Brussel is ook de thuisbasis van de NAVO en tal van internationale organisaties, wat de stad een unieke, kosmopolitische sfeer geeft.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">De stad is rijk aan cultuur en geschiedenis, met de iconische Grote Markt (UNESCO Werelderfgoed), de Manneken Pis, het Atomium en het Koninklijk Paleis. Brussel is ook een culinaire bestemming, bekend om zijn chocolade, wafels en bieren. De Zavel, Louizalaan en Matongé bieden een mix van luxe winkels, Afrikaanse sfeer en internationale keukens.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor bedrijven, diplomaten, hotels, congresorganisatoren en overheidsinstellingen in Brussel. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.</p>
         </div>
 
-        <!-- Blok 2: Evenementen en wijken -->
+        <!-- Blok 2: Evenementen en zakenwijken -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Brussel</h2>
-            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Brussel kent een bruisend evenementenkalender. Jaarlijks vinden meer dan 500 congressen plaats, waaronder CIRED, ISICEM en CDPD. Het Brussels Summer Festival (juli) en Winter Wonders (december) trekken honderdduizenden bezoekers. Ook de Belgian Pride en Museum Night Fever zijn niet te missen. Bedrijfsfeesten in Tour & Taxis of gala-avonden in het Koninklijk Circus vragen om betrouwbaar vervoer – FleetConnect staat paraat.</p>
-            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken: Europese Wijk (Allen & Overy, Deloitte, KPMG), Noordwijk (Belfius, KBC, ING), Louizalaan (luxe merken, advocatenkantoren) en Troonwijk (overheidsinstanties). Voor al deze districten bieden wij vaste prijzen en VIP-service.</p>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Brussel kent een drukke evenementenkalender. Hoogtepunten zijn de Brussels Summer Festival, de Zomer van Brussel, de Winterpret op de Grote Markt en de Brussels Christmas Market. Ook het Brussels Beer Weekend en de Brussels Food Truck Festival trekken een internationaal publiek.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn de Europese Wijk (rond Schuman en Luxembourg), de Louizawijk (luxe kantoren en winkels), de Noordwijk (zakendistrict met de financiële torens) en de Zuidwijk (rond het station Brussel-Zuid). Het Brussels Expo (Heyzel) is het grootste evenementencomplex, met congressen en beurzen zoals de Brussels Motor Show.</p>
         </div>
 
-        <!-- ========== Nationale routes - MET CORRECTE PRIJZEN ========== -->
-        <h2 class="section-title" data-i18n="routes_title">Populaire routes vanuit Brussel</h2>
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Brussel
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
         <div class="route-grid">
             <div class="route-card">
                 <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
-                <h3 data-i18n="route1_title">Brussel → Zaventem (BRU)</h3>
+                <h3 data-i18n="route1_title">Brussel → Zaventem</h3>
+                <span class="route-airport-code">BRU</span>
                 <div class="route-price">€30,00</div>
-                <p data-i18n="route1_desc">15 km · ±25 min · minimumtarief</p>
+                <p data-i18n="route1_desc">12 km · ±20 min · minimumtarief</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
-                <h3 data-i18n="route2_title">Brussel → Charleroi (CRL)</h3>
-                <div class="route-price">€85,50</div>
-                <p data-i18n="route2_desc">57 km · ±55 min · vaste prijs</p>
+                <h3 data-i18n="route2_title">Brussel → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€90,00</div>
+                <p data-i18n="route2_desc">60 km · ±55 min · vaste prijs</p>
             </div>
             <div class="route-card">
-                <i class="fas fa-building"></i>
-                <h3 data-i18n="route3_title">Europese wijk → Luchthaven</h3>
-                <div class="route-price">€30,00 - €45,00</div>
-                <p data-i18n="route3_desc">12-15 km · vluchtmonitoring</p>
-            </div>
-            <div class="route-card">
-                <i class="fas fa-train"></i>
-                <h3 data-i18n="route4_title">Brussel-Zuid → Antwerpen</h3>
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Brussel → Deurne</h3>
+                <span class="route-airport-code">ANR</span>
                 <div class="route-price">€67,50</div>
-                <p data-i18n="route4_desc">45 km · ±50 min · vaste prijs</p>
+                <p data-i18n="route3_desc">45 km · ±50 min · vaste prijs</p>
             </div>
             <div class="route-card">
-                <i class="fas fa-church"></i>
-                <h3 data-i18n="route5_title">Centrum → Atomium</h3>
-                <div class="route-price">€30,00</div>
-                <p data-i18n="route5_desc">8 km · ±20 min · minimumtarief</p>
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Brussel → Lille</h3>
+                <span class="route-airport-code">LIL</span>
+                <div class="route-price">€180,00</div>
+                <p data-i18n="route4_desc">120 km · ±1u 15 min · vaste prijs</p>
             </div>
             <div class="route-card">
-                <i class="fas fa-hotel"></i>
-                <h3 data-i18n="route6_title">Binnen de Vijfhoek</h3>
-                <div class="route-price">€30,00</div>
-                <p data-i18n="route6_desc">€1,50/km · minimum €30,00</p>
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Brussel → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€135,00</div>
+                <p data-i18n="route5_desc">90 km · ±1u 05 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Brussel → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€315,00</div>
+                <p data-i18n="route6_desc">210 km · ±2u 15 min · vaste prijs</p>
             </div>
         </div>
 
@@ -276,18 +316,52 @@
             </ul>
         </div>
 
-        <!-- ========== Internationaal vervoer - MET CORRECTE PRIJZEN ========== -->
+        <!-- ========== Extra bestemmingen in Brussel (vergelijkbaar met "Ook binnen Antwerpen") ========== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Ook binnen Brussel
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Brussel en de regio. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-university" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_euro">Europese Wijk</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_euro_desc">Vanaf €30,00 · 3-5 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-shopping-bag" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_louiza">Louizalaan</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_louiza_desc">Vanaf €30,00 · 2-4 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-landmark" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_atomium">Atomium</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_atomium_desc">Vanaf €30,00 · 8-10 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_gent">Gent</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gent_desc">€45,00 · 30 km</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Internationaal vervoer ========== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Brussel</h3>
-            <p data-i18n="international_sub">FleetConnect biedt betrouwbare ritten naar Nederland, Duitsland en Frankrijk. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
             <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL):</strong> ±212 km – <strong>€318</strong></li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±296 km – <strong>€444</strong></li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±120 km – <strong>€180</strong></li>
-                <li><strong data-i18n="int_fra">Frankfurt (DE):</strong> ±240 km – <strong>€360</strong></li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±160 km – <strong>€240</strong></li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL):</strong> ±130 km – <strong>€195</strong></li>
-                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±180 km – <strong>€270</strong></li>
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±210 km – <strong>€315</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±170 km – <strong>€255</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – <strong>€480</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lon">Londen (UK) – via Eurotunnel:</strong> ±380 km – <strong>€570</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
@@ -297,10 +371,10 @@
             </div>
         </div>
 
-        <!-- ========== Waarom FleetConnect - MET "OF GELIJKWAARDIG" ========== -->
+        <!-- ========== Waarom FleetConnect - UNIFORM ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Brussel?</h2>
         <div class="features-grid">
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Brussel, zodat files u zelden parten spelen. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de Brusselse binnenwegen en de ring (R0) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
             
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
             
@@ -312,20 +386,20 @@
         <!-- Zakelijk & hotelvervoer -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
-            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van tientallen hotels in Brussel, waaronder The Hotel, Brussels Marriott, Steigenberger Wiltcher's, Stanhope, NH Brussels EU, Hilton Grand Place. Voor congressen werken wij samen met Square Brussels Meeting Centre, Brussels Expo, Tour & Taxis en de NAVO. Bedrijven als Deloitte, KPMG, Allen & Overy vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden. Neem contact op voor een vaste prijs per rit of een abonnement.</p>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van talrijke hotels in Brussel, waaronder The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher’s, Marriott Grand Place en ibis Brussels Centre. Voor congressen en evenementen werken wij samen met Brussels Expo, het Europees Parlement, het Koninklijk Paleis en de Kunstberg. Ook ambassades, internationale organisaties en zakencentra (Twin Towers, World Trade Center) vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
         </div>
 
         <!-- Extra blok: cultuur en bezienswaardigheden -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Brussel met FleetConnect</h2>
-            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast zakelijk vervoer is FleetConnect ook de ideale keuze voor toeristen en cultuurliefhebbers. Breng een bezoek aan de Koninklijke Serres van Laken, het Muziekinstrumentenmuseum (MIM) of het Horta Museum. Geniet van een avond in de Koninklijke Muntschouwburg of de AB (Ancienne Belgique). Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.</p>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een cultureel uitstapje. Bezoek de Grote Markt met het stadhuis en de huizen van de gilden, bewonder het Atomium en het Mini-Europa park, of wandel door de Zavel met zijn antiekwinkels en het Koninklijk Museum voor Schone Kunsten. Proef de beroemde Brusselse wafels en chocolade in de galerijen van de Koningin. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.</p>
             <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
         </div>
 
         <!-- CTA -->
         <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
-            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Brussel of naar het buitenland?</h2>
-            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.</p>
+            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze luchthaventransfer of rit in Brussel?</h2>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
             <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
         </div>
     </div>
@@ -346,12 +420,11 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – MET GOUDZAND KOPPEN                              -->
+    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
                     <h4><i class="fas fa-car"></i> FleetConnect</h4>
                     <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
@@ -360,20 +433,44 @@
                     <a href="/partner-login">Partner login</a>
                 </div>
 
-                <!-- Kolom 2: Populaire steden -->
                 <div class="footer-cities">
                     <h4>Populaire steden</h4>
-                    <a href="/taxi-brussels">Taxi Brussels</a>
-                    <a href="/taxi-antwerpen">Taxi Antwerp</a>
-                    <a href="/taxi-gent">Taxi Ghent</a>
-                    <a href="/taxi-zaventem">Taxi Zaventem</a>
-                    <a href="/taxi-leuven">Taxi Leuven</a>
-                    <a href="/taxi-mechelen">Taxi Mechelen</a>
-                    <a href="/taxi-waterloo">Taxi Waterloo</a>
-                    <a href="/taxi-brugge">Taxi Brugge</a>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
                     <h4>Legal</h4>
                     <a href="/PV/PVfaq.html">FAQ</a>
@@ -382,7 +479,6 @@
                     <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                 </div>
 
-                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
                     <h4>FleetConnect</h4>
                     <a href="mailto:support@fleetconnect.be">Support</a>
@@ -390,7 +486,6 @@
                 </div>
             </div>
 
-            <!-- Footer bottom -->
             <div class="footer-bottom">
                 2026 FleetConnect - <a href="/">FleetConnect</a>
             </div>
@@ -402,39 +497,35 @@
 
 <script>
     // ============================================================
-    // VERTALINGEN WOORDENBOEK
+    // VERTALINGEN WOORDENBOEK - BRUSSEL
     // ============================================================
     const translations = {
         nl: {
-            // Hero - Optie A (blauwe slogan, vetgedrukt)
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Brussel",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
-            hero_features: "€1,50/km • Vluchtmonitoring • Meertalige chauffeurs",
+            hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
             hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
-            // Intro
-            intro_title: "Brussel – Hoofdstad van België en Europa",
-            intro_p1: "Brussel is de politieke en administratieve hoofdstad van België, maar ook het kloppend hart van de Europese Unie. Duizenden Europarlementsleden, diplomaten, lobbyisten en internationale zakenmensen reizen dagelijks door de stad. De Europese Wijk (Wetstraat) herbergt de Europese Commissie, de Raad van de EU en het Europees Parlement. Daarnaast is Brussel de thuisbasis van de NAVO en tal van multinationals. De Louizalaan is het exclusieve winkel- en zakencentrum, terwijl de Noordwijk het financiële hart vormt.",
-            intro_p2: "Culturele hoogtepunten zijn de Grote Markt met het stadhuis, Manneken Pis, het Atomium, het Koninklijk Paleis en het Jubelpark. Deze trekken jaarlijks miljoenen toeristen. Ook de Koninklijke Musea voor Schone Kunsten, Magrittemuseum, Autoworld en het Museum voor Natuurwetenschappen zijn wereldberoemd. Brussel telt tientallen congressen en beurzen, zoals in Brussels Expo (Heizel), Square Brussels Meeting Centre en Tour & Taxis.",
-            intro_p3: "FleetConnect is al jaren de vertrouwde partner voor hotels, congrescentra en bedrijven in Brussel. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke service. Onze chauffeurs spreken Nederlands, Frans, Engels en Duits – essentieel voor de internationale Brusselse gemeenschap.",
-            // Events
+            intro_title: "Brussel – Hoofdstad van Europa & bruisende grootstad",
+            intro_p1: "Brussel is de hoofdstad van België en het politieke hart van Europa. De stad herbergt de Europese instellingen, waaronder de Europese Commissie, het Europees Parlement en de Raad van de EU. Brussel is ook de thuisbasis van de NAVO en tal van internationale organisaties, wat de stad een unieke, kosmopolitische sfeer geeft.",
+            intro_p2: "De stad is rijk aan cultuur en geschiedenis, met de iconische Grote Markt (UNESCO Werelderfgoed), de Manneken Pis, het Atomium en het Koninklijk Paleis. Brussel is ook een culinaire bestemming, bekend om zijn chocolade, wafels en bieren. De Zavel, Louizalaan en Matongé bieden een mix van luxe winkels, Afrikaanse sfeer en internationale keukens.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, diplomaten, hotels, congresorganisatoren en overheidsinstellingen in Brussel. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.",
             events_title: "Evenementen & zakenwijken in Brussel",
-            events_p1: "Brussel kent een bruisend evenementenkalender. Jaarlijks vinden meer dan 500 congressen plaats, waaronder CIRED, ISICEM en CDPD. Het Brussels Summer Festival (juli) en Winter Wonders (december) trekken honderdduizenden bezoekers. Ook de Belgian Pride en Museum Night Fever zijn niet te missen. Bedrijfsfeesten in Tour & Taxis of gala-avonden in het Koninklijk Circus vragen om betrouwbaar vervoer – FleetConnect staat paraat.",
-            events_p2: "De belangrijkste zakenwijken: Europese Wijk (Allen & Overy, Deloitte, KPMG), Noordwijk (Belfius, KBC, ING), Louizalaan (luxe merken, advocatenkantoren) en Troonwijk (overheidsinstanties). Voor al deze districten bieden wij vaste prijzen en VIP-service.",
-            // Routes - MET CORRECTE PRIJZEN
-            routes_title: "Populaire routes vanuit Brussel",
-            route1_title: "Brussel → Zaventem (BRU)",
-            route1_desc: "15 km · ±25 min · minimumtarief",
-            route2_title: "Brussel → Charleroi (CRL)",
-            route2_desc: "57 km · ±55 min · vaste prijs",
-            route3_title: "Europese wijk → Luchthaven",
-            route3_desc: "12-15 km · vluchtmonitoring",
-            route4_title: "Brussel-Zuid → Antwerpen",
-            route4_desc: "45 km · ±50 min · vaste prijs",
-            route5_title: "Centrum → Atomium",
-            route5_desc: "8 km · ±20 min · minimumtarief",
-            route6_title: "Binnen de Vijfhoek",
-            route6_desc: "€1,50/km · minimum €30,00",
-            // Extra opties
+            events_p1: "Brussel kent een drukke evenementenkalender. Hoogtepunten zijn de Brussels Summer Festival, de Zomer van Brussel, de Winterpret op de Grote Markt en de Brussels Christmas Market. Ook het Brussels Beer Weekend en de Brussels Food Truck Festival trekken een internationaal publiek.",
+            events_p2: "De belangrijkste zakenwijken zijn de Europese Wijk (rond Schuman en Luxembourg), de Louizawijk (luxe kantoren en winkels), de Noordwijk (zakendistrict met de financiële torens) en de Zuidwijk (rond het station Brussel-Zuid). Het Brussels Expo (Heyzel) is het grootste evenementencomplex, met congressen en beurzen zoals de Brussels Motor Show.",
+            routes_title: "✈️ Luchthaventransfers vanuit Brussel",
+            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Brussel → Zaventem",
+            route1_desc: "12 km · ±20 min · minimumtarief",
+            route2_title: "Brussel → Charleroi",
+            route2_desc: "60 km · ±55 min · vaste prijs",
+            route3_title: "Brussel → Deurne",
+            route3_desc: "45 km · ±50 min · vaste prijs",
+            route4_title: "Brussel → Lille",
+            route4_desc: "120 km · ±1u 15 min · vaste prijs",
+            route5_title: "Brussel → Eindhoven",
+            route5_desc: "90 km · ±1u 05 min · vaste prijs",
+            route6_title: "Brussel → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2u 15 min · vaste prijs",
             extras_title: "➕ Extra opties – transparante meerprijzen",
             extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
             extras_break: "Break model",
@@ -447,16 +538,25 @@
             extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
-            // International - MET CORRECTE PRIJZEN
+            local_title: "📍 Ook binnen Brussel",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Brussel en de regio. Enkele voorbeelden:",
+            local_euro: "Europese Wijk",
+            local_euro_desc: "Vanaf €30,00 · 3-5 km",
+            local_louiza: "Louizalaan",
+            local_louiza_desc: "Vanaf €30,00 · 2-4 km",
+            local_atomium: "Atomium",
+            local_atomium_desc: "Vanaf €30,00 · 8-10 km",
+            local_gent: "Gent",
+            local_gent_desc: "€45,00 · 30 km",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Brussel",
-            international_sub: "FleetConnect biedt betrouwbare ritten naar Nederland, Duitsland en Frankrijk. Richtprijzen (sedan, inclusief wachttijd en tol):",
-            int_ams: "Amsterdam (NL): ±212 km – €318",
-            int_par: "Parijs (FR): ±296 km – €444",
-            int_lil: "Lille (Rijsel, FR): ±120 km – €180",
-            int_fra: "Frankfurt (DE): ±240 km – €360",
-            int_rot: "Rotterdam (NL): ±160 km – €240",
-            int_ein: "Eindhoven (NL): ±130 km – €195",
-            int_aac: "Aken (DE): ±180 km – €270",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Parijs (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxemburg (LU)",
+            int_lon: "Londen (UK) – via Eurotunnel",
             service1_title: "Vluchtmonitoring",
             service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
             service2_title: "Documentatie",
@@ -465,33 +565,27 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Reserveer 24-48u vooruit",
             service4_desc: "Internationale ritten plannen.",
-            // Why - MET "OF GELIJKWAARDIG"
             why_title: "Waarom FleetConnect in Brussel?",
             why1_title: "Stipt & punctueel",
-            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Brussel, zodat files u zelden parten spelen. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de Brusselse binnenwegen en de ring (R0) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
             why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
             why3_title: "Vaste prijzen",
             why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Brussel-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
             why4_title: "24/7 service",
             why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
-            // Business
             business_title: "Zakelijk & hotelvervoer op maat",
-            business_desc: "FleetConnect is de preferred partner van tientallen hotels in Brussel, waaronder The Hotel, Brussels Marriott, Steigenberger Wiltcher's, Stanhope, NH Brussels EU, Hilton Grand Place. Voor congressen werken wij samen met Square Brussels Meeting Centre, Brussels Expo, Tour & Taxis en de NAVO. Bedrijven als Deloitte, KPMG, Allen & Overy vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden. Neem contact op voor een vaste prijs per rit of een abonnement.",
-            // Discover
+            business_desc: "FleetConnect is de preferred partner van talrijke hotels in Brussel, waaronder The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher’s, Marriott Grand Place en ibis Brussels Centre. Voor congressen en evenementen werken wij samen met Brussels Expo, het Europees Parlement, het Koninklijk Paleis en de Kunstberg. Ook ambassades, internationale organisaties en zakencentra (Twin Towers, World Trade Center) vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
             discover_title: "Ontdek Brussel met FleetConnect",
-            discover_p1: "Naast zakelijk vervoer is FleetConnect ook de ideale keuze voor toeristen en cultuurliefhebbers. Breng een bezoek aan de Koninklijke Serres van Laken, het Muziekinstrumentenmuseum (MIM) of het Horta Museum. Geniet van een avond in de Koninklijke Muntschouwburg of de AB (Ancienne Belgique). Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            discover_p1: "Combineer uw zakelijke afspraak met een cultureel uitstapje. Bezoek de Grote Markt met het stadhuis en de huizen van de gilden, bewonder het Atomium en het Mini-Europa park, of wandel door de Zavel met zijn antiekwinkels en het Koninklijk Museum voor Schone Kunsten. Proef de beroemde Brusselse wafels en chocolade in de galerijen van de Koningin. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
-            // CTA
-            cta_title: "Klaar voor een zorgeloze rit in Brussel of naar het buitenland?",
-            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd.",
+            cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Brussel?",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
-            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            // Sidebar nav
             language_label: "Taal / Language",
             nav_home: "Home",
             nav_exclusive: "Exclusieve service",
@@ -506,33 +600,31 @@
             login: "LOGIN"
         },
         fr: {
-            // Hero - Optie A (blauwe slogan, vetgedrukt)
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Bruxelles",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
-            hero_features: "€1,50/km • Suivi de vol • Chauffeurs multilingues",
+            hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
             hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
-            // Intro
-            intro_title: "Bruxelles – Capitale de la Belgique et de l'Europe",
-            intro_p1: "Bruxelles est la capitale politique et administrative de la Belgique, mais aussi le cœur battant de l'Union européenne. Des milliers de députés européens, diplomates, lobbyistes et hommes d'affaires internationaux parcourent la ville quotidiennement. Le Quartier Européen abrite la Commission européenne, le Conseil de l'UE et le Parlement européen. Bruxelles abrite également l'OTAN et de nombreuses multinationales. L'avenue Louise est le centre commercial et d'affaires exclusif, tandis que le Quartier Nord constitue le cœur financier.",
-            intro_p2: "Les points forts culturels sont la Grand-Place avec l'hôtel de ville, le Manneken Pis, l'Atomium, le Palais Royal et le Parc du Cinquantenaire. Ils attirent des millions de touristes chaque année. Les Musées royaux des Beaux-Arts, le Musée Magritte, Autoworld et le Musée des Sciences naturelles sont également mondialement connus. Bruxelles accueille des dizaines de congrès et salons, notamment à Brussels Expo (Heizel), Square Brussels Meeting Centre et Tour & Taxis.",
-            intro_p3: "FleetConnect est le partenaire de confiance des hôtels, centres de congrès et entreprises à Bruxelles. Grâce à notre flotte de Skoda, Mercedes Classe E, BMW Série 5 ou équivalent et minibus de luxe, nous offrons un service irréprochable. Nos chauffeurs parlent néerlandais, français, anglais et allemand – essentiel pour la communauté internationale bruxelloise.",
+            intro_title: "Bruxelles – Capitale de l'Europe & métropole bouillonnante",
+            intro_p1: "Bruxelles est la capitale de la Belgique et le cœur politique de l'Europe. La ville abrite les institutions européennes, dont la Commission européenne, le Parlement européen et le Conseil de l'UE. Bruxelles est également le siège de l'OTAN et de nombreuses organisations internationales, ce qui donne à la ville une atmosphère unique et cosmopolite.",
+            intro_p2: "La ville est riche en culture et en histoire, avec la Grand-Place (patrimoine UNESCO), le Manneken Pis, l'Atomium et le Palais Royal. Bruxelles est aussi une destination culinaire, connue pour son chocolat, ses gaufres et ses bières. Le Sablon, l'avenue Louise et Matongé offrent un mélange de boutiques de luxe, d'ambiance africaine et de cuisines internationales.",
+            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, diplomates, hôtels, organisateurs de congrès et institutions publiques à Bruxelles. Notre flotte de Mercedes Classe E, BMW Série 5, Skoda et minibus de luxe garantit un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) assurent un accueil impeccable aux invités internationaux et aux voyageurs d'affaires.",
             events_title: "Événements et quartiers d'affaires à Bruxelles",
-            events_p1: "Bruxelles a un calendrier d'événements animé. Plus de 500 congrès ont lieu chaque année, dont CIRED, ISICEM et CDPD. Le Brussels Summer Festival (juillet) et Winter Wonders (décembre) attirent des centaines de milliers de visiteurs. La Belgian Pride et la Museum Night Fever sont également à ne pas manquer. Les fêtes d'entreprise à Tour & Taxis ou les soirées de gala au Cirque Royal nécessitent un transport fiable – FleetConnect est là.",
-            events_p2: "Les principaux quartiers d'affaires : Quartier Européen (Allen & Overy, Deloitte, KPMG), Quartier Nord (Belfius, KBC, ING), Avenue Louise (marques de luxe, cabinets d'avocats) et Quartier de la Trône (institutions gouvernementales). Pour tous ces districts, nous proposons des prix fixes et un service VIP.",
-            // Routes - MET CORRECTE PRIJZEN
-            routes_title: "Itinéraires populaires depuis Bruxelles",
-            route1_title: "Bruxelles → Zaventem (BRU)",
-            route1_desc: "15 km · ±25 min · tarif minimum",
-            route2_title: "Bruxelles → Charleroi (CRL)",
-            route2_desc: "57 km · ±55 min · prix fixe",
-            route3_title: "Quartier Européen → Aéroport",
-            route3_desc: "12-15 km · suivi de vol",
-            route4_title: "Bruxelles-Midi → Anvers",
-            route4_desc: "45 km · ±50 min · prix fixe",
-            route5_title: "Centre → Atomium",
-            route5_desc: "8 km · ±20 min · tarif minimum",
-            route6_title: "Dans le Pentagone",
-            route6_desc: "€1,50/km · minimum €30,00",
+            events_p1: "Bruxelles a un calendrier d'événements chargé. Les temps forts sont le Brussels Summer Festival, l'Été de Bruxelles, les Plaisirs d'Hiver sur la Grand-Place et le Brussels Christmas Market. Le Brussels Beer Weekend et le Brussels Food Truck Festival attirent également un public international.",
+            events_p2: "Les principaux quartiers d'affaires sont le quartier européen (autour de Schuman et Luxembourg), le quartier Louise (bureaux et boutiques de luxe), le quartier Nord (district des affaires avec les tours financières) et le quartier Midi (autour de la gare de Bruxelles-Midi). Brussels Expo (Heyzel) est le plus grand complexe événementiel, avec des congrès et salons comme le Brussels Motor Show.",
+            routes_title: "✈️ Transferts aéroport depuis Bruxelles",
+            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Bruxelles → Zaventem",
+            route1_desc: "12 km · ±20 min · tarif minimum",
+            route2_title: "Bruxelles → Charleroi",
+            route2_desc: "60 km · ±55 min · prix fixe",
+            route3_title: "Bruxelles → Deurne",
+            route3_desc: "45 km · ±50 min · prix fixe",
+            route4_title: "Bruxelles → Lille",
+            route4_desc: "120 km · ±1h 15 min · prix fixe",
+            route5_title: "Bruxelles → Eindhoven",
+            route5_desc: "90 km · ±1h 05 min · prix fixe",
+            route6_title: "Bruxelles → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2h 15 min · prix fixe",
             extras_title: "➕ Options supplémentaires – suppléments transparents",
             extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
             extras_break: "Break modèle",
@@ -545,16 +637,25 @@
             extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
-            // International - MET CORRECTE PRIJZEN
+            local_title: "📍 A Bruxelles également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Bruxelles et dans la région. Quelques exemples :",
+            local_euro: "Quartier européen",
+            local_euro_desc: "À partir de €30,00 · 3-5 km",
+            local_louiza: "Avenue Louise",
+            local_louiza_desc: "À partir de €30,00 · 2-4 km",
+            local_atomium: "Atomium",
+            local_atomium_desc: "À partir de €30,00 · 8-10 km",
+            local_gent: "Gand",
+            local_gent_desc: "€45,00 · 30 km",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Bruxelles",
-            international_sub: "FleetConnect propose des trajets fiables vers les Pays-Bas, l'Allemagne et la France. Prix indicatifs (berline, incluant temps d'attente et péages) :",
-            int_ams: "Amsterdam (NL): ±212 km – €318",
-            int_par: "Paris (FR): ±296 km – €444",
-            int_lil: "Lille (FR): ±120 km – €180",
-            int_fra: "Francfort (DE): ±240 km – €360",
-            int_rot: "Rotterdam (NL): ±160 km – €240",
-            int_ein: "Eindhoven (NL): ±130 km – €195",
-            int_aac: "Aix-la-Chapelle (DE): ±180 km – €270",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxembourg (LU)",
+            int_lon: "Londres (UK) – via Eurotunnel",
             service1_title: "Suivi de vol",
             service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
             service2_title: "Documentation",
@@ -563,22 +664,21 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Réservez 24-48h à l'avance",
             service4_desc: "Planification des trajets internationaux.",
-            // Why - MET "OU ÉQUIVALENT"
             why_title: "Pourquoi FleetConnect à Bruxelles?",
-            why1_title: "Ponctuel & précis",
-            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Bruxelles. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Bruxelles et le ring (R0). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
             why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
             why3_title: "Prix fixes",
             why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Bruxelles-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
             why4_title: "Service 24/7",
             why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
             business_title: "Transport professionnel et hôtelier sur mesure",
-            business_desc: "FleetConnect est le partenaire privilégié de dizaines d'hôtels à Bruxelles, dont The Hotel, Brussels Marriott, Steigenberger Wiltcher's, Stanhope, NH Brussels EU, Hilton Grand Place. Pour les congrès, nous collaborons avec Square Brussels Meeting Centre, Brussels Expo, Tour & Taxis et l'OTAN. Des entreprises comme Deloitte, KPMG, Allen & Overy comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles. Contactez-nous pour un prix fixe par trajet ou un abonnement.",
+            business_desc: "FleetConnect est le partenaire privilégié de nombreux hôtels à Bruxelles, dont The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher's, Marriott Grand Place et ibis Brussels Centre. Pour les congrès et événements, nous collaborons avec Brussels Expo, le Parlement européen, le Palais Royal et le Mont des Arts. Les ambassades, organisations internationales et centres d'affaires (Twin Towers, World Trade Center) comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
             discover_title: "Découvrez Bruxelles avec FleetConnect",
-            discover_p1: "En plus des déplacements professionnels, FleetConnect est également le choix idéal pour les touristes et les amateurs de culture. Visitez les Serres royales de Laeken, le Musée des instruments de musique (MIM) ou le Musée Horta. Profitez d'une soirée à la Monnaie ou à l'AB (Ancienne Belgique). Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
+            discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade culturelle. Visitez la Grand-Place avec l'hôtel de ville et les maisons des guildes, admirez l'Atomium et le parc Mini-Europe, ou promenez-vous au Sablon avec ses magasins d'antiquités et le Musée royal des Beaux-Arts. Goûtez aux célèbres gaufres et chocolats bruxellois dans les Galeries Royales. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
             discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
-            cta_title: "Prêt pour un trajet sans souci à Bruxelles ou à l'étranger?",
-            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti.",
+            cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Bruxelles?",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
@@ -599,33 +699,31 @@
             login: "CONNEXION"
         },
         en: {
-            // Hero - Optie A (blauwe slogan, vetgedrukt)
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Brussels",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
-            hero_features: "€1.50/km • Flight monitoring • Multilingual drivers",
+            hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
             hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
-            // Intro
-            intro_title: "Brussels – Capital of Belgium and Europe",
-            intro_p1: "Brussels is the political and administrative capital of Belgium, but also the beating heart of the European Union. Thousands of MEPs, diplomats, lobbyists and international business people travel through the city daily. The European Quarter (Rue de la Loi) houses the European Commission, the Council of the EU and the European Parliament. Brussels is also home to NATO and many multinationals. Avenue Louise is the exclusive shopping and business centre, while the Northern Quarter is the financial heart.",
-            intro_p2: "Cultural highlights include the Grand Place with the Town Hall, Manneken Pis, the Atomium, the Royal Palace and the Cinquantenaire Park. These attract millions of tourists every year. The Royal Museums of Fine Arts, Magritte Museum, Autoworld and the Museum of Natural Sciences are also world-famous. Brussels hosts dozens of congresses and trade fairs, such as Brussels Expo (Heizel), Square Brussels Meeting Centre and Tour & Taxis.",
-            intro_p3: "FleetConnect has been the trusted partner for hotels, conference centres and businesses in Brussels for years. Thanks to our fleet of Skoda, Mercedes E-Class, BMW 5 Series or equivalent and luxury minivans, we offer impeccable service. Our drivers speak Dutch, French, English and German – essential for the international Brussels community.",
+            intro_title: "Brussels – Capital of Europe & vibrant metropolis",
+            intro_p1: "Brussels is the capital of Belgium and the political heart of Europe. The city houses the European institutions, including the European Commission, the European Parliament and the Council of the EU. Brussels is also the home of NATO and numerous international organisations, giving the city a unique, cosmopolitan atmosphere.",
+            intro_p2: "The city is rich in culture and history, with the iconic Grand Place (UNESCO World Heritage), Manneken Pis, the Atomium and the Royal Palace. Brussels is also a culinary destination, known for its chocolate, waffles and beers. The Sablon, Avenue Louise and Matongé offer a mix of luxury shops, African flair and international cuisines.",
+            intro_p3: "FleetConnect is the trusted partner for businesses, diplomats, hotels, congress organisers and government institutions in Brussels. Our fleet of Mercedes E-Class, BMW 5 Series, Skoda and luxury minivans guarantees a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure a flawless welcome for international guests and business travellers.",
             events_title: "Events & Business Districts in Brussels",
-            events_p1: "Brussels has a vibrant events calendar. More than 500 congresses take place annually, including CIRED, ISICEM and CDPD. The Brussels Summer Festival (July) and Winter Wonders (December) attract hundreds of thousands of visitors. Belgian Pride and Museum Night Fever are also not to be missed. Corporate parties at Tour & Taxis or gala evenings at the Royal Circus need reliable transport – FleetConnect is ready.",
-            events_p2: "The main business districts: European Quarter (Allen & Overy, Deloitte, KPMG), Northern Quarter (Belfius, KBC, ING), Avenue Louise (luxury brands, law firms) and Troon Quarter (government institutions). For all these districts, we offer fixed prices and VIP service.",
-            // Routes - MET CORRECTE PRIJZEN
-            routes_title: "Popular routes from Brussels",
-            route1_title: "Brussels → Zaventem (BRU)",
-            route1_desc: "15 km · ±25 min · minimum fare",
-            route2_title: "Brussels → Charleroi (CRL)",
-            route2_desc: "57 km · ±55 min · fixed price",
-            route3_title: "European Quarter → Airport",
-            route3_desc: "12-15 km · flight monitoring",
-            route4_title: "Brussels-South → Antwerp",
-            route4_desc: "45 km · ±50 min · fixed price",
-            route5_title: "City Centre → Atomium",
-            route5_desc: "8 km · ±20 min · minimum fare",
-            route6_title: "Within the Pentagon",
-            route6_desc: "€1.50/km · minimum €30.00",
+            events_p1: "Brussels has a busy events calendar. Highlights include the Brussels Summer Festival, the Summer of Brussels, Winter Wonders on the Grand Place and the Brussels Christmas Market. The Brussels Beer Weekend and the Brussels Food Truck Festival also attract an international audience.",
+            events_p2: "The main business districts are the European Quarter (around Schuman and Luxembourg), the Louise district (luxury offices and shops), the Northern Quarter (business district with financial towers) and the Southern Quarter (around Brussels-South station). Brussels Expo (Heyzel) is the largest events complex, hosting congresses and fairs such as the Brussels Motor Show.",
+            routes_title: "✈️ Airport transfers from Brussels",
+            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Brussels → Zaventem",
+            route1_desc: "12 km · ±20 min · minimum fare",
+            route2_title: "Brussels → Charleroi",
+            route2_desc: "60 km · ±55 min · fixed price",
+            route3_title: "Brussels → Deurne",
+            route3_desc: "45 km · ±50 min · fixed price",
+            route4_title: "Brussels → Lille",
+            route4_desc: "120 km · ±1h 15 min · fixed price",
+            route5_title: "Brussels → Eindhoven",
+            route5_desc: "90 km · ±1h 05 min · fixed price",
+            route6_title: "Brussels → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2h 15 min · fixed price",
             extras_title: "➕ Extra options – clear surcharges",
             extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
             extras_break: "Break model",
@@ -638,16 +736,25 @@
             extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
-            // International - MET CORRECTE PRIJZEN
+            local_title: "📍 Also in Brussels",
+            local_desc: "In addition to airport transfers, we also provide reliable transport within Brussels and the region. Some examples:",
+            local_euro: "European Quarter",
+            local_euro_desc: "From €30.00 · 3-5 km",
+            local_louiza: "Avenue Louise",
+            local_louiza_desc: "From €30.00 · 2-4 km",
+            local_atomium: "Atomium",
+            local_atomium_desc: "From €30.00 · 8-10 km",
+            local_gent: "Ghent",
+            local_gent_desc: "€45.00 · 30 km",
+            local_cta: "Other destination? Request a free quote",
             international_title: "<i class='fas fa-globe'></i> International transport from Brussels",
-            international_sub: "FleetConnect offers reliable rides to the Netherlands, Germany and France. Indicative prices (sedan, including waiting time and tolls):",
-            int_ams: "Amsterdam (NL): ±212 km – €318",
-            int_par: "Paris (FR): ±296 km – €444",
-            int_lil: "Lille (FR): ±120 km – €180",
-            int_fra: "Frankfurt (DE): ±240 km – €360",
-            int_rot: "Rotterdam (NL): ±160 km – €240",
-            int_ein: "Eindhoven (NL): ±130 km – €195",
-            int_aac: "Aachen (DE): ±180 km – €270",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxembourg (LU)",
+            int_lon: "London (UK) – via Eurotunnel",
             service1_title: "Flight monitoring",
             service1_desc: "We track your flight; free waiting time in case of delay.",
             service2_title: "Documentation",
@@ -656,22 +763,21 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Book 24-48h in advance",
             service4_desc: "Plan international trips.",
-            // Why - MET "OR EQUIVALENT"
             why_title: "Why FleetConnect in Brussels?",
             why1_title: "Punctual & reliable",
-            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Brussels' back streets, so traffic jams rarely affect you. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Brussels' back streets and the ring road (R0). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
             why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
             why3_title: "Fixed prices",
             why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Brussels-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
             why4_title: "24/7 service",
             why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
             business_title: "Customised business & hotel transport",
-            business_desc: "FleetConnect is the preferred partner of dozens of hotels in Brussels, including The Hotel, Brussels Marriott, Steigenberger Wiltcher's, Stanhope, NH Brussels EU, Hilton Grand Place. For congresses, we work with Square Brussels Meeting Centre, Brussels Expo, Tour & Taxis and NATO. Companies like Deloitte, KPMG, Allen & Overy trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible. Contact us for a fixed price per ride or a subscription.",
+            business_desc: "FleetConnect is the preferred partner of numerous hotels in Brussels, including The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher's, Marriott Grand Place and ibis Brussels Centre. For congresses and events, we work with Brussels Expo, the European Parliament, the Royal Palace and the Mont des Arts. Embassies, international organisations and business centres (Twin Towers, World Trade Center) trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
             discover_title: "Discover Brussels with FleetConnect",
-            discover_p1: "Besides business travel, FleetConnect is also the ideal choice for tourists and culture lovers. Visit the Royal Greenhouses of Laeken, the Musical Instrument Museum (MIM) or the Horta Museum. Enjoy an evening at La Monnaie or the AB (Ancienne Belgique). Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
+            discover_p1: "Combine your business appointment with a cultural excursion. Visit the Grand Place with the town hall and guild houses, admire the Atomium and Mini-Europe park, or stroll through the Sablon with its antique shops and the Royal Museum of Fine Arts. Taste the famous Brussels waffles and chocolates in the Galeries Royales. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
             discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
-            cta_title: "Ready for a worry-free ride in Brussels or abroad?",
-            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed.",
+            cta_title: "Ready for a worry-free airport transfer or ride in Brussels?",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
             contact_name_label: "<i class='fas fa-user'></i> Your name *",
@@ -721,7 +827,6 @@
         document.documentElement.lang = currentLang;
     }
 
-    // Event listeners voor taalknoppen
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
@@ -732,7 +837,6 @@
         });
     });
 
-    // Initialiseer vertaling
     translatePage();
 
     // ============================================================
@@ -772,7 +876,6 @@
             }
         });
         
-        // Contactformulier verzenden
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
