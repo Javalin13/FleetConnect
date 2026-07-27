@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>FleetConnect | Taxi Doornik – Oudste stad van België & Kathedraalstad</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Doornik. Vaste prijs €1,50/km (min. €30). Vluchtmonitoring, meertalige chauffeurs. Ritten naar Zaventem (BRU), Lille, Charleroi, Deurne, Eindhoven, Amsterdam. 24/7 beschikbaar.">
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Doornik. Vaste prijs €1,50/km (min. €30). Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Deurne (ANR), Lille (LIL), Eindhoven (EIN), Amsterdam (AMS). 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ===== IDENTIEK AAN DE TEMPLATE ===== */
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
         :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
@@ -224,7 +225,7 @@
             <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Businesspark Doornik-Zuid</strong>, de <strong>Kantoorzone rond het station</strong> en de <strong>Zone industrielle de Froyennes</strong>. Het <strong>Congrescentrum van de Kathedraal</strong> en de <strong>Espace Saint-Martin</strong> zijn geliefde locaties voor seminars en evenementen.</p>
         </div>
 
-        <!-- ========== Luchthavenroutes - 6 luchthavens (PRIORITEIT 1) ========== -->
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
         <h2 class="section-title" data-i18n="routes_title">
             <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
             Luchthaventransfers vanuit Doornik
@@ -315,68 +316,33 @@
             </ul>
         </div>
 
-        <!-- ========== Stationstransfers (PRIORITEIT 2) ========== -->
+        <!-- ========== Extra bestemmingen (Ook binnen Doornik en regio) ========== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="station_title">
-                <i class="fas fa-train" style="color:var(--accent-gold);"></i> 
-                Stationstransfers in Doornik
-            </h2>
-            <p data-i18n="station_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Voor vertrek of aankomst aan het station van Doornik? Wij zorgen voor een vlekkeloze overstap. Enkele voorbeelden:</p>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
-                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="station_grandplace">Station → Grand'Place</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_grandplace_desc">€30,00 · 2,5 km · ±6 min</p>
-                </div>
-                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-university" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="station_cathedral">Station → Kathedraal</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_cathedral_desc">€30,00 · 1,5 km · ±4 min</p>
-                </div>
-                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-building" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="station_business">Station → Businesspark Zuid</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_business_desc">€30,00 · 4 km · ±8 min</p>
-                </div>
-                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-hotel" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="station_hotel">Station → Best Western l'Atelier</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_hotel_desc">€30,00 · 2 km · ±5 min</p>
-                </div>
-            </div>
-            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="station_cta">
-                <i class="fas fa-phone" style="color:var(--primary);"></i> 
-                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
-            </p>
-        </div>
-
-        <!-- ========== Extra lokale bestemmingen ========== -->
-        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
                 <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
-                Andere populaire bestemmingen in de regio
+                Ook binnen Doornik en de regio
             </h2>
-            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">FleetConnect brengt u ook naar andere bestemmingen in en rond Doornik:</p>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Doornik en naar omliggende steden. Enkele voorbeelden:</p>
             <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
-                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Doornik → Brussel</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€112,50 · 75 km · ±55 min</p>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-university" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_cathedral">Kathedraal</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_cathedral_desc">Vanaf €30,00 · 2-5 km</p>
                 </div>
-                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_gent">Doornik → Gent</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gent_desc">€105,00 · 70 km · ±50 min</p>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_grandplace">Grand'Place</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_grandplace_desc">Vanaf €30,00 · 2-4 km</p>
                 </div>
-                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_lille">Doornik → Lille</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_lille_desc">€30,00 · 15 km · ±20 min</p>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-landmark" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_belfry">Belfort</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_belfry_desc">Vanaf €30,00 · 2-3 km</p>
                 </div>
-                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
                     <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_mons">Doornik → Bergen</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_mons_desc">€52,50 · 35 km · ±30 min</p>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_lille">Lille (Rijsel)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_lille_desc">€30,00 · 15 km</p>
                 </div>
             </div>
             <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
@@ -459,7 +425,6 @@
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
                     <h4><i class="fas fa-car"></i> FleetConnect</h4>
                     <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
@@ -468,15 +433,12 @@
                     <a href="/partner-login">Partner login</a>
                 </div>
 
-                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
                     <h4>Populaire steden</h4>
                     <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
                     <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
                     <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
                     <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
-
-                    <!-- Label en dropdown voor overige steden -->
                     <div style="margin-top: 16px;">
                         <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
                         <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
@@ -509,7 +471,6 @@
                     </div>
                 </div>
 
-                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
                     <h4>Legal</h4>
                     <a href="/PV/PVfaq.html">FAQ</a>
@@ -518,7 +479,6 @@
                     <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                 </div>
 
-                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
                     <h4>FleetConnect</h4>
                     <a href="mailto:support@fleetconnect.be">Support</a>
@@ -526,7 +486,6 @@
                 </div>
             </div>
 
-            <!-- Footer bottom -->
             <div class="footer-bottom">
                 2026 FleetConnect - <a href="/">FleetConnect</a>
             </div>
@@ -542,21 +501,17 @@
     // ============================================================
     const translations = {
         nl: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Doornik",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
             hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
             hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
-            // Intro
             intro_title: "Doornik – Oudste stad van België & Kathedraalstad",
             intro_p1: "Doornik (Tournai) is de oudste stad van België en een culturele schatkamer in Wallonië. De stad ligt aan de Schelde en wordt gedomineerd door de imposante Onze-Lieve-Vrouwekathedraal, een UNESCO-werelderfgoed met vijf torens en een romaanse schat. Het Belfort van Doornik is eveneens UNESCO-werelderfgoed en biedt een prachtig uitzicht over de stad.",
             intro_p2: "Doornik is een stad van kunst en geschiedenis, met het Museum voor Schone Kunsten, de Pont des Trous (middeleeuwse brug) en de Grand'Place met haar karakteristieke huizen. De stad heeft een bruisend cultureel leven en is een regionaal centrum voor handel, onderwijs en toerisme.",
             intro_p3: "FleetConnect is de vertrouwde partner voor hotels, culturele instellingen, congrescentra en bedrijven in Doornik. Onze luxe Mercedes-, BMW- en minivans garanderen een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een warme ontvangst van nationale en internationale gasten.",
-            // Events
             events_title: "Evenementen & zakenwijken in Doornik",
             events_p1: "Doornik leeft het hele jaar door met evenementen zoals de Foire de Tournai (jaarlijkse kermis), het Festival de la Cathédrale, de Grand Tournai (wielerwedstrijd) en de gezellige Kerstmarkt op de Grand'Place. Ook het Festival International de Musique en de Nuits de la Culture trekken een breed publiek.",
             events_p2: "De belangrijkste zakenwijken zijn het Businesspark Doornik-Zuid, de Kantoorzone rond het station en de Zone industrielle de Froyennes. Het Congrescentrum van de Kathedraal en de Espace Saint-Martin zijn geliefde locaties voor seminars en evenementen.",
-            // Routes - Luchthavens
             routes_title: "✈️ Luchthaventransfers vanuit Doornik",
             routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             route1_title: "Doornik → Zaventem",
@@ -571,7 +526,6 @@
             route5_desc: "180 km · ±1u 50 min · vaste prijs",
             route6_title: "Doornik → Amsterdam Schiphol",
             route6_desc: "220 km · ±2u 15 min · vaste prijs",
-            // Extra opties
             extras_title: "➕ Extra opties – transparante meerprijzen",
             extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
             extras_break: "Break model",
@@ -584,31 +538,17 @@
             extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
-            // Stationstransfers
-            station_title: "🚉 Stationstransfers in Doornik",
-            station_desc: "Voor vertrek of aankomst aan het station van Doornik? Wij zorgen voor een vlekkeloze overstap. Enkele voorbeelden:",
-            station_grandplace: "Station → Grand'Place",
-            station_grandplace_desc: "€30,00 · 2,5 km · ±6 min",
-            station_cathedral: "Station → Kathedraal",
-            station_cathedral_desc: "€30,00 · 1,5 km · ±4 min",
-            station_business: "Station → Businesspark Zuid",
-            station_business_desc: "€30,00 · 4 km · ±8 min",
-            station_hotel: "Station → Best Western l'Atelier",
-            station_hotel_desc: "€30,00 · 2 km · ±5 min",
-            station_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
-            // Lokale bestemmingen
-            local_title: "📍 Andere populaire bestemmingen in de regio",
-            local_desc: "FleetConnect brengt u ook naar andere bestemmingen in en rond Doornik:",
-            local_brussel: "Doornik → Brussel",
-            local_brussel_desc: "€112,50 · 75 km · ±55 min",
-            local_gent: "Doornik → Gent",
-            local_gent_desc: "€105,00 · 70 km · ±50 min",
-            local_lille: "Doornik → Lille",
-            local_lille_desc: "€30,00 · 15 km · ±20 min",
-            local_mons: "Doornik → Bergen",
-            local_mons_desc: "€52,50 · 35 km · ±30 min",
+            local_title: "📍 Ook binnen Doornik en de regio",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Doornik en naar omliggende steden. Enkele voorbeelden:",
+            local_cathedral: "Kathedraal",
+            local_cathedral_desc: "Vanaf €30,00 · 2-5 km",
+            local_grandplace: "Grand'Place",
+            local_grandplace_desc: "Vanaf €30,00 · 2-4 km",
+            local_belfry: "Belfort",
+            local_belfry_desc: "Vanaf €30,00 · 2-3 km",
+            local_lille: "Lille (Rijsel)",
+            local_lille_desc: "€30,00 · 15 km",
             local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
-            // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Doornik",
             international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
             int_par: "Parijs (FR)",
@@ -625,7 +565,6 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Reserveer 24-48u vooruit",
             service4_desc: "Internationale ritten plannen.",
-            // Why
             why_title: "Waarom FleetConnect in Doornik?",
             why1_title: "Stipt & punctueel",
             why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Doornik en de omliggende snelwegen (E42, A27) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
@@ -634,24 +573,19 @@
             why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Doornik-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
             why4_title: "24/7 service",
             why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
-            // Business
             business_title: "Zakelijk & hotelvervoer op maat",
             business_desc: "FleetConnect is de preferred partner van verschillende hotels in Doornik, waaronder Hotel de la Cathédrale, Best Western Plus l'Atelier, ibis Tournai en B&B Les Jardins du Château. Voor congressen en zakelijke evenementen werken wij samen met het Congrescentrum van de Kathedraal, de Espace Saint-Martin en de Salle des Fêtes. Ook bedrijven in het Businesspark Doornik-Zuid en de culturele sector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
-            // Discover
             discover_title: "Ontdek Doornik met FleetConnect",
             discover_p1: "Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek de Onze-Lieve-Vrouwekathedraal, beklim het Belfort voor een panoramisch uitzicht, wandel over de Grand'Place of bewonder de middeleeuwse Pont des Trous. Het Museum voor Schone Kunsten herbergt een indrukwekkende collectie. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
-            // CTA
             cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Doornik?",
             cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
-            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            // Sidebar nav
             language_label: "Taal / Language",
             nav_home: "Home",
             nav_exclusive: "Exclusieve service",
@@ -666,12 +600,10 @@
             login: "LOGIN"
         },
         fr: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Tournai",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
             hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
             hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
-            // Intro
             intro_title: "Tournai – La plus vieille ville de Belgique & cité cathédrale",
             intro_p1: "Tournai est la plus ancienne ville de Belgique et un trésor culturel en Wallonie. La ville est située sur l'Escaut et est dominée par l'imposante cathédrale Notre-Dame, classée au patrimoine mondial de l'UNESCO avec ses cinq tours et son trésor roman. Le Beffroi de Tournai est également classé à l'UNESCO et offre une vue magnifique sur la ville.",
             intro_p2: "Tournai est une ville d'art et d'histoire, avec le Musée des Beaux-Arts, le Pont des Trous (pont médiéval) et la Grand'Place avec ses maisons caractéristiques. La ville possède une vie culturelle dynamique et est un centre régional pour le commerce, l'éducation et le tourisme.",
@@ -679,7 +611,6 @@
             events_title: "Événements et quartiers d'affaires à Tournai",
             events_p1: "Tournai vit toute l'année avec des événements comme la Foire de Tournai (kermesse annuelle), le Festival de la Cathédrale, le Grand Tournai (course cycliste) et le Marché de Noël sur la Grand'Place. Le Festival International de Musique et les Nuits de la Culture attirent également un large public.",
             events_p2: "Les principaux quartiers d'affaires sont le Businesspark Tournai-Sud, la zone de bureaux autour de la gare et la Zone industrielle de Froyennes. Le Centre de Congrès de la Cathédrale et l'Espace Saint-Martin sont des lieux prisés pour les séminaires et événements.",
-            // Routes
             routes_title: "✈️ Transferts aéroport depuis Tournai",
             routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
             route1_title: "Tournai → Zaventem",
@@ -694,7 +625,6 @@
             route5_desc: "180 km · ±1h 50 min · prix fixe",
             route6_title: "Tournai → Amsterdam Schiphol",
             route6_desc: "220 km · ±2h 15 min · prix fixe",
-            // Extra opties
             extras_title: "➕ Options supplémentaires – suppléments transparents",
             extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
             extras_break: "Break modèle",
@@ -707,31 +637,17 @@
             extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
-            // Station
-            station_title: "🚉 Transferts gare à Tournai",
-            station_desc: "Pour un départ ou une arrivée à la gare de Tournai ? Nous assurons un transfert sans faille. Quelques exemples :",
-            station_grandplace: "Gare → Grand'Place",
-            station_grandplace_desc: "€30,00 · 2,5 km · ±6 min",
-            station_cathedral: "Gare → Cathédrale",
-            station_cathedral_desc: "€30,00 · 1,5 km · ±4 min",
-            station_business: "Gare → Businesspark Sud",
-            station_business_desc: "€30,00 · 4 km · ±8 min",
-            station_hotel: "Gare → Best Western l'Atelier",
-            station_hotel_desc: "€30,00 · 2 km · ±5 min",
-            station_cta: "Autre destination ? Demandez un devis sans engagement",
-            // Local
-            local_title: "📍 Autres destinations populaires dans la région",
-            local_desc: "FleetConnect vous emmène également vers d'autres destinations à Tournai et dans les environs :",
-            local_brussel: "Tournai → Bruxelles",
-            local_brussel_desc: "€112,50 · 75 km · ±55 min",
-            local_gent: "Tournai → Gand",
-            local_gent_desc: "€105,00 · 70 km · ±50 min",
-            local_lille: "Tournai → Lille",
-            local_lille_desc: "€30,00 · 15 km · ±20 min",
-            local_mons: "Tournai → Mons",
-            local_mons_desc: "€52,50 · 35 km · ±30 min",
+            local_title: "📍 A Tournai et dans la région",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Tournai et vers les villes environnantes. Quelques exemples :",
+            local_cathedral: "Cathédrale",
+            local_cathedral_desc: "À partir de €30,00 · 2-5 km",
+            local_grandplace: "Grand'Place",
+            local_grandplace_desc: "À partir de €30,00 · 2-4 km",
+            local_belfry: "Beffroi",
+            local_belfry_desc: "À partir de €30,00 · 2-3 km",
+            local_lille: "Lille",
+            local_lille_desc: "€30,00 · 15 km",
             local_cta: "Autre destination ? Demandez un devis sans engagement",
-            // International
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Tournai",
             international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
             int_par: "Paris (FR)",
@@ -748,7 +664,6 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Réservez 24-48h à l'avance",
             service4_desc: "Planification des trajets internationaux.",
-            // Why
             why_title: "Pourquoi FleetConnect à Tournai?",
             why1_title: "Ponctuel & fiable",
             why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Tournai et les autoroutes environnantes (E42, A27). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
@@ -784,12 +699,10 @@
             login: "CONNEXION"
         },
         en: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Tournai",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
             hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
             hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
-            // Intro
             intro_title: "Tournai – Oldest city in Belgium & Cathedral city",
             intro_p1: "Tournai is the oldest city in Belgium and a cultural treasure in Wallonia. The city lies on the Scheldt and is dominated by the imposing Notre-Dame Cathedral, a UNESCO World Heritage site with five towers and a Romanesque treasury. The Belfry of Tournai is also a UNESCO World Heritage site and offers a beautiful view over the city.",
             intro_p2: "Tournai is a city of art and history, with the Museum of Fine Arts, the Pont des Trous (medieval bridge) and the Grand'Place with its characteristic houses. The city has a vibrant cultural life and is a regional centre for trade, education and tourism.",
@@ -797,7 +710,6 @@
             events_title: "Events & Business Districts in Tournai",
             events_p1: "Tournai is alive all year round with events such as the Foire de Tournai (annual fair), the Festival de la Cathédrale, the Grand Tournai (cycling race) and the cosy Christmas Market on the Grand'Place. The International Music Festival and the Nuits de la Culture also attract a wide audience.",
             events_p2: "The main business districts are the Businesspark Tournai-Sud, the office zone around the station and the Zone industrielle de Froyennes. The Cathedral Congress Centre and the Espace Saint-Martin are popular venues for seminars and events.",
-            // Routes
             routes_title: "✈️ Airport transfers from Tournai",
             routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
             route1_title: "Tournai → Zaventem",
@@ -812,7 +724,6 @@
             route5_desc: "180 km · ±1h 50 min · fixed price",
             route6_title: "Tournai → Amsterdam Schiphol",
             route6_desc: "220 km · ±2h 15 min · fixed price",
-            // Extra opties
             extras_title: "➕ Extra options – clear surcharges",
             extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
             extras_break: "Break model",
@@ -825,31 +736,17 @@
             extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
-            // Station
-            station_title: "🚉 Station transfers in Tournai",
-            station_desc: "For departure or arrival at Tournai station? We ensure a seamless transfer. Some examples:",
-            station_grandplace: "Station → Grand'Place",
-            station_grandplace_desc: "€30.00 · 2.5 km · ±6 min",
-            station_cathedral: "Station → Cathedral",
-            station_cathedral_desc: "€30.00 · 1.5 km · ±4 min",
-            station_business: "Station → Businesspark South",
-            station_business_desc: "€30.00 · 4 km · ±8 min",
-            station_hotel: "Station → Best Western l'Atelier",
-            station_hotel_desc: "€30.00 · 2 km · ±5 min",
-            station_cta: "Other destination? Request a free quote",
-            // Local
-            local_title: "📍 Other popular destinations in the region",
-            local_desc: "FleetConnect also takes you to other destinations in and around Tournai:",
-            local_brussel: "Tournai → Brussels",
-            local_brussel_desc: "€112.50 · 75 km · ±55 min",
-            local_gent: "Tournai → Ghent",
-            local_gent_desc: "€105.00 · 70 km · ±50 min",
-            local_lille: "Tournai → Lille",
-            local_lille_desc: "€30.00 · 15 km · ±20 min",
-            local_mons: "Tournai → Mons",
-            local_mons_desc: "€52.50 · 35 km · ±30 min",
+            local_title: "📍 Also in Tournai and the region",
+            local_desc: "In addition to airport transfers, we also provide reliable transport within Tournai and to surrounding cities. Some examples:",
+            local_cathedral: "Cathedral",
+            local_cathedral_desc: "From €30.00 · 2-5 km",
+            local_grandplace: "Grand'Place",
+            local_grandplace_desc: "From €30.00 · 2-4 km",
+            local_belfry: "Belfry",
+            local_belfry_desc: "From €30.00 · 2-3 km",
+            local_lille: "Lille",
+            local_lille_desc: "€30.00 · 15 km",
             local_cta: "Other destination? Request a free quote",
-            // International
             international_title: "<i class='fas fa-globe'></i> International transport from Tournai",
             international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
             int_par: "Paris (FR)",
@@ -866,7 +763,6 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Book 24-48h in advance",
             service4_desc: "Plan international trips.",
-            // Why
             why_title: "Why FleetConnect in Tournai?",
             why1_title: "Punctual & reliable",
             why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Tournai's back streets and the surrounding highways (E42, A27). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
@@ -931,7 +827,6 @@
         document.documentElement.lang = currentLang;
     }
 
-    // Event listeners voor taalknoppen
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.getAttribute('data-lang');
@@ -942,7 +837,6 @@
         });
     });
 
-    // Initialiseer vertaling
     translatePage();
 
     // ============================================================
@@ -982,7 +876,6 @@
             }
         });
         
-        // Contactformulier verzenden
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
