@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>FleetConnect | Taxi Asse – Historische stad in de Groene Gordel</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Asse. Vaste prijs €1,50/km. Vluchtmonitoring, meertalige chauffeurs. Ritten naar Zaventem (BRU), Brussel, Mechelen, Aalst, Leuven. 24/7 beschikbaar.">
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Asse. Vaste prijs €1,50/km (min. €30). Vluchtmonitoring, meertalige chauffeurs. Ritten naar Zaventem (BRU), Charleroi, Deurne, Lille, Eindhoven, Amsterdam. 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -198,7 +198,7 @@
                 </p>
                 <div style="height:20px;"></div>
                 <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
-                    <strong>€1,50/km • Luchthaventransfers • Meertalige chauffeurs</strong>
+                    <strong>€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs</strong>
                 </p>
                 <div style="height:30px;"></div>
                 <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
@@ -224,7 +224,7 @@
             <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Asse-Noord</strong>, de <strong>Kantoorzone rond het station</strong> en het <strong>Businesspark De Drie Linden</strong>. Het <strong>Congrescentrum van het Kasteel</strong> en de <strong>Evenementenhal Asse</strong> zijn populaire locaties voor seminars, beurzen en bedrijfsevents.</p>
         </div>
 
-        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
+        <!-- ========== Luchthavenroutes - 6 luchthavens (PRIORITEIT 1) ========== -->
         <h2 class="section-title" data-i18n="routes_title">
             <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
             Luchthaventransfers vanuit Asse
@@ -238,7 +238,7 @@
                 <h3 data-i18n="route1_title">Asse → Zaventem</h3>
                 <span class="route-airport-code">BRU</span>
                 <div class="route-price">€30,00</div>
-                <p data-i18n="route1_desc">20 km · ±25 min · vaste prijs</p>
+                <p data-i18n="route1_desc">20 km · ±25 min · minimumtarief</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
@@ -315,33 +315,68 @@
             </ul>
         </div>
 
-        <!-- ========== Extra bestemmingen in Asse ========== -->
+        <!-- ========== Stationstransfers (PRIORITEIT 2) ========== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
-                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
-                Ook binnen Asse
+            <h2 class="section-title" style="text-align:left;" data-i18n="station_title">
+                <i class="fas fa-train" style="color:var(--accent-gold);"></i> 
+                Stationstransfers in Asse
             </h2>
-            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Asse en de regio. Enkele voorbeelden:</p>
+            <p data-i18n="station_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Voor vertrek of aankomst aan het station van Asse? Wij zorgen voor een vlekkeloze overstap. Enkele voorbeelden:</p>
             <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
                     <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_station">Station → Kasteelplein</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_station_desc">€3,75 · 2,5 km · ±6 min</p>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_kasteelplein">Station → Kasteelplein</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_kasteelplein_desc">€30,00 · 2,5 km · ±6 min</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
                     <i class="fas fa-university" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_castle">Centrum → Kasteel</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_castle_desc">€2,25 · 1,5 km · ±4 min</p>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_kasteel">Station → Kasteel</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_kasteel_desc">€30,00 · 1,5 km · ±4 min</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-building" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_business">Station → Businesspark De Drie Linden</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_business_desc">€30,00 · 3,5 km · ±7 min</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-hotel" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_hotel">Station → Van der Valk Asse</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_hotel_desc">€30,00 · 2 km · ±5 min</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="station_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Extra lokale bestemmingen ========== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Andere populaire bestemmingen in de regio
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">FleetConnect brengt u ook naar andere bestemmingen in en rond Asse:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
                     <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
                     <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Asse → Brussel</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€22,50 · 15 km · ±20 min</p>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€30,00 · 15 km · ±20 min</p>
                 </div>
-                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
                     <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
                     <h4 style="margin:8px 0 4px;" data-i18n="local_aalst">Asse → Aalst</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_aalst_desc">€18,00 · 12 km · ±15 min</p>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_aalst_desc">€30,00 · 12 km · ±15 min</p>
+                </div>
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_mechelen">Asse → Mechelen</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_mechelen_desc">€37,50 · 25 km · ±30 min</p>
+                </div>
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_dilbeek">Asse → Dilbeek</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_dilbeek_desc">€30,00 · 6 km · ±8 min</p>
                 </div>
             </div>
             <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
@@ -357,11 +392,10 @@
             <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
                 <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±200 km – <strong>€300</strong></li>
                 <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±155 km – <strong>€232,50</strong></li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL) – Airport:</strong> ±120 km – <strong>€180</strong></li>
                 <li><strong data-i18n="int_par">Parijs (FR):</strong> ±310 km – <strong>€465</strong></li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR):</strong> ±100 km – <strong>€150</strong></li>
                 <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
                 <li><strong data-i18n="int_aac">Aken (DE):</strong> ±170 km – <strong>€255</strong></li>
+                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±240 km – <strong>€360</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
@@ -511,7 +545,7 @@
             // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Asse",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
-            hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
+            hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
             hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
             // Intro
             intro_title: "Asse – Historische stad in de Groene Gordel",
@@ -522,11 +556,11 @@
             events_title: "Evenementen & zakenwijken in Asse",
             events_p1: "Asse heeft een levendig evenementenaanbod. Jaarlijkse hoogtepunten zijn de Assese Kermis, het Zomerfestival op het Kasteelplein, de gezellige Kerstmarkt en de Historische stoet die de rijke geschiedenis van de stad tot leven brengt. Ook het Cultureel Centrum Asse biedt het hele jaar door voorstellingen, concerten en tentoonstellingen.",
             events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Asse-Noord, de Kantoorzone rond het station en het Businesspark De Drie Linden. Het Congrescentrum van het Kasteel en de Evenementenhal Asse zijn populaire locaties voor seminars, beurzen en bedrijfsevents.",
-            // Routes
+            // Routes - Luchthavens
             routes_title: "✈️ Luchthaventransfers vanuit Asse",
             routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             route1_title: "Asse → Zaventem",
-            route1_desc: "20 km · ±25 min · vaste prijs",
+            route1_desc: "20 km · ±25 min · minimumtarief",
             route2_title: "Asse → Charleroi",
             route2_desc: "60 km · ±55 min · vaste prijs",
             route3_title: "Asse → Deurne",
@@ -550,28 +584,39 @@
             extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            // Stationstransfers
+            station_title: "🚉 Stationstransfers in Asse",
+            station_desc: "Voor vertrek of aankomst aan het station van Asse? Wij zorgen voor een vlekkeloze overstap. Enkele voorbeelden:",
+            station_kasteelplein: "Station → Kasteelplein",
+            station_kasteelplein_desc: "€30,00 · 2,5 km · ±6 min",
+            station_kasteel: "Station → Kasteel",
+            station_kasteel_desc: "€30,00 · 1,5 km · ±4 min",
+            station_business: "Station → Businesspark De Drie Linden",
+            station_business_desc: "€30,00 · 3,5 km · ±7 min",
+            station_hotel: "Station → Van der Valk Asse",
+            station_hotel_desc: "€30,00 · 2 km · ±5 min",
+            station_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
             // Lokale bestemmingen
-            local_title: "📍 Ook binnen Asse",
-            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Asse en de regio. Enkele voorbeelden:",
-            local_station: "Station → Kasteelplein",
-            local_station_desc: "€3,75 · 2,5 km · ±6 min",
-            local_castle: "Centrum → Kasteel",
-            local_castle_desc: "€2,25 · 1,5 km · ±4 min",
+            local_title: "📍 Andere populaire bestemmingen in de regio",
+            local_desc: "FleetConnect brengt u ook naar andere bestemmingen in en rond Asse:",
             local_brussel: "Asse → Brussel",
-            local_brussel_desc: "€22,50 · 15 km · ±20 min",
+            local_brussel_desc: "€30,00 · 15 km · ±20 min",
             local_aalst: "Asse → Aalst",
-            local_aalst_desc: "€18,00 · 12 km · ±15 min",
+            local_aalst_desc: "€30,00 · 12 km · ±15 min",
+            local_mechelen: "Asse → Mechelen",
+            local_mechelen_desc: "€37,50 · 25 km · ±30 min",
+            local_dilbeek: "Asse → Dilbeek",
+            local_dilbeek_desc: "€30,00 · 6 km · ±8 min",
             local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
             // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Asse",
             international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
             int_ams: "Amsterdam (NL) – Schiphol",
             int_rot: "Rotterdam (NL)",
-            int_ein: "Eindhoven (NL) – Airport",
             int_par: "Parijs (FR)",
-            int_lil: "Lille (Rijsel, FR)",
             int_dus: "Düsseldorf (DE) – Airport",
             int_aac: "Aken (DE)",
+            int_lux: "Luxemburg (LU)",
             service1_title: "Vluchtmonitoring",
             service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
             service2_title: "Documentatie",
@@ -624,7 +669,7 @@
             // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Asse",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
-            hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
+            hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
             hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
             // Intro
             intro_title: "Asse – Ville historique dans la Ceinture Verte",
@@ -638,7 +683,7 @@
             routes_title: "✈️ Transferts aéroport depuis Asse",
             routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
             route1_title: "Asse → Zaventem",
-            route1_desc: "20 km · ±25 min · prix fixe",
+            route1_desc: "20 km · ±25 min · tarif minimum",
             route2_title: "Asse → Charleroi",
             route2_desc: "60 km · ±55 min · prix fixe",
             route3_title: "Asse → Deurne",
@@ -662,28 +707,39 @@
             extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            // Station
+            station_title: "🚉 Transferts gare à Asse",
+            station_desc: "Pour un départ ou une arrivée à la gare d'Asse ? Nous assurons un transfert sans faille. Quelques exemples :",
+            station_kasteelplein: "Gare → Place du Château",
+            station_kasteelplein_desc: "€30,00 · 2,5 km · ±6 min",
+            station_kasteel: "Gare → Château",
+            station_kasteel_desc: "€30,00 · 1,5 km · ±4 min",
+            station_business: "Gare → Businesspark De Drie Linden",
+            station_business_desc: "€30,00 · 3,5 km · ±7 min",
+            station_hotel: "Gare → Van der Valk Asse",
+            station_hotel_desc: "€30,00 · 2 km · ±5 min",
+            station_cta: "Autre destination ? Demandez un devis sans engagement",
             // Local
-            local_title: "📍 À Asse également",
-            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Asse et dans la région. Quelques exemples :",
-            local_station: "Gare → Place du Château",
-            local_station_desc: "€3,75 · 2,5 km · ±6 min",
-            local_castle: "Centre → Château",
-            local_castle_desc: "€2,25 · 1,5 km · ±4 min",
+            local_title: "📍 Autres destinations populaires dans la région",
+            local_desc: "FleetConnect vous emmène également vers d'autres destinations à Asse et dans les environs :",
             local_brussel: "Asse → Bruxelles",
-            local_brussel_desc: "€22,50 · 15 km · ±20 min",
+            local_brussel_desc: "€30,00 · 15 km · ±20 min",
             local_aalst: "Asse → Alost",
-            local_aalst_desc: "€18,00 · 12 km · ±15 min",
+            local_aalst_desc: "€30,00 · 12 km · ±15 min",
+            local_mechelen: "Asse → Malines",
+            local_mechelen_desc: "€37,50 · 25 km · ±30 min",
+            local_dilbeek: "Asse → Dilbeek",
+            local_dilbeek_desc: "€30,00 · 6 km · ±8 min",
             local_cta: "Autre destination ? Demandez un devis sans engagement",
             // International
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Asse",
             international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
             int_ams: "Amsterdam (NL) – Schiphol",
             int_rot: "Rotterdam (NL)",
-            int_ein: "Eindhoven (NL) – Airport",
             int_par: "Paris (FR)",
-            int_lil: "Lille (FR)",
             int_dus: "Düsseldorf (DE) – Airport",
             int_aac: "Aix-la-Chapelle (DE)",
+            int_lux: "Luxembourg (LU)",
             service1_title: "Suivi de vol",
             service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
             service2_title: "Documentation",
@@ -731,7 +787,7 @@
             // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Asse",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
-            hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
+            hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
             hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
             // Intro
             intro_title: "Asse – Historic city in the Green Belt",
@@ -745,7 +801,7 @@
             routes_title: "✈️ Airport transfers from Asse",
             routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
             route1_title: "Asse → Zaventem",
-            route1_desc: "20 km · ±25 min · fixed price",
+            route1_desc: "20 km · ±25 min · minimum fare",
             route2_title: "Asse → Charleroi",
             route2_desc: "60 km · ±55 min · fixed price",
             route3_title: "Asse → Deurne",
@@ -769,28 +825,39 @@
             extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            // Station
+            station_title: "🚉 Station transfers in Asse",
+            station_desc: "For departure or arrival at Asse station? We ensure a seamless transfer. Some examples:",
+            station_kasteelplein: "Station → Castle Square",
+            station_kasteelplein_desc: "€30.00 · 2.5 km · ±6 min",
+            station_kasteel: "Station → Castle",
+            station_kasteel_desc: "€30.00 · 1.5 km · ±4 min",
+            station_business: "Station → Businesspark De Drie Linden",
+            station_business_desc: "€30.00 · 3.5 km · ±7 min",
+            station_hotel: "Station → Van der Valk Asse",
+            station_hotel_desc: "€30.00 · 2 km · ±5 min",
+            station_cta: "Other destination? Request a free quote",
             // Local
-            local_title: "📍 Also in Asse",
-            local_desc: "In addition to airport transfers, we also provide reliable transport within Asse and the region. Some examples:",
-            local_station: "Station → Castle Square",
-            local_station_desc: "€3.75 · 2.5 km · ±6 min",
-            local_castle: "Centre → Castle",
-            local_castle_desc: "€2.25 · 1.5 km · ±4 min",
+            local_title: "📍 Other popular destinations in the region",
+            local_desc: "FleetConnect also takes you to other destinations in and around Asse:",
             local_brussel: "Asse → Brussels",
-            local_brussel_desc: "€22.50 · 15 km · ±20 min",
+            local_brussel_desc: "€30.00 · 15 km · ±20 min",
             local_aalst: "Asse → Aalst",
-            local_aalst_desc: "€18.00 · 12 km · ±15 min",
+            local_aalst_desc: "€30.00 · 12 km · ±15 min",
+            local_mechelen: "Asse → Mechelen",
+            local_mechelen_desc: "€37.50 · 25 km · ±30 min",
+            local_dilbeek: "Asse → Dilbeek",
+            local_dilbeek_desc: "€30.00 · 6 km · ±8 min",
             local_cta: "Other destination? Request a free quote",
             // International
             international_title: "<i class='fas fa-globe'></i> International transport from Asse",
             international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
             int_ams: "Amsterdam (NL) – Schiphol",
             int_rot: "Rotterdam (NL)",
-            int_ein: "Eindhoven (NL) – Airport",
             int_par: "Paris (FR)",
-            int_lil: "Lille (FR)",
             int_dus: "Düsseldorf (DE) – Airport",
             int_aac: "Aachen (DE)",
+            int_lux: "Luxembourg (LU)",
             service1_title: "Flight monitoring",
             service1_desc: "We track your flight; free waiting time in case of delay.",
             service2_title: "Documentation",
