@@ -757,6 +757,20 @@
             try {
             directionsService = new google.maps.DirectionsService();
             
+            const defaultPickupInput = document.getElementById('defaultPickup');
+            if (defaultPickupInput) {
+                const defaultPickupAutocomplete = new google.maps.places.Autocomplete(defaultPickupInput, {
+                    componentRestrictions: { country: "be" },
+                    fields: ["formatted_address"]
+                });
+                defaultPickupAutocomplete.addListener("place_changed", () => {
+                    const place = defaultPickupAutocomplete.getPlace();
+                    if (place.formatted_address) {
+                        defaultPickupInput.value = place.formatted_address;
+                    }
+                });
+            }
+
             const pickupInput = document.getElementById('pickupInput');
             if (pickupInput) {
                 const pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
@@ -1119,6 +1133,21 @@
         currentUser.email = document.getElementById('profileEmail').value;
         currentUser.phone = document.getElementById('profilePhone').value;
         currentUser.default_pickup_address = document.getElementById('defaultPickup').value;
+
+        const supabase = await getSupabase();
+        if (supabase) {
+            const { error: updateError } = await supabase.from('customers').update({
+                name: currentUser.full_name,
+                email: currentUser.email,
+                phone: currentUser.phone,
+                default_pickup_address: currentUser.default_pickup_address
+            }).eq('user_id', currentUser.id);
+            if (updateError) {
+                console.error("Error saving profile:", updateError.message);
+                alert('Er is een fout opgetreden bij het opslaan van uw profiel.');
+                return;
+            }
+        }
         alert('Profiel opgeslagen!');
         loadUserProfile();
     });
@@ -1270,9 +1299,15 @@
         }
         const { data: linkedCustomers, error: customerCheckError } = await supabase
             .from('customers')
-            .select('id,email,user_id')
+            .select('id,email,user_id,name,phone,default_pickup_address')
             .or(`user_id.eq.${data.user.id},email.eq.${data.user.email}`)
             .limit(1);
+        if (!customerCheckError && linkedCustomers?.length) {
+            const cust = linkedCustomers[0];
+            currentUser.full_name = cust.name || currentUser.full_name;
+            currentUser.phone = cust.phone || currentUser.phone;
+            currentUser.default_pickup_address = cust.default_pickup_address || '';
+        }
         if (customerCheckError || !linkedCustomers?.length) {
             console.warn('Customer portal profile gate failed:', customerCheckError?.message || 'no linked customer');
             // FIX Blocker A (2026-06-16): the function takes a single `payload` jsonb
