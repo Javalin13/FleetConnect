@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ====== ALGEMENE STIJL – UNIFORM ====== */
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
         :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
@@ -31,16 +32,14 @@
         .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
         .login-btn:hover{opacity:0.9}
         
-        /* ========== HERO SECTIE ========== */
+        /* ========== HERO ========== */
         .hero{padding:80px 0 40px;text-align:center}
         .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
         .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
         .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
-        .hero-card .hero-slogan i{color:var(--primary)}
         .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
         .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
         .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
-        
         .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
         .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
         .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
@@ -65,12 +64,12 @@
         .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
         .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
         
-        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
+        /* ========== TAALSWITCHER ========== */
         .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
         .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
         .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
         
-        /* ========== EXTRA OPTIES LIJST ========== */
+        /* ========== EXTRA OPTIES ========== */
         .extra-options-list{list-style:none;margin:0;padding:0}
         .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
         .extra-options-list li:last-child{border-bottom:none}
@@ -80,38 +79,16 @@
         .extra-options-list li strong{min-width:120px}
         .extra-options-list li span{color:var(--text-light)}
         
-        /* ========== FOOTER - UNIFORM BLAUW (zoals Brugge) ========== */
+        /* ========== FOOTER ========== */
         .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
         .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
         .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
         .footer-grid a:hover{color:var(--primary);text-decoration:underline}
         .footer-brand p{color:#e0edf5;line-height:1.8}
-        
-        /* ========== DROPDOWN STIJLEN ========== */
-        .footer-city-select {
-            background: #1a2f3f;
-            color: #e0edf5;
-            border: 1px solid var(--primary);
-            border-radius: 8px;
-            padding: 8px 12px;
-            width: 100%;
-            max-width: 220px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            cursor: pointer;
-            margin-top: 8px;
-            appearance: auto;
-        }
-        .footer-city-select:focus {
-            outline: none;
-            border-color: #ffffff;
-        }
-        .footer-city-select option {
-            background: #0d1f2c;
-            color: #e0edf5;
-        }
-        
+        .footer-city-select{background:#1a2f3f;color:#e0edf5;border:1px solid var(--primary);border-radius:8px;padding:8px 12px;width:100%;max-width:220px;font-family:'Inter',sans-serif;font-size:0.95rem;cursor:pointer;margin-top:8px;appearance:auto}
+        .footer-city-select:focus{outline:none;border-color:#ffffff}
+        .footer-city-select option{background:#0d1f2c;color:#e0edf5}
         .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
         .footer-bottom a{color:var(--primary);text-decoration:none}
         .footer-bottom a:hover{text-decoration:underline}
@@ -177,7 +154,7 @@
     </div>
 </div>
 
-<!-- ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== -->
+<!-- ========== TAALSWITCHER ========== -->
 <div class="language-switcher">
     <button class="lang-btn active" data-lang="nl">NL</button>
     <button class="lang-btn" data-lang="fr">FR</button>
@@ -185,7 +162,7 @@
 </div>
 
 <div class="content-overlay">
-    <!-- ========== HERO SECTIE - UNIFORM MET BRUSSEL ========== -->
+    <!-- ========== HERO ========== -->
     <section class="hero">
         <div class="container">
             <div class="hero-card">
@@ -224,7 +201,7 @@
             <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Antwerp Expo</strong> (congres- en beurscentrum), het <strong>Eilandje</strong> (creatieve hub met het MAS en innovatieve kantoren), de <strong>Kantoorwijk Antwerpen-Noord</strong> (nabij de haven) en het <strong>Wetenschapspark</strong> (POM Antwerpen). Ook het iconische <strong>Havenhuis</strong>, een ontwerp van Zaha Hadid, is het kloppende hart van de haven en een visitekaartje van de moderne stad.</p>
         </div>
 
-        <!-- ========== Luchthavenroutes - OPTIE A (6 luchthavens) ========== -->
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
         <h2 class="section-title" data-i18n="routes_title">
             <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
             Luchthaventransfers vanuit Antwerpen
@@ -371,7 +348,7 @@
             </div>
         </div>
 
-        <!-- ========== Waarom FleetConnect - UNIFORM MET BRUSSEL ========== -->
+        <!-- ========== Waarom FleetConnect ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Antwerpen?</h2>
         <div class="features-grid">
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Antwerpen en vermijden files rond de Ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
@@ -420,81 +397,57 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
+    <!-- FOOTER – UNIFORM BLAUW + MEERTALIG + DYNAMISCHE DROPDOWN -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
                 <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
-                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
-                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
-                    <a href="/booking#booking">Reserveer nu</a>
-                    <a href="/PV/index.html">Klantportaal</a>
-                    <a href="/partner-login">Partner login</a>
+                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
+                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
+                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
+                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
                 </div>
 
                 <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
-                    <h4>Populaire steden</h4>
-                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
-                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
-                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
-                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
+                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
 
                     <!-- Label en dropdown voor overige steden -->
                     <div style="margin-top: 16px;">
-                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
                         <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
-                            <option value="">-- Kies een stad --</option>
-                            <option value="/cities/taxi-aalst.html">Aalst</option>
-                            <option value="/cities/taxi-asse.html">Asse</option>
-                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
-                            <option value="/cities/taxi-doornik.html">Doornik</option>
-                            <option value="/cities/taxi-genk.html">Genk</option>
-                            <option value="/cities/taxi-gent.html">Gent</option>
-                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
-                            <option value="/cities/taxi-halle.html">Halle</option>
-                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
-                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
-                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
-                            <option value="/cities/taxi-leuven.html">Leuven</option>
-                            <option value="/cities/taxi-luik.html">Luik</option>
-                            <option value="/cities/taxi-machelen.html">Machelen</option>
-                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
-                            <option value="/cities/taxi-oostende.html">Oostende</option>
-                            <option value="/cities/taxi-overijse.html">Overijse</option>
-                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
-                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
-                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
-                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
-                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
-                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
-                            <option value="/cities/taxi-zemst.html">Zemst</option>
+                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
                         </select>
                     </div>
                 </div>
 
                 <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
-                    <h4>Legal</h4>
-                    <a href="/PV/PVfaq.html">FAQ</a>
-                    <a href="/PV/PVprivacy.html">Privacy</a>
-                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
-                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                    <h4 data-i18n="footer_legal">Legal</h4>
+                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
+                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
                 </div>
 
                 <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
-                    <h4>FleetConnect</h4>
-                    <a href="mailto:support@fleetconnect.be">Support</a>
-                    <a href="/booking#contact">Contact</a>
+                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
+                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
                 </div>
             </div>
 
             <!-- Footer bottom -->
             <div class="footer-bottom">
-                2026 FleetConnect - <a href="/">FleetConnect</a>
+                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
             </div>
         </div>
     </footer>
@@ -504,11 +457,11 @@
 
 <script>
     // ============================================================
-    // VERTALINGEN WOORDENBOEK
+    // VERTALINGEN WOORDENBOEK - ANTWERPEN (uitgebreid met footer + steden)
     // ============================================================
     const translations = {
         nl: {
-            // Hero - Uniform met Brussel
+            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Antwerpen",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
             hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
@@ -522,7 +475,7 @@
             events_title: "Evenementen & zakenwijken in Antwerpen",
             events_p1: "Antwerpen bruist het hele jaar door van de evenementen. De belangrijkste trekpleisters zijn de gigantische concerten in het Sportpaleis (een van de grootste concertzalen van Europa) en de Lotto Arena. Daarnaast staat de stad op de internationale kalender met evenementen zoals het Antwerp.Fashion Festival in juni, de Tall Ships Races in juli en de Antwerp Design Week.",
             events_p2: "De belangrijkste zakenwijken zijn het Antwerp Expo (congres- en beurscentrum), het Eilandje (creatieve hub met het MAS en innovatieve kantoren), de Kantoorwijk Antwerpen-Noord (nabij de haven) en het Wetenschapspark (POM Antwerpen). Ook het iconische Havenhuis, een ontwerp van Zaha Hadid, is het kloppende hart van de haven.",
-            // Routes - OPTIE A (6 luchthavens)
+            // Routes
             routes_title: "✈️ Luchthaventransfers vanuit Antwerpen",
             routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             route1_title: "Antwerpen → Deurne",
@@ -580,10 +533,11 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Reserveer 24-48u vooruit",
             service4_desc: "Internationale ritten plannen.",
-            // Why - Uniform met Brussel
+            // Why
             why_title: "Waarom FleetConnect in Antwerpen?",
             why1_title: "Stipt & punctueel",
             why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Antwerpen en vermijden files rond de Ring. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_title: "Premium vloot",
             why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
             why3_title: "Vaste prijzen",
             why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Antwerpen-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
@@ -618,10 +572,60 @@
             nav_courier: "Koeriersdienst",
             nav_contact: "Contact",
             nav_book: "Reserveer nu",
-            login: "LOGIN"
+            login: "LOGIN",
+
+            // ===== FOOTER VERTALINGEN (NL) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Professioneel taxivervoer in België - Stijl, stiptheid en service.",
+            footer_book_now: "Reserveer nu",
+            footer_portal: "Klantportaal",
+            footer_partner: "Partner login",
+            footer_popular_cities: "Populaire steden",
+            footer_city_brussels: "Taxi Brussel",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Antwerpen",
+            footer_city_brugge: "Taxi Brugge",
+            footer_other_cities: "Alle andere steden:",
+            footer_select_city: "-- Kies een stad --",
+            footer_legal: "Legal",
+            footer_faq: "FAQ",
+            footer_privacy: "Privacy",
+            footer_cookies: "Cookiebeleid",
+            footer_terms: "Algemene voorwaarden",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (NL) =====
+            city_aalst: "Aalst",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Doornik",
+            city_genk: "Genk",
+            city_gent: "Gent",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Halle",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Kortrijk",
+            city_leuven: "Leuven",
+            city_luik: "Luik",
+            city_machelen: "Machelen",
+            city_mechelen: "Mechelen",
+            city_oostende: "Oostende",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Sint-Niklaas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvoorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
         },
         fr: {
-            // Hero - Uniform met Brussel
+            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Anvers",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
             hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
@@ -634,7 +638,7 @@
             events_title: "Événements et quartiers d'affaires à Anvers",
             events_p1: "Anvers bouillonne d'événements toute l'année. Les principales attractions sont les concerts géants au Sportpaleis (l'une des plus grandes salles de concert d'Europe) et à la Lotto Arena. La ville figure également au calendrier international avec des événements tels que l'Antwerp.Fashion Festival en juin, les Tall Ships Races en juillet et l'Antwerp Design Week.",
             events_p2: "Les principaux quartiers d'affaires sont l'Antwerp Expo (centre de congrès et de salons), l'Eilandje (pôle créatif avec le MAS et des bureaux innovants), le quartier de bureaux d'Anvers-Nord (près du port) et le Parc scientifique (POM Anvers). L'emblématique Maison du Port, conçue par Zaha Hadid, est le cœur battant du port.",
-            // Routes - OPTIE A (6 aéroports)
+            // Routes
             routes_title: "✈️ Transferts aéroport depuis Anvers",
             routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
             route1_title: "Anvers → Deurne",
@@ -695,6 +699,7 @@
             why_title: "Pourquoi FleetConnect à Anvers?",
             why1_title: "Ponctuel & fiable",
             why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues d'Anvers et évitent les embouteillages autour du Ring. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_title: "Flotte premium",
             why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
             why3_title: "Prix fixes",
             why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Anvers-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
@@ -724,10 +729,60 @@
             nav_courier: "Service de messagerie",
             nav_contact: "Contact",
             nav_book: "Réservez maintenant",
-            login: "CONNEXION"
+            login: "CONNEXION",
+
+            // ===== FOOTER VERTALINGEN (FR) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
+            footer_book_now: "Réservez maintenant",
+            footer_portal: "Portail client",
+            footer_partner: "Connexion partenaire",
+            footer_popular_cities: "Villes populaires",
+            footer_city_brussels: "Taxi Bruxelles",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Anvers",
+            footer_city_brugge: "Taxi Bruges",
+            footer_other_cities: "Toutes les autres villes :",
+            footer_select_city: "-- Choisissez une ville --",
+            footer_legal: "Juridique",
+            footer_faq: "FAQ",
+            footer_privacy: "Confidentialité",
+            footer_cookies: "Politique de cookies",
+            footer_terms: "Conditions générales",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (FR) =====
+            city_aalst: "Alost",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Tournai",
+            city_genk: "Genk",
+            city_gent: "Gand",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Hal",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Courtrai",
+            city_leuven: "Louvain",
+            city_luik: "Liège",
+            city_machelen: "Machelen",
+            city_mechelen: "Malines",
+            city_oostende: "Ostende",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Saint-Nicolas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
         },
         en: {
-            // Hero - Uniform met Brussel
+            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Antwerp",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
             hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
@@ -740,7 +795,7 @@
             events_title: "Events & Business Districts in Antwerp",
             events_p1: "Antwerp is buzzing with events all year round. The main attractions are the giant concerts at the Sportpaleis (one of the largest concert halls in Europe) and the Lotto Arena. The city also features on the international calendar with events such as the Antwerp.Fashion Festival in June, the Tall Ships Races in July and Antwerp Design Week.",
             events_p2: "The main business districts are Antwerp Expo (congress and exhibition centre), the Eilandje (creative hub with the MAS and innovative offices), the Antwerp-North office district (near the port) and the Science Park (POM Antwerp). The iconic Port House, designed by Zaha Hadid, is the beating heart of the port.",
-            // Routes - OPTIE A (6 airports)
+            // Routes
             routes_title: "✈️ Airport transfers from Antwerp",
             routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
             route1_title: "Antwerp → Deurne",
@@ -801,6 +856,7 @@
             why_title: "Why FleetConnect in Antwerp?",
             why1_title: "Punctual & reliable",
             why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Antwerp's back streets and avoid traffic jams around the Ring. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_title: "Premium fleet",
             why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
             why3_title: "Fixed prices",
             why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Antwerp-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
@@ -830,7 +886,57 @@
             nav_courier: "Courier service",
             nav_contact: "Contact",
             nav_book: "Book now",
-            login: "LOGIN"
+            login: "LOGIN",
+
+            // ===== FOOTER VERTALINGEN (EN) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Professional taxi transport in Belgium - Style, punctuality and service.",
+            footer_book_now: "Book now",
+            footer_portal: "Customer portal",
+            footer_partner: "Partner login",
+            footer_popular_cities: "Popular cities",
+            footer_city_brussels: "Taxi Brussels",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Antwerp",
+            footer_city_brugge: "Taxi Bruges",
+            footer_other_cities: "All other cities:",
+            footer_select_city: "-- Choose a city --",
+            footer_legal: "Legal",
+            footer_faq: "FAQ",
+            footer_privacy: "Privacy",
+            footer_cookies: "Cookie policy",
+            footer_terms: "Terms & Conditions",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (EN) =====
+            city_aalst: "Aalst",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Tournai",
+            city_genk: "Genk",
+            city_gent: "Ghent",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Halle",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Kortrijk",
+            city_leuven: "Leuven",
+            city_luik: "Liège",
+            city_machelen: "Machelen",
+            city_mechelen: "Mechelen",
+            city_oostende: "Ostend",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Sint-Niklaas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvoorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
         }
     };
 
@@ -839,19 +945,83 @@
     // ============================================================
     let currentLang = 'nl';
 
+    // ============================================================
+    // DROPDOWN STADNAMEN GENEREREN
+    // ============================================================
+    function generateCityDropdown() {
+        const t = translations[currentLang];
+        if (!t) return;
+
+        const cities = [
+            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
+            { key: 'city_asse', url: '/cities/taxi-asse.html' },
+            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
+            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
+            { key: 'city_genk', url: '/cities/taxi-genk.html' },
+            { key: 'city_gent', url: '/cities/taxi-gent.html' },
+            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
+            { key: 'city_halle', url: '/cities/taxi-halle.html' },
+            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
+            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
+            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
+            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
+            { key: 'city_luik', url: '/cities/taxi-luik.html' },
+            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
+            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
+            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
+            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
+            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
+            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
+            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
+            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
+            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
+            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
+            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
+        ];
+
+        const select = document.getElementById('stad-dropdown');
+        if (!select) return;
+
+        const currentValue = select.value;
+        select.innerHTML = '';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
+        select.appendChild(defaultOption);
+
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city.url;
+            option.textContent = t[city.key] || city.key;
+            select.appendChild(option);
+        });
+
+        if (currentValue) {
+            select.value = currentValue;
+        }
+    }
+
+    // ============================================================
+    // VERTALINGS FUNCTIE
+    // ============================================================
     function translatePage() {
         const t = translations[currentLang];
         if (!t) return;
+
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key] !== undefined) {
                 if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     el.placeholder = t[key];
+                } else if (el.tagName === 'OPTION') {
+                    el.textContent = t[key];
                 } else {
                     el.innerHTML = t[key];
                 }
             }
         });
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
             if (btn.getAttribute('data-lang') === currentLang) {
                 btn.classList.add('active');
@@ -859,27 +1029,30 @@
                 btn.classList.remove('active');
             }
         });
+
+        generateCityDropdown();
         document.documentElement.lang = currentLang;
     }
 
-    // Event listeners voor taalknoppen
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const lang = btn.getAttribute('data-lang');
-            if (lang && translations[lang]) {
-                currentLang = lang;
-                translatePage();
-            }
-        });
-    });
-
-    // Initialiseer vertaling
-    translatePage();
-
     // ============================================================
-    // HAMBURGER MENU FUNCTIONALITEIT
+    // EVENT LISTENERS
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (lang && translations[lang]) {
+                    currentLang = lang;
+                    translatePage();
+                }
+            });
+        });
+
+        translatePage();
+
+        // ============================================================
+        // HAMBURGER MENU FUNCTIONALITEIT
+        // ============================================================
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -913,7 +1086,6 @@
             }
         });
         
-        // Contactformulier verzenden
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {
