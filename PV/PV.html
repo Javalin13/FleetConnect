@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>FleetConnect | Professioneel taxivervoer België</title>
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/nl.js"></script>
-
+    
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}:root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
@@ -39,19 +39,14 @@
         .btn-primary{background:var(--primary);color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
         .btn-primary:hover{background:var(--primary-dark)}
         .booking-container{max-width:850px;width:100%;background:white;border:1px solid var(--border-light);margin:0 auto 40px;border-radius:24px;overflow:hidden}
-        
-        .steps{display:flex;background:#f8fafc;border-bottom:1px solid var(--border-light);flex-wrap:nowrap;overflow-x:auto}
-        .step-btn{flex:1;background:none;border:none;padding:18px 8px;font-weight:700;font-size:0.75rem;color:var(--text-light);cursor:pointer;border-bottom:3px solid transparent;text-transform:uppercase;white-space:nowrap;min-width:0;text-align:center;transition:0.2s}
+        .steps{display:flex;background:#f8fafc;border-bottom:1px solid var(--border-light)}
+        .step-btn{flex:1;background:none;border:none;padding:18px 12px;font-weight:700;font-size:0.8rem;color:var(--text-light);cursor:pointer;border-bottom:3px solid transparent;text-transform:uppercase}
         .step-btn.active{color:var(--primary);border-bottom-color:var(--primary);background:white}
-        .step-btn:hover{color:var(--primary);background:rgba(44,110,158,0.05)}
-        
         .carousel-page{display:none;padding:32px 36px;min-height:520px}
         .carousel-page.active-page{display:block}
         .nav-buttons{display:flex;justify-content:space-between;padding:20px 36px 32px;gap:16px;border-top:1px solid var(--border-light);background:white}
-        .nav-btn{background:var(--primary);color:white;border:none;padding:12px 28px;font-weight:700;border-radius:40px;cursor:pointer;text-transform:uppercase;transition:0.2s}
-        .nav-btn:hover{background:var(--primary-dark)}
+        .nav-btn{background:var(--primary);color:white;border:none;padding:12px 28px;font-weight:700;border-radius:40px;cursor:pointer;text-transform:uppercase}
         .nav-btn.prev{background:#a0b8ce}
-        .nav-btn.prev:hover{background:#8aa8c4}
         .nav-btn:disabled{background:#cbd5e1;cursor:not-allowed}
         .field{margin-bottom:22px;position:relative}
         label{font-weight:600;margin-bottom:8px;display:block;font-size:0.75rem;text-transform:uppercase;color:var(--text-light)}
@@ -75,35 +70,14 @@
         .legend-color.red{background:#ef4444}
         .legend-color.blue{background:#d4af37;height:4px;width:30px}
         .vehicle-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0}
-        .vehicle-card{background:#f8fafc;border:2px solid var(--border-light);padding:16px 8px;text-align:center;cursor:pointer;border-radius:12px;transition:0.2s}
-        .vehicle-card:hover{border-color:var(--primary);background:#eef2fa}
+        .vehicle-card{background:#f8fafc;border:2px solid var(--border-light);padding:16px 8px;text-align:center;cursor:pointer;border-radius:12px}
         .vehicle-card.selected{border-color:var(--primary);background:#eef2fa}
         .vehicle-emoji{font-size:2rem}
         .vehicle-name{font-weight:700;margin-top:8px}
         .extra-fields{background:#f8fafc;padding:18px 20px;margin:20px 0;border-radius:12px}
         .extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-        
-        .checkbox-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-        .option-row{display:flex;align-items:center;justify-content:space-between;background:white;padding:10px 16px;border:1px solid var(--border-light);border-radius:12px;transition:0.2s;gap:12px;flex-wrap:nowrap}
-        .option-row:hover{border-color:var(--primary);background:#f8fbff}
-        .option-label{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--text-dark);font-size:0.9rem;flex:1;min-width:0}
-        .option-label .option-price{font-size:0.75rem;color:var(--text-light);font-weight:400}
-        .option-label .option-price strong{color:var(--primary)}
-        .option-controls{display:flex;align-items:center;gap:10px;flex-shrink:0}
-        .option-controls input[type="checkbox"]{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;margin:0}
-        .option-controls input[type="number"]{width:52px;padding:4px 6px;border:1px solid var(--border-light);border-radius:8px;font-size:0.85rem;text-align:center;background:white;transition:0.2s}
-        .option-controls input[type="number"]:focus{outline:none;border-color:var(--primary)}
-        .option-controls input[type="number"]:disabled{opacity:0.4;cursor:not-allowed;background:#f5f7fa}
-        .option-controls .flessen-label{font-size:0.7rem;color:var(--text-light);font-weight:400}
-        
-        .info-icon{display:inline-flex;align-items:center;justify-content:center;color:var(--primary);font-size:0.7rem;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--primary);background:transparent;cursor:help;transition:all 0.25s ease;flex-shrink:0;user-select:none;font-weight:700;font-family:'Inter',sans-serif;position:relative}
-        .info-icon:hover{background:var(--primary);color:white;transform:scale(1.1);box-shadow:0 2px 8px rgba(44,110,158,0.3)}
-        .info-icon[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(0);background:var(--text-dark);color:white;padding:12px 16px;border-radius:12px;font-size:0.7rem;font-weight:400;line-height:1.6;white-space:nowrap;max-width:280px;white-space:normal;z-index:1000;box-shadow:0 8px 25px rgba(0,0,0,0.2);text-align:left;font-family:'Inter',sans-serif;letter-spacing:0.2px;border:1px solid rgba(255,255,255,0.1);min-width:200px}
-        .info-icon[data-tooltip]:hover::before{content:'';position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--text-dark);z-index:1001}
-        
-        @media (max-width:768px){.info-icon[data-tooltip]:active::after{content:attr(data-tooltip);position:fixed;bottom:auto;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--text-dark);color:white;padding:16px 20px;border-radius:16px;font-size:0.8rem;line-height:1.6;max-width:300px;white-space:normal;z-index:9999;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:left;border:1px solid rgba(255,255,255,0.1)}
-        .info-icon[data-tooltip]:active::before{display:none}}
-        
+        .checkbox-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+        .checkbox-grid label{display:flex;align-items:center;gap:8px;background:white;padding:8px 12px;border:1px solid var(--border-light);border-radius:20px;font-weight:400;text-transform:none}
         .sub{color:var(--text-light);border-left:3px solid var(--primary);padding-left:14px;margin-bottom:24px;font-size:0.85rem}
         h1{font-size:1.5rem;margin-bottom:12px}
         h2{font-size:1.3rem;margin-bottom:20px;color:var(--primary)}
@@ -113,7 +87,7 @@
         .rit-overzicht{background:#f8fafc;border:1px solid var(--border-light);border-radius:16px;padding:20px;margin-bottom:20px}
         .total-display{background:#f8fafc;padding:20px;text-align:center;font-size:1.5rem;font-weight:700;margin:20px 0;border-radius:12px;color:var(--primary)}
         .services-grid,.uitleg-grid{display:flex;flex-wrap:wrap;gap:30px;justify-content:center;padding:50px 0 30px}
-        .service-card,.uitleg-item{background:var(--card-bg);backdrop-filter:blur(4px);border:1px solid var(--border-light);border-radius:36px;padding:30px 24px;text-align:center;flex:1 1 240px;text-decoration:none;color:inherit;transition:0.3s}
+        .service-card,.uitleg-item{background:var(--card-bg);backdrop-filter:blur(4px);border:1px solid var(--border-light);border-radius:36px;padding:30px 24px;text-align:center;flex:1 1 240px;text-decoration:none;color:inherit}
         .service-card:hover,.uitleg-item:hover{transform:translateY(-6px);border-color:var(--primary)}
         .contact-wrapper{width:100%;display:flex;justify-content:center;padding:0 16px}
         .contact-row{background:white;border-radius:44px;padding:30px;margin:40px 0;border:1px solid var(--border-light);width:100%;max-width:600px}
@@ -121,18 +95,50 @@
         .compact-form{display:flex;flex-direction:column;gap:16px}
         .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
         .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
-        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
         .btn-whatsapp:hover{background:#128C7E}
+        
+        /* ========== FOOTER STIJL - VERTICALE LINKS ========== */
         .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:40px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
-        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px}
-        @media (max-width:800px){.vehicle-grid,.extra-grid{grid-template-columns:1fr 1fr}.carousel-page{padding:20px}.steps{flex-wrap:nowrap;overflow-x:auto}.step-btn{font-size:0.6rem;padding:14px 6px;white-space:nowrap}.option-row{flex-wrap:wrap;gap:8px}.option-controls{margin-left:auto}}
-        @media (max-width:500px){.vehicle-grid{grid-template-columns:1fr 1fr}.step-btn{font-size:0.55rem;padding:10px 4px}.option-row{padding:8px 12px;flex-wrap:wrap}.option-controls{flex-wrap:wrap;justify-content:flex-end}}
+        .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
         
+        /* DIT IS DE BELANGRIJKE CSS - FORCEERT VERTICALE WEERGAVE */
+        .footer-grid a {
+            color: #e0edf5;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block !important;
+            transition: 0.2s;
+            margin: 2px 0;
+        }
+        .footer-grid a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        .footer-city-select{background:#1a2f3f;color:#e0edf5;border:1px solid var(--primary);border-radius:8px;padding:8px 12px;width:100%;max-width:220px;font-family:'Inter',sans-serif;font-size:0.95rem;cursor:pointer;margin-top:8px;appearance:auto}
+        .footer-city-select:focus{outline:none;border-color:#ffffff}
+        .footer-city-select option{background:#0d1f2c;color:#e0edf5}
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:var(--primary);text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
+        
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width:800px){
+            .vehicle-grid,.checkbox-grid{grid-template-columns:repeat(2,1fr)}
+            .carousel-page{padding:20px}
+            .footer-grid{display:grid;grid-template-columns:1fr;gap:24px}
+            .footer-grid a {
+                display: block !important; /* Blijft verticaal op gsm */
+            }
+            .language-switcher{right:12px!important;top:12px!important;gap:6px!important}
+        }
+
+        /* Phase A.1 mobile booking hotfix */
         html,body{max-width:100%;overflow-x:hidden}
         input,select,textarea,button{max-width:100%;min-width:0}
-        .footer-dark a{color:#e0edf5;text-decoration:none;display:inline-block;margin:4px 0}
-        .footer-dark a:hover{text-decoration:underline}
         .testimonials-section{padding:42px 0 20px}
         .testimonials-section h2{margin-bottom:12px}
         .testimonial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:16px 0 24px}
@@ -140,21 +146,23 @@
         .testimonial-stars{color:#c9a03d;font-weight:800;letter-spacing:1px;margin-bottom:8px}
         .testimonial-card p{color:var(--text-dark);line-height:1.5;margin-bottom:10px}
         .testimonial-card small,.testimonial-empty{color:var(--text-light)}
-        .google-review-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border-light);border-radius:40px;padding:10px 16px;text-decoration:none;color:var(--primary);font-weight:800;background:white;transition:0.2s}
-        .google-review-cta:hover{background:var(--primary);color:white;border-color:var(--primary)}
+        .google-review-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border-light);border-radius:40px;padding:10px 16px;text-decoration:none;color:var(--primary);font-weight:800;background:white}
+        
         @media (max-width:800px){
             .container{padding:0 12px}
             .booking-container{width:100%;max-width:100%;border-radius:18px;margin:0 auto 28px}
-            .steps{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:0}
-            .step-btn{flex:1;min-width:60px;padding:12px 6px;font-size:0.6rem;white-space:nowrap}
+            .steps{display:grid;grid-template-columns:1fr;gap:0}
+            .step-btn{width:100%;padding:12px 10px;text-align:left;white-space:normal}
             .carousel-page{padding:18px 14px;min-height:auto}
             .nav-buttons,.button-row,.info-strip,.route-legend,.payment-method{flex-direction:column;align-items:stretch}
-            .extra-grid,.vehicle-grid{grid-template-columns:1fr}
+            .extra-grid,.vehicle-grid,.checkbox-grid{grid-template-columns:1fr}
+            .checkbox-grid label,.roundtrip-box{align-items:flex-start}
             #map{height:300px}
             .footer-grid{display:grid;grid-template-columns:1fr;gap:24px}
             .language-switcher{right:12px!important;top:12px!important;gap:6px!important}
         }
 
+        /* Google Autocomplete styling */
         .pac-container { border-radius: 12px; margin-top: 4px; border: 1px solid var(--border-light); box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: 'Inter', sans-serif; z-index: 10000; }
         .pac-item { padding: 10px 16px; font-size: 0.9rem; border-bottom: 1px solid #eee; }
         .pac-item:hover { background: #f1f5f9; }
@@ -189,13 +197,13 @@
             <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
             <a href="#booking"><i class="fas fa-calendar-alt"></i> Reserveer nu</a>
         </div>
-        <div class="login-section"><a href="/PV/index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> LOGIN <i class="fas fa-arrow-right"></i></a></div>
+        <div class="login-section"><a href="index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> LOGIN <i class="fas fa-arrow-right"></i></a></div>
     </div>
 </div>
 
 <div class="content-overlay">
     <div class="language-switcher" style="position: fixed; top: 20px; right: 20px; display: flex; gap: 12px; z-index: 1000; background: rgba(255,255,255,0.9); padding: 6px 12px; border-radius: 40px; backdrop-filter: blur(4px); border: 1px solid rgba(0,0,0,0.1);">
-        <a href="/nl" class="lang-btn active" style="background: var(--primary); border: 1px solid var(--primary); padding: 6px 14px; border-radius: 40px; cursor: pointer; font-weight: 600; text-decoration: none; color: white;">NL</a>
+        <a href="PV.html" class="lang-btn active" style="background: var(--primary); border: 1px solid var(--primary); padding: 6px 14px; border-radius: 40px; cursor: pointer; font-weight: 600; text-decoration: none; color: white;">NL</a>
         <a href="/fr" class="lang-btn" style="background: white; border: 1px solid var(--border-light); padding: 6px 14px; border-radius: 40px; cursor: pointer; font-weight: 600; text-decoration: none; color: var(--text-dark);">FR</a>
         <a href="/en" class="lang-btn" style="background: white; border: 1px solid var(--border-light); padding: 6px 14px; border-radius: 40px; cursor: pointer; font-weight: 600; text-decoration: none; color: var(--text-dark);">EN</a>
     </div>
@@ -210,30 +218,27 @@
             <button class="step-btn" data-page="4">4. Klantgegevens</button>
             <button class="step-btn" data-page="5">5. Afrekenen</button>
         </div>
-
+        
         <div id="page1" class="carousel-page active-page">
-            <h1>Ritgegevens</h1><div class="sub">België - Minimumtarief €30 | Berekend per km voor lange ritten</div>
-            <div class="sub" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;"><span>Heeft u een account? Gebruik uw profiel om ophaaladres automatisch in te vullen en ritten te koppelen.</span><a href="/PV/index.html" style="font-weight:800; color:var(--primary);">Inloggen / registreren</a></div>
+            <h1>Ritgegevens</h1><div class="sub">België - EUR1,50/km | spoedritten via WhatsApp</div>
             <div class="field"><label> Ophaaladres <span class="required-star">*</span></label><input type="text" id="pickupInput" placeholder="bv. Brussels Airport" autocomplete="off" inputmode="text"></div>
             <div class="field"><label> Afzetadres <span class="required-star">*</span></label><input type="text" id="dropoffInput" placeholder="bv. Grand Place Brussels" autocomplete="off" inputmode="text"></div>
             <div class="roundtrip-box"><input type="checkbox" id="roundtripCheckbox"><label> Heen en terug rit (prijs x2)</label></div>
             <div class="field"><label> Vluchtnummer (optioneel)</label><input type="text" id="flightNumber" placeholder="bv. KL1704"></div>
             <div class="field"><label> Heen datum & tijd <span class="required-star">*</span></label><input type="text" id="datetime" placeholder="Klik om datum & tijd te kiezen" readonly><i class="fas fa-calendar-alt date-icon"></i></div>
-            <div class="roundtrip-box"><input type="checkbox" id="asapCheckbox"> <label>ASAP / Zo snel mogelijk - FleetConnect bevestigt per e-mail wanneer de chauffeur kan aankomen. Voor directe hulp kunt u WhatsApp gebruiken.</label></div>
             <div class="field return-date-field" id="returnDateContainer"><label> Terug datum & tijd</label><input type="text" id="returnDatetime" placeholder="Klik om datum & tijd te kiezen" readonly><i class="fas fa-calendar-alt date-icon"></i></div>
             <div id="urgentWhatsApp" class="urgent-whatsapp"><span> Vertrekt binnen het uur - WhatsApp</span><a href="https://wa.me/32494624429" target="_blank" class="whatsapp-btn"> WhatsApp nu</a></div>
             <div id="page1Error" class="error"></div><div class="footnote">* Verplicht - klik in het datumveld om de kalender te openen</div>
         </div>
-
+        
         <div id="page2" class="carousel-page">
             <h2>Route & Prijs</h2>
             <div id="map"></div>
             <div class="route-legend"><div class="legend-item"><div class="legend-color green"></div><span> Ophalen</span></div><div class="legend-item"><div class="legend-color red"></div><span> Afzetten</span></div><div class="legend-item"><div class="legend-color blue"></div><span> Route</span></div></div>
             <div class="info-strip"><div class="info-card"><div class="label"> Afstand</div><div class="value" id="distVal">-</div><small>km</small></div><div class="info-card"><div class="label"> Reistijd</div><div class="value" id="timeVal">-</div><small>min</small></div><div class="info-card"><div class="label"> Prijs</div><div class="value" id="priceVal">-</div><small>EUR</small></div></div>
-            <div id="priceNote" style="font-size:0.85rem; margin-top:4px; text-align:center; display:none;"></div>
             <div id="page2Error" class="error"></div>
         </div>
-
+        
         <div id="page3" class="carousel-page">
             <h2>Kies uw voertuig</h2>
             <div class="vehicle-grid" id="vehicleGrid">
@@ -243,47 +248,11 @@
                 <div class="vehicle-card" data-vehicle="Mini Van" data-extraprice="10"><div class="vehicle-emoji"><i class="fas fa-car"></i></div><div class="vehicle-name">Mini Van</div><div class="vehicle-price">+ EUR 10</div></div>
             </div>
             <div class="extra-fields"><h3>+ Extra opties</h3><div class="extra-grid"><div><label> Aantal passagiers</label><input type="number" id="passengers" min="1" value="1"></div><div><label> Bagagestuks</label><input type="number" id="luggage" min="0" value="0"></div></div>
-            
-            <div class="checkbox-grid">
-                <div class="option-row">
-                    <span class="option-label">Meet & Greet <span class="option-price"><strong>(+€5,00)</strong></span></span>
-                    <span class="option-controls">
-                        <input type="checkbox" id="meetGreet">
-                        <span class="info-icon" data-tooltip="🛎️ Chauffeur wacht met naamplaatje&#10;⏱️ 30 minuten gratis wachttijd&#10;💶 Extra wachttijd: €35,00 per uur">ⓘ</span>
-                    </span>
-                </div>
-                
-                <div class="option-row">
-                    <span class="option-label">Kiss & Ride <span class="option-price">(gratis)</span></span>
-                    <span class="option-controls">
-                        <input type="checkbox" id="kissRide">
-                        <span class="info-icon" data-tooltip="🚗 Klant wandelt naar Kiss & Ride zone&#10;📱 Belt de chauffeur bij aankomst&#10;🚙 Chauffeur rijdt naar Kiss & Ride zone&#10;💰 Geen parkeerkosten (chauffeur wacht buiten)&#10;⏱️ 30 minuten gratis wachttijd&#10;💶 Extra wachttijd: €25,00 per uur">ⓘ</span>
-                    </span>
-                </div>
-                
-                <div class="option-row">
-                    <span class="option-label">Waterfles <span class="option-price"><strong>(+€1,00/stuk)</strong></span></span>
-                    <span class="option-controls">
-                        <input type="number" id="waterBottleAantal" min="0" max="20" value="1" disabled style="width:48px;padding:4px 4px;border:1px solid var(--border-light);border-radius:8px;font-size:0.85rem;text-align:center;background:#f5f7fa;">
-                        <span class="flessen-label" style="font-size:0.7rem;color:var(--text-light);">flessen</span>
-                        <input type="checkbox" id="waterBottle">
-                        <span class="info-icon" data-tooltip="💧 Frisse waterfles&#10;📦 €1,00 per fles&#10;📝 Aantal flessen aanpassen na aanvinken">ⓘ</span>
-                    </span>
-                </div>
-                
-                <div class="option-row">
-                    <span class="option-label">WiFi <span class="option-price">(gratis)</span></span>
-                    <span class="option-controls">
-                        <input type="checkbox" id="wifi" checked>
-                        <span class="info-icon" data-tooltip="📶 Gratis WiFi in het voertuig&#10;📡 Hotspot wordt geactiveerd door de chauffeur">ⓘ</span>
-                    </span>
-                </div>
-            </div>
-            
+            <div class="checkbox-grid"><label><input type="checkbox" id="meetGreet"> <span> Meet & Greet</span></label><label><input type="checkbox" id="kissRide"> <span> Kiss & Ride</span></label><label><input type="checkbox" id="waterBottle"> <span> Waterfles</span></label><label><input type="checkbox" id="wifi"> <span> WiFi</span></label></div>
             <div><label> Speciale wensen</label><textarea id="specialWishes" rows="2" placeholder="bv. kinderzitje, champagne..."></textarea></div></div>
             <div id="page3Error" class="error"></div>
         </div>
-
+        
         <div id="page4" class="carousel-page">
             <h1>Uw gegevens</h1><div class="sub">Vul uw contactgegevens in</div>
             <div class="field"><label>Voornaam <span class="required-star">*</span></label><input type="text" id="firstName"></div>
@@ -293,7 +262,7 @@
             <div class="field"><label>BTW (optioneel)</label><input type="text" id="vat" placeholder="BE 0123.456.789"></div>
             <div id="page4Error" class="error"></div>
         </div>
-
+        
         <div id="page5" class="carousel-page">
             <h1>Afrekenen</h1><div class="sub">Kies betaalmethode & bevestig</div>
             <div class="rit-overzicht"><h3>Uw ritoverzicht</h3>
@@ -306,23 +275,21 @@
                 <div><strong> Totaalprijs:</strong> <span id="overviewTotal">EUR 0,00</span></div>
             </div>
             <div class="payment-method"><span>Betaalmethode:</span><label><input type="radio" name="payment" value="Cash" checked> <span> Cash</span></label><label><input type="radio" name="payment" value="Kaart"> <span> Kaart</span></label><label><input type="radio" name="payment" value="App"> <span> App</span></label></div>
-            
-            <!-- TOTAL DISPLAY - ALLEEN DE PRIJS, GEEN KORTINGSTEKST -->
             <div id="totalDisplay" class="total-display">Totaal: EUR 0,00</div>
-            
             <button id="finalConfirmBtn" class="btn-primary" style="width:100%">Bevestig boeking</button>
             <div id="page5Error" class="error"></div>
-
+            
             <input type="hidden" id="hiddenCustomerId">
             <input type="hidden" id="hiddenFormData">
             <input type="hidden" id="hiddenCreatedAt">
             <input type="hidden" id="hiddenPartnerId" value="1">
             <input type="hidden" id="hiddenAssignedDriverId">
         </div>
-
+        
         <div class="nav-buttons"><button class="nav-btn prev" id="prevBtn" disabled>Vorige</button><button class="nav-btn next" id="nextBtn">Volgende</button></div>
     </div></div></div>
 
+    <!-- ALLE 7 GRID BLOKKEN ONDER HET BOEKINGSFORMULIER -->
     <div class="container"><h2 style="text-align:center;margin-bottom:20px;"><i class="fas fa-concierge-bell"></i>Onze diensten</h2>
         <div class="uitleg-grid">
             <a href="PV_Exclusieve_Service.html" class="uitleg-item"><i class="fas fa-gem"></i><h3>Exclusieve service</h3><p>Persoonlijke chauffeur, altijd op tijd</p><div class="service-summary">Ontdek onze exclusieve service met persoonlijke chauffeur en luxe voertuigen.</div><div class="read-more-hint"><i class="fas fa-arrow-right"></i> Lees meer <i class="fas fa-search"></i></div></a>
@@ -339,50 +306,95 @@
 
     <div class="contact-wrapper" id="contact"><div class="contact-row"><div class="contact-form"><h3><i class="fas fa-paper-plane"></i>Stuur een bericht</h3><div class="compact-form"><div class="form-group"><label><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam"></div><div class="form-group"><label><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail"></div><div class="form-group"><label><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2"></textarea></div><div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32494624429" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div></div></div></div></div>
 
-    <footer class="footer-dark"><div class="container"><div class="footer-grid"><div class="footer-brand"><h4><i class="fas fa-car"></i> FleetConnect</h4><p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p><a href="/booking#booking">Reserveer nu</a><br><a href="/PV/index.html">Klantportaal</a><br><a href="/partner-login">Partner login</a></div><div class="footer-cities"><h4>Populaire steden</h4>
-<a href="/taxi-brussels">Taxi Brussels</a><br>
-<a href="/taxi-antwerpen">Taxi Antwerp</a><br>
-<a href="/taxi-gent">Taxi Ghent</a><br>
-<a href="/taxi-zaventem">Taxi Zaventem</a><br>
-<a href="/taxi-leuven">Taxi Leuven</a><br>
-<a href="/taxi-mechelen">Taxi Mechelen</a><br>
-<a href="/taxi-waterloo">Taxi Waterloo</a><br>
-<a href="/taxi-brugge">Taxi Brugge</a></div><div class="footer-legal"><h4>Legal</h4><a href="/PV/PVfaq.html">FAQ</a><br><a href="/PV/PVprivacy.html">Privacy</a><br><a href="/PV/PVcookiebeleid.html">Cookiebeleid</a><br><a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a></div><div class="footer-partners"><h4>FleetConnect</h4><a href="mailto:support@fleetconnect.be">Support</a><br><a href="/booking#contact">Contact</a></div></div><div class="footer-bottom">2026 FleetConnect - <a href="/">FleetConnect</a></div></div></footer>
+    <!-- ========================================================== -->
+    <!-- FOOTER – UNIFORM BLAUW + VERTAALBARE DROPDOWN             -->
+    <!-- ========================================================== -->
+    <footer class="footer-dark">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
+                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
+                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
+                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
+                <div class="footer-cities">
+                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
+
+                    <!-- Label en dropdown voor overige steden - wordt dynamisch gevuld -->
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4 data-i18n="footer_legal">Legal</h4>
+                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
+                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
+                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
+                </div>
+            </div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
+            </div>
+        </div>
+    </footer>
+    <!-- ========================================================== -->
+
 </div>
 
+<!-- Google Maps API with modern Places Autocomplete -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv51ytW1FTJoSGRiD7hLNknGwNcM8cmcM&v=weekly&libraries=places&callback=initGoogleMaps" async defer></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const googleCta = document.getElementById('googleReviewCta');
-        if (googleCta) {
-            googleCta.href = 'https://www.google.com/search?q=FleetConnect+Belgium+reviews';
-        }
-        console.log('FleetConnect - pagina geladen');
-    });
+<script type="module">import { mountTestimonials } from '/src/modules/reviews/testimonials.js'; mountTestimonials({ emptyHighlighted: 'Nog geen uitgelichte testimonials.', emptyAll: 'Nog geen andere testimonials.' }); const googleCta = document.getElementById('googleReviewCta'); if (googleCta && window.FLEETCONNECT_REVIEW_URL) googleCta.href = window.FLEETCONNECT_REVIEW_URL;</script>
 
+<script>
     window.gm_authFailure = function() { console.warn('Google Maps authentication failed; route validation is unavailable.'); };
-    
+    // ====================== HAMBURGER MENU ======================
     document.addEventListener('DOMContentLoaded', function() {
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
-
+        
         if (hamburgerBtn) {
             hamburgerBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                console.log("Menu openen");
                 sidebarOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
         }
-
+        
         if (closeMenuBtn) {
             closeMenuBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                console.log("Menu sluiten");
                 sidebarOverlay.classList.remove('active');
                 document.body.style.overflow = '';
             });
         }
-
+        
         if (sidebarOverlay) {
             sidebarOverlay.addEventListener('click', function(e) {
                 if (e.target === sidebarOverlay) {
@@ -391,7 +403,7 @@
                 }
             });
         }
-
+        
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && sidebarOverlay.classList.contains('active')) {
                 sidebarOverlay.classList.remove('active');
@@ -399,125 +411,8 @@
             }
         });
     });
-
-    function normalizeAddress(adres) {
-        if (!adres) return '';
-        return adres
-            .toLowerCase()
-            .replace(/,/g, '')
-            .replace(/belgië|belgique|belgium/g, '')
-            .trim()
-            .replace(/\s+/g, ' ');
-    }
-
-    const HOTEL_ADRES = 'luchthavenlaan 2 1800 vilvoorde';
-    const HOTEL_KORTING = 5.00;
-    const HOTEL_NAAM = 'Campanile Hotel';
-
-    const EXTRA_OPTIES = {
-        meetGreet: { prijs: 5.00, label: 'Meet & Greet' },
-        waterBottle: { prijs: 1.00, label: 'Waterfles' },
-        kissRide: { prijs: 0.00, label: 'Kiss & Ride' },
-        wifi: { prijs: 0.00, label: 'WiFi' }
-    };
-
-    const FLEETCONNECT_PRICING = {
-        minimumTarief: 30.00,
-        prijsPerKm: 1.50,
-        regioRadius: 15,
-        luchthavenPrijs: 35.00
-    };
-
-    function berekenFleetconnectPrijs(afstandKm, pickupAdres, dropoffAdres, isRoundTrip) {
-        const { minimumTarief, prijsPerKm, regioRadius, luchthavenPrijs } = FLEETCONNECT_PRICING;
-        
-        const pickupNormalized = normalizeAddress(pickupAdres || '');
-        const dropoffNormalized = normalizeAddress(dropoffAdres || '');
-        
-        const isHotelPickup = pickupNormalized.includes(HOTEL_ADRES);
-        const isHotelDropoff = dropoffNormalized.includes(HOTEL_ADRES);
-        
-        const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
-                                                   pickupAdres.toLowerCase().includes('brussels airport') || 
-                                                   pickupAdres.toLowerCase().includes('luchthaven'));
-        
-        const isLuchthavenDropoff = dropoffAdres && (dropoffAdres.toLowerCase().includes('zaventem') || 
-                                                     dropoffAdres.toLowerCase().includes('brussels airport') || 
-                                                     dropoffAdres.toLowerCase().includes('luchthaven'));
-        
-        let basisPrijsPerRit = 0;
-        let ritOmschrijving = '';
-        let korting = 0;
-        let isHotelKorting = false;
-        let hotelWeergave = '';
-        
-        if (isHotelPickup && isLuchthavenDropoff) {
-            basisPrijsPerRit = minimumTarief;
-            ritOmschrijving = 'Hotel → Luchthaven';
-            korting = HOTEL_KORTING;
-            isHotelKorting = true;
-            hotelWeergave = `🏨 ${HOTEL_NAAM} - incl. €${korting.toFixed(2)} korting`;
-        }
-        else if (isLuchthavenPickup && isHotelDropoff) {
-            basisPrijsPerRit = luchthavenPrijs;
-            ritOmschrijving = 'Luchthaven → Hotel';
-            korting = HOTEL_KORTING;
-            isHotelKorting = true;
-            hotelWeergave = `🏨 ${HOTEL_NAAM} - incl. €${korting.toFixed(2)} korting`;
-        }
-        else if (afstandKm <= regioRadius) {
-            basisPrijsPerRit = minimumTarief;
-            ritOmschrijving = 'Regio Zaventem';
-        } else {
-            basisPrijsPerRit = Math.max(afstandKm * prijsPerKm, minimumTarief);
-            ritOmschrijving = 'Lange afstand';
-        }
-        
-        let basisPrijsTotaal;
-        let ritType;
-        
-        if (isRoundTrip) {
-            basisPrijsTotaal = basisPrijsPerRit * 2;
-            ritType = ritOmschrijving + ' (heen & terug)';
-            if (isHotelKorting) {
-                korting = HOTEL_KORTING * 2;
-                hotelWeergave = `🏨 ${HOTEL_NAAM} - incl. €${korting.toFixed(2)} korting voor 2 ritten`;
-            }
-        } else {
-            basisPrijsTotaal = basisPrijsPerRit;
-            ritType = ritOmschrijving;
-        }
-        
-        let totaal = Math.max(basisPrijsTotaal - korting, 0);
-        let isMinimum = totaal === minimumTarief && !isRoundTrip && !isHotelKorting;
-        let berekening = `€${basisPrijsTotaal.toFixed(2)}`;
-        
-        return {
-            totaal: totaal,
-            basisPrijs: basisPrijsTotaal,
-            basisPrijsPerRit: basisPrijsPerRit,
-            isMinimum: isMinimum,
-            isHotelKorting: isHotelKorting,
-            isHotelRit: isHotelKorting,
-            ritType: ritType,
-            berekening: berekening,
-            korting: korting,
-            hotelWeergave: hotelWeergave,
-            isRoundTrip: isRoundTrip,
-            ritOmschrijving: ritOmschrijving,
-            isHotelPickup: isHotelPickup,
-            isHotelDropoff: isHotelDropoff,
-            isLuchthavenPickup: isLuchthavenPickup,
-            isLuchthavenDropoff: isLuchthavenDropoff,
-            rawBerekening: {
-                afstand: afstandKm,
-                prijsPerKm: prijsPerKm,
-                prijsPerRit: basisPrijsPerRit,
-                rawPrijs: basisPrijsTotaal
-            }
-        };
-    }
-
+    
+    // ====================== GOOGLE MAPS INTEGRATIE ======================
     let map;
     let mapsController = null;
     let pickupLocation = null, dropoffLocation = null;
@@ -532,62 +427,13 @@
     const ROUTE_ERROR_MESSAGE = "Adres of route kon niet berekend worden. Kies een volledig adres uit de suggesties.";
     const MIN_RIDE_PRICE = 15;
     const MIN_RIDE_MESSAGE = "Minimumtarief toegepast: EUR 15";
-    const BOOKING_PROCESSING_MESSAGE = "Boeking wordt verwerkt...";
-    const ASAP_TIME_MESSAGE = "ASAP rit: FleetConnect bevestigt per e-mail wanneer de chauffeur kan aankomen.";
-    const ONE_HOUR_MESSAGE = "Scheduled rides must be booked at least 1 hour in advance. For faster pickup, choose ASAP or contact us via WhatsApp.";
     const MANUAL_ROUTE_MESSAGE = "Google adrescontrole is niet beschikbaar. FleetConnect bevestigt route en prijs handmatig.";
-    let googleRouteUnavailable = false;
-    
-    function toggleWaterflesAantal() {
-        const checkbox = document.getElementById('waterBottle');
-        const aantalInput = document.getElementById('waterBottleAantal');
-        if (checkbox && aantalInput) {
-            if (checkbox.checked) {
-                aantalInput.disabled = false;
-                aantalInput.style.background = 'white';
-                aantalInput.style.opacity = '1';
-            } else {
-                aantalInput.disabled = true;
-                aantalInput.style.background = '#f5f7fa';
-                aantalInput.style.opacity = '0.6';
-                aantalInput.value = 1;
-            }
-        }
-    }
-    
-    function getWaterflesAantal() {
-        const checkbox = document.getElementById('waterBottle');
-        const aantalInput = document.getElementById('waterBottleAantal');
-        if (checkbox && checkbox.checked && aantalInput) {
-            const val = parseInt(aantalInput.value) || 0;
-            return Math.max(0, val);
-        }
-        return 0;
-    }
-    
-    function getWaterflesKosten() {
-        const aantal = getWaterflesAantal();
-        return aantal * EXTRA_OPTIES.waterBottle.prijs;
-    }
-    
-    function markGoogleRouteUnavailable(reason) {
-        googleRouteUnavailable = true;
-        mapsController = null;
-        console.warn('Google address services unavailable; manual address entry remains enabled.', reason || 'unknown');
-    }
-    
-    window.addEventListener('error', function(event) {
-        const message = String(event?.message || '');
-        if (message.includes('ApiNotActivatedMapError') || message.includes('RefererNotAllowedMapError') || message.includes('Google Maps JavaScript API error')) {
-            markGoogleRouteUnavailable(message);
-        }
-    });
+    const BOOKING_PROCESSING_MESSAGE = "Boeking wordt verwerkt...";
     
     window.initGoogleMaps = async function() {
         try {
             if (!window.google?.maps?.importLibrary) {
                 console.warn('Google Maps importLibrary unavailable; route validation is unavailable.');
-                googleRouteUnavailable = true;
                 return;
             }
             const { createBookingMapsController } = await import('/src/modules/maps/booking-maps.js');
@@ -634,13 +480,13 @@
             map = mapsController.map;
         } catch (error) {
             console.warn('Google Maps modernization initialization failed; route validation is unavailable.', error);
-            markGoogleRouteUnavailable('Google Maps authentication failure');
+            mapsController = null;
         }
     };
 
     window.gm_authFailure = function() {
         console.warn('Google Maps authentication failed; route validation is unavailable.');
-        markGoogleRouteUnavailable('Google Maps authentication failure');
+        mapsController = null;
     };
 
     function containsGoogleAddressError(value) {
@@ -716,8 +562,6 @@
         if (distVal) distVal.innerHTML = '-';
         if (timeVal) timeVal.innerHTML = '-';
         if (priceVal) priceVal.innerHTML = '-';
-        const noteEl = document.getElementById('priceNote');
-        if (noteEl) noteEl.style.display = 'none';
         updateTotalDisplay();
         setPageError(1, message);
         return false;
@@ -725,50 +569,23 @@
 
     function applyRouteData(route) {
         if (!route || !Number.isFinite(Number(route.distanceKm)) || Number(route.distanceKm) <= 0) return false;
-        
         pickupLocation = route.pickup.location;
         dropoffLocation = route.dropoff.location;
         pickupPlaceId = route.pickup.placeId || '';
         dropoffPlaceId = route.dropoff.placeId || '';
         lastTypedPickupAddress = route.pickup.address || lastTypedPickupAddress;
         lastTypedDropoffAddress = route.dropoff.address || lastTypedDropoffAddress;
-        
-        const afstand = Number(route.distanceKm);
-        const prijsResult = berekenFleetconnectPrijs(afstand, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
-        
         currentRouteData = {
-            distanceKm: afstand,
+            distanceKm: Number(route.distanceKm),
             durationMin: Number(route.durationMin),
             displayDistanceKm: Number(route.displayDistanceKm),
             displayDurationMin: Number(route.displayDurationMin),
             pickupPlaceId,
-            dropoffPlaceId,
-            prijsResult: prijsResult
+            dropoffPlaceId
         };
-        
         document.getElementById('distVal').innerHTML = Number(route.displayDistanceKm).toFixed(1);
         document.getElementById('timeVal').innerHTML = Number(route.displayDurationMin);
-        document.getElementById('priceVal').innerHTML = prijsResult.basisPrijs.toFixed(2);
-        
-        const noteEl = document.getElementById('priceNote');
-        if (noteEl) {
-            noteEl.style.display = 'block';
-            if (prijsResult.isHotelKorting) {
-                if (currentRoundTrip) {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave}</span>`;
-                } else {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave}</span>`;
-                }
-                noteEl.style.color = '#2e7d32';
-            } else if (prijsResult.isMinimum) {
-                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
-                noteEl.style.color = 'var(--accent-gold)';
-            } else {
-                noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
-                noteEl.style.color = 'var(--text-light)';
-            }
-        }
-        
+        document.getElementById('priceVal').innerHTML = Number(route.basePrice).toFixed(2);
         updateTotalDisplay();
         return true;
     }
@@ -782,7 +599,7 @@
         const route = await calculateRoutePromise();
         if (route) applyRouteData(route);
     }
-
+    
     function setPageError(page, msg) {
         const errDiv = document.getElementById(`page${page}Error`);
         if (errDiv) {
@@ -791,104 +608,41 @@
             setTimeout(() => errDiv.style.display = 'none', 4000);
         }
     }
-
-    function getExtraOptionKosten() {
-        let totaal = 0;
-        const extras = [];
-        
-        if (document.getElementById('meetGreet')?.checked) {
-            totaal += EXTRA_OPTIES.meetGreet.prijs;
-            extras.push(`${EXTRA_OPTIES.meetGreet.label} (+€${EXTRA_OPTIES.meetGreet.prijs.toFixed(2)})`);
-        }
-        
-        const waterAantal = getWaterflesAantal();
-        if (waterAantal > 0) {
-            const waterPrijs = waterAantal * EXTRA_OPTIES.waterBottle.prijs;
-            totaal += waterPrijs;
-            extras.push(`${EXTRA_OPTIES.waterBottle.label} (${waterAantal}x €${EXTRA_OPTIES.waterBottle.prijs.toFixed(2)} = €${waterPrijs.toFixed(2)})`);
-        }
-        
-        if (document.getElementById('kissRide')?.checked) {
-            extras.push(`${EXTRA_OPTIES.kissRide.label} (gratis)`);
-        }
-        
-        if (document.getElementById('wifi')?.checked) {
-            extras.push(`${EXTRA_OPTIES.wifi.label} (gratis)`);
-        }
-        
-        return {
-            totaal: totaal,
-            lijst: extras
-        };
-    }
-
+    
     function getCalculatedFare() {
         if (isManualRouteFallback()) {
-            return { 
-                distanceKm: 0, 
-                rawAmount: 30.00, 
-                totalAmount: 30.00, 
-                minimumApplied: true, 
-                manualRouteRequired: true,
-                prijsResult: null,
-                extraKosten: { totaal: 0, lijst: [] }
-            };
+            return { distanceKm: 0, rawAmount: MIN_RIDE_PRICE, totalAmount: MIN_RIDE_PRICE, minimumApplied: false, manualRouteRequired: true };
         }
         if (!currentRouteData || !Number.isFinite(Number(currentRouteData.distanceKm)) || Number(currentRouteData.distanceKm) <= 0) return null;
-        
-        const dist = Number(currentRouteData.distanceKm);
-        const prijsResult = berekenFleetconnectPrijs(dist, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
-        const extraKosten = getExtraOptionKosten();
-        
-        const totalAmount = prijsResult.totaal + (selectedVehicleExtra || 0) + extraKosten.totaal;
-        
-        return { 
-            distanceKm: dist, 
-            rawAmount: prijsResult.totaal, 
-            totalAmount: totalAmount, 
-            minimumApplied: prijsResult.isMinimum,
-            prijsResult: prijsResult,
-            extraKosten: extraKosten
-        };
+        let dist = Number(currentRouteData.distanceKm);
+        if (currentRoundTrip) dist *= 2;
+        const rawAmount = (dist * 1.5) + (selectedVehicleExtra || 0);
+        const totalAmount = Math.max(MIN_RIDE_PRICE, rawAmount);
+        return { distanceKm: dist, rawAmount, totalAmount, minimumApplied: rawAmount < MIN_RIDE_PRICE };
     }
-
+    
     function updateTotalDisplay() {
         if (!currentRouteData) return;
         const totalDisplay = document.getElementById('totalDisplay');
         const overviewTotal = document.getElementById('overviewTotal');
         const fare = getCalculatedFare();
         if (!fare) return;
-        
         if (fare.manualRouteRequired) {
             if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}<br><small>${MANUAL_ROUTE_MESSAGE}</small>`;
             if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}<br><small>${MANUAL_ROUTE_MESSAGE}</small>`;
             return;
         }
-        
-        let extraInfo = '';
-        if (fare.extraKosten && fare.extraKosten.totaal > 0) {
-            extraInfo = `<br><small>+ Extra opties: ${fare.extraKosten.lijst.join(', ')}</small>`;
-        }
-        
-        let kortingNote = '';
-        if (fare.prijsResult?.isHotelKorting) {
-            kortingNote = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
-        } else if (fare.minimumApplied) {
-            kortingNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
-        }
-        
-        // TOTAL DISPLAY: ALLEEN DE PRIJS, GEEN KORTINGSTEKST
-        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}`;
-        
-        // Ritoverzicht: blijft met alle uitleg
-        if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${kortingNote}${extraInfo}`;
+        const minimumNote = fare.minimumApplied ? `<br><small>${MIN_RIDE_MESSAGE}</small>` : '';
+        if (totalDisplay) totalDisplay.innerHTML = `Totaal: EUR ${fare.totalAmount.toFixed(2)}${minimumNote}`;
+        if (overviewTotal) overviewTotal.innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${minimumNote}`;
     }
-
+    
     function updateRitOverzicht() {
         document.getElementById('overviewPickup').innerText = document.getElementById('pickupInput').value || '-';
         document.getElementById('overviewDestination').innerText = document.getElementById('dropoffInput').value || '-';
         document.getElementById('overviewHeen').innerText = document.getElementById('datetime').value || '-';
-        
+        document.getElementById('overviewVehicle').innerText = selectedVehicle || '-';
+        document.getElementById('overviewExtras').innerText = getExtrasString();
         const returnContainer = document.getElementById('overviewReturnContainer');
         if (currentRoundTrip && currentReturnDateTime) {
             returnContainer.style.display = 'block';
@@ -896,37 +650,19 @@
         } else {
             returnContainer.style.display = 'none';
         }
-        
-        document.getElementById('overviewVehicle').innerText = selectedVehicle || '-';
-        document.getElementById('overviewExtras').innerText = getExtrasString();
-        
         const fare = getCalculatedFare();
-        if (fare === null) {
-            document.getElementById('overviewTotal').innerHTML = '-';
-        } else {
-            let extraText = '';
-            if (fare.prijsResult?.isHotelKorting) {
-                extraText = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
-            } else if (fare.minimumApplied) {
-                extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
-            }
-            if (fare.extraKosten && fare.extraKosten.totaal > 0) {
-                extraText += `<br><small>+ Extra opties: ${fare.extraKosten.lijst.join(', ')}</small>`;
-            }
-            document.getElementById('overviewTotal').innerHTML = `EUR ${fare.totalAmount.toFixed(2)}${extraText}`;
-        }
+        document.getElementById('overviewTotal').innerHTML = fare === null ? '-' : `EUR ${fare.totalAmount.toFixed(2)}${fare.manualRouteRequired ? `<br><small>${MANUAL_ROUTE_MESSAGE}</small>` : (fare.minimumApplied ? `<br><small>${MIN_RIDE_MESSAGE}</small>` : '')}`;
     }
-
+    
     function getExtrasString() {
         const extras = [];
-        if (document.getElementById('meetGreet')?.checked) extras.push("Meet & Greet (+€5,00)");
+        if (document.getElementById('meetGreet')?.checked) extras.push("Meet & Greet");
         if (document.getElementById('kissRide')?.checked) extras.push("Kiss & Ride");
-        const waterAantal = getWaterflesAantal();
-        if (waterAantal > 0) extras.push(`Waterfles (${waterAantal}x)`);
+        if (document.getElementById('waterBottle')?.checked) extras.push("Waterfles");
         if (document.getElementById('wifi')?.checked) extras.push("WiFi");
         return extras.join(", ") || "geen";
     }
-
+    
     function parseEuroDate(str) {
         if (!str) return null;
         let [datePart, timePart] = str.split(' ');
@@ -935,13 +671,13 @@
         let [hh, min] = timePart ? timePart.split(':'): ['0','0'];
         return new Date(parseInt(yyyy), parseInt(mm)-1, parseInt(dd), parseInt(hh), parseInt(min));
     }
-
+    
     function isPast(ds) {
         if (!ds) return false;
         const parsed = parseEuroDate(ds);
         return parsed ? parsed < new Date(): false;
     }
-
+    
     function isWithinNextHour(ds) {
         if (!ds) return false;
         const parsed = parseEuroDate(ds);
@@ -949,13 +685,7 @@
         const diff = parsed - new Date();
         return diff > 0 && diff < 3600000;
     }
-
-    function isAtLeastOneHourAhead(ds) {
-        const parsed = parseEuroDate(ds);
-        if (!parsed) return false;
-        return parsed - new Date() >= 3600000;
-    }
-
+    
     async function calculateAndStoreRoute() {
         const pickupText = getAddressText('pickupInput');
         const dropoffText = getAddressText('dropoffInput');
@@ -970,11 +700,6 @@
         }
         if (isPast(dt)) {
             setPageError(1, "Datum ligt in het verleden");
-            return false;
-        }
-        const asap = document.getElementById('asapCheckbox')?.checked === true;
-        if (!asap && !isAtLeastOneHourAhead(dt)) {
-            setPageError(1, ONE_HOUR_MESSAGE);
             return false;
         }
         if (currentRoundTrip) {
@@ -992,30 +717,15 @@
         if (!mapsController || !mapsController.hasSelectedAddresses()) {
             pickupPlaceId = 'manual-pickup';
             dropoffPlaceId = 'manual-dropoff';
-            const prijsResult = berekenFleetconnectPrijs(0, lastTypedPickupAddress, lastTypedDropoffAddress, currentRoundTrip);
             currentRouteData = {
                 distanceKm: 0,
                 durationMin: 0,
                 manualRouteRequired: true,
-                googlePlacesUnavailable: googleRouteUnavailable || !mapsController || !mapsController.hasSelectedAddresses(),
-                prijsResult: prijsResult
+                googlePlacesUnavailable: googleRouteUnavailable || !mapsController || !mapsController.hasSelectedAddresses()
             };
             document.getElementById('distVal').innerHTML = '-';
             document.getElementById('timeVal').innerHTML = '-';
-            document.getElementById('priceVal').innerHTML = prijsResult.basisPrijs.toFixed(2);
-            
-            const noteEl = document.getElementById('priceNote');
-            if (noteEl) {
-                noteEl.style.display = 'block';
-                if (prijsResult.isHotelKorting) {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave}</span>`;
-                    noteEl.style.color = '#2e7d32';
-                } else {
-                    noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${MANUAL_ROUTE_MESSAGE}`;
-                    noteEl.style.color = 'var(--text-light)';
-                }
-            }
-            
+            document.getElementById('priceVal').innerHTML = '15.00';
             updateTotalDisplay();
             currentDateTime = dt;
             currentFlight = document.getElementById('flightNumber').value;
@@ -1047,7 +757,7 @@
         const firstVehicle = document.querySelector('.vehicle-card');
         if (firstVehicle && !selectedVehicle) firstVehicle.click();
     }
-
+    
     function addOkButtonToFlatpickr(instance) {
         if (!instance.calendarContainer.querySelector('.flatpickr-ok-button')) {
             const btn = document.createElement('button');
@@ -1064,7 +774,7 @@
             footer.appendChild(btn);
         }
     }
-
+    
     function showPage(page) {
         document.querySelectorAll('.carousel-page').forEach((p, idx) => {
             p.classList.remove('active-page');
@@ -1089,11 +799,12 @@
             document.getElementById('nextBtn').style.display = 'flex';
         }
     }
-
+    
     async function nextPage() {
         if (currentPage === 1) {
             const ok = await calculateAndStoreRoute();
             if (ok && currentRouteData) showPage(2);
+            else if (!currentRouteData) setPageError(1, ROUTE_ERROR_MESSAGE);
         } else if (currentPage === 2) {
             if (!currentRouteData) { setPageError(2, "Bereken eerst een geldige route via stap 1"); return; }
             showPage(3);
@@ -1115,12 +826,12 @@
             await finalizeBookingDirect();
         }
     }
-
+    
     function prevPage() { if (currentPage > 1) showPage(currentPage-1); }
-
+    
     async function finalizeBookingDirect() {
         if (bookingSubmitInProgress) return;
-
+        
         const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value || "Cash";
         let totalAmount = 0;
         if (!hasStrictRouteSelection()) {
@@ -1138,22 +849,21 @@
             alert(ROUTE_ERROR_MESSAGE);
             return;
         }
-
+        
         const firstName = document.getElementById('firstName').value.trim();
         const lastName = document.getElementById('lastName').value.trim();
         const email = document.getElementById('email').value.trim();
         const phone = document.getElementById('phone').value.trim();
-
+        
         if (!firstName || !lastName || !email || !phone) {
             alert("Vul alle verplichte velden in (naam, email, telefoon)");
             return;
         }
-
+        
         if (!hasStrictRouteSelection()) { alert(ROUTE_ERROR_MESSAGE); return; }
         if (!selectedVehicle) { alert("Selecteer een voertuig in stap 3."); return; }
-
-        const customerId = `CUST-${email.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
         
+        const customerId = `CUST-${email.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
         const bookingData = {
             datetime: currentDateTime ? currentDateTime.split(' ')[0]: "",
             time: currentDateTime ? currentDateTime.split(' ')[1]: "",
@@ -1174,31 +884,16 @@
             status: paymentMethod === "Cash" ? "pending": "pending_payment",
             payment_status: paymentMethod === "Cash" ? "cash_pending": "unpaid",
             customer_id: customerId,
-            is_roundtrip: currentRoundTrip,
             form_data: {
                 source: "web-booking",
                 route_distance_km: Number(currentRouteData.distanceKm),
                 route_duration_min: Number(currentRouteData.durationMin),
                 manual_route_required: fare.manualRouteRequired === true,
                 google_places_unavailable: fare.manualRouteRequired === true,
-                asap_requested: document.getElementById('asapCheckbox')?.checked === true,
                 minimum_fare_applied: fare.minimumApplied,
                 raw_calculated_amount: Number(fare.rawAmount.toFixed(2)),
                 pickup_place_id: pickupPlaceId,
-                dropoff_place_id: dropoffPlaceId,
-                is_roundtrip: currentRoundTrip,
-                waterfles_aantal: getWaterflesAantal(),
-                hotel_korting: fare.prijsResult?.isHotelKorting ? {
-                    toegepast: true,
-                    korting: fare.prijsResult.korting,
-                    hotel: HOTEL_NAAM,
-                    weergave: fare.prijsResult.hotelWeergave,
-                    is_roundtrip: currentRoundTrip
-                } : { toegepast: false },
-                extra_kosten: fare.extraKosten ? {
-                    totaal: fare.extraKosten.totaal,
-                    lijst: fare.extraKosten.lijst
-                } : { totaal: 0, lijst: [] }
+                dropoff_place_id: dropoffPlaceId
             },
             metadata: {
                 route_calculated: true,
@@ -1206,36 +901,21 @@
                 route_duration_min: Number(currentRouteData.durationMin),
                 manual_route_required: fare.manualRouteRequired === true,
                 google_places_unavailable: fare.manualRouteRequired === true,
-                asap_requested: document.getElementById('asapCheckbox')?.checked === true,
-                asap_message: document.getElementById('asapCheckbox')?.checked === true ? ASAP_TIME_MESSAGE : '',
                 minimum_fare_applied: fare.minimumApplied,
                 raw_calculated_amount: Number(fare.rawAmount.toFixed(2)),
                 pickup_place_id: pickupPlaceId,
                 dropoff_place_id: dropoffPlaceId,
-                google_places_selected: fare.manualRouteRequired !== true,
-                is_roundtrip: currentRoundTrip,
-                waterfles_aantal: getWaterflesAantal(),
-                hotel_korting: fare.prijsResult?.isHotelKorting ? {
-                    toegepast: true,
-                    korting: fare.prijsResult.korting,
-                    hotel: HOTEL_NAAM,
-                    weergave: fare.prijsResult.hotelWeergave,
-                    is_roundtrip: currentRoundTrip
-                } : { toegepast: false },
-                extra_kosten: fare.extraKosten ? {
-                    totaal: fare.extraKosten.totaal,
-                    lijst: fare.extraKosten.lijst
-                } : { totaal: 0, lijst: [] }
+                google_places_selected: fare.manualRouteRequired !== true
             },
             created_at: new Date().toISOString(),
             partner_id: 1,
             assigned_driver_id: null
         };
-
+        
         bookingSubmitInProgress = true;
         const confirmBtn = document.getElementById('finalConfirmBtn');
         if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.dataset.originalText = confirmBtn.textContent; confirmBtn.textContent = BOOKING_PROCESSING_MESSAGE; }
-
+        
         try {
             const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
             const supabase = createClient('https://rreqjjrmvytnwnsidmqi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA');
@@ -1258,15 +938,12 @@
                 minimum_fare_applied: fare.minimumApplied,
                 manual_route_required: fare.manualRouteRequired === true,
                 google_places_unavailable: fare.manualRouteRequired === true,
-                asap_requested: document.getElementById('asapCheckbox')?.checked === true,
-                asap_message: document.getElementById('asapCheckbox')?.checked === true ? ASAP_TIME_MESSAGE : '',
                 raw_calculated_amount: Number(fare.rawAmount.toFixed(2)),
-                is_registered: false,
-                is_roundtrip: currentRoundTrip
+                is_registered: false
             };
             let emailResult = { success: false, error: 'Email trigger not completed' };
             try {
-                const { comms } = await import('../src/modules/communication/index.js');
+                const { comms } = await import('./src/modules/communication/index.js');
                 emailResult = await comms.trigger('BOOKING_CONFIRMATION', savedBookingId, supabase, { snapshot: emailSnapshot });
             } catch (emailError) {
                 console.error('BOOKING_CONFIRMATION email error:', emailError);
@@ -1280,7 +957,8 @@
             } else {
                 alert(`Boeking ${savedBookingId} opgeslagen. Prijs: EUR ${totalAmount.toFixed(2)}.\n\nBevestigingsemail mislukt: ${emailResult?.error || 'onbekende fout'}. FleetConnect volgt deze boeking handmatig op.`);
             }
-
+            
+            // Reset
             document.getElementById('pickupInput').value = '';
             document.getElementById('dropoffInput').value = '';
             document.getElementById('firstName').value = '';
@@ -1295,18 +973,13 @@
             document.getElementById('meetGreet').checked = false;
             document.getElementById('kissRide').checked = false;
             document.getElementById('waterBottle').checked = false;
-            document.getElementById('waterBottleAantal').value = 1;
-            document.getElementById('waterBottleAantal').disabled = true;
-            document.getElementById('wifi').checked = true;
+            document.getElementById('wifi').checked = false;
             document.getElementById('specialWishes').value = '';
             document.getElementById('distVal').innerHTML = '-';
             document.getElementById('timeVal').innerHTML = '-';
             document.getElementById('priceVal').innerHTML = '-';
             document.getElementById('totalDisplay').innerHTML = "Totaal: EUR 0,00";
-            const noteEl = document.getElementById('priceNote');
-            if (noteEl) noteEl.style.display = 'none';
-            currentRoundTrip = false;
-
+            
             pickupLocation = null;
             dropoffLocation = null;
             currentRouteData = null;
@@ -1314,6 +987,7 @@
             dropoffPlaceId = '';
             selectedVehicle = null;
             selectedVehicleExtra = 0;
+            currentRoundTrip = false;
             currentDateTime = "";
             currentReturnDateTime = "";
             if (mapsController) mapsController.reset();
@@ -1326,88 +1000,33 @@
             if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = confirmBtn.dataset.originalText || confirmBtn.textContent; }
         }
     }
-
+    
+    // Event listeners
     document.getElementById('nextBtn').addEventListener('click', nextPage);
     document.getElementById('prevBtn').addEventListener('click', prevPage);
     document.getElementById('finalConfirmBtn').addEventListener('click', async (e) => { e.preventDefault(); await finalizeBookingDirect(); });
-    
-    document.getElementById('meetGreet')?.addEventListener('change', function() {
-        updateTotalDisplay();
-        if (currentPage === 5) updateRitOverzicht();
-    });
-    
-    document.getElementById('waterBottle')?.addEventListener('change', function() {
-        toggleWaterflesAantal();
-        updateTotalDisplay();
-        if (currentPage === 5) updateRitOverzicht();
-    });
-    
-    document.getElementById('waterBottleAantal')?.addEventListener('input', function() {
-        const val = parseInt(this.value) || 0;
-        if (val < 0) this.value = 0;
-        if (val > 20) this.value = 20;
-        updateTotalDisplay();
-        if (currentPage === 5) updateRitOverzicht();
-    });
-    
-    document.getElementById('kissRide')?.addEventListener('change', function() {
-        if (currentPage === 5) updateRitOverzicht();
-    });
-    
-    document.getElementById('wifi')?.addEventListener('change', function() {
-        if (currentPage === 5) updateRitOverzicht();
-    });
-    
     document.getElementById('roundtripCheckbox')?.addEventListener('change', function(e) {
         const returnContainer = document.getElementById('returnDateContainer');
-        e.target.checked ? returnContainer.classList.add('visible') : returnContainer.classList.remove('visible');
+        e.target.checked ? returnContainer.classList.add('visible'): returnContainer.classList.remove('visible');
         currentRoundTrip = e.target.checked;
         if (currentRouteData) {
-            let d = currentRouteData.distanceKm;
-            let t = currentRouteData.durationMin;
+            let d = currentRouteData.distanceKm, t = currentRouteData.durationMin;
             if (currentRoundTrip) { d *= 2; t *= 2; }
             document.getElementById('distVal').innerHTML = d.toFixed(1);
             document.getElementById('timeVal').innerHTML = t;
-            
-            const prijsResult = berekenFleetconnectPrijs(
-                currentRouteData.distanceKm, 
-                lastTypedPickupAddress, 
-                lastTypedDropoffAddress, 
-                currentRoundTrip
-            );
-            currentRouteData.prijsResult = prijsResult;
-            document.getElementById('priceVal').innerHTML = prijsResult.basisPrijs.toFixed(2);
-            
-            const noteEl = document.getElementById('priceNote');
-            if (noteEl) {
-                noteEl.style.display = 'block';
-                if (prijsResult.isHotelKorting) {
-                    noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave}</span>`;
-                    noteEl.style.color = '#2e7d32';
-                } else if (prijsResult.isMinimum) {
-                    noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
-                    noteEl.style.color = 'var(--accent-gold)';
-                } else {
-                    noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
-                    noteEl.style.color = 'var(--text-light)';
-                }
-            }
-            
+            document.getElementById('priceVal').innerHTML = (d * 1.5).toFixed(2);
             updateTotalDisplay();
         }
     });
-    
     document.getElementById('verstuurBerichtBtn')?.addEventListener('click', () => alert('Bericht verzonden!'));
-
-    toggleWaterflesAantal();
-
+    
     bindAddressInputFallbacks();
     initVehicleSelection();
     showPage(1);
-
+    
     flatpickr("#datetime", { locale: "nl", enableTime: true, dateFormat: "d-m-Y H:i", time_24hr: true, defaultDate: new Date(new Date().setHours(new Date().getHours()+1)), minuteIncrement: 1, onReady: (_, __, inst) => addOkButtonToFlatpickr(inst) });
     flatpickr("#returnDatetime", { locale: "nl", enableTime: true, dateFormat: "d-m-Y H:i", time_24hr: true, minuteIncrement: 1, onReady: (_, __, inst) => addOkButtonToFlatpickr(inst) });
-
+    
     document.querySelectorAll('.step-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
             const page = parseInt(btn.getAttribute('data-page'));
@@ -1420,13 +1039,67 @@
             }
         });
     });
-
+    
     console.log("FleetConnect - Alles geladen!");
-    console.log("FleetConnect Prijsformule: Minimum €30 | Regio-radius: 15km | €1,50/km");
-    console.log(`Hotelkorting actief voor: ${HOTEL_ADRES}`);
-    console.log("  - Hotel → Luchthaven: €30 - €5 = €25 (enkele rit)");
-    console.log("  - Luchthaven → Hotel: €35 - €5 = €30 (enkele rit)");
-    console.log("  - Heen-en-terug: dubbele korting (€10)");
+
+    // ============================================================
+    // DROPDOWN STADNAMEN GENEREREN
+    // ============================================================
+    function generateCityDropdown() {
+        const cities = [
+            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
+            { key: 'city_asse', url: '/cities/taxi-asse.html' },
+            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
+            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
+            { key: 'city_genk', url: '/cities/taxi-genk.html' },
+            { key: 'city_gent', url: '/cities/taxi-gent.html' },
+            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
+            { key: 'city_halle', url: '/cities/taxi-halle.html' },
+            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
+            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
+            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
+            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
+            { key: 'city_luik', url: '/cities/taxi-luik.html' },
+            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
+            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
+            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
+            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
+            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
+            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
+            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
+            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
+            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
+            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
+            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
+        ];
+
+        const select = document.getElementById('stad-dropdown');
+        if (!select) return;
+
+        const currentValue = select.value;
+        select.innerHTML = '';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '-- Kies een stad --';
+        select.appendChild(defaultOption);
+
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city.url;
+            option.textContent = city.key;
+            select.appendChild(option);
+        });
+
+        if (currentValue) {
+            select.value = currentValue;
+        }
+    }
+
+    // Genereer de dropdown bij het laden van de pagina
+    document.addEventListener('DOMContentLoaded', function() {
+        generateCityDropdown();
+    });
 </script>
 </body>
 </html>
