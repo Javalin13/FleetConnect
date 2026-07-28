@@ -1,1 +1,1166 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>FleetConnect | Taxi Aalst – Historische stad aan de Dender & carnavalstad</title>
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Aalst. Vaste prijs €1,50/km (min. €30). Vluchtmonitoring, meertalige chauffeurs. Ritten naar Zaventem (BRU), Charleroi, Deurne, Lille, Eindhoven, Amsterdam. 24/7 beschikbaar.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ====== ALGEMENE STIJL – UNIFORM ====== */
+        *{margin:0;padding:0;box-sizing:border-box}
+        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
+        body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
+        .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
+        .container{width:100%;max-width:1300px;margin:0 auto;padding:0 24px}
+        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem;transition:0.2s}
+        .hamburger-btn:hover{background:var(--primary-dark)}
+        .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1001;visibility:hidden;opacity:0;transition:all 0.3s ease}
+        .sidebar-overlay.active{visibility:visible;opacity:1}
+        .sidebar{position:fixed;top:0;right:-300px;width:300px;height:100%;background:white;box-shadow:-4px 0 25px rgba(0,0,0,0.15);transition:right 0.3s ease;z-index:1002;display:flex;flex-direction:column;border-radius:20px 0 0 20px;overflow:hidden}
+        .sidebar-overlay.active .sidebar{right:0}
+        .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:24px 20px;border-bottom:1px solid var(--border-light);background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:20px 0 0 0;flex-shrink:0}
+        .sidebar-header h3{color:white;display:flex;align-items:center;gap:8px}
+        .close-menu{background:rgba(255,255,255,0.2);border:none;font-size:1.5rem;cursor:pointer;color:white;width:32px;height:32px;border-radius:50%}
+        .sidebar-nav{display:flex;flex-direction:column;padding:20px 16px;gap:8px;flex:1;overflow-y:auto}
+        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light);transition:0.2s}
+        .sidebar-nav a i{width:24px;color:var(--primary)}
+        .sidebar-nav a:hover{background:#eef2fa;border-color:var(--primary)}
+        .login-section{padding:16px;border-top:1px solid var(--border-light);margin-top:auto;flex-shrink:0}
+        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
+        .login-btn:hover{opacity:0.9}
+        
+        /* ========== HERO ========== */
+        .hero{padding:80px 0 40px;text-align:center}
+        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
+        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
+        .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
+        .hero-card .hero-slogan i{color:var(--primary)}
+        .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
+        .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
+        .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
+        .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
+        .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
+        .route-grid,.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
+        .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
+        .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
+        .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
+        .feature-card{text-align:center}
+        .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
+        .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
+        .international-box{background:#e8f0f8;border-left:5px solid var(--accent-gold);padding:24px;margin:30px 0;border-radius:20px}
+        .service-points{display:flex;flex-wrap:wrap;gap:20px;margin:20px 0}
+        .service-point{flex:1;background:white;padding:16px;border-radius:16px;text-align:center}
+        .contact-wrapper{width:100%;display:flex;justify-content:center;padding:0 16px}
+        .contact-row{background:white;border-radius:44px;padding:30px;margin:40px 0;border:1px solid var(--border-light);width:100%;max-width:600px}
+        .contact-form h3{margin-bottom:20px;color:var(--primary);text-align:center}
+        .compact-form{display:flex;flex-direction:column;gap:16px}
+        .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
+        .compact-form input:focus,.compact-form textarea:focus{outline:none;border-color:var(--primary)}
+        .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
+        
+        /* ========== TAALSWITCHER ========== */
+        .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
+        .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
+        .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+        
+        /* ========== EXTRA OPTIES ========== */
+        .extra-options-list{list-style:none;margin:0;padding:0}
+        .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .extra-options-list li:last-child{border-bottom:none}
+        .extra-options-list li i{color:var(--primary);width:24px}
+        .extra-options-list li .price-tag{background:var(--primary);color:white;padding:2px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:auto}
+        .extra-options-list li .price-tag.free{background:var(--accent-green)}
+        .extra-options-list li strong{min-width:120px}
+        .extra-options-list li span{color:var(--text-light)}
+        
+        /* ========== FOOTER ========== */
+        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
+        .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
+        .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
+        .footer-grid a:hover{color:var(--primary);text-decoration:underline}
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        .footer-city-select{background:#1a2f3f;color:#e0edf5;border:1px solid var(--primary);border-radius:8px;padding:8px 12px;width:100%;max-width:220px;font-family:'Inter',sans-serif;font-size:0.95rem;cursor:pointer;margin-top:8px;appearance:auto}
+        .footer-city-select:focus{outline:none;border-color:#ffffff}
+        .footer-city-select option{background:#0d1f2c;color:#e0edf5}
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:var(--primary);text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width:800px){
+            .hero-card{padding:30px 20px}
+            .hero-card h1{font-size:2rem}
+            .hero-card .hero-slogan{font-size:1.3rem}
+            .hero-card .hero-features{font-size:0.95rem}
+            .section-title{font-size:1.5rem}
+            .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
+            .lang-btn{font-size:0.7rem;padding:4px 10px}
+            .extra-options-list li strong{min-width:100px}
+            .footer-city-select{max-width:100%}
+        }
+        @media (max-width:500px){
+            .container{padding:0 12px}
+            .hero-card{padding:24px 16px}
+            .hero-card h1{font-size:1.5rem}
+            .hero-card .hero-slogan{font-size:1.1rem}
+            .hero-card .hero-features{font-size:0.8rem}
+            .hero-card .btn-primary{padding:14px 28px;font-size:0.95rem}
+            .language-switcher{top:10px;right:10px;gap:4px;padding:4px 8px}
+            .lang-btn{font-size:0.6rem;padding:3px 8px}
+            .route-grid,.features-grid{grid-template-columns:1fr}
+            .extra-options-list li{flex-wrap:wrap}
+            .extra-options-list li .price-tag{margin-left:0}
+        }
+    </style>
+</head>
+<body>
 
+<div id="background-map"></div>
+
+<!-- ========== HAMBURGER MENU ========== -->
+<button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+
+<!-- ========== SIDEBAR ========== -->
+<div class="sidebar-overlay" id="sidebarOverlay">
+    <div class="sidebar">
+        <div class="sidebar-header"><h3><i class="fas fa-car"></i> FleetConnect</h3><button class="close-menu" id="closeMenuBtn">&times;</button></div>
+        <div class="sidebar-nav">
+            <div style="padding: 10px 16px; font-size: 0.75rem; font-weight: 700; color: var(--text-light);" data-i18n="language_label">Taal / Language</div>
+            <div style="display: flex; gap: 8px; padding: 0 16px 16px;">
+                <button class="lang-btn active" data-lang="nl">NL</button>
+                <button class="lang-btn" data-lang="fr">FR</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <div style="height:1px; background:#e2edf7; margin:8px 0;"></div>
+            <a href="/PV/PV.html"><i class="fas fa-home"></i> <span data-i18n="nav_home">Home</span></a>
+            <a href="/PV/PV_Exclusieve_Service.html"><i class="fas fa-gem"></i> <span data-i18n="nav_exclusive">Exclusieve service</span></a>
+            <a href="/PV/PV-vaste-prijzen.html"><i class="fas fa-euro-sign"></i> <span data-i18n="nav_fixed_prices">Vaste prijzen</span></a>
+            <a href="/PV/PV-premium-vloot.html"><i class="fas fa-car-side"></i> <span data-i18n="nav_premium_fleet">Premium vloot</span></a>
+            <a href="/PV/PV_Luchthavenvervoer.html"><i class="fas fa-plane-departure"></i> <span data-i18n="nav_airport">Luchthavenvervoer</span></a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html"><i class="fas fa-briefcase"></i> <span data-i18n="nav_business">Zakelijk vervoer</span></a>
+            <a href="/PV/PV_Events_Gala.html"><i class="fas fa-glass-cheers"></i> <span data-i18n="nav_events">Events & Gala</span></a>
+            <a href="/PV/PV_Koeriersdienst.html"><i class="fas fa-file-signature"></i> <span data-i18n="nav_courier">Koeriersdienst</span></a>
+            <a href="#contact"><i class="fas fa-envelope"></i> <span data-i18n="nav_contact">Contact</span></a>
+            <a href="/PV/PV.html#booking"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav_book">Reserveer nu</span></a>
+        </div>
+        <div class="login-section"><a href="/PV/index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
+    </div>
+</div>
+
+<!-- ========== TAALSWITCHER ========== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
+<div class="content-overlay">
+    <!-- ========== HERO ========== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-card">
+                <h1 data-i18n="hero_title">
+                    <i class="fas fa-taxi"></i> FleetConnect | Taxi Aalst
+                </h1>
+                <div style="height:16px;"></div>
+                <p class="hero-slogan" data-i18n="hero_slogan" style="font-weight:700;">
+                    <strong>"Uw rit, onze zorg. Vaste prijs, 24/7."</strong>
+                </p>
+                <div style="height:20px;"></div>
+                <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
+                    <strong>€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs</strong>
+                </p>
+                <div style="height:30px;"></div>
+                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
+                    <i class="fas fa-calendar-check"></i> Boek nu →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Blok 1: Introductie Aalst -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Aalst – Historische stad aan de Dender & carnavalstad</h2>
+            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Aalst is een stad met een rijke geschiedenis, gelegen in de provincie Oost-Vlaanderen aan de rivier de <strong>Dender</strong>. De stad staat bekend om haar middeleeuwse <strong>Belfort</strong> (UNESCO Werelderfgoed), de <strong>Sint-Martinuskerk</strong> en het <strong>Schepenhuis</strong>. Aalst is echter vooral beroemd om haar <strong>carnaval</strong>, dat door UNESCO erkend is als immaterieel cultureel erfgoed en elk jaar tienduizenden bezoekers trekt.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">De stad heeft een bloeiend economisch leven met sterke sectoren in <strong>textiel, logistiek en technologie</strong>. Aalst is ook een regionaal winkelcentrum en biedt een levendig uitgaansleven. De ligging aan de E40 en de nabijheid van Brussel en Gent maken de stad tot een aantrekkelijke locatie voor bedrijven en pendelaars.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen</strong> in Aalst. Onze Mercedes-, BMW- en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een vlekkeloze ontvangst van nationale en internationale gasten.</p>
+        </div>
+
+        <!-- Blok 2: Evenementen en zakenwijken -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Aalst</h2>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Aalst leeft het hele jaar door, met als absolute hoogtepunten het <strong>carnaval</strong> (in februari/maart), de <strong>Stadsfeesten</strong> in juli en de gezellige <strong>Kerstmarkt</strong> op de Grote Markt. Ook het <strong>Aalsterse Bierfestival</strong> en de <strong>Denderfeesten</strong> zijn trekpleisters voor jong en oud.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Aalst-West</strong>, de <strong>Kantoorzone rond het station</strong> en het <strong>Businesspark E40</strong> langs de snelweg. Het <strong>Congrescentrum Ter Dilft</strong> en het <strong>Cultuurcentrum De Werf</strong> zijn geliefde locaties voor conferenties en evenementen.</p>
+        </div>
+
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Aalst
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
+        <div class="route-grid">
+            <div class="route-card">
+                <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
+                <h3 data-i18n="route1_title">Aalst → Zaventem</h3>
+                <span class="route-airport-code">BRU</span>
+                <div class="route-price">€52,50</div>
+                <p data-i18n="route1_desc">35 km · ±35 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route2_title">Aalst → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€105,00</div>
+                <p data-i18n="route2_desc">70 km · ±60 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Aalst → Deurne</h3>
+                <span class="route-airport-code">ANR</span>
+                <div class="route-price">€52,50</div>
+                <p data-i18n="route3_desc">35 km · ±40 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Aalst → Lille</h3>
+                <span class="route-airport-code">LIL</span>
+                <div class="route-price">€142,50</div>
+                <p data-i18n="route4_desc">95 km · ±70 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Aalst → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€195,00</div>
+                <p data-i18n="route5_desc">130 km · ±1u 20 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Aalst → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€300,00</div>
+                <p data-i18n="route6_desc">200 km · ±2u 10 min · vaste prijs</p>
+            </div>
+        </div>
+
+        <!-- ========== EXTRA OPTIES & MEERPRIJZEN ========== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="extras_title">➕ Extra opties – transparante meerprijzen</h2>
+            <p data-i18n="extras_intro" style="font-size:1.05rem; line-height:1.6; margin-bottom:20px;">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
+            <ul class="extra-options-list">
+                <li>
+                    <i class="fas fa-car"></i>
+                    <strong data-i18n="extras_break">Break model</strong>
+                    <span data-i18n="extras_break_desc">– Meer bagageruimte</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
+                    <span class="price-tag">+€15,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <strong data-i18n="extras_van">Mini Van</strong>
+                    <span data-i18n="extras_van_desc">– Tot 8 personen</span>
+                    <span class="price-tag">+€10,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <strong data-i18n="extras_meet">Meet &amp; Greet</strong>
+                    <span data-i18n="extras_meet_desc">– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-kiss"></i>
+                    <strong data-i18n="extras_kiss">Kiss &amp; Ride</strong>
+                    <span data-i18n="extras_kiss_desc">– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur</span>
+                    <span class="price-tag free">GRATIS</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========== Stationstransfers ========== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="station_title">
+                <i class="fas fa-train" style="color:var(--accent-gold);"></i> 
+                Stationstransfers in Aalst
+            </h2>
+            <p data-i18n="station_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Voor vertrek of aankomst aan het station van Aalst? Wij zorgen voor een vlekkeloze overstap. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_grandplace">Station → Grote Markt</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_grandplace_desc">€30,00 · 3 km · ±7 min</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-university" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_belfort">Station → Belfort</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_belfort_desc">€30,00 · 2,5 km · ±6 min</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-building" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_business">Station → Bedrijventerrein West</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_business_desc">€30,00 · 5 km · ±10 min</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-hotel" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="station_hotel">Station → Hotel De Fierlant</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="station_hotel_desc">€30,00 · 2 km · ±5 min</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="station_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Extra lokale bestemmingen ========== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Andere populaire bestemmingen in de regio
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">FleetConnect brengt u ook naar andere bestemmingen in en rond Aalst:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Aalst → Brussel</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€42,00 · 28 km · ±30 min</p>
+                </div>
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_gent">Aalst → Gent</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gent_desc">€30,00 · 20 km · ±25 min</p>
+                </div>
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_antwerpen">Aalst → Antwerpen</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_antwerpen_desc">€52,50 · 35 km · ±40 min</p>
+                </div>
+                <div style="background:#f8fafc; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel_noord">Aalst → Brussel-Noord</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_noord_desc">€40,50 · 27 km · ±28 min</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Internationaal vervoer ========== -->
+        <div class="international-box">
+            <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Aalst</h3>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±200 km – <strong>€300</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±160 km – <strong>€240</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±310 km – <strong>€465</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±170 km – <strong>€255</strong></li>
+                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±240 km – <strong>€360</strong></li>
+            </ul>
+            <div class="service-points">
+                <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
+                <div class="service-point"><i class="fas fa-file-contract"></i><h4 data-i18n="service2_title">Documentatie</h4><p data-i18n="service2_desc">Alle papieren voor grensoverschrijdend vervoer.</p></div>
+                <div class="service-point"><i class="fas fa-language"></i><h4 data-i18n="service3_title">Meertalige chauffeurs</h4><p data-i18n="service3_desc">NL, FR, EN, DE.</p></div>
+                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24-48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
+            </div>
+        </div>
+
+        <!-- ========== Waarom FleetConnect ========== -->
+        <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Aalst?</h2>
+        <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Aalst en de omliggende snelwegen (E40, E42) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Aalst-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
+        </div>
+
+        <!-- Zakelijk & hotelvervoer -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Aalst, waaronder <strong>Hotel De Fierlant</strong>, <strong>Hotel Keizershof</strong>, <strong>ibis Aalst</strong> en <strong>B&B Kasteel Ter Beken</strong>. Voor congressen en zakelijke evenementen werken wij samen met het <strong>Cultuurcentrum De Werf</strong>, <strong>Congrescentrum Ter Dilft</strong> en de <strong>Lokalen van de Stad Aalst</strong>. Ook bedrijven in het <strong>Businesspark E40</strong> en de textielsector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
+        </div>
+
+        <!-- Extra blok: cultuur en bezienswaardigheden -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Aalst met FleetConnect</h2>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een cultureel uitstapje. Beklim het <strong>Belfort</strong> voor een prachtig uitzicht, bezoek de <strong>Sint-Martinuskerk</strong> of het <strong>Stedelijk Museum</strong>. Wandel langs de <strong>Dender</strong> en ontdek de gezellige <strong>Grote Markt</strong> met haar historische panden. Tijdens carnaval is de stad één groot feest. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.</p>
+            <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
+        </div>
+
+        <!-- CTA -->
+        <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
+            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze luchthaventransfer of rit in Aalst?</h2>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
+            <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
+        </div>
+    </div>
+
+    <!-- CONTACTFORMULIER -->
+    <div class="contact-wrapper" id="contact">
+        <div class="contact-row">
+            <div class="contact-form">
+                <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
+                <div class="compact-form">
+                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
+                    <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32494624429" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- FOOTER – UNIFORM BLAUW + MEERTALIG + DYNAMISCHE DROPDOWN -->
+    <!-- ========================================================== -->
+    <footer class="footer-dark">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
+                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
+                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
+                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
+                <div class="footer-cities">
+                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
+
+                    <!-- Label en dropdown voor overige steden -->
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4 data-i18n="footer_legal">Legal</h4>
+                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
+                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
+                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
+                </div>
+            </div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
+            </div>
+        </div>
+    </footer>
+    <!-- ========================================================== -->
+
+</div>
+
+<script>
+    // ============================================================
+    // VERTALINGEN WOORDENBOEK - AALST (uitgebreid met footer + steden)
+    // ============================================================
+    const translations = {
+        nl: {
+            // Hero
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Aalst",
+            hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
+            hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
+            // Intro
+            intro_title: "Aalst – Historische stad aan de Dender & carnavalstad",
+            intro_p1: "Aalst is een stad met een rijke geschiedenis, gelegen in de provincie Oost-Vlaanderen aan de rivier de Dender. De stad staat bekend om haar middeleeuwse Belfort (UNESCO Werelderfgoed), de Sint-Martinuskerk en het Schepenhuis. Aalst is echter vooral beroemd om haar carnaval, dat door UNESCO erkend is als immaterieel cultureel erfgoed en elk jaar tienduizenden bezoekers trekt.",
+            intro_p2: "De stad heeft een bloeiend economisch leven met sterke sectoren in textiel, logistiek en technologie. Aalst is ook een regionaal winkelcentrum en biedt een levendig uitgaansleven. De ligging aan de E40 en de nabijheid van Brussel en Gent maken de stad tot een aantrekkelijke locatie voor bedrijven en pendelaars.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen in Aalst. Onze Mercedes-, BMW- en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een vlekkeloze ontvangst van nationale en internationale gasten.",
+            // Events
+            events_title: "Evenementen & zakenwijken in Aalst",
+            events_p1: "Aalst leeft het hele jaar door, met als absolute hoogtepunten het carnaval (in februari/maart), de Stadsfeesten in juli en de gezellige Kerstmarkt op de Grote Markt. Ook het Aalsterse Bierfestival en de Denderfeesten zijn trekpleisters voor jong en oud.",
+            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Aalst-West, de Kantoorzone rond het station en het Businesspark E40 langs de snelweg. Het Congrescentrum Ter Dilft en het Cultuurcentrum De Werf zijn geliefde locaties voor conferenties en evenementen.",
+            // Routes
+            routes_title: "✈️ Luchthaventransfers vanuit Aalst",
+            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Aalst → Zaventem",
+            route1_desc: "35 km · ±35 min · vaste prijs",
+            route2_title: "Aalst → Charleroi",
+            route2_desc: "70 km · ±60 min · vaste prijs",
+            route3_title: "Aalst → Deurne",
+            route3_desc: "35 km · ±40 min · vaste prijs",
+            route4_title: "Aalst → Lille",
+            route4_desc: "95 km · ±70 min · vaste prijs",
+            route5_title: "Aalst → Eindhoven",
+            route5_desc: "130 km · ±1u 20 min · vaste prijs",
+            route6_title: "Aalst → Amsterdam Schiphol",
+            route6_desc: "200 km · ±2u 10 min · vaste prijs",
+            // Extra opties
+            extras_title: "➕ Extra opties – transparante meerprijzen",
+            extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
+            extras_break: "Break model",
+            extras_break_desc: "– Meer bagageruimte",
+            extras_exclusive: "Exclusieve wagen",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Tot 8 personen",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            // Station
+            station_title: "🚉 Stationstransfers in Aalst",
+            station_desc: "Voor vertrek of aankomst aan het station van Aalst? Wij zorgen voor een vlekkeloze overstap. Enkele voorbeelden:",
+            station_grandplace: "Station → Grote Markt",
+            station_grandplace_desc: "€30,00 · 3 km · ±7 min",
+            station_belfort: "Station → Belfort",
+            station_belfort_desc: "€30,00 · 2,5 km · ±6 min",
+            station_business: "Station → Bedrijventerrein West",
+            station_business_desc: "€30,00 · 5 km · ±10 min",
+            station_hotel: "Station → Hotel De Fierlant",
+            station_hotel_desc: "€30,00 · 2 km · ±5 min",
+            station_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            // Local
+            local_title: "📍 Andere populaire bestemmingen in de regio",
+            local_desc: "FleetConnect brengt u ook naar andere bestemmingen in en rond Aalst:",
+            local_brussel: "Aalst → Brussel",
+            local_brussel_desc: "€42,00 · 28 km · ±30 min",
+            local_gent: "Aalst → Gent",
+            local_gent_desc: "€30,00 · 20 km · ±25 min",
+            local_antwerpen: "Aalst → Antwerpen",
+            local_antwerpen_desc: "€52,50 · 35 km · ±40 min",
+            local_brussel_noord: "Aalst → Brussel-Noord",
+            local_brussel_noord_desc: "€40,50 · 27 km · ±28 min",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            // International
+            international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Aalst",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Parijs (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_aac: "Aken (DE)",
+            int_lux: "Luxemburg (LU)",
+            service1_title: "Vluchtmonitoring",
+            service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
+            service2_title: "Documentatie",
+            service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
+            service3_title: "Meertalige chauffeurs",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Reserveer 24-48u vooruit",
+            service4_desc: "Internationale ritten plannen.",
+            // Why
+            why_title: "Waarom FleetConnect in Aalst?",
+            why1_title: "Stipt & punctueel",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Aalst en de omliggende snelwegen (E40, E42) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
+            why3_title: "Vaste prijzen",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Aalst-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
+            why4_title: "24/7 service",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            // Business
+            business_title: "Zakelijk & hotelvervoer op maat",
+            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Aalst, waaronder Hotel De Fierlant, Hotel Keizershof, ibis Aalst en B&B Kasteel Ter Beken. Voor congressen en zakelijke evenementen werken wij samen met het Cultuurcentrum De Werf, Congrescentrum Ter Dilft en de Lokalen van de Stad Aalst. Ook bedrijven in het Businesspark E40 en de textielsector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
+            // Discover
+            discover_title: "Ontdek Aalst met FleetConnect",
+            discover_p1: "Combineer uw zakelijke afspraak met een cultureel uitstapje. Beklim het Belfort voor een prachtig uitzicht, bezoek de Sint-Martinuskerk of het Stedelijk Museum. Wandel langs de Dender en ontdek de gezellige Grote Markt met haar historische panden. Tijdens carnaval is de stad één groot feest. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
+            // CTA
+            cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Aalst?",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
+            // Contact
+            contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
+            contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
+            contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
+            // Sidebar nav
+            language_label: "Taal / Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusieve service",
+            nav_fixed_prices: "Vaste prijzen",
+            nav_premium_fleet: "Premium vloot",
+            nav_airport: "Luchthavenvervoer",
+            nav_business: "Zakelijk vervoer",
+            nav_events: "Events & Gala",
+            nav_courier: "Koeriersdienst",
+            nav_contact: "Contact",
+            nav_book: "Reserveer nu",
+            login: "LOGIN",
+
+            // ===== FOOTER VERTALINGEN (NL) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Professioneel taxivervoer in België - Stijl, stiptheid en service.",
+            footer_book_now: "Reserveer nu",
+            footer_portal: "Klantportaal",
+            footer_partner: "Partner login",
+            footer_popular_cities: "Populaire steden",
+            footer_city_brussels: "Taxi Brussel",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Antwerpen",
+            footer_city_brugge: "Taxi Brugge",
+            footer_other_cities: "Alle andere steden:",
+            footer_select_city: "-- Kies een stad --",
+            footer_legal: "Legal",
+            footer_faq: "FAQ",
+            footer_privacy: "Privacy",
+            footer_cookies: "Cookiebeleid",
+            footer_terms: "Algemene voorwaarden",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (NL) =====
+            city_aalst: "Aalst",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Doornik",
+            city_genk: "Genk",
+            city_gent: "Gent",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Halle",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Kortrijk",
+            city_leuven: "Leuven",
+            city_luik: "Luik",
+            city_machelen: "Machelen",
+            city_mechelen: "Mechelen",
+            city_oostende: "Oostende",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Sint-Niklaas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvoorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
+        },
+        fr: {
+            // Hero
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Alost",
+            hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
+            hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
+            // Intro
+            intro_title: "Alost – Ville historique sur la Dendre & ville de carnaval",
+            intro_p1: "Alost est une ville riche en histoire, située dans la province de Flandre-Orientale sur la rivière Dendre. La ville est connue pour son beffroi médiéval (patrimoine UNESCO), l'église Saint-Martin et la Maison échevinale. Alost est surtout célèbre pour son carnaval, reconnu par l'UNESCO comme patrimoine culturel immatériel et qui attire des dizaines de milliers de visiteurs chaque année.",
+            intro_p2: "La ville possède une vie économique florissante avec des secteurs forts dans le textile, la logistique et la technologie. Alost est également un centre commercial régional et offre une vie nocturne animée. Sa situation sur l'E40 et sa proximité avec Bruxelles et Gand en font un lieu attractif pour les entreprises et les navetteurs.",
+            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, organisateurs d'événements et institutions publiques à Alost. Nos Mercedes, BMW et minibus assurent un confort et une ponctualité irréprochables. Nos chauffeurs multilingues (NL/FR/EN/DE) garantissent un accueil impeccable aux invités nationaux et internationaux.",
+            events_title: "Événements et quartiers d'affaires à Alost",
+            events_p1: "Alost vit toute l'année, avec comme temps forts le carnaval (en février/mars), les Fêtes de la Ville en juillet et le Marché de Noël sur la Grand-Place. Le Festival de la Bière d'Alost et les Fêtes de la Dendre sont également des attractions pour petits et grands.",
+            events_p2: "Les principaux quartiers d'affaires sont la zone d'activités Alost-Ouest, la zone de bureaux autour de la gare et le Businesspark E40 le long de l'autoroute. Le Centre de Congrès Ter Dilft et le Centre Culturel De Werf sont des lieux prisés pour les conférences et événements.",
+            // Routes
+            routes_title: "✈️ Transferts aéroport depuis Alost",
+            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Alost → Zaventem",
+            route1_desc: "35 km · ±35 min · prix fixe",
+            route2_title: "Alost → Charleroi",
+            route2_desc: "70 km · ±60 min · prix fixe",
+            route3_title: "Alost → Deurne",
+            route3_desc: "35 km · ±40 min · prix fixe",
+            route4_title: "Alost → Lille",
+            route4_desc: "95 km · ±70 min · prix fixe",
+            route5_title: "Alost → Eindhoven",
+            route5_desc: "130 km · ±1h 20 min · prix fixe",
+            route6_title: "Alost → Amsterdam Schiphol",
+            route6_desc: "200 km · ±2h 10 min · prix fixe",
+            extras_title: "➕ Options supplémentaires – suppléments transparents",
+            extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
+            extras_break: "Break modèle",
+            extras_break_desc: "– Plus d'espace bagages",
+            extras_exclusive: "Voiture exclusive",
+            extras_exclusive_desc: "– Mercedes Classe E / BMW Série 5",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Jusqu'à 8 personnes",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            // Station
+            station_title: "🚉 Transferts gare à Alost",
+            station_desc: "Pour un départ ou une arrivée à la gare d'Alost ? Nous assurons un transfert sans faille. Quelques exemples :",
+            station_grandplace: "Gare → Grand-Place",
+            station_grandplace_desc: "€30,00 · 3 km · ±7 min",
+            station_belfort: "Gare → Beffroi",
+            station_belfort_desc: "€30,00 · 2,5 km · ±6 min",
+            station_business: "Gare → Zone d'activités Ouest",
+            station_business_desc: "€30,00 · 5 km · ±10 min",
+            station_hotel: "Gare → Hotel De Fierlant",
+            station_hotel_desc: "€30,00 · 2 km · ±5 min",
+            station_cta: "Autre destination ? Demandez un devis sans engagement",
+            // Local
+            local_title: "📍 Autres destinations populaires dans la région",
+            local_desc: "FleetConnect vous emmène également vers d'autres destinations à Alost et dans les environs :",
+            local_brussel: "Alost → Bruxelles",
+            local_brussel_desc: "€42,00 · 28 km · ±30 min",
+            local_gent: "Alost → Gand",
+            local_gent_desc: "€30,00 · 20 km · ±25 min",
+            local_antwerpen: "Alost → Anvers",
+            local_antwerpen_desc: "€52,50 · 35 km · ±40 min",
+            local_brussel_noord: "Alost → Bruxelles-Nord",
+            local_brussel_noord_desc: "€40,50 · 27 km · ±28 min",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
+            // International
+            international_title: "<i class='fas fa-globe'></i> Transport international depuis Alost",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_aac: "Aix-la-Chapelle (DE)",
+            int_lux: "Luxembourg (LU)",
+            service1_title: "Suivi de vol",
+            service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
+            service2_title: "Documentation",
+            service2_desc: "Tous les papiers pour le transport transfrontalier.",
+            service3_title: "Chauffeurs multilingues",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Réservez 24-48h à l'avance",
+            service4_desc: "Planification des trajets internationaux.",
+            // Why
+            why_title: "Pourquoi FleetConnect à Alost?",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues d'Alost et les autoroutes environnantes (E40, E42). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
+            why3_title: "Prix fixes",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Alost-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
+            why4_title: "Service 24/7",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            business_title: "Transport professionnel et hôtelier sur mesure",
+            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Alost, dont Hotel De Fierlant, Hotel Keizershof, ibis Alost et B&B Kasteel Ter Beken. Pour les congrès et événements professionnels, nous collaborons avec le Centre Culturel De Werf, le Centre de Congrès Ter Dilft et les Locaux de la Ville d'Alost. Les entreprises du Businesspark E40 et du secteur textile comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
+            discover_title: "Découvrez Alost avec FleetConnect",
+            discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade culturelle. Gravissez le beffroi pour une vue magnifique, visitez l'église Saint-Martin ou le Musée de la Ville. Promenez-vous le long de la Dendre et découvrez la Grand-Place avec ses maisons historiques. Pendant le carnaval, la ville est en fête. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
+            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
+            cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Alost?",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
+            cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
+            contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
+            contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
+            contact_msg_label: "<i class='fas fa-comment'></i> Message *",
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
+            language_label: "Langue",
+            nav_home: "Accueil",
+            nav_exclusive: "Service exclusif",
+            nav_fixed_prices: "Prix fixes",
+            nav_premium_fleet: "Flotte premium",
+            nav_airport: "Transfert aéroport",
+            nav_business: "Transport d'affaires",
+            nav_events: "Événements & Gala",
+            nav_courier: "Service de messagerie",
+            nav_contact: "Contact",
+            nav_book: "Réservez maintenant",
+            login: "CONNEXION",
+
+            // ===== FOOTER VERTALINGEN (FR) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
+            footer_book_now: "Réservez maintenant",
+            footer_portal: "Portail client",
+            footer_partner: "Connexion partenaire",
+            footer_popular_cities: "Villes populaires",
+            footer_city_brussels: "Taxi Bruxelles",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Anvers",
+            footer_city_brugge: "Taxi Bruges",
+            footer_other_cities: "Toutes les autres villes :",
+            footer_select_city: "-- Choisissez une ville --",
+            footer_legal: "Juridique",
+            footer_faq: "FAQ",
+            footer_privacy: "Confidentialité",
+            footer_cookies: "Politique de cookies",
+            footer_terms: "Conditions générales",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (FR) =====
+            city_aalst: "Alost",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Tournai",
+            city_genk: "Genk",
+            city_gent: "Gand",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Hal",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Courtrai",
+            city_leuven: "Louvain",
+            city_luik: "Liège",
+            city_machelen: "Machelen",
+            city_mechelen: "Malines",
+            city_oostende: "Ostende",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Saint-Nicolas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
+        },
+        en: {
+            // Hero
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Aalst",
+            hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
+            hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
+            // Intro
+            intro_title: "Aalst – Historic city on the Dender & carnival city",
+            intro_p1: "Aalst is a city with a rich history, located in East Flanders on the river Dender. The city is known for its medieval Belfry (UNESCO World Heritage), St. Martin's Church and the Schepenhuis. Aalst is especially famous for its carnival, recognised by UNESCO as intangible cultural heritage and attracting tens of thousands of visitors each year.",
+            intro_p2: "The city has a thriving economy with strong sectors in textiles, logistics and technology. Aalst is also a regional shopping centre and offers a lively nightlife. Its location on the E40 and proximity to Brussels and Ghent make it an attractive location for businesses and commuters.",
+            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, event organisers and government institutions in Aalst. Our Mercedes, BMW and minivans provide a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) guarantee a flawless welcome for national and international guests.",
+            events_title: "Events & Business Districts in Aalst",
+            events_p1: "Aalst is alive all year round, with highlights including the carnival (February/March), the City Festivities in July and the cosy Christmas Market on the Grote Markt. The Aalst Beer Festival and the Dender Festivities are also attractions for young and old.",
+            events_p2: "The main business districts are the Aalst-West industrial estate, the office zone around the station and the Businesspark E40 along the highway. The Ter Dilft Congress Centre and the De Werf Cultural Centre are popular venues for conferences and events.",
+            // Routes
+            routes_title: "✈️ Airport transfers from Aalst",
+            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Aalst → Zaventem",
+            route1_desc: "35 km · ±35 min · fixed price",
+            route2_title: "Aalst → Charleroi",
+            route2_desc: "70 km · ±60 min · fixed price",
+            route3_title: "Aalst → Deurne",
+            route3_desc: "35 km · ±40 min · fixed price",
+            route4_title: "Aalst → Lille",
+            route4_desc: "95 km · ±70 min · fixed price",
+            route5_title: "Aalst → Eindhoven",
+            route5_desc: "130 km · ±1h 20 min · fixed price",
+            route6_title: "Aalst → Amsterdam Schiphol",
+            route6_desc: "200 km · ±2h 10 min · fixed price",
+            extras_title: "➕ Extra options – clear surcharges",
+            extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
+            extras_break: "Break model",
+            extras_break_desc: "– More luggage space",
+            extras_exclusive: "Exclusive car",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Up to 8 persons",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            // Station
+            station_title: "🚉 Station transfers in Aalst",
+            station_desc: "For departure or arrival at Aalst station? We ensure a seamless transfer. Some examples:",
+            station_grandplace: "Station → Grote Markt",
+            station_grandplace_desc: "€30.00 · 3 km · ±7 min",
+            station_belfort: "Station → Belfry",
+            station_belfort_desc: "€30.00 · 2.5 km · ±6 min",
+            station_business: "Station → West Industrial Estate",
+            station_business_desc: "€30.00 · 5 km · ±10 min",
+            station_hotel: "Station → Hotel De Fierlant",
+            station_hotel_desc: "€30.00 · 2 km · ±5 min",
+            station_cta: "Other destination? Request a free quote",
+            // Local
+            local_title: "📍 Other popular destinations in the region",
+            local_desc: "FleetConnect also takes you to other destinations in and around Aalst:",
+            local_brussel: "Aalst → Brussels",
+            local_brussel_desc: "€42.00 · 28 km · ±30 min",
+            local_gent: "Aalst → Ghent",
+            local_gent_desc: "€30.00 · 20 km · ±25 min",
+            local_antwerpen: "Aalst → Antwerp",
+            local_antwerpen_desc: "€52.50 · 35 km · ±40 min",
+            local_brussel_noord: "Aalst → Brussels-North",
+            local_brussel_noord_desc: "€40.50 · 27 km · ±28 min",
+            local_cta: "Other destination? Request a free quote",
+            // International
+            international_title: "<i class='fas fa-globe'></i> International transport from Aalst",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_aac: "Aachen (DE)",
+            int_lux: "Luxembourg (LU)",
+            service1_title: "Flight monitoring",
+            service1_desc: "We track your flight; free waiting time in case of delay.",
+            service2_title: "Documentation",
+            service2_desc: "All documents for cross-border transport.",
+            service3_title: "Multilingual drivers",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Book 24-48h in advance",
+            service4_desc: "Plan international trips.",
+            // Why
+            why_title: "Why FleetConnect in Aalst?",
+            why1_title: "Punctual & reliable",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Aalst's back streets and the surrounding highways (E40, E42). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
+            why3_title: "Fixed prices",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Aalst-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
+            why4_title: "24/7 service",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            business_title: "Customised business & hotel transport",
+            business_desc: "FleetConnect is the preferred partner of several hotels in Aalst, including Hotel De Fierlant, Hotel Keizershof, ibis Aalst and B&B Kasteel Ter Beken. For congresses and business events, we work with the De Werf Cultural Centre, Ter Dilft Congress Centre and the City of Aalst venues. Companies in the Businesspark E40 and the textile sector trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
+            discover_title: "Discover Aalst with FleetConnect",
+            discover_p1: "Combine your business appointment with a cultural excursion. Climb the Belfry for a beautiful view, visit St. Martin's Church or the City Museum. Stroll along the Dender and discover the lively Grote Markt with its historic buildings. During carnival, the city is one big party. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
+            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
+            cta_title: "Ready for a worry-free airport transfer or ride in Aalst?",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
+            cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
+            contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
+            contact_name_label: "<i class='fas fa-user'></i> Your name *",
+            contact_email_label: "<i class='fas fa-envelope'></i> Email *",
+            contact_msg_label: "<i class='fas fa-comment'></i> Message *",
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Send",
+            language_label: "Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusive service",
+            nav_fixed_prices: "Fixed prices",
+            nav_premium_fleet: "Premium fleet",
+            nav_airport: "Airport transfer",
+            nav_business: "Business transport",
+            nav_events: "Events & Gala",
+            nav_courier: "Courier service",
+            nav_contact: "Contact",
+            nav_book: "Book now",
+            login: "LOGIN",
+
+            // ===== FOOTER VERTALINGEN (EN) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Professional taxi transport in Belgium - Style, punctuality and service.",
+            footer_book_now: "Book now",
+            footer_portal: "Customer portal",
+            footer_partner: "Partner login",
+            footer_popular_cities: "Popular cities",
+            footer_city_brussels: "Taxi Brussels",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Antwerp",
+            footer_city_brugge: "Taxi Bruges",
+            footer_other_cities: "All other cities:",
+            footer_select_city: "-- Choose a city --",
+            footer_legal: "Legal",
+            footer_faq: "FAQ",
+            footer_privacy: "Privacy",
+            footer_cookies: "Cookie policy",
+            footer_terms: "Terms & Conditions",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (EN) =====
+            city_aalst: "Aalst",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Tournai",
+            city_genk: "Genk",
+            city_gent: "Ghent",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Halle",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Kortrijk",
+            city_leuven: "Leuven",
+            city_luik: "Liège",
+            city_machelen: "Machelen",
+            city_mechelen: "Mechelen",
+            city_oostende: "Ostend",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Sint-Niklaas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvoorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
+        }
+    };
+
+    // ============================================================
+    // HUIDIGE TAAL
+    // ============================================================
+    let currentLang = 'nl';
+
+    // ============================================================
+    // DROPDOWN STADNAMEN GENEREREN
+    // ============================================================
+    function generateCityDropdown() {
+        const t = translations[currentLang];
+        if (!t) return;
+
+        const cities = [
+            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
+            { key: 'city_asse', url: '/cities/taxi-asse.html' },
+            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
+            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
+            { key: 'city_genk', url: '/cities/taxi-genk.html' },
+            { key: 'city_gent', url: '/cities/taxi-gent.html' },
+            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
+            { key: 'city_halle', url: '/cities/taxi-halle.html' },
+            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
+            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
+            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
+            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
+            { key: 'city_luik', url: '/cities/taxi-luik.html' },
+            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
+            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
+            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
+            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
+            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
+            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
+            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
+            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
+            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
+            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
+            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
+        ];
+
+        const select = document.getElementById('stad-dropdown');
+        if (!select) return;
+
+        const currentValue = select.value;
+        select.innerHTML = '';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
+        select.appendChild(defaultOption);
+
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city.url;
+            option.textContent = t[city.key] || city.key;
+            select.appendChild(option);
+        });
+
+        if (currentValue) {
+            select.value = currentValue;
+        }
+    }
+
+    // ============================================================
+    // VERTALINGS FUNCTIE
+    // ============================================================
+    function translatePage() {
+        const t = translations[currentLang];
+        if (!t) return;
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key] !== undefined) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = t[key];
+                } else if (el.tagName === 'OPTION') {
+                    el.textContent = t[key];
+                } else {
+                    el.innerHTML = t[key];
+                }
+            }
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.getAttribute('data-lang') === currentLang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        generateCityDropdown();
+        document.documentElement.lang = currentLang;
+    }
+
+    // ============================================================
+    // EVENT LISTENERS
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (lang && translations[lang]) {
+                    currentLang = lang;
+                    translatePage();
+                }
+            });
+        });
+
+        translatePage();
+
+        // ============================================================
+        // HAMBURGER MENU FUNCTIONALITEIT
+        // ============================================================
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                sidebarOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        if (closeMenuBtn) {
+            closeMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function(e) {
+                if (e.target === sidebarOverlay) {
+                    sidebarOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebarOverlay.classList.contains('active')) {
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        const verstuurBtn = document.getElementById('verstuurBerichtBtn');
+        if (verstuurBtn) {
+            verstuurBtn.addEventListener('click', function() {
+                const msg = currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' :
+                           (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' :
+                            'Message sent! We will contact you as soon as possible.');
+                alert(msg);
+            });
+        }
+    });
+</script>
+</body>
+</html>
