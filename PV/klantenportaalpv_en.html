@@ -436,6 +436,20 @@
     window.initGoogleMapsCallback = function() {
         if (typeof google !== 'undefined') {
             directionsService = new google.maps.DirectionsService();
+            const defaultPickupInput = document.getElementById('defaultPickup');
+            if (defaultPickupInput) {
+                const defaultPickupAutocomplete = new google.maps.places.Autocomplete(defaultPickupInput, {
+                    componentRestrictions: { country: "be" },
+                    fields: ["formatted_address"]
+                });
+                defaultPickupAutocomplete.addListener("place_changed", () => {
+                    const place = defaultPickupAutocomplete.getPlace();
+                    if (place.formatted_address) {
+                        defaultPickupInput.value = place.formatted_address;
+                    }
+                });
+            }
+
             const pickupInput = document.getElementById('pickupInput');
             if (pickupInput) {
                 const pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, { componentRestrictions: { country: "be" }, fields: ["geometry", "formatted_address"] });
@@ -613,7 +627,30 @@
         if (currentUser.default_pickup_address) document.getElementById('pickupInput').value = currentUser.default_pickup_address;
     }
     
-    document.getElementById('profileForm')?.addEventListener('submit', async (e) => { e.preventDefault(); currentUser.full_name = document.getElementById('fullName').value; currentUser.email = document.getElementById('profileEmail').value; currentUser.phone = document.getElementById('profilePhone').value; currentUser.default_pickup_address = document.getElementById('defaultPickup').value; alert('Profil enregistré!'); loadUserProfile(); });
+    document.getElementById('profileForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        currentUser.full_name = document.getElementById('fullName').value;
+        currentUser.email = document.getElementById('profileEmail').value;
+        currentUser.phone = document.getElementById('profilePhone').value;
+        currentUser.default_pickup_address = document.getElementById('defaultPickup').value;
+
+        const supabase = getSupabase();
+        if (supabase) {
+            const { error: updateError } = await supabase.from('customers').update({
+                name: currentUser.full_name,
+                email: currentUser.email,
+                phone: currentUser.phone,
+                default_pickup_address: currentUser.default_pickup_address
+            }).eq('user_id', currentUser.id);
+            if (updateError) {
+                console.error("Error saving profile:", updateError.message);
+                alert('An error occurred while saving your profile.');
+                return;
+            }
+        }
+        alert('Profile saved!');
+        loadUserProfile();
+    });
     
     async function loadUserBookings() {
         const supabase = getSupabase();
