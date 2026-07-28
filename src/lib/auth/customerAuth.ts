@@ -23,7 +23,20 @@ export const customerAuth = {
     /**
      * Sign in an existing customer
      */
-    async signInCustomer(email, password) {
+    async signInCustomer(usernameOrEmail, password) {
+        let email = usernameOrEmail;
+        if (!usernameOrEmail.includes('@')) {
+            const { data: resolvedEmail, error: rpcError } = await supabase.rpc('resolve_username_to_email', {
+                p_username: usernameOrEmail
+            });
+            if (rpcError) {
+                return { data: null, error: rpcError };
+            }
+            if (!resolvedEmail) {
+                return { data: null, error: new Error('Invalid login credentials') };
+            }
+            email = resolvedEmail;
+        }
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password
