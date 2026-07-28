@@ -116,8 +116,8 @@
 
         <form id="loginForm">
             <div class="field">
-                <label>E-mailadres</label>
-                <input type="email" id="email" placeholder="bv. info@fleetconnect.be" required>
+                <label>E-mailadres of gebruikersnaam</label>
+                <input type="text" id="email" placeholder="bv. info@fleetconnect.be of uw gebruikersnaam" required>
             </div>
             <div class="field">
                 <label>Wachtwoord</label>
@@ -135,6 +135,19 @@
     const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Redirect automatically if user has an active session
+    async function checkExistingSession() {
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'klantenportaal.html';
+            }
+        } catch (err) {
+            console.error('Session check error:', err);
+        }
+    }
+    checkExistingSession();
 
     // Achtergrondkaart (kopie uit klantenportaal.html)
     var bgMap = L.map('background-map').setView([50.8503, 4.3517], 8);
@@ -154,10 +167,32 @@
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('email').value.trim();
+        const userInput = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
 
         try {
+            let email = userInput;
+
+            // Resolve username if there is no '@'
+            if (!userInput.includes('@')) {
+                const { data: resolvedEmail, error: rpcError } = await supabase.rpc('resolve_username_to_email', {
+                    p_username: userInput
+                });
+
+                if (rpcError) {
+                    console.error('RPC error:', rpcError);
+                    showToast('Er is een fout opgetreden bij het zoeken naar de gebruikersnaam');
+                    return;
+                }
+
+                if (!resolvedEmail) {
+                    showToast('Ongeldige gebruikersnaam of wachtwoord');
+                    return;
+                }
+
+                email = resolvedEmail;
+            }
+
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password

@@ -451,8 +451,9 @@
 
     // PROFIEL
     async function loadUserProfile() {
-        const { data } = await supabase.from('customers').select('name, email, phone').eq('id', currentUser.id).maybeSingle();
+        const { data } = await supabase.from('customers').select('id, name, email, phone').eq('user_id', currentUser.id).maybeSingle();
         if (data) {
+            currentUser.customer_id = data.id;
             currentUser.full_name = data.name;
             currentUser.email = data.email;
             currentUser.phone = data.phone;
@@ -477,7 +478,7 @@
         const email = document.getElementById('profileEmail').value;
         const phone = document.getElementById('profilePhone').value;
 
-        const { error } = await supabase.from('customers').update({ name, email, phone }).eq('id', currentUser.id);
+        const { error } = await supabase.from('customers').update({ name, email, phone }).eq('user_id', currentUser.id);
 
         if (error) {
             alert('Fout bij opslaan: ' + error.message);
@@ -998,7 +999,6 @@
                 .from('payments')
                 .select('*, bookings(id, invoice_id)')
                 .eq('user_id', currentUser.id)
-                .eq('customer_id', currentUser.id)
                 .order('created_at', { ascending: false });
             if (error) throw error;
             if (!data || data.length === 0) {
