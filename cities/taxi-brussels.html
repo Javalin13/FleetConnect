@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- Alle stijlen zijn identiek aan de template --- */
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1513639776629-7b61b0a6b1b5?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
         :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
@@ -32,7 +31,6 @@
         .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
         .login-btn:hover{opacity:0.9}
         
-        /* ========== HERO SECTIE ========== */
         .hero{padding:80px 0 40px;text-align:center}
         .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
         .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
@@ -66,12 +64,10 @@
         .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
         .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
         
-        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
         .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
         .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
         .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
         
-        /* ========== EXTRA OPTIES LIJST ========== */
         .extra-options-list{list-style:none;margin:0;padding:0}
         .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
         .extra-options-list li:last-child{border-bottom:none}
@@ -81,7 +77,6 @@
         .extra-options-list li strong{min-width:120px}
         .extra-options-list li span{color:var(--text-light)}
         
-        /* ========== FOOTER - UNIFORM BLAUW ========== */
         .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
         .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
@@ -89,7 +84,6 @@
         .footer-grid a:hover{color:var(--primary);text-decoration:underline}
         .footer-brand p{color:#e0edf5;line-height:1.8}
         
-        /* ========== DROPDOWN STIJLEN ========== */
         .footer-city-select {
             background: #1a2f3f;
             color: #e0edf5;
@@ -117,7 +111,6 @@
         .footer-bottom a{color:var(--primary);text-decoration:none}
         .footer-bottom a:hover{text-decoration:underline}
         
-        /* ========== RESPONSIVE ========== */
         @media (max-width:800px){
             .hero-card{padding:30px 20px}
             .hero-card h1{font-size:2rem}
@@ -316,7 +309,7 @@
             </ul>
         </div>
 
-        <!-- ========== Extra bestemmingen in Brussel (vergelijkbaar met "Ook binnen Antwerpen") ========== -->
+        <!-- ========== Extra bestemmingen in Brussel ========== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
                 <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
@@ -386,7 +379,7 @@
         <!-- Zakelijk & hotelvervoer -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
-            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van talrijke hotels in Brussel, waaronder The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher’s, Marriott Grand Place en ibis Brussels Centre. Voor congressen en evenementen werken wij samen met Brussels Expo, het Europees Parlement, het Koninklijk Paleis en de Kunstberg. Ook ambassades, internationale organisaties en zakencentra (Twin Towers, World Trade Center) vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van talrijke hotels in Brussel, waaronder The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher's, Marriott Grand Place en ibis Brussels Centre. Voor congressen en evenementen werken wij samen met Brussels Expo, het Europees Parlement, het Koninklijk Paleis en de Kunstberg. Ook ambassades, internationale organisaties en zakencentra (Twin Towers, World Trade Center) vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
         </div>
 
         <!-- Extra blok: cultuur en bezienswaardigheden -->
@@ -420,74 +413,57 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
+    <!-- FOOTER – UNIFORM BLAUW + VERTAALBARE DROPDOWN             -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
+                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
-                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
-                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
-                    <a href="/booking#booking">Reserveer nu</a>
-                    <a href="/PV/index.html">Klantportaal</a>
-                    <a href="/partner-login">Partner login</a>
+                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
+                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
+                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
+                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
                 </div>
 
+                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
-                    <h4>Populaire steden</h4>
-                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
-                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
-                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
-                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
+                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
+
+                    <!-- Label en dropdown voor overige steden - wordt dynamisch gevuld -->
                     <div style="margin-top: 16px;">
-                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
                         <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
-                            <option value="">-- Kies een stad --</option>
-                            <option value="/cities/taxi-aalst.html">Aalst</option>
-                            <option value="/cities/taxi-asse.html">Asse</option>
-                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
-                            <option value="/cities/taxi-doornik.html">Doornik</option>
-                            <option value="/cities/taxi-genk.html">Genk</option>
-                            <option value="/cities/taxi-gent.html">Gent</option>
-                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
-                            <option value="/cities/taxi-halle.html">Halle</option>
-                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
-                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
-                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
-                            <option value="/cities/taxi-leuven.html">Leuven</option>
-                            <option value="/cities/taxi-luik.html">Luik</option>
-                            <option value="/cities/taxi-machelen.html">Machelen</option>
-                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
-                            <option value="/cities/taxi-oostende.html">Oostende</option>
-                            <option value="/cities/taxi-overijse.html">Overijse</option>
-                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
-                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
-                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
-                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
-                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
-                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
-                            <option value="/cities/taxi-zemst.html">Zemst</option>
+                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
                         </select>
                     </div>
                 </div>
 
+                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
-                    <h4>Legal</h4>
-                    <a href="/PV/PVfaq.html">FAQ</a>
-                    <a href="/PV/PVprivacy.html">Privacy</a>
-                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
-                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                    <h4 data-i18n="footer_legal">Legal</h4>
+                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
+                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
                 </div>
 
+                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
-                    <h4>FleetConnect</h4>
-                    <a href="mailto:support@fleetconnect.be">Support</a>
-                    <a href="/booking#contact">Contact</a>
+                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
+                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
                 </div>
             </div>
 
+            <!-- Footer bottom -->
             <div class="footer-bottom">
-                2026 FleetConnect - <a href="/">FleetConnect</a>
+                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
             </div>
         </div>
     </footer>
@@ -501,17 +477,21 @@
     // ============================================================
     const translations = {
         nl: {
+            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Brussel",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
             hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
             hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
+            // Intro
             intro_title: "Brussel – Hoofdstad van Europa & bruisende grootstad",
             intro_p1: "Brussel is de hoofdstad van België en het politieke hart van Europa. De stad herbergt de Europese instellingen, waaronder de Europese Commissie, het Europees Parlement en de Raad van de EU. Brussel is ook de thuisbasis van de NAVO en tal van internationale organisaties, wat de stad een unieke, kosmopolitische sfeer geeft.",
             intro_p2: "De stad is rijk aan cultuur en geschiedenis, met de iconische Grote Markt (UNESCO Werelderfgoed), de Manneken Pis, het Atomium en het Koninklijk Paleis. Brussel is ook een culinaire bestemming, bekend om zijn chocolade, wafels en bieren. De Zavel, Louizalaan en Matongé bieden een mix van luxe winkels, Afrikaanse sfeer en internationale keukens.",
             intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, diplomaten, hotels, congresorganisatoren en overheidsinstellingen in Brussel. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.",
+            // Events
             events_title: "Evenementen & zakenwijken in Brussel",
             events_p1: "Brussel kent een drukke evenementenkalender. Hoogtepunten zijn de Brussels Summer Festival, de Zomer van Brussel, de Winterpret op de Grote Markt en de Brussels Christmas Market. Ook het Brussels Beer Weekend en de Brussels Food Truck Festival trekken een internationaal publiek.",
             events_p2: "De belangrijkste zakenwijken zijn de Europese Wijk (rond Schuman en Luxembourg), de Louizawijk (luxe kantoren en winkels), de Noordwijk (zakendistrict met de financiële torens) en de Zuidwijk (rond het station Brussel-Zuid). Het Brussels Expo (Heyzel) is het grootste evenementencomplex, met congressen en beurzen zoals de Brussels Motor Show.",
+            // Routes
             routes_title: "✈️ Luchthaventransfers vanuit Brussel",
             routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             route1_title: "Brussel → Zaventem",
@@ -526,6 +506,7 @@
             route5_desc: "90 km · ±1u 05 min · vaste prijs",
             route6_title: "Brussel → Amsterdam Schiphol",
             route6_desc: "210 km · ±2u 15 min · vaste prijs",
+            // Extra opties
             extras_title: "➕ Extra opties – transparante meerprijzen",
             extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
             extras_break: "Break model",
@@ -538,6 +519,7 @@
             extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            // Lokale bestemmingen
             local_title: "📍 Ook binnen Brussel",
             local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Brussel en de regio. Enkele voorbeelden:",
             local_euro: "Europese Wijk",
@@ -549,6 +531,7 @@
             local_gent: "Gent",
             local_gent_desc: "€45,00 · 30 km",
             local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Brussel",
             international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
             int_ams: "Amsterdam (NL) – Schiphol",
@@ -565,6 +548,7 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Reserveer 24-48u vooruit",
             service4_desc: "Internationale ritten plannen.",
+            // Why
             why_title: "Waarom FleetConnect in Brussel?",
             why1_title: "Stipt & punctueel",
             why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de Brusselse binnenwegen en de ring (R0) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
@@ -573,19 +557,24 @@
             why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Brussel-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
             why4_title: "24/7 service",
             why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            // Business
             business_title: "Zakelijk & hotelvervoer op maat",
-            business_desc: "FleetConnect is de preferred partner van talrijke hotels in Brussel, waaronder The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher’s, Marriott Grand Place en ibis Brussels Centre. Voor congressen en evenementen werken wij samen met Brussels Expo, het Europees Parlement, het Koninklijk Paleis en de Kunstberg. Ook ambassades, internationale organisaties en zakencentra (Twin Towers, World Trade Center) vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
+            business_desc: "FleetConnect is de preferred partner van talrijke hotels in Brussel, waaronder The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher's, Marriott Grand Place en ibis Brussels Centre. Voor congressen en evenementen werken wij samen met Brussels Expo, het Europees Parlement, het Koninklijk Paleis en de Kunstberg. Ook ambassades, internationale organisaties en zakencentra (Twin Towers, World Trade Center) vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
+            // Discover
             discover_title: "Ontdek Brussel met FleetConnect",
             discover_p1: "Combineer uw zakelijke afspraak met een cultureel uitstapje. Bezoek de Grote Markt met het stadhuis en de huizen van de gilden, bewonder het Atomium en het Mini-Europa park, of wandel door de Zavel met zijn antiekwinkels en het Koninklijk Museum voor Schone Kunsten. Proef de beroemde Brusselse wafels en chocolade in de galerijen van de Koningin. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
+            // CTA
             cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Brussel?",
             cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
+            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
+            // Sidebar nav
             language_label: "Taal / Language",
             nav_home: "Home",
             nav_exclusive: "Exclusieve service",
@@ -597,20 +586,74 @@
             nav_courier: "Koeriersdienst",
             nav_contact: "Contact",
             nav_book: "Reserveer nu",
-            login: "LOGIN"
+            login: "LOGIN",
+
+            // ===== FOOTER VERTALINGEN (NL) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Professioneel taxivervoer in België - Stijl, stiptheid en service.",
+            footer_book_now: "Reserveer nu",
+            footer_portal: "Klantportaal",
+            footer_partner: "Partner login",
+            footer_popular_cities: "Populaire steden",
+            footer_city_brussels: "Taxi Brussel",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Antwerpen",
+            footer_city_brugge: "Taxi Brugge",
+            footer_other_cities: "Alle andere steden:",
+            footer_select_city: "-- Kies een stad --",
+            footer_legal: "Legal",
+            footer_faq: "FAQ",
+            footer_privacy: "Privacy",
+            footer_cookies: "Cookiebeleid",
+            footer_terms: "Algemene voorwaarden",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (NL) =====
+            city_aalst: "Aalst",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Doornik",
+            city_genk: "Genk",
+            city_gent: "Gent",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Halle",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Kortrijk",
+            city_leuven: "Leuven",
+            city_luik: "Luik",
+            city_machelen: "Machelen",
+            city_mechelen: "Mechelen",
+            city_oostende: "Oostende",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Sint-Niklaas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvoorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
         },
         fr: {
+            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Bruxelles",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
             hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
             hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
+            // Intro
             intro_title: "Bruxelles – Capitale de l'Europe & métropole bouillonnante",
             intro_p1: "Bruxelles est la capitale de la Belgique et le cœur politique de l'Europe. La ville abrite les institutions européennes, dont la Commission européenne, le Parlement européen et le Conseil de l'UE. Bruxelles est également le siège de l'OTAN et de nombreuses organisations internationales, ce qui donne à la ville une atmosphère unique et cosmopolite.",
             intro_p2: "La ville est riche en culture et en histoire, avec la Grand-Place (patrimoine UNESCO), le Manneken Pis, l'Atomium et le Palais Royal. Bruxelles est aussi une destination culinaire, connue pour son chocolat, ses gaufres et ses bières. Le Sablon, l'avenue Louise et Matongé offrent un mélange de boutiques de luxe, d'ambiance africaine et de cuisines internationales.",
             intro_p3: "FleetConnect est le partenaire de confiance des entreprises, diplomates, hôtels, organisateurs de congrès et institutions publiques à Bruxelles. Notre flotte de Mercedes Classe E, BMW Série 5, Skoda et minibus de luxe garantit un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) assurent un accueil impeccable aux invités internationaux et aux voyageurs d'affaires.",
+            // Events
             events_title: "Événements et quartiers d'affaires à Bruxelles",
             events_p1: "Bruxelles a un calendrier d'événements chargé. Les temps forts sont le Brussels Summer Festival, l'Été de Bruxelles, les Plaisirs d'Hiver sur la Grand-Place et le Brussels Christmas Market. Le Brussels Beer Weekend et le Brussels Food Truck Festival attirent également un public international.",
             events_p2: "Les principaux quartiers d'affaires sont le quartier européen (autour de Schuman et Luxembourg), le quartier Louise (bureaux et boutiques de luxe), le quartier Nord (district des affaires avec les tours financières) et le quartier Midi (autour de la gare de Bruxelles-Midi). Brussels Expo (Heyzel) est le plus grand complexe événementiel, avec des congrès et salons comme le Brussels Motor Show.",
+            // Routes
             routes_title: "✈️ Transferts aéroport depuis Bruxelles",
             routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
             route1_title: "Bruxelles → Zaventem",
@@ -625,6 +668,7 @@
             route5_desc: "90 km · ±1h 05 min · prix fixe",
             route6_title: "Bruxelles → Amsterdam Schiphol",
             route6_desc: "210 km · ±2h 15 min · prix fixe",
+            // Extra opties
             extras_title: "➕ Options supplémentaires – suppléments transparents",
             extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
             extras_break: "Break modèle",
@@ -637,6 +681,7 @@
             extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            // Local
             local_title: "📍 A Bruxelles également",
             local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Bruxelles et dans la région. Quelques exemples :",
             local_euro: "Quartier européen",
@@ -648,6 +693,7 @@
             local_gent: "Gand",
             local_gent_desc: "€45,00 · 30 km",
             local_cta: "Autre destination ? Demandez un devis sans engagement",
+            // International
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Bruxelles",
             international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
             int_ams: "Amsterdam (NL) – Schiphol",
@@ -664,6 +710,7 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Réservez 24-48h à l'avance",
             service4_desc: "Planification des trajets internationaux.",
+            // Why
             why_title: "Pourquoi FleetConnect à Bruxelles?",
             why1_title: "Ponctuel & fiable",
             why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Bruxelles et le ring (R0). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
@@ -672,14 +719,18 @@
             why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Bruxelles-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
             why4_title: "Service 24/7",
             why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            // Business
             business_title: "Transport professionnel et hôtelier sur mesure",
             business_desc: "FleetConnect est le partenaire privilégié de nombreux hôtels à Bruxelles, dont The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher's, Marriott Grand Place et ibis Brussels Centre. Pour les congrès et événements, nous collaborons avec Brussels Expo, le Parlement européen, le Palais Royal et le Mont des Arts. Les ambassades, organisations internationales et centres d'affaires (Twin Towers, World Trade Center) comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
+            // Discover
             discover_title: "Découvrez Bruxelles avec FleetConnect",
             discover_p1: "Combinez votre rendez-vous d'affaires avec une escapade culturelle. Visitez la Grand-Place avec l'hôtel de ville et les maisons des guildes, admirez l'Atomium et le parc Mini-Europe, ou promenez-vous au Sablon avec ses magasins d'antiquités et le Musée royal des Beaux-Arts. Goûtez aux célèbres gaufres et chocolats bruxellois dans les Galeries Royales. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
             discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
+            // CTA
             cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Bruxelles?",
             cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
+            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
             contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
@@ -696,20 +747,74 @@
             nav_courier: "Service de messagerie",
             nav_contact: "Contact",
             nav_book: "Réservez maintenant",
-            login: "CONNEXION"
+            login: "CONNEXION",
+
+            // ===== FOOTER VERTALINGEN (FR) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
+            footer_book_now: "Réservez maintenant",
+            footer_portal: "Portail client",
+            footer_partner: "Connexion partenaire",
+            footer_popular_cities: "Villes populaires",
+            footer_city_brussels: "Taxi Bruxelles",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Anvers",
+            footer_city_brugge: "Taxi Bruges",
+            footer_other_cities: "Toutes les autres villes :",
+            footer_select_city: "-- Choisissez une ville --",
+            footer_legal: "Juridique",
+            footer_faq: "FAQ",
+            footer_privacy: "Confidentialité",
+            footer_cookies: "Politique de cookies",
+            footer_terms: "Conditions générales",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (FR) =====
+            city_aalst: "Alost",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Tournai",
+            city_genk: "Genk",
+            city_gent: "Gand",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Hal",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Courtrai",
+            city_leuven: "Louvain",
+            city_luik: "Liège",
+            city_machelen: "Machelen",
+            city_mechelen: "Malines",
+            city_oostende: "Ostende",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Saint-Nicolas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
         },
         en: {
+            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Brussels",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
             hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
             hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
+            // Intro
             intro_title: "Brussels – Capital of Europe & vibrant metropolis",
             intro_p1: "Brussels is the capital of Belgium and the political heart of Europe. The city houses the European institutions, including the European Commission, the European Parliament and the Council of the EU. Brussels is also the home of NATO and numerous international organisations, giving the city a unique, cosmopolitan atmosphere.",
             intro_p2: "The city is rich in culture and history, with the iconic Grand Place (UNESCO World Heritage), Manneken Pis, the Atomium and the Royal Palace. Brussels is also a culinary destination, known for its chocolate, waffles and beers. The Sablon, Avenue Louise and Matongé offer a mix of luxury shops, African flair and international cuisines.",
             intro_p3: "FleetConnect is the trusted partner for businesses, diplomats, hotels, congress organisers and government institutions in Brussels. Our fleet of Mercedes E-Class, BMW 5 Series, Skoda and luxury minivans guarantees a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure a flawless welcome for international guests and business travellers.",
+            // Events
             events_title: "Events & Business Districts in Brussels",
             events_p1: "Brussels has a busy events calendar. Highlights include the Brussels Summer Festival, the Summer of Brussels, Winter Wonders on the Grand Place and the Brussels Christmas Market. The Brussels Beer Weekend and the Brussels Food Truck Festival also attract an international audience.",
             events_p2: "The main business districts are the European Quarter (around Schuman and Luxembourg), the Louise district (luxury offices and shops), the Northern Quarter (business district with financial towers) and the Southern Quarter (around Brussels-South station). Brussels Expo (Heyzel) is the largest events complex, hosting congresses and fairs such as the Brussels Motor Show.",
+            // Routes
             routes_title: "✈️ Airport transfers from Brussels",
             routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
             route1_title: "Brussels → Zaventem",
@@ -724,6 +829,7 @@
             route5_desc: "90 km · ±1h 05 min · fixed price",
             route6_title: "Brussels → Amsterdam Schiphol",
             route6_desc: "210 km · ±2h 15 min · fixed price",
+            // Extra opties
             extras_title: "➕ Extra options – clear surcharges",
             extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
             extras_break: "Break model",
@@ -736,6 +842,7 @@
             extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            // Local
             local_title: "📍 Also in Brussels",
             local_desc: "In addition to airport transfers, we also provide reliable transport within Brussels and the region. Some examples:",
             local_euro: "European Quarter",
@@ -747,6 +854,7 @@
             local_gent: "Ghent",
             local_gent_desc: "€45.00 · 30 km",
             local_cta: "Other destination? Request a free quote",
+            // International
             international_title: "<i class='fas fa-globe'></i> International transport from Brussels",
             international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
             int_ams: "Amsterdam (NL) – Schiphol",
@@ -763,6 +871,7 @@
             service3_desc: "NL, FR, EN, DE.",
             service4_title: "Book 24-48h in advance",
             service4_desc: "Plan international trips.",
+            // Why
             why_title: "Why FleetConnect in Brussels?",
             why1_title: "Punctual & reliable",
             why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Brussels' back streets and the ring road (R0). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
@@ -771,14 +880,18 @@
             why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Brussels-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
             why4_title: "24/7 service",
             why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            // Business
             business_title: "Customised business & hotel transport",
             business_desc: "FleetConnect is the preferred partner of numerous hotels in Brussels, including The Hotel Brussels, Hotel Amigo, Steigenberger Wiltcher's, Marriott Grand Place and ibis Brussels Centre. For congresses and events, we work with Brussels Expo, the European Parliament, the Royal Palace and the Mont des Arts. Embassies, international organisations and business centres (Twin Towers, World Trade Center) trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
+            // Discover
             discover_title: "Discover Brussels with FleetConnect",
             discover_p1: "Combine your business appointment with a cultural excursion. Visit the Grand Place with the town hall and guild houses, admire the Atomium and Mini-Europe park, or stroll through the Sablon with its antique shops and the Royal Museum of Fine Arts. Taste the famous Brussels waffles and chocolates in the Galeries Royales. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
             discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
+            // CTA
             cta_title: "Ready for a worry-free airport transfer or ride in Brussels?",
             cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
+            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
             contact_name_label: "<i class='fas fa-user'></i> Your name *",
             contact_email_label: "<i class='fas fa-envelope'></i> Email *",
@@ -795,7 +908,57 @@
             nav_courier: "Courier service",
             nav_contact: "Contact",
             nav_book: "Book now",
-            login: "LOGIN"
+            login: "LOGIN",
+
+            // ===== FOOTER VERTALINGEN (EN) =====
+            footer_brand: "FleetConnect",
+            footer_brand_desc: "Professional taxi transport in Belgium - Style, punctuality and service.",
+            footer_book_now: "Book now",
+            footer_portal: "Customer portal",
+            footer_partner: "Partner login",
+            footer_popular_cities: "Popular cities",
+            footer_city_brussels: "Taxi Brussels",
+            footer_city_zaventem: "Taxi Zaventem",
+            footer_city_antwerpen: "Taxi Antwerp",
+            footer_city_brugge: "Taxi Bruges",
+            footer_other_cities: "All other cities:",
+            footer_select_city: "-- Choose a city --",
+            footer_legal: "Legal",
+            footer_faq: "FAQ",
+            footer_privacy: "Privacy",
+            footer_cookies: "Cookie policy",
+            footer_terms: "Terms & Conditions",
+            footer_contact_title: "FleetConnect",
+            footer_support: "Support",
+            footer_contact: "Contact",
+            footer_copyright: "2026 FleetConnect -",
+            footer_home_link: "FleetConnect",
+
+            // ===== STEDEN (EN) =====
+            city_aalst: "Aalst",
+            city_asse: "Asse",
+            city_dilbeek: "Dilbeek",
+            city_doornik: "Tournai",
+            city_genk: "Genk",
+            city_gent: "Ghent",
+            city_grimbergen: "Grimbergen",
+            city_halle: "Halle",
+            city_hasselt: "Hasselt",
+            city_kortenberg: "Kortenberg",
+            city_kortrijk: "Kortrijk",
+            city_leuven: "Leuven",
+            city_luik: "Liège",
+            city_machelen: "Machelen",
+            city_mechelen: "Mechelen",
+            city_oostende: "Ostend",
+            city_overijse: "Overijse",
+            city_sint_niklaas: "Sint-Niklaas",
+            city_steenokkerzeel: "Steenokkerzeel",
+            city_tervuren: "Tervuren",
+            city_turnhout: "Turnhout",
+            city_vilvoorde: "Vilvoorde",
+            city_waterloo: "Waterloo",
+            city_zemst: "Zemst"
         }
     };
 
@@ -804,19 +967,83 @@
     // ============================================================
     let currentLang = 'nl';
 
+    // ============================================================
+    // DROPDOWN STADNAMEN GENEREREN
+    // ============================================================
+    function generateCityDropdown() {
+        const t = translations[currentLang];
+        if (!t) return;
+
+        const cities = [
+            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
+            { key: 'city_asse', url: '/cities/taxi-asse.html' },
+            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
+            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
+            { key: 'city_genk', url: '/cities/taxi-genk.html' },
+            { key: 'city_gent', url: '/cities/taxi-gent.html' },
+            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
+            { key: 'city_halle', url: '/cities/taxi-halle.html' },
+            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
+            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
+            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
+            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
+            { key: 'city_luik', url: '/cities/taxi-luik.html' },
+            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
+            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
+            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
+            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
+            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
+            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
+            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
+            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
+            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
+            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
+            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
+        ];
+
+        const select = document.getElementById('stad-dropdown');
+        if (!select) return;
+
+        const currentValue = select.value;
+        select.innerHTML = '';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
+        select.appendChild(defaultOption);
+
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city.url;
+            option.textContent = t[city.key] || city.key;
+            select.appendChild(option);
+        });
+
+        if (currentValue) {
+            select.value = currentValue;
+        }
+    }
+
+    // ============================================================
+    // VERTALINGS FUNCTIE
+    // ============================================================
     function translatePage() {
         const t = translations[currentLang];
         if (!t) return;
+
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key] !== undefined) {
                 if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     el.placeholder = t[key];
+                } else if (el.tagName === 'OPTION') {
+                    el.textContent = t[key];
                 } else {
                     el.innerHTML = t[key];
                 }
             }
         });
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
             if (btn.getAttribute('data-lang') === currentLang) {
                 btn.classList.add('active');
@@ -824,25 +1051,30 @@
                 btn.classList.remove('active');
             }
         });
+
+        generateCityDropdown();
         document.documentElement.lang = currentLang;
     }
 
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const lang = btn.getAttribute('data-lang');
-            if (lang && translations[lang]) {
-                currentLang = lang;
-                translatePage();
-            }
-        });
-    });
-
-    translatePage();
-
     // ============================================================
-    // HAMBURGER MENU FUNCTIONALITEIT
+    // EVENT LISTENERS
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (lang && translations[lang]) {
+                    currentLang = lang;
+                    translatePage();
+                }
+            });
+        });
+
+        translatePage();
+
+        // ============================================================
+        // HAMBURGER MENU FUNCTIONALITEIT
+        // ============================================================
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
