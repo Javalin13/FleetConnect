@@ -162,11 +162,11 @@
         <div id="infoBox" class="info-msg"></div>
 
         <div class="field">
-            <label><i class="fas fa-envelope"></i> E-mailadres</label>
-            <input type="email" id="emailInput" placeholder="uw@email.be">
+            <label id="emailLabel"><i class="fas fa-envelope"></i> E-mailadres</label>
+            <input type="text" id="emailInput" placeholder="uw@email.be">
         </div>
         <div class="field">
-            <label><i class="fas fa-lock"></i> Wachtwoord</label>
+            <label id="passwordLabel"><i class="fas fa-lock"></i> Wachtwoord</label>
             <input type="password" id="passInput" placeholder="wachtwoord">
         </div>
 
@@ -175,7 +175,7 @@
         </button>
 
         <div class="info-text">
-            <i class="fas fa-info-circle"></i> Log in met uw FleetConnect klantaccount.
+            <i class="fas fa-info-circle"></i> <span id="helperText">Log in met uw FleetConnect klantaccount.</span>
             <br><br><a id="registerLink" href="register.html" style="color: var(--primary); font-weight: 700;">Account aanmaken</a>
         </div>
     </div>
@@ -227,14 +227,19 @@
             localStorage.setItem('fleetconnect_language', currentLang);
             document.documentElement.lang = currentLang;
             document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('subtitleText').textContent = tr().subtitle;
-            document.getElementById('emailLabel').innerHTML = `<i class="fas fa-envelope"></i> ${tr().email}`;
-            document.getElementById('passwordLabel').innerHTML = `<i class="fas fa-lock"></i> ${tr().password}`;
-            emailInput.placeholder = tr().emailPlaceholder;
-            passInput.placeholder = tr().passwordPlaceholder;
-            document.getElementById('loginBtnText').textContent = tr().login;
-            document.getElementById('helperText').textContent = tr().helper;
-            registerLink.textContent = tr().register;
+            const subtitleText = document.getElementById('subtitleText');
+            if (subtitleText) subtitleText.textContent = tr().subtitle;
+            const emailLabel = document.getElementById('emailLabel');
+            if (emailLabel) emailLabel.innerHTML = `<i class="fas fa-envelope"></i> ${tr().email}`;
+            const passwordLabel = document.getElementById('passwordLabel');
+            if (passwordLabel) passwordLabel.innerHTML = `<i class="fas fa-lock"></i> ${tr().password}`;
+            if (emailInput) emailInput.placeholder = tr().emailPlaceholder;
+            if (passInput) passInput.placeholder = tr().passwordPlaceholder;
+            const loginBtnText = document.getElementById('loginBtnText');
+            if (loginBtnText) loginBtnText.textContent = tr().login;
+            const helperText = document.getElementById('helperText');
+            if (helperText) helperText.textContent = tr().helper;
+            if (registerLink) registerLink.textContent = tr().register;
             document.querySelectorAll('[data-lang]').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === currentLang));
         }
         document.querySelectorAll('[data-lang]').forEach(btn => btn.addEventListener('click', () => {
@@ -439,10 +444,10 @@
         }
 
         async function handleLogin() {
-            const email = emailInput.value.trim();
+            const userInput = emailInput.value.trim();
             const password = passInput.value.trim();
 
-            if (!email || !password) {
+            if (!userInput || !password) {
                 showError(tr().fillCredentials);
                 return;
             }
@@ -452,6 +457,28 @@
             loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + tr().loginBusy;
 
             try {
+                let email = userInput;
+
+                // Resolve username if there is no '@'
+                if (!userInput.includes('@')) {
+                    const { data: resolvedEmail, error: rpcError } = await supabase.rpc('resolve_username_to_email', {
+                        p_username: userInput
+                    });
+
+                    if (rpcError) {
+                        console.error('RPC error:', rpcError);
+                        showError('Er is een fout opgetreden bij het zoeken naar de gebruikersnaam');
+                        return;
+                    }
+
+                    if (!resolvedEmail) {
+                        showError(tr().invalid);
+                        return;
+                    }
+
+                    email = resolvedEmail;
+                }
+
                 const { data, error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 if (!data.session) throw new Error('Login kon niet worden bevestigd.');
@@ -466,7 +493,7 @@
                 window.location.href = portalUrl();
             } catch (err) {
                 let message = err.message || tr().invalid;
-                const requestStatus = await getRequestStatus(email);
+                const requestStatus = await getRequestStatus(userInput);
                 if (requestStatus?.found && requestStatus.status === 'pending') {
                     message = 'Uw accountaanvraag wacht nog op goedkeuring door FleetConnect.';
                 } else if (requestStatus?.found && requestStatus.status === 'approved') {
