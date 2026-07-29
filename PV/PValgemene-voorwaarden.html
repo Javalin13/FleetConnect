@@ -1,1 +1,847 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Algemene Voorwaarden | Fleetconnect</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========== GLOBAL ========== */
+        :root {
+            --bg-body: #f4f7fc;
+            --primary: #2c6e9e;
+            --primary-dark: #1e4a6e;
+            --accent-gold: #c9a03d;
+            --accent-green: #6b8c42;
+            --text-dark: #1a2a3a;
+            --text-light: #4a627a;
+            --white: #ffffff;
+            --card-bg: rgba(255,255,255,0.92);
+            --border-light: #e2edf7;
+            --shadow: 0 8px 20px rgba(0,0,0,0.05);
+            --footer-bg: #0d1f2c;
+            --footer-text: #e0edf5;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* ========== ACHTERGROND (STATISCHE KAART) ========== */
+        #background-map {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: brightness(1.05) contrast(1.02);
+            opacity: 0.9;
+        }
+
+        .content-overlay {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(1px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ========== TAALWISSELAAR ========== */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.9);
+            padding: 6px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .lang-btn {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            padding: 6px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ========== BROODKRUIMELS ========== */
+        .breadcrumb {
+            margin: 30px 0 20px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding-top: 60px;
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb i {
+            margin: 0 8px;
+            font-size: 0.7rem;
+        }
+        .breadcrumb .current {
+            color: var(--accent-gold);
+        }
+
+        /* ========== PAGINATITEL ========== */
+        .page-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .page-title i {
+            color: var(--accent-gold);
+            margin-right: 15px;
+        }
+        .intro-text {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        /* ========== CONTENT ========== */
+        .content-section {
+            padding: 40px 0 60px;
+        }
+        .content-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-light);
+            border-radius: 32px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        .content-card h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 20px;
+        }
+        .content-card h3 {
+            color: var(--text-dark);
+            font-size: 1.3rem;
+            margin: 25px 0 15px 0;
+        }
+        .content-card p {
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        .content-card p strong {
+            color: var(--text-dark);
+        }
+
+        /* ========== LIJSTEN ========== */
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .feature-list li i {
+            color: var(--accent-green);
+            width: 24px;
+            font-size: 1.2rem;
+        }
+        .feature-list li span {
+            flex: 1;
+        }
+        .feature-list li a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .feature-list li a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========== HIGHLIGHT BOX ========== */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(44,110,158,0.05) 0%, rgba(107,140,66,0.05) 100%);
+            border-left: 4px solid var(--accent-gold);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        .highlight-box i {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        .highlight-box p:last-of-type {
+            font-weight: 400;
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+
+        /* ========== KNOPS ========== */
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* ========== NAV-TABS ========== */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .nav-tab {
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border-light);
+            padding: 10px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-tab:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .nav-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ========== FOOTER ========== */
+        .footer-dark {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 48px 0 24px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .footer-grid h4 {
+            color: var(--primary) !important;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .footer-grid a {
+            color: var(--footer-text);
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+            transition: 0.2s;
+        }
+        .footer-grid a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .footer-brand p {
+            color: var(--footer-text);
+            line-height: 1.8;
+        }
+        .footer-city-select {
+            background: #1a2f3f;
+            color: var(--footer-text);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+            max-width: 220px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 8px;
+            appearance: auto;
+        }
+        .footer-city-select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        .footer-city-select option {
+            background: #0d1f2c;
+            color: #e0edf5;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(224,237,245,0.2);
+            padding-top: 24px;
+            font-size: 0.85rem;
+        }
+        .footer-bottom a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .page-title { font-size: 1.5rem; }
+            .content-card { padding: 25px; }
+            .language-switcher { top: 10px; right: 15px; gap: 6px; padding: 4px 10px; }
+            .lang-btn { font-size: 0.7rem; padding: 4px 10px; }
+            .breadcrumb { padding-top: 50px; }
+            .footer-grid { gap: 24px; }
+            .footer-city-select { max-width: 100%; }
+        }
+        @media (max-width: 500px) {
+            .container { padding: 0 12px; }
+            .content-card { padding: 18px; border-radius: 20px; }
+            .nav-tabs { gap: 6px; }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
+            .page-title { font-size: 1.3rem; }
+            .intro-text { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ACHTERGROND (statische kaart) -->
+<div id="background-map"></div>
+
+<div class="content-overlay">
+    <!-- TAALWISSELAAR -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="nl">NL</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <!-- BROODKRUIMELS -->
+        <div class="breadcrumb">
+            <a href="/PV/PV.html" data-i18n="breadcrumb-home">Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <span class="current" data-i18n="breadcrumb-current">Algemene Voorwaarden</span>
+        </div>
+        <h1 class="page-title"><i class="fas fa-file-contract"></i> <span data-i18n="page-title">Algemene Voorwaarden</span></h1>
+        <p class="intro-text" data-i18n="intro-text">Lees hieronder onze algemene voorwaarden. Ze bevatten belangrijke informatie over uw rechten en plichten bij het gebruik van onze diensten. Door een rit te boeken, gaat u akkoord met deze voorwaarden.</p>
+    </div>
+
+    <!-- NAVIGATIETABS -->
+    <div class="container">
+        <div class="nav-tabs">
+            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+        <div class="content-section">
+            <div class="content-card">
+                <h2 data-i18n="article1-title">📜 Artikel 1 – Definities</h2>
+                <p data-i18n="article1-text">In deze voorwaarden wordt verstaan onder: <strong>FleetConnect</strong>: de onderneming die taxivervoer aanbiedt; <strong>Klant</strong>: de natuurlijke of rechtspersoon die een rit boekt; <strong>Rit</strong>: het vervoer van personen of goederen van een opgegeven ophaallocatie naar een bestemming; <strong>Prijs</strong>: het overeengekomen tarief, inclusief eventuele toeslagen.</p>
+
+                <h2 data-i18n="article2-title">📜 Artikel 2 – Toepasselijkheid</h2>
+                <p data-i18n="article2-text">Deze algemene voorwaarden zijn van toepassing op alle diensten die door FleetConnect worden verleend. Afwijkingen zijn alleen geldig indien schriftelijk overeengekomen.</p>
+
+                <h2 data-i18n="article3-title">📜 Artikel 3 – Totstandkoming van de overeenkomst</h2>
+                <p data-i18n="article3-text">Een overeenkomst komt tot stand op het moment dat de klant een rit boekt (via website, app of telefoon) en FleetConnect de boeking bevestigt. De klant ontvangt een bevestiging met de ritgegevens en de prijs.</p>
+
+                <h2 data-i18n="article4-title">📜 Artikel 4 – Prijzen en betaling</h2>
+                <p data-i18n="article4-text">De prijzen zijn inclusief BTW, tenzij anders vermeld. Betaling dient te geschieden vóór of direct na de rit, volgens de op de website vermelde betaalmethoden. Bij niet-tijdige betaling is FleetConnect gerechtigd wettelijke rente in rekening te brengen.</p>
+
+                <h2 data-i18n="article5-title">📜 Artikel 5 – Annulering en wijzigingen</h2>
+                <p data-i18n="article5-text">Annulering door de klant is kosteloos tot 2 uur voor de geplande ophaaltijd. Bij latere annulering of wijziging kan FleetConnect een annuleringsvergoeding in rekening brengen, afhankelijk van de reeds gemaakte kosten.</p>
+
+                <h2 data-i18n="article6-title">📜 Artikel 6 – Aansprakelijkheid</h2>
+                <p data-i18n="article6-text">FleetConnect is aansprakelijk voor schade veroorzaakt door opzet of grove nalatigheid van haar medewerkers, maar niet voor indirecte schade, gevolgschade of schade door overmacht. De aansprakelijkheid is beperkt tot het factuurbedrag van de betreffende rit.</p>
+
+                <h2 data-i18n="article7-title">📜 Artikel 7 – Verplichtingen van de klant</h2>
+                <p data-i18n="article7-text">De klant dient tijdig op de afgesproken ophaallocatie aanwezig te zijn. Het is de klant niet toegestaan om de chauffeur te instrueren in strijd met de verkeersregels of om goederen te vervoeren die gevaarlijk of verboden zijn.</p>
+
+                <h2 data-i18n="article8-title">📜 Artikel 8 – Klachten</h2>
+                <p data-i18n="article8-text">Klachten over de geleverde dienst moeten binnen 14 dagen na de rit schriftelijk worden ingediend bij FleetConnect. Wij streven ernaar om klachten binnen 14 werkdagen af te handelen.</p>
+
+                <h2 data-i18n="article9-title">📜 Artikel 9 – Toepasselijk recht en geschillen</h2>
+                <p data-i18n="article9-text">Op deze overeenkomst is het Belgische recht van toepassing. Geschillen worden voorgelegd aan de bevoegde rechter in het gerechtelijk arrondissement Brussel.</p>
+
+                <h2 data-i18n="article10-title">📜 Artikel 10 – Wijzigingen</h2>
+                <p data-i18n="article10-text">FleetConnect behoudt zich het recht voor om deze algemene voorwaarden te wijzigen. De meest recente versie is steeds te vinden op onze website. Wijzigingen worden van kracht zodra ze zijn gepubliceerd.</p>
+
+                <div class="highlight-box">
+                    <i class="fas fa-gavel"></i>
+                    <p><strong data-i18n="last-updated">Laatst bijgewerkt:</strong> <span data-i18n="update-date">29 juli 2026</span></p>
+                    <p data-i18n="highlight-text">Deze algemene voorwaarden zijn opgesteld in overeenstemming met de Belgische wetgeving en de richtlijnen van de Europese Unie.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer-dark">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Kolom 1: Brand -->
+                <div class="footer-brand">
+                    <h4 data-i18n="footer-brand-title"><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p data-i18n="footer-brand-slogan">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking" data-i18n="footer-book-now">Reserveer nu</a>
+                    <a href="/PV/index.html" data-i18n="footer-client-portal">Klantportaal</a>
+                    <a href="/partner-login" data-i18n="footer-partner-login">Partner login</a>
+                </div>
+
+                <!-- Kolom 2: Populaire steden + dropdown -->
+                <div class="footer-cities">
+                    <h4 data-i18n="footer-popular-cities">Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html" data-i18n="city-brussels">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html" data-i18n="city-zaventem">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html" data-i18n="city-antwerpen">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html" data-i18n="city-brugge">Taxi Brugge</a>
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer-other-cities-label">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <!-- Opties worden dynamisch gegenereerd via JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kolom 3: Legal -->
+                <div class="footer-legal">
+                    <h4 data-i18n="footer-legal-title">Legal</h4>
+                    <a href="/PV/PVfaq.html" data-i18n="footer-faq">FAQ</a>
+                    <a href="/PV/PVprivacy.html" data-i18n="footer-privacy">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer-cookie">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer-terms">Algemene voorwaarden</a>
+                </div>
+
+                <!-- Kolom 4: FleetConnect (Contact) -->
+                <div class="footer-partners">
+                    <h4 data-i18n="footer-contact-title">FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be" data-i18n="footer-support">Support</a>
+                    <a href="/booking#contact" data-i18n="footer-contact">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span data-i18n="footer-copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer-home-link">FleetConnect</a>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+    // ========== VERTALINGEN (inclusief alle footer- en stadsteksten) ==========
+    const translations = {
+        nl: {
+            // Broodkruimels & titels
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "Algemene Voorwaarden",
+            "page-title": "Algemene Voorwaarden",
+            "intro-text": "Lees hieronder onze algemene voorwaarden. Ze bevatten belangrijke informatie over uw rechten en plichten bij het gebruik van onze diensten. Door een rit te boeken, gaat u akkoord met deze voorwaarden.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusief",
+            "tab-prices": "Prijzen",
+            "tab-fleet": "Vloot",
+            "tab-airport": "Luchthaven",
+            "tab-business": "Zakelijk",
+            "tab-events": "Events",
+            "tab-courier": "Koerier",
+            // Artikelen
+            "article1-title": "📜 Artikel 1 – Definities",
+            "article1-text": "In deze voorwaarden wordt verstaan onder: FleetConnect: de onderneming die taxivervoer aanbiedt; Klant: de natuurlijke of rechtspersoon die een rit boekt; Rit: het vervoer van personen of goederen van een opgegeven ophaallocatie naar een bestemming; Prijs: het overeengekomen tarief, inclusief eventuele toeslagen.",
+            "article2-title": "📜 Artikel 2 – Toepasselijkheid",
+            "article2-text": "Deze algemene voorwaarden zijn van toepassing op alle diensten die door FleetConnect worden verleend. Afwijkingen zijn alleen geldig indien schriftelijk overeengekomen.",
+            "article3-title": "📜 Artikel 3 – Totstandkoming van de overeenkomst",
+            "article3-text": "Een overeenkomst komt tot stand op het moment dat de klant een rit boekt (via website, app of telefoon) en FleetConnect de boeking bevestigt. De klant ontvangt een bevestiging met de ritgegevens en de prijs.",
+            "article4-title": "📜 Artikel 4 – Prijzen en betaling",
+            "article4-text": "De prijzen zijn inclusief BTW, tenzij anders vermeld. Betaling dient te geschieden vóór of direct na de rit, volgens de op de website vermelde betaalmethoden. Bij niet-tijdige betaling is FleetConnect gerechtigd wettelijke rente in rekening te brengen.",
+            "article5-title": "📜 Artikel 5 – Annulering en wijzigingen",
+            "article5-text": "Annulering door de klant is kosteloos tot 2 uur voor de geplande ophaaltijd. Bij latere annulering of wijziging kan FleetConnect een annuleringsvergoeding in rekening brengen, afhankelijk van de reeds gemaakte kosten.",
+            "article6-title": "📜 Artikel 6 – Aansprakelijkheid",
+            "article6-text": "FleetConnect is aansprakelijk voor schade veroorzaakt door opzet of grove nalatigheid van haar medewerkers, maar niet voor indirecte schade, gevolgschade of schade door overmacht. De aansprakelijkheid is beperkt tot het factuurbedrag van de betreffende rit.",
+            "article7-title": "📜 Artikel 7 – Verplichtingen van de klant",
+            "article7-text": "De klant dient tijdig op de afgesproken ophaallocatie aanwezig te zijn. Het is de klant niet toegestaan om de chauffeur te instrueren in strijd met de verkeersregels of om goederen te vervoeren die gevaarlijk of verboden zijn.",
+            "article8-title": "📜 Artikel 8 – Klachten",
+            "article8-text": "Klachten over de geleverde dienst moeten binnen 14 dagen na de rit schriftelijk worden ingediend bij FleetConnect. Wij streven ernaar om klachten binnen 14 werkdagen af te handelen.",
+            "article9-title": "📜 Artikel 9 – Toepasselijk recht en geschillen",
+            "article9-text": "Op deze overeenkomst is het Belgische recht van toepassing. Geschillen worden voorgelegd aan de bevoegde rechter in het gerechtelijk arrondissement Brussel.",
+            "article10-title": "📜 Artikel 10 – Wijzigingen",
+            "article10-text": "FleetConnect behoudt zich het recht voor om deze algemene voorwaarden te wijzigen. De meest recente versie is steeds te vinden op onze website. Wijzigingen worden van kracht zodra ze zijn gepubliceerd.",
+            "last-updated": "Laatst bijgewerkt:",
+            "update-date": "29 juli 2026",
+            "highlight-text": "Deze algemene voorwaarden zijn opgesteld in overeenstemming met de Belgische wetgeving en de richtlijnen van de Europese Unie.",
+            // Footer - Brand kolom
+            "footer-brand-title": "FleetConnect",
+            "footer-brand-slogan": "Professioneel taxivervoer in België - Stijl, stiptheid en service.",
+            "footer-book-now": "Reserveer nu",
+            "footer-client-portal": "Klantportaal",
+            "footer-partner-login": "Partner login",
+            // Footer - Steden
+            "footer-popular-cities": "Populaire steden",
+            "city-brussels": "Taxi Brussel",
+            "city-zaventem": "Taxi Zaventem",
+            "city-antwerpen": "Taxi Antwerpen",
+            "city-brugge": "Taxi Brugge",
+            "footer-other-cities-label": "Alle andere steden:",
+            // Footer - Legal
+            "footer-legal-title": "Legal",
+            "footer-faq": "FAQ",
+            "footer-privacy": "Privacy",
+            "footer-cookie": "Cookiebeleid",
+            "footer-terms": "Algemene voorwaarden",
+            // Footer - Contact
+            "footer-contact-title": "FleetConnect",
+            "footer-support": "Support",
+            "footer-contact": "Contact",
+            // Footer bottom
+            "footer-copyright": "2026 FleetConnect -",
+            "footer-home-link": "FleetConnect",
+            // Dropdown placeholder
+            "dropdown-placeholder": "-- Kies een stad --"
+        },
+        fr: {
+            "breadcrumb-home": "Accueil",
+            "breadcrumb-current": "Conditions générales",
+            "page-title": "Conditions générales",
+            "intro-text": "Lisez ci-dessous nos conditions générales. Elles contiennent des informations importantes sur vos droits et obligations lors de l'utilisation de nos services. En réservant un trajet, vous acceptez ces conditions.",
+            "tab-home": "Accueil",
+            "tab-exclusive": "Exclusif",
+            "tab-prices": "Prix fixes",
+            "tab-fleet": "Flotte",
+            "tab-airport": "Aéroport",
+            "tab-business": "Affaires",
+            "tab-events": "Événements",
+            "tab-courier": "Messagerie",
+            "article1-title": "📜 Article 1 – Définitions",
+            "article1-text": "Dans les présentes conditions, on entend par : FleetConnect : l'entreprise proposant des services de taxi ; Client : la personne physique ou morale qui réserve un trajet ; Trajet : le transport de personnes ou de marchandises d'un lieu de prise en charge à une destination ; Prix : le tarif convenu, y compris les éventuels suppléments.",
+            "article2-title": "📜 Article 2 – Applicabilité",
+            "article2-text": "Les présentes conditions générales s'appliquent à tous les services fournis par FleetConnect. Toute dérogation n'est valable que si elle est convenue par écrit.",
+            "article3-title": "📜 Article 3 – Conclusion du contrat",
+            "article3-text": "Le contrat est conclu au moment où le client réserve un trajet (via le site web, l'application ou par téléphone) et où FleetConnect confirme la réservation. Le client reçoit une confirmation avec les détails du trajet et le prix.",
+            "article4-title": "📜 Article 4 – Prix et paiement",
+            "article4-text": "Les prix sont TTC, sauf indication contraire. Le paiement doit être effectué avant ou immédiatement après le trajet, selon les moyens de paiement indiqués sur le site. En cas de retard de paiement, FleetConnect est en droit de facturer des intérêts légaux.",
+            "article5-title": "📜 Article 5 – Annulation et modifications",
+            "article5-text": "L'annulation par le client est gratuite jusqu'à 2 heures avant l'heure de prise en charge prévue. En cas d'annulation ou de modification ultérieure, FleetConnect peut facturer une indemnité d'annulation, en fonction des frais déjà engagés.",
+            "article6-title": "📜 Article 6 – Responsabilité",
+            "article6-text": "FleetConnect est responsable des dommages causés par l'intention ou la négligence grave de ses employés, mais pas des dommages indirects, des dommages consécutifs ou des dommages dus à un cas de force majeure. La responsabilité est limitée au montant de la facture du trajet concerné.",
+            "article7-title": "📜 Article 7 – Obligations du client",
+            "article7-text": "Le client doit être présent à l'heure au lieu de prise en charge convenu. Il est interdit au client d'instruire le chauffeur en infraction avec le code de la route ou de transporter des marchandises dangereuses ou interdites.",
+            "article8-title": "📜 Article 8 – Réclamations",
+            "article8-text": "Les réclamations concernant le service fourni doivent être soumises par écrit à FleetConnect dans les 14 jours suivant le trajet. Nous nous efforçons de traiter les réclamations dans les 14 jours ouvrables.",
+            "article9-title": "📜 Article 9 – Droit applicable et litiges",
+            "article9-text": "Le droit belge s'applique à ce contrat. Les litiges sont soumis au tribunal compétent de l'arrondissement judiciaire de Bruxelles.",
+            "article10-title": "📜 Article 10 – Modifications",
+            "article10-text": "FleetConnect se réserve le droit de modifier ces conditions générales. La version la plus récente est toujours disponible sur notre site web. Les modifications entrent en vigueur dès leur publication.",
+            "last-updated": "Dernière mise à jour :",
+            "update-date": "29 juillet 2026",
+            "highlight-text": "Ces conditions générales ont été rédigées conformément à la législation belge et aux directives de l'Union européenne.",
+            "footer-brand-title": "FleetConnect",
+            "footer-brand-slogan": "Transport professionnel en Belgique - Style, ponctualité et service.",
+            "footer-book-now": "Réservez maintenant",
+            "footer-client-portal": "Portail client",
+            "footer-partner-login": "Connexion partenaire",
+            "footer-popular-cities": "Villes populaires",
+            "city-brussels": "Taxi Bruxelles",
+            "city-zaventem": "Taxi Zaventem",
+            "city-antwerpen": "Taxi Anvers",
+            "city-brugge": "Taxi Bruges",
+            "footer-other-cities-label": "Toutes les autres villes :",
+            "footer-legal-title": "Juridique",
+            "footer-faq": "FAQ",
+            "footer-privacy": "Confidentialité",
+            "footer-cookie": "Politique de cookies",
+            "footer-terms": "Conditions générales",
+            "footer-contact-title": "FleetConnect",
+            "footer-support": "Support",
+            "footer-contact": "Contact",
+            "footer-copyright": "2026 FleetConnect -",
+            "footer-home-link": "FleetConnect",
+            "dropdown-placeholder": "-- Choisissez une ville --"
+        },
+        en: {
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "Terms and Conditions",
+            "page-title": "Terms and Conditions",
+            "intro-text": "Read our terms and conditions below. They contain important information about your rights and obligations when using our services. By booking a ride, you agree to these terms.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusive",
+            "tab-prices": "Prices",
+            "tab-fleet": "Fleet",
+            "tab-airport": "Airport",
+            "tab-business": "Business",
+            "tab-events": "Events",
+            "tab-courier": "Courier",
+            "article1-title": "📜 Article 1 – Definitions",
+            "article1-text": "In these terms, the following definitions apply: FleetConnect: the company providing taxi services; Customer: the natural or legal person booking a ride; Ride: the transport of persons or goods from a designated pick-up location to a destination; Price: the agreed fare, including any surcharges.",
+            "article2-title": "📜 Article 2 – Applicability",
+            "article2-text": "These terms and conditions apply to all services provided by FleetConnect. Deviations are only valid if agreed in writing.",
+            "article3-title": "📜 Article 3 – Conclusion of the agreement",
+            "article3-text": "An agreement is concluded when the customer books a ride (via website, app or telephone) and FleetConnect confirms the booking. The customer receives a confirmation with the ride details and the price.",
+            "article4-title": "📜 Article 4 – Prices and payment",
+            "article4-text": "Prices are inclusive of VAT, unless stated otherwise. Payment must be made before or immediately after the ride, according to the payment methods listed on the website. In case of late payment, FleetConnect is entitled to charge statutory interest.",
+            "article5-title": "📜 Article 5 – Cancellation and changes",
+            "article5-text": "Cancellation by the customer is free of charge up to 2 hours before the scheduled pick-up time. In case of later cancellation or change, FleetConnect may charge a cancellation fee, depending on the costs already incurred.",
+            "article6-title": "📜 Article 6 – Liability",
+            "article6-text": "FleetConnect is liable for damage caused by intent or gross negligence of its employees, but not for indirect damage, consequential damage or damage due to force majeure. Liability is limited to the invoice amount of the relevant ride.",
+            "article7-title": "📜 Article 7 – Obligations of the customer",
+            "article7-text": "The customer must be present on time at the agreed pick-up location. The customer is not allowed to instruct the driver in violation of traffic rules or to transport dangerous or prohibited goods.",
+            "article8-title": "📜 Article 8 – Complaints",
+            "article8-text": "Complaints about the service provided must be submitted in writing to FleetConnect within 14 days after the ride. We aim to handle complaints within 14 working days.",
+            "article9-title": "📜 Article 9 – Applicable law and disputes",
+            "article9-text": "Belgian law applies to this agreement. Disputes will be submitted to the competent court in the judicial district of Brussels.",
+            "article10-title": "📜 Article 10 – Changes",
+            "article10-text": "FleetConnect reserves the right to change these terms and conditions. The most recent version is always available on our website. Changes take effect as soon as they are published.",
+            "last-updated": "Last updated:",
+            "update-date": "July 29, 2026",
+            "highlight-text": "These terms and conditions have been drawn up in accordance with Belgian law and the guidelines of the European Union.",
+            "footer-brand-title": "FleetConnect",
+            "footer-brand-slogan": "Professional taxi transport in Belgium - Style, punctuality and service.",
+            "footer-book-now": "Book now",
+            "footer-client-portal": "Client portal",
+            "footer-partner-login": "Partner login",
+            "footer-popular-cities": "Popular cities",
+            "city-brussels": "Taxi Brussels",
+            "city-zaventem": "Taxi Zaventem",
+            "city-antwerpen": "Taxi Antwerp",
+            "city-brugge": "Taxi Bruges",
+            "footer-other-cities-label": "All other cities:",
+            "footer-legal-title": "Legal",
+            "footer-faq": "FAQ",
+            "footer-privacy": "Privacy",
+            "footer-cookie": "Cookie Policy",
+            "footer-terms": "Terms & Conditions",
+            "footer-contact-title": "FleetConnect",
+            "footer-support": "Support",
+            "footer-contact": "Contact",
+            "footer-copyright": "2026 FleetConnect -",
+            "footer-home-link": "FleetConnect",
+            "dropdown-placeholder": "-- Choose a city --"
+        }
+    };
+
+    // ========== STEDENLIJST (URL's en sleutels) ==========
+    const cities = [
+        { key: "city-aalst", url: "/cities/taxi-aalst.html" },
+        { key: "city-asse", url: "/cities/taxi-asse.html" },
+        { key: "city-dilbeek", url: "/cities/taxi-dilbeek.html" },
+        { key: "city-doornik", url: "/cities/taxi-doornik.html" },
+        { key: "city-genk", url: "/cities/taxi-genk.html" },
+        { key: "city-gent", url: "/cities/taxi-gent.html" },
+        { key: "city-grimbergen", url: "/cities/taxi-grimbergen.html" },
+        { key: "city-halle", url: "/cities/taxi-halle.html" },
+        { key: "city-hasselt", url: "/cities/taxi-hasselt.html" },
+        { key: "city-kortenberg", url: "/cities/taxi-kortenberg.html" },
+        { key: "city-kortrijk", url: "/cities/taxi-kortrijk.html" },
+        { key: "city-leuven", url: "/cities/taxi-leuven.html" },
+        { key: "city-luik", url: "/cities/taxi-luik.html" },
+        { key: "city-machelen", url: "/cities/taxi-machelen.html" },
+        { key: "city-mechelen", url: "/cities/taxi-mechelen.html" },
+        { key: "city-oostende", url: "/cities/taxi-oostende.html" },
+        { key: "city-overijse", url: "/cities/taxi-overijse.html" },
+        { key: "city-sint-niklaas", url: "/cities/taxi-sint-niklaas.html" },
+        { key: "city-steenokkerzeel", url: "/cities/taxi-steenokkerzeel.html" },
+        { key: "city-tervuren", url: "/cities/taxi-tervuren.html" },
+        { key: "city-turnhout", url: "/cities/taxi-turnhout.html" },
+        { key: "city-vilvoorde", url: "/cities/taxi-vilvoorde.html" },
+        { key: "city-waterloo", url: "/cities/taxi-waterloo.html" },
+        { key: "city-zemst", url: "/cities/taxi-zemst.html" }
+    ];
+
+    // Vertalingen voor de stadnamen (de sleutels zijn dezelfde als in de city-objecten)
+    // We voegen ze toe aan de bestaande translations per taal.
+    // In de functie setLanguage vullen we de dropdown dynamisch.
+
+    // ========== TAAL FUNCTIES ==========
+    function setLanguage(lang) {
+        // 1. Vertaal alle elementen met data-i18n (behalve de dropdown-opties, die doen we apart)
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key] !== undefined) {
+                // Als het element een input of textarea is, zet placeholder, anders innerHTML
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+                    el.placeholder = translations[lang][key];
+                } else {
+                    el.innerHTML = translations[lang][key];
+                }
+            }
+        });
+
+        // 2. Vul de dropdown met de stadnamen in de gekozen taal
+        populateDropdown(lang);
+
+        // 3. Update de actieve taal-knop
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+        });
+
+        // 4. Sla de voorkeur op
+        localStorage.setItem('preferredLanguage', lang);
+        document.documentElement.lang = lang;
+    }
+
+    function populateDropdown(lang) {
+        const dropdown = document.getElementById('stad-dropdown');
+        if (!dropdown) return;
+
+        // Bepaal de placeholder tekst voor de geselecteerde taal
+        const placeholder = translations[lang]['dropdown-placeholder'] || '-- Kies een stad --';
+
+        // Bouw de opties
+        let optionsHtml = `<option value="">${placeholder}</option>`;
+        cities.forEach(city => {
+            // Haal de vertaalde naam op uit translations[lang][city.key]
+            const cityName = translations[lang][city.key] || city.key;
+            optionsHtml += `<option value="${city.url}">${cityName}</option>`;
+        });
+        dropdown.innerHTML = optionsHtml;
+    }
+
+    function getInitialLanguage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam && ['nl','fr','en'].includes(langParam)) return langParam;
+        const saved = localStorage.getItem('preferredLanguage');
+        if (saved && ['nl','fr','en'].includes(saved)) return saved;
+        return 'nl';
+    }
+
+    // ========== EVENTS ==========
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
+            const url = new URL(window.location.href);
+            url.searchParams.delete('lang');
+            window.history.replaceState({}, '', url);
+        });
+    });
+
+    // ========== INIT ==========
+    const initialLang = getInitialLanguage();
+    setLanguage(initialLang);
+
+    // ========== (OPTIONEEL) LEaFLET KAART – indien gewenst kunt u de code hieronder activeren ==========
+    // (De huidige pagina gebruikt een statische achtergrondafbeelding, maar u kunt Leaflet inschakelen door de opmerkingen te verwijderen)
+    /*
+    (function initMap() {
+        try {
+            if (typeof L === 'undefined') {
+                console.warn('Leaflet not loaded.');
+                return;
+            }
+            const mapContainer = document.getElementById('background-map');
+            if (!mapContainer) return;
+            const bgMap = L.map(mapContainer, {
+                center: [50.8503, 4.3517],
+                zoom: 7,
+                zoomControl: false,
+                dragging: false,
+                touchZoom: false,
+                doubleClickZoom: false,
+                scrollWheelZoom: false,
+                boxZoom: false,
+                keyboard: false,
+                attributionControl: true
+            });
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(bgMap);
+            setTimeout(() => bgMap.invalidateSize(), 200);
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => bgMap.invalidateSize(), 100);
+            });
+        } catch (e) {
+            console.warn('Leaflet fallback:', e.message);
+            document.getElementById('background-map').style.backgroundImage = 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
+            document.getElementById('background-map').style.backgroundSize = 'cover';
+            document.getElementById('background-map').style.backgroundPosition = 'center';
+        }
+    })();
+    */
+
+    console.log('FleetConnect - Algemene Voorwaarden pagina geladen (volledig vertaalbaar)');
+</script>
+</body>
+</html>
