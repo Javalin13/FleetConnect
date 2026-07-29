@@ -212,7 +212,7 @@
         </div>
 
         <div id="page1" class="carousel-page active-page">
-            <h1>Ritgegevens</h1><div class="sub">België - Minimumtarief €15 | Berekend per km voor lange ritten</div>
+            <h1>Ritgegevens</h1><div class="sub">België - Minimumtarief €30 | Berekend per km voor lange ritten</div>
             <div class="sub" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;"><span>Heeft u een account? Gebruik uw profiel om ophaaladres automatisch in te vullen en ritten te koppelen.</span><a href="/PV/index.html" style="font-weight:800; color:var(--primary);">Inloggen / registreren</a></div>
             <div class="field"><label> Ophaaladres <span class="required-star">*</span></label><input type="text" id="pickupInput" placeholder="bv. Brussels Airport" autocomplete="off" inputmode="text"></div>
             <div class="field"><label> Afzetadres <span class="required-star">*</span></label><input type="text" id="dropoffInput" placeholder="bv. Grand Place Brussels" autocomplete="off" inputmode="text"></div>
@@ -422,7 +422,7 @@
     };
 
     const FLEETCONNECT_PRICING = {
-        minimumTarief: 15.00,
+        minimumTarief: 30.00,
         prijsPerKm: 1.50,
         regioRadius: 15,
         luchthavenPrijs: 35.00
@@ -826,8 +826,8 @@
         if (isManualRouteFallback()) {
             return { 
                 distanceKm: 0, 
-                rawAmount: 15.00,
-                totalAmount: 15.00,
+                rawAmount: 30.00,
+                totalAmount: 30.00,
                 minimumApplied: true, 
                 manualRouteRequired: true,
                 prijsResult: null,
@@ -874,7 +874,7 @@
         if (fare.prijsResult?.isHotelKorting) {
             kortingNote = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
         } else if (fare.minimumApplied) {
-            kortingNote = `<br><small>Minimumtarief €15 - Regio Zaventem</small>`;
+            kortingNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
         }
         
         // TOTAL DISPLAY: ALLEEN DE PRIJS, GEEN KORTINGSTEKST
@@ -908,7 +908,7 @@
             if (fare.prijsResult?.isHotelKorting) {
                 extraText = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
             } else if (fare.minimumApplied) {
-                extraText = `<br><small>Minimumtarief €15 - Regio Zaventem</small>`;
+                extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
             }
             if (fare.extraKosten && fare.extraKosten.totaal > 0) {
                 extraText += `<br><small>+ Extra opties: ${fare.extraKosten.lijst.join(', ')}</small>`;
@@ -1422,7 +1422,7 @@
     });
 
     console.log("FleetConnect - Alles geladen!");
-    console.log("FleetConnect Prijsformule: Minimum €15 | Regio-radius: 15km | €1,50/km");
+    console.log("FleetConnect Prijsformule: Minimum €30 | Regio-radius: 15km | €1,50/km");
     console.log(`Hotelkorting actief voor: ${HOTEL_ADRES}`);
     console.log("  - Hotel → Luchthaven: €30 - €5 = €25 (enkele rit)");
     console.log("  - Luchthaven → Hotel: €35 - €5 = €30 (enkele rit)");
