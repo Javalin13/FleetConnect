@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Vilvoorde – Historische stad aan het Zeekanaal</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Vilvoorde. Vaste prijs €1,50/km. Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Antwerpen (ANR), Lille (LIL), Eindhoven (EIN), Amsterdam (AMS). 24/7 beschikbaar.">
+    <title>FleetConnect | Taxi Vilvoorde – Historische stad aan de Zenne & luchthaventransfers</title>
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Vilvoorde. Vaste prijs €1,50/km (min. €30). Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Deurne (ANR), Eindhoven, Amsterdam, Lille. 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* --- Alle stijlen zijn identiek aan de template --- */
         *{margin:0;padding:0;box-sizing:border-box}
-        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
+        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1513639776629-7b61b0a6b1b5?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
         :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
         body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
         .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
@@ -31,6 +32,7 @@
         .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
         .login-btn:hover{opacity:0.9}
         
+        /* ========== HERO SECTIE ========== */
         .hero{padding:80px 0 40px;text-align:center}
         .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
         .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
@@ -64,10 +66,12 @@
         .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
         .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
         
+        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
         .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
         .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
         .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
         
+        /* ========== EXTRA OPTIES LIJST ========== */
         .extra-options-list{list-style:none;margin:0;padding:0}
         .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
         .extra-options-list li:last-child{border-bottom:none}
@@ -77,6 +81,7 @@
         .extra-options-list li strong{min-width:120px}
         .extra-options-list li span{color:var(--text-light)}
         
+        /* ========== FOOTER - UNIFORM BLAUW ========== */
         .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
         .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
@@ -84,6 +89,7 @@
         .footer-grid a:hover{color:var(--primary);text-decoration:underline}
         .footer-brand p{color:#e0edf5;line-height:1.8}
         
+        /* ========== DROPDOWN STIJLEN ========== */
         .footer-city-select {
             background: #1a2f3f;
             color: #e0edf5;
@@ -111,6 +117,7 @@
         .footer-bottom a{color:var(--primary);text-decoration:none}
         .footer-bottom a:hover{text-decoration:underline}
         
+        /* ========== RESPONSIVE ========== */
         @media (max-width:800px){
             .hero-card{padding:30px 20px}
             .hero-card h1{font-size:2rem}
@@ -192,7 +199,7 @@
                 </p>
                 <div style="height:20px;"></div>
                 <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
-                    <strong>€1,50/km • Luchthaventransfers • Meertalige chauffeurs</strong>
+                    <strong>€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs</strong>
                 </p>
                 <div style="height:30px;"></div>
                 <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
@@ -205,20 +212,20 @@
     <div class="container">
         <!-- Blok 1: Introductie Vilvoorde -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Vilvoorde – Historische stad aan het Zeekanaal</h2>
-            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Vilvoorde is een stad in de provincie Vlaams-Brabant, gelegen aan het <strong>Zeekanaal Brussel‑Schelde</strong>, vlakbij Brussel. De stad heeft een rijke geschiedenis en staat bekend om haar <strong>Kasteel van Vilvoorde</strong> (ook wel de "Vilvoordse Vesting" genoemd), de gotische <strong>Onze‑Lieve‑Vrouwekerk</strong> en het <strong>stadhuis</strong> op de <strong>Grote Markt</strong>. Vilvoorde was vroeger een belangrijk industrieel centrum, maar heeft zich de laatste jaren ontwikkeld tot een moderne, groene stad met veel aandacht voor cultuur en levenskwaliteit.</p>
-            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Dankzij de uitstekende bereikbaarheid via de <strong>E19</strong> en de <strong>ring rond Brussel</strong> is Vilvoorde een ideale woonplaats voor pendelaars naar Brussel, Antwerpen en Mechelen. De nabijheid van de luchthaven van Zaventem en de internationale treinverbindingen maken het een strategische locatie voor zakelijke reizigers. De stad organiseert jaarlijks tal van evenementen, waaronder de <strong>Vilvoorde Kermis</strong>, de <strong>Kerstmarkt</strong> en diverse <strong>culturele festivals</strong> in het <strong>Cultuurcentrum Vilvoorde</strong>.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen</strong> in Vilvoorde. Onze Mercedes‑, BMW‑ en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een professionele ontvangst van nationale en internationale gasten.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Vilvoorde – Historische stad aan de Zenne & Groene gordel</h2>
+            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Vilvoorde is een stad met een rijke geschiedenis, gelegen in de provincie Vlaams-Brabant aan de rivier de <strong>Zenne</strong>. De stad staat bekend om haar middeleeuwse <strong>Belfort</strong> (UNESCO Werelderfgoed), de <strong>Onze-Lieve-Vrouwekerk</strong> en het <strong>Kasteel van Vilvoorde</strong>. Vilvoorde was ooit een belangrijke <strong>industriestad</strong> en is vandaag de dag een groene en levendige stad in de <strong>Groene Gordel</strong> rond Brussel.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">De stad heeft een economisch herstel gekend met sterke sectoren in <strong>logistiek, handel en diensten</strong>. De nabijheid van Brussel, de luchthaven Zaventem en de E19/E40 maken Vilvoorde tot een strategische locatie voor bedrijven en pendelaars. Ook het <strong>Domein van de Drie Fonteinen</strong> en de <strong>Bospark</strong> bieden tal van recreatiemogelijkheden.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen</strong> in Vilvoorde. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.</p>
         </div>
 
         <!-- Blok 2: Evenementen en zakenwijken -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Vilvoorde</h2>
-            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Vilvoorde heeft een gevarieerd evenementenaanbod. Jaarlijkse hoogtepunten zijn de <strong>Vilvoorde Kermis</strong> in juli, de gezellige <strong>Kerstmarkt</strong> op de Grote Markt, de <strong>Historische stoet</strong> rond het Kasteel en diverse <strong>culturele festivals</strong> in het <strong>Cultuurcentrum Vilvoorde</strong>. Ook het <strong>Kasteel</strong> en de <strong>Onze‑Lieve‑Vrouwekerk</strong> worden regelmatig gebruikt als decor voor concerten en tentoonstellingen.</p>
-            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Vilvoorde‑Noord</strong>, de <strong>Kantoorzone langs de E19</strong> en het <strong>Business Park Vilvoorde</strong>. Het <strong>Kasteel van Vilvoorde</strong> en het <strong>Cultuurcentrum</strong> zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.</p>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Vilvoorde heeft een levendige evenementenkalender. Jaarlijkse hoogtepunten zijn de <strong>Vilvoordse Kermis</strong>, het <strong>Zomerfestival</strong> aan de Zenne, de gezellige <strong>Kerstmarkt</strong> op de Grote Markt en het <strong>Cultuurfestival</strong> in het <strong>CC Het Bolwerk</strong>. Ook de <strong>Bosparkconcerten</strong> en de <strong>Stadsfeesten</strong> trekken een breed publiek.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Vilvoorde-Noord</strong>, de <strong>Kantoorzone rond het station</strong> en het <strong>Businesspark De Zenne</strong>. Het <strong>Congrescentrum van de Stad</strong> en de <strong>Evenementenhal Vilvoorde</strong> zijn populaire locaties voor seminars, beurzen en bedrijfsevents.</p>
         </div>
 
-        <!-- ========== Luchthavenroutes - 6 luchthavens, aangepaste prijzen ========== -->
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
         <h2 class="section-title" data-i18n="routes_title">
             <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
             Luchthaventransfers vanuit Vilvoorde
@@ -232,28 +239,28 @@
                 <h3 data-i18n="route1_title">Vilvoorde → Zaventem</h3>
                 <span class="route-airport-code">BRU</span>
                 <div class="route-price">€30,00</div>
-                <p data-i18n="route1_desc">10 km · ±15 min · minimumtarief</p>
+                <p data-i18n="route1_desc">12 km · ±15 min · minimumtarief</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route2_title">Vilvoorde → Charleroi</h3>
                 <span class="route-airport-code">CRL</span>
-                <div class="route-price">€105,00</div>
-                <p data-i18n="route2_desc">70 km · ±1u 00 min · vaste prijs</p>
+                <div class="route-price">€90,00</div>
+                <p data-i18n="route2_desc">60 km · ±55 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
-                <h3 data-i18n="route3_title">Vilvoorde → Antwerpen</h3>
+                <h3 data-i18n="route3_title">Vilvoorde → Deurne</h3>
                 <span class="route-airport-code">ANR</span>
-                <div class="route-price">€52,50</div>
-                <p data-i18n="route3_desc">35 km · ±30 min · vaste prijs</p>
+                <div class="route-price">€45,00</div>
+                <p data-i18n="route3_desc">30 km · ±35 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route4_title">Vilvoorde → Lille</h3>
                 <span class="route-airport-code">LIL</span>
-                <div class="route-price">€165,00</div>
-                <p data-i18n="route4_desc">110 km · ±1u 15 min · vaste prijs</p>
+                <div class="route-price">€180,00</div>
+                <p data-i18n="route4_desc">120 km · ±1u 15 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
@@ -266,8 +273,8 @@
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route6_title">Vilvoorde → Amsterdam Schiphol</h3>
                 <span class="route-airport-code">AMS</span>
-                <div class="route-price">€255,00</div>
-                <p data-i18n="route6_desc">170 km · ±1u 45 min · vaste prijs</p>
+                <div class="route-price">€315,00</div>
+                <p data-i18n="route6_desc">210 km · ±2u 15 min · vaste prijs</p>
             </div>
         </div>
 
@@ -285,7 +292,7 @@
                 <li>
                     <i class="fas fa-star"></i>
                     <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
-                    <span data-i18n="extras_exclusive_desc">– Mercedes E‑Klasse / BMW 5 Serie</span>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
                     <span class="price-tag">+€15,00</span>
                 </li>
                 <li>
@@ -313,29 +320,29 @@
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
                 <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
-                Ook in Vilvoorde
+                Ook binnen Vilvoorde
             </h2>
             <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Vilvoorde en de regio. Enkele voorbeelden:</p>
             <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-landmark" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_kasteel">Station → Kasteel van Vilvoorde</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kasteel_desc">Vanaf €30,00 · 1,5 km</p>
+                    <i class="fas fa-monument" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_belfort">Belfort</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_belfort_desc">Vanaf €30,00 · 1-2 km</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-church" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_kerk">Station → Onze‑Lieve‑Vrouwekerk</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kerk_desc">Vanaf €30,00 · 1 km</p>
+                    <i class="fas fa-tree" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_drie_fonteinen">Drie Fonteinen</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_drie_fonteinen_desc">Vanaf €30,00 · 3-4 km</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Vilvoorde → Brussel</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€30,00 · 10 km</p>
+                    <i class="fas fa-castle" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_kasteel">Kasteel Vilvoorde</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kasteel_desc">Vanaf €30,00 · 2-3 km</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_leuven">Vilvoorde → Leuven</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_leuven_desc">€30,00 · 25 km</p>
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Brussel</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€30,00 · 15 km</p>
                 </div>
             </div>
             <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
@@ -347,52 +354,51 @@
         <!-- ========== Internationaal vervoer ========== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Vilvoorde</h3>
-            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Vilvoorde, gelegen aan de E19 en vlakbij Brussel, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
             <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±170 km – <strong>€255</strong></li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±310 km – <strong>€465</strong></li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR) – Airport:</strong> ±110 km – <strong>€165</strong></li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL) – Airport:</strong> ±90 km – <strong>€135</strong></li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±130 km – <strong>€195</strong></li>
-                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±140 km – <strong>€210</strong></li>
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±210 km – <strong>€315</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±170 km – <strong>€255</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – <strong>€480</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
                 <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lon">Londen (UK) – via Eurotunnel:</strong> ±380 km – <strong>€570</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
                 <div class="service-point"><i class="fas fa-file-contract"></i><h4 data-i18n="service2_title">Documentatie</h4><p data-i18n="service2_desc">Alle papieren voor grensoverschrijdend vervoer.</p></div>
                 <div class="service-point"><i class="fas fa-language"></i><h4 data-i18n="service3_title">Meertalige chauffeurs</h4><p data-i18n="service3_desc">NL, FR, EN, DE.</p></div>
-                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24‑48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
+                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24-48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
             </div>
         </div>
 
         <!-- ========== Waarom FleetConnect - UNIFORM ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Vilvoorde?</h2>
         <div class="features-grid">
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Vilvoorde en de omliggende snelwegen (E19, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Vilvoorde en de omliggende snelwegen (E19, E40) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
             
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
             
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Vilvoorde‑Zaventem) hanteren we een all‑in vast tarief. Transparant en eerlijk.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Vilvoorde-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
             
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
         <!-- Zakelijk & hotelvervoer -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk, hotel‑ en luchthavenvervoer op maat</h2>
-            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Vilvoorde, waaronder <strong>Hotel Vilvoorde</strong>, <strong>B&B De Vesting</strong>, <strong>Van der Valk Vilvoorde</strong> en <strong>ibis Vilvoorde</strong>. Voor congressen en zakelijke evenementen werken wij samen met het <strong>Cultuurcentrum Vilvoorde</strong>, het <strong>Kasteel van Vilvoorde</strong> en het <strong>Business Park Vilvoorde</strong>. Ook bedrijven in de logistiek, technologie en dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Vilvoorde, waaronder <strong>Hotel BLOOM</strong>, <strong>Van der Valk Vilvoorde</strong>, <strong>B&B De Vijvers</strong> en <strong>ibis Vilvoorde</strong>. Voor congressen en zakelijke evenementen werken wij samen met <strong>CC Het Bolwerk</strong>, de <strong>Evenementenhal Vilvoorde</strong> en het <strong>Congrescentrum van de Stad</strong>. Ook bedrijven in de logistieke sector, handel en de dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
         </div>
 
         <!-- Extra blok: cultuur en bezienswaardigheden -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Vilvoorde met FleetConnect</h2>
-            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek het <strong>Kasteel van Vilvoorde</strong> en wandel door de <strong>Kasteeltuinen</strong> met zicht op het Zeekanaal. Bewonder de gotische <strong>Onze‑Lieve‑Vrouwekerk</strong> en de gezellige <strong>Grote Markt</strong> met zijn terrassen. Ontdek de <strong>Hanssenspark</strong> of maak een wandeling langs het <strong>Zeekanaal</strong>. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een <strong>Meet & Greet</strong> op de luchthaven, inclusief bordje met uw naam.</p>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek het <strong>Belfort</strong>, de <strong>Onze-Lieve-Vrouwekerk</strong> en het <strong>Kasteel van Vilvoorde</strong>. Ook een wandeling in het <strong>Domein van de Drie Fonteinen</strong> of langs de <strong>Zenne</strong> is een aanrader. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.</p>
             <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
         </div>
 
         <!-- CTA -->
         <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
-            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze luchthaventransfer of rit in Vilvoorde?</h2>
+            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Vilvoorde of naar het buitenland?</h2>
             <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
             <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
         </div>
@@ -405,7 +411,7 @@
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
                     <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E‑mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
                     <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32494624429" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
@@ -414,57 +420,74 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – UNIFORM BLAUW + VERTAALBARE DROPDOWN             -->
+    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
-                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
-                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België – Stijl, stiptheid en service.</p>
-                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
-                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
-                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
                 </div>
 
-                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
-                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
-                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
-                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
-                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
-                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
-
-                    <!-- Label en dropdown voor overige steden - wordt dynamisch gevuld -->
+                    <h4>Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
                     <div style="margin-top: 16px;">
-                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
                         <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
-                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
-                    <h4 data-i18n="footer_legal">Legal</h4>
-                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
-                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
-                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
-                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                 </div>
 
-                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
-                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
-                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
-                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
                 </div>
             </div>
 
-            <!-- Footer bottom -->
             <div class="footer-bottom">
-                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
+                2026 FleetConnect - <a href="/">FleetConnect</a>
             </div>
         </div>
     </footer>
@@ -478,105 +501,91 @@
     // ============================================================
     const translations = {
         nl: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Vilvoorde",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
-            hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
+            hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
             hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
-            // Intro
-            intro_title: "Vilvoorde – Historische stad aan het Zeekanaal",
-            intro_p1: "Vilvoorde is een stad in de provincie Vlaams-Brabant, gelegen aan het Zeekanaal Brussel‑Schelde, vlakbij Brussel. De stad heeft een rijke geschiedenis en staat bekend om haar Kasteel van Vilvoorde (ook wel de 'Vilvoordse Vesting' genoemd), de gotische Onze‑Lieve‑Vrouwekerk en het stadhuis op de Grote Markt. Vilvoorde was vroeger een belangrijk industrieel centrum, maar heeft zich de laatste jaren ontwikkeld tot een moderne, groene stad met veel aandacht voor cultuur en levenskwaliteit.",
-            intro_p2: "Dankzij de uitstekende bereikbaarheid via de E19 en de ring rond Brussel is Vilvoorde een ideale woonplaats voor pendelaars naar Brussel, Antwerpen en Mechelen. De nabijheid van de luchthaven van Zaventem en de internationale treinverbindingen maken het een strategische locatie voor zakelijke reizigers. De stad organiseert jaarlijks tal van evenementen, waaronder de Vilvoorde Kermis, de Kerstmarkt en diverse culturele festivals in het Cultuurcentrum Vilvoorde.",
-            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen in Vilvoorde. Onze Mercedes‑, BMW‑ en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een professionele ontvangst van nationale en internationale gasten.",
-            // Events
+            intro_title: "Vilvoorde – Historische stad aan de Zenne & Groene gordel",
+            intro_p1: "Vilvoorde is een stad met een rijke geschiedenis, gelegen in de provincie Vlaams-Brabant aan de rivier de Zenne. De stad staat bekend om haar middeleeuwse Belfort (UNESCO Werelderfgoed), de Onze-Lieve-Vrouwekerk en het Kasteel van Vilvoorde. Vilvoorde was ooit een belangrijke industriestad en is vandaag de dag een groene en levendige stad in de Groene Gordel rond Brussel.",
+            intro_p2: "De stad heeft een economisch herstel gekend met sterke sectoren in logistiek, handel en diensten. De nabijheid van Brussel, de luchthaven Zaventem en de E19/E40 maken Vilvoorde tot een strategische locatie voor bedrijven en pendelaars. Ook het Domein van de Drie Fonteinen en de Bospark bieden tal van recreatiemogelijkheden.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen in Vilvoorde. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.",
             events_title: "Evenementen & zakenwijken in Vilvoorde",
-            events_p1: "Vilvoorde heeft een gevarieerd evenementenaanbod. Jaarlijkse hoogtepunten zijn de Vilvoorde Kermis in juli, de gezellige Kerstmarkt op de Grote Markt, de Historische stoet rond het Kasteel en diverse culturele festivals in het Cultuurcentrum Vilvoorde. Ook het Kasteel en de Onze‑Lieve‑Vrouwekerk worden regelmatig gebruikt als decor voor concerten en tentoonstellingen.",
-            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Vilvoorde‑Noord, de Kantoorzone langs de E19 en het Business Park Vilvoorde. Het Kasteel van Vilvoorde en het Cultuurcentrum zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.",
-            // Routes
+            events_p1: "Vilvoorde heeft een levendige evenementenkalender. Jaarlijkse hoogtepunten zijn de Vilvoordse Kermis, het Zomerfestival aan de Zenne, de gezellige Kerstmarkt op de Grote Markt en het Cultuurfestival in het CC Het Bolwerk. Ook de Bosparkconcerten en de Stadsfeesten trekken een breed publiek.",
+            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Vilvoorde-Noord, de Kantoorzone rond het station en het Businesspark De Zenne. Het Congrescentrum van de Stad en de Evenementenhal Vilvoorde zijn populaire locaties voor seminars, beurzen en bedrijfsevents.",
             routes_title: "✈️ Luchthaventransfers vanuit Vilvoorde",
             routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             route1_title: "Vilvoorde → Zaventem",
-            route1_desc: "10 km · ±15 min · minimumtarief",
+            route1_desc: "12 km · ±15 min · minimumtarief",
             route2_title: "Vilvoorde → Charleroi",
-            route2_desc: "70 km · ±1u 00 min · vaste prijs",
-            route3_title: "Vilvoorde → Antwerpen",
-            route3_desc: "35 km · ±30 min · vaste prijs",
+            route2_desc: "60 km · ±55 min · vaste prijs",
+            route3_title: "Vilvoorde → Deurne",
+            route3_desc: "30 km · ±35 min · vaste prijs",
             route4_title: "Vilvoorde → Lille",
-            route4_desc: "110 km · ±1u 15 min · vaste prijs",
+            route4_desc: "120 km · ±1u 15 min · vaste prijs",
             route5_title: "Vilvoorde → Eindhoven",
             route5_desc: "90 km · ±1u 05 min · vaste prijs",
             route6_title: "Vilvoorde → Amsterdam Schiphol",
-            route6_desc: "170 km · ±1u 45 min · vaste prijs",
-            // Extra opties
+            route6_desc: "210 km · ±2u 15 min · vaste prijs",
             extras_title: "➕ Extra opties – transparante meerprijzen",
             extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
             extras_break: "Break model",
             extras_break_desc: "– Meer bagageruimte",
             extras_exclusive: "Exclusieve wagen",
-            extras_exclusive_desc: "– Mercedes E‑Klasse / BMW 5 Serie",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
             extras_van: "Mini Van",
             extras_van_desc: "– Tot 8 personen",
             extras_meet: "Meet & Greet",
             extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
-            // Lokale bestemmingen
-            local_title: "📍 Ook in Vilvoorde",
+            local_title: "📍 Ook binnen Vilvoorde",
             local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Vilvoorde en de regio. Enkele voorbeelden:",
-            local_kasteel: "Station → Kasteel van Vilvoorde",
-            local_kasteel_desc: "Vanaf €30,00 · 1,5 km",
-            local_kerk: "Station → Onze‑Lieve‑Vrouwekerk",
-            local_kerk_desc: "Vanaf €30,00 · 1 km",
-            local_brussel: "Vilvoorde → Brussel",
-            local_brussel_desc: "€30,00 · 10 km",
-            local_leuven: "Vilvoorde → Leuven",
-            local_leuven_desc: "€30,00 · 25 km",
+            local_belfort: "Belfort",
+            local_belfort_desc: "Vanaf €30,00 · 1-2 km",
+            local_drie_fonteinen: "Drie Fonteinen",
+            local_drie_fonteinen_desc: "Vanaf €30,00 · 3-4 km",
+            local_kasteel: "Kasteel Vilvoorde",
+            local_kasteel_desc: "Vanaf €30,00 · 2-3 km",
+            local_brussel: "Brussel",
+            local_brussel_desc: "€30,00 · 15 km",
             local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
-            // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Vilvoorde",
-            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Vilvoorde, gelegen aan de E19 en vlakbij Brussel, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
             int_ams: "Amsterdam (NL) – Schiphol",
-            int_par: "Parijs (FR)",
-            int_lil: "Lille (Rijsel, FR) – Airport",
-            int_ein: "Eindhoven (NL) – Airport",
             int_rot: "Rotterdam (NL)",
-            int_aac: "Aken (DE)",
+            int_par: "Parijs (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
             int_lux: "Luxemburg (LU)",
+            int_lon: "Londen (UK) – via Eurotunnel",
             service1_title: "Vluchtmonitoring",
             service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
             service2_title: "Documentatie",
             service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
             service3_title: "Meertalige chauffeurs",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24‑48u vooruit",
+            service4_title: "Reserveer 24-48u vooruit",
             service4_desc: "Internationale ritten plannen.",
-            // Why
             why_title: "Waarom FleetConnect in Vilvoorde?",
             why1_title: "Stipt & punctueel",
-            why1_desc: "Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Vilvoorde en de omliggende snelwegen (E19, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Vilvoorde en de omliggende snelwegen (E19, E40) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
             why3_title: "Vaste prijzen",
-            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Vilvoorde‑Zaventem) hanteren we een all‑in vast tarief. Transparant en eerlijk.",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Vilvoorde-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
             why4_title: "24/7 service",
             why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
-            // Business
-            business_title: "Zakelijk, hotel‑ en luchthavenvervoer op maat",
-            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Vilvoorde, waaronder Hotel Vilvoorde, B&B De Vesting, Van der Valk Vilvoorde en ibis Vilvoorde. Voor congressen en zakelijke evenementen werken wij samen met het Cultuurcentrum Vilvoorde, het Kasteel van Vilvoorde en het Business Park Vilvoorde. Ook bedrijven in de logistiek, technologie en dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.",
-            // Discover
+            business_title: "Zakelijk & hotelvervoer op maat",
+            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Vilvoorde, waaronder Hotel BLOOM, Van der Valk Vilvoorde, B&B De Vijvers en ibis Vilvoorde. Voor congressen en zakelijke evenementen werken wij samen met CC Het Bolwerk, de Evenementenhal Vilvoorde en het Congrescentrum van de Stad. Ook bedrijven in de logistieke sector, handel en de dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
             discover_title: "Ontdek Vilvoorde met FleetConnect",
-            discover_p1: "Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek het Kasteel van Vilvoorde en wandel door de Kasteeltuinen met zicht op het Zeekanaal. Bewonder de gotische Onze‑Lieve‑Vrouwekerk en de gezellige Grote Markt met zijn terrassen. Ontdek het Hanssenspark of maak een wandeling langs het Zeekanaal. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            discover_p1: "Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek het Belfort, de Onze-Lieve-Vrouwekerk en het Kasteel van Vilvoorde. Ook een wandeling in het Domein van de Drie Fonteinen of langs de Zenne is een aanrader. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
-            // CTA
-            cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Vilvoorde?",
+            cta_title: "Klaar voor een zorgeloze rit in Vilvoorde of naar het buitenland?",
             cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
-            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            // Sidebar nav
             language_label: "Taal / Language",
             nav_home: "Home",
             nav_exclusive: "Exclusieve service",
@@ -588,86 +597,34 @@
             nav_courier: "Koeriersdienst",
             nav_contact: "Contact",
             nav_book: "Reserveer nu",
-            login: "LOGIN",
-
-            // ===== FOOTER VERTALINGEN (NL) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_book_now: "Reserveer nu",
-            footer_portal: "Klantportaal",
-            footer_partner: "Partner login",
-            footer_popular_cities: "Populaire steden",
-            footer_city_brussels: "Taxi Brussel",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Antwerpen",
-            footer_city_brugge: "Taxi Brugge",
-            footer_other_cities: "Alle andere steden:",
-            footer_select_city: "-- Kies een stad --",
-            footer_legal: "Legal",
-            footer_faq: "FAQ",
-            footer_privacy: "Privacy",
-            footer_cookies: "Cookiebeleid",
-            footer_terms: "Algemene voorwaarden",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (NL) =====
-            city_aalst: "Aalst",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Doornik",
-            city_genk: "Genk",
-            city_gent: "Gent",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Halle",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Kortrijk",
-            city_leuven: "Leuven",
-            city_luik: "Luik",
-            city_machelen: "Machelen",
-            city_mechelen: "Mechelen",
-            city_oostende: "Oostende",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "LOGIN"
         },
         fr: {
-            // Hero
-            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Vilvoorde",
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Vilvorde",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
-            hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
+            hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
             hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
-            // Intro
-            intro_title: "Vilvoorde – Ville historique sur le Canal maritime",
-            intro_p1: "Vilvoorde est une ville du Brabant flamand, située sur le Canal maritime Bruxelles‑Escaut, à proximité de Bruxelles. La ville a une riche histoire et est connue pour son Château de Vilvoorde (aussi appelé la 'Forteresse de Vilvoorde'), l'église gothique Notre‑Dame et l'hôtel de ville sur la Grand‑Place. Vilvoorde était autrefois un important centre industriel, mais s'est développée ces dernières années en une ville moderne et verte, avec une grande attention pour la culture et la qualité de vie.",
-            intro_p2: "Grâce à l'excellente accessibilité via l'E19 et le ring de Bruxelles, Vilvoorde est un lieu de résidence idéal pour les navetteurs vers Bruxelles, Anvers et Malines. La proximité de l'aéroport de Zaventem et des connexions ferroviaires internationales en font un emplacement stratégique pour les voyageurs d'affaires. La ville organise de nombreux événements chaque année, notamment la Foire de Vilvoorde, le Marché de Noël et divers festivals culturels au Centre Culturel de Vilvoorde.",
-            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, organisateurs d'événements et institutions publiques à Vilvoorde. Nos Mercedes, BMW et minibus assurent un confort et une ponctualité irréprochables.",
-            events_title: "Événements et quartiers d'affaires à Vilvoorde",
-            events_p1: "Vilvoorde propose une offre d'événements variée. Les temps forts annuels sont la Foire de Vilvoorde en juillet, le Marché de Noël sur la Grand‑Place, le Défilé Historique autour du Château et divers festivals culturels au Centre Culturel de Vilvoorde. Le Château et l'église Notre‑Dame sont également utilisés comme décors pour des concerts et expositions.",
-            events_p2: "Les principaux quartiers d'affaires sont la zone industrielle Vilvoorde‑Nord, la zone de bureaux le long de l'E19 et le Business Park Vilvoorde. Le Château de Vilvoorde et le Centre Culturel sont des lieux prisés pour les séminaires, fêtes d'entreprise et congrès.",
-            routes_title: "✈️ Transferts aéroport depuis Vilvoorde",
+            intro_title: "Vilvorde – Ville historique sur la Senne & ceinture verte",
+            intro_p1: "Vilvorde est une ville riche en histoire, située dans la province du Brabant flamand sur la rivière Senne. La ville est connue pour son beffroi médiéval (patrimoine UNESCO), l'église Notre-Dame et le Château de Vilvorde. Vilvorde fut autrefois une importante ville industrielle et est aujourd'hui une ville verte et dynamique dans la Ceinture Verte autour de Bruxelles.",
+            intro_p2: "La ville a connu une reprise économique avec des secteurs forts dans la logistique, le commerce et les services. La proximité de Bruxelles, de l'aéroport de Zaventem et des E19/E40 font de Vilvorde un emplacement stratégique pour les entreprises et les navetteurs. Le Domaine des Trois Fontaines et le Bospark offrent également de nombreuses possibilités de loisirs.",
+            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, organisateurs d'événements et institutions publiques à Vilvorde. Notre flotte de Mercedes Classe E, BMW Série 5, Skoda et minibus de luxe garantit un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) assurent un accueil impeccable aux invités internationaux et aux voyageurs d'affaires.",
+            events_title: "Événements et quartiers d'affaires à Vilvorde",
+            events_p1: "Vilvorde possède un calendrier d'événements animé. Les temps forts annuels sont la Foire de Vilvorde, le Festival d'été sur la Senne, le Marché de Noël sur la Grand-Place et le Festival Culturel au CC Het Bolwerk. Les Concerts du Bospark et les Fêtes de la Ville attirent également un large public.",
+            events_p2: "Les principaux quartiers d'affaires sont la zone industrielle de Vilvorde-Nord, la zone de bureaux autour de la gare et le Businesspark De Zenne. Le Centre de Congrès de la Ville et la Salle des Fêtes de Vilvorde sont des lieux prisés pour les séminaires, salons et événements d'entreprise.",
+            routes_title: "✈️ Transferts aéroport depuis Vilvorde",
             routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
-            route1_title: "Vilvoorde → Zaventem",
-            route1_desc: "10 km · ±15 min · tarif minimum",
-            route2_title: "Vilvoorde → Charleroi",
-            route2_desc: "70 km · ±1h 00 min · prix fixe",
-            route3_title: "Vilvoorde → Anvers",
-            route3_desc: "35 km · ±30 min · prix fixe",
-            route4_title: "Vilvoorde → Lille",
-            route4_desc: "110 km · ±1h 15 min · prix fixe",
-            route5_title: "Vilvoorde → Eindhoven",
+            route1_title: "Vilvorde → Zaventem",
+            route1_desc: "12 km · ±15 min · tarif minimum",
+            route2_title: "Vilvorde → Charleroi",
+            route2_desc: "60 km · ±55 min · prix fixe",
+            route3_title: "Vilvorde → Deurne",
+            route3_desc: "30 km · ±35 min · prix fixe",
+            route4_title: "Vilvorde → Lille",
+            route4_desc: "120 km · ±1h 15 min · prix fixe",
+            route5_title: "Vilvorde → Eindhoven",
             route5_desc: "90 km · ±1h 05 min · prix fixe",
-            route6_title: "Vilvoorde → Amsterdam Schiphol",
-            route6_desc: "170 km · ±1h 45 min · prix fixe",
+            route6_title: "Vilvorde → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2h 15 min · prix fixe",
             extras_title: "➕ Options supplémentaires – suppléments transparents",
             extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
             extras_break: "Break modèle",
@@ -680,53 +637,52 @@
             extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
-            local_title: "📍 À Vilvoorde également",
-            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Vilvoorde et dans la région. Quelques exemples :",
-            local_kasteel: "Gare → Château de Vilvoorde",
-            local_kasteel_desc: "À partir de €30,00 · 1,5 km",
-            local_kerk: "Gare → Église Notre‑Dame",
-            local_kerk_desc: "À partir de €30,00 · 1 km",
-            local_brussel: "Vilvoorde → Bruxelles",
-            local_brussel_desc: "€30,00 · 10 km",
-            local_leuven: "Vilvoorde → Louvain",
-            local_leuven_desc: "€30,00 · 25 km",
+            local_title: "📍 A Vilvorde également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Vilvorde et dans la région. Quelques exemples :",
+            local_belfort: "Beffroi",
+            local_belfort_desc: "À partir de €30,00 · 1-2 km",
+            local_drie_fonteinen: "Trois Fontaines",
+            local_drie_fonteinen_desc: "À partir de €30,00 · 3-4 km",
+            local_kasteel: "Château de Vilvorde",
+            local_kasteel_desc: "À partir de €30,00 · 2-3 km",
+            local_brussel: "Bruxelles",
+            local_brussel_desc: "€30,00 · 15 km",
             local_cta: "Autre destination ? Demandez un devis sans engagement",
-            international_title: "<i class='fas fa-globe'></i> Transport international depuis Vilvoorde",
-            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Depuis Vilvoorde, situé sur l'E19 et proche de Bruxelles, vous êtes idéalement positionné. Prix indicatifs :",
+            international_title: "<i class='fas fa-globe'></i> Transport international depuis Vilvorde",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
             int_ams: "Amsterdam (NL) – Schiphol",
-            int_par: "Paris (FR)",
-            int_lil: "Lille (FR) – Airport",
-            int_ein: "Eindhoven (NL) – Airport",
             int_rot: "Rotterdam (NL)",
-            int_aac: "Aix‑la‑Chapelle (DE)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
             int_lux: "Luxembourg (LU)",
+            int_lon: "Londres (UK) – via Eurotunnel",
             service1_title: "Suivi de vol",
             service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
             service2_title: "Documentation",
             service2_desc: "Tous les papiers pour le transport transfrontalier.",
             service3_title: "Chauffeurs multilingues",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24‑48h à l'avance",
+            service4_title: "Réservez 24-48h à l'avance",
             service4_desc: "Planification des trajets internationaux.",
-            why_title: "Pourquoi FleetConnect à Vilvoorde?",
+            why_title: "Pourquoi FleetConnect à Vilvorde?",
             why1_title: "Ponctuel & fiable",
-            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Vilvoorde et les autoroutes environnantes (E19, ring de Bruxelles).",
-            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées.",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Vilvorde et les autoroutes environnantes (E19, E40). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
             why3_title: "Prix fixes",
-            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week‑ends.",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Vilvorde-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
             why4_title: "Service 24/7",
-            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là.",
-            business_title: "Transport professionnel, hôtelier et aéroportuaire sur mesure",
-            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Vilvoorde, dont Hotel Vilvoorde, B&B De Vesting, Van der Valk Vilvoorde et ibis Vilvoorde. Pour les congrès et événements, nous collaborons avec le Centre Culturel de Vilvoorde, le Château de Vilvoorde et le Business Park Vilvoorde.",
-            discover_title: "Découvrez Vilvoorde avec FleetConnect",
-            discover_p1: "Combinez votre rendez‑vous d'affaires avec une découverte culturelle. Visitez le Château de Vilvoorde et promenez‑vous dans les jardins du château avec vue sur le Canal maritime. Admirez l'église gothique Notre‑Dame et la Grand‑Place animée avec ses terrasses. Découvrez le Parc Hanssens ou promenez‑vous le long du Canal maritime. Nos chauffeurs servent également de guides informels.",
-            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté.",
-            cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Vilvoorde?",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            business_title: "Transport professionnel et hôtelier sur mesure",
+            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Vilvorde, dont Hotel BLOOM, Van der Valk Vilvorde, B&B De Vijvers et ibis Vilvorde. Pour les congrès et événements professionnels, nous collaborons avec le CC Het Bolwerk, la Salle des Fêtes de Vilvorde et le Centre de Congrès de la Ville. Les entreprises du secteur logistique, du commerce et des services comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
+            discover_title: "Découvrez Vilvorde avec FleetConnect",
+            discover_p1: "Combinez votre rendez-vous d'affaires avec une découverte culturelle. Visitez le Beffroi, l'église Notre-Dame et le Château de Vilvorde. Une promenade dans le Domaine des Trois Fontaines ou le long de la Senne est également recommandée. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
+            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
+            cta_title: "Prêt pour un trajet sans souci à Vilvorde ou à l'étranger?",
             cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
             language_label: "Langue",
@@ -740,92 +696,40 @@
             nav_courier: "Service de messagerie",
             nav_contact: "Contact",
             nav_book: "Réservez maintenant",
-            login: "CONNEXION",
-
-            // ===== FOOTER VERTALINGEN (FR) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
-            footer_book_now: "Réservez maintenant",
-            footer_portal: "Portail client",
-            footer_partner: "Connexion partenaire",
-            footer_popular_cities: "Villes populaires",
-            footer_city_brussels: "Taxi Bruxelles",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Anvers",
-            footer_city_brugge: "Taxi Bruges",
-            footer_other_cities: "Toutes les autres villes :",
-            footer_select_city: "-- Choisissez une ville --",
-            footer_legal: "Juridique",
-            footer_faq: "FAQ",
-            footer_privacy: "Confidentialité",
-            footer_cookies: "Politique de cookies",
-            footer_terms: "Conditions générales",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (FR) =====
-            city_aalst: "Alost",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Tournai",
-            city_genk: "Genk",
-            city_gent: "Gand",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Hal",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Courtrai",
-            city_leuven: "Louvain",
-            city_luik: "Liège",
-            city_machelen: "Machelen",
-            city_mechelen: "Malines",
-            city_oostende: "Ostende",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "CONNEXION"
         },
         en: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Vilvoorde",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
-            hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
+            hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
             hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
-            // Intro
-            intro_title: "Vilvoorde – Historic city on the Canal",
-            intro_p1: "Vilvoorde is a city in Flemish Brabant, located on the Brussels‑Scheldt Maritime Canal, near Brussels. The city has a rich history and is known for its Castle of Vilvoorde (also called the 'Vilvoorde Fortress'), the Gothic Our Lady's Church and the Town Hall on the Grand Place. Vilvoorde was formerly an important industrial centre, but has developed in recent years into a modern, green city with a strong focus on culture and quality of life.",
-            intro_p2: "Thanks to excellent accessibility via the E19 and the Brussels ring road, Vilvoorde is an ideal place to live for commuters to Brussels, Antwerp and Mechelen. The proximity of Zaventem Airport and international rail connections make it a strategic location for business travellers. The city organises many events annually, including the Vilvoorde Fair, the Christmas Market and various cultural festivals at the Vilvoorde Cultural Centre.",
-            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, event organisers and government institutions in Vilvoorde. Our Mercedes, BMW and minivans provide a comfortable and punctual service.",
+            intro_title: "Vilvoorde – Historic city on the Senne & Green Belt",
+            intro_p1: "Vilvoorde is a city with a rich history, located in Flemish Brabant on the river Senne. The city is known for its medieval Belfry (UNESCO World Heritage), the Church of Our Lady and the Castle of Vilvoorde. Vilvoorde was once an important industrial city and today is a green and vibrant city in the Green Belt around Brussels.",
+            intro_p2: "The city has experienced economic recovery with strong sectors in logistics, trade and services. The proximity of Brussels, Zaventem airport and the E19/E40 make Vilvoorde a strategic location for businesses and commuters. The Domain of the Three Fountains and the Bospark also offer many recreational opportunities.",
+            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, event organisers and government institutions in Vilvoorde. Our fleet of Mercedes E-Class, BMW 5 Series, Skoda and luxury minivans provides a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure a flawless welcome for international guests and business travellers.",
             events_title: "Events & Business Districts in Vilvoorde",
-            events_p1: "Vilvoorde offers a varied events programme. Annual highlights are the Vilvoorde Fair in July, the cosy Christmas Market on the Grand Place, the Historical Procession around the Castle and various cultural festivals at the Vilvoorde Cultural Centre. The Castle and Our Lady's Church are also regularly used as settings for concerts and exhibitions.",
-            events_p2: "The main business districts are the Vilvoorde‑North industrial estate, the office zone along the E19 and the Vilvoorde Business Park. The Castle of Vilvoorde and the Cultural Centre are popular venues for seminars, corporate events and conferences.",
+            events_p1: "Vilvoorde has a lively events calendar. Annual highlights are the Vilvoorde Fair, the Summer Festival on the Senne, the cosy Christmas Market on the Grote Markt and the Cultural Festival at CC Het Bolwerk. The Bospark Concerts and the City Festivities also attract a wide audience.",
+            events_p2: "The main business districts are the Vilvoorde-Noord industrial estate, the office zone around the station and the Businesspark De Zenne. The City Congress Centre and the Vilvoorde Event Hall are popular venues for seminars, trade fairs and corporate events.",
             routes_title: "✈️ Airport transfers from Vilvoorde",
             routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
             route1_title: "Vilvoorde → Zaventem",
-            route1_desc: "10 km · ±15 min · minimum fare",
+            route1_desc: "12 km · ±15 min · minimum fare",
             route2_title: "Vilvoorde → Charleroi",
-            route2_desc: "70 km · ±1h 00 min · fixed price",
-            route3_title: "Vilvoorde → Antwerp",
-            route3_desc: "35 km · ±30 min · fixed price",
+            route2_desc: "60 km · ±55 min · fixed price",
+            route3_title: "Vilvoorde → Deurne",
+            route3_desc: "30 km · ±35 min · fixed price",
             route4_title: "Vilvoorde → Lille",
-            route4_desc: "110 km · ±1h 15 min · fixed price",
+            route4_desc: "120 km · ±1h 15 min · fixed price",
             route5_title: "Vilvoorde → Eindhoven",
             route5_desc: "90 km · ±1h 05 min · fixed price",
             route6_title: "Vilvoorde → Amsterdam Schiphol",
-            route6_desc: "170 km · ±1h 45 min · fixed price",
+            route6_desc: "210 km · ±2h 15 min · fixed price",
             extras_title: "➕ Extra options – clear surcharges",
             extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
             extras_break: "Break model",
             extras_break_desc: "– More luggage space",
             extras_exclusive: "Exclusive car",
-            extras_exclusive_desc: "– Mercedes E‑Class / BMW 5 Series",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
             extras_van: "Mini Van",
             extras_van_desc: "– Up to 8 persons",
             extras_meet: "Meet & Greet",
@@ -834,46 +738,45 @@
             extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
             local_title: "📍 Also in Vilvoorde",
             local_desc: "In addition to airport transfers, we also provide reliable transport within Vilvoorde and the region. Some examples:",
-            local_kasteel: "Station → Castle of Vilvoorde",
-            local_kasteel_desc: "From €30.00 · 1.5 km",
-            local_kerk: "Station → Our Lady's Church",
-            local_kerk_desc: "From €30.00 · 1 km",
-            local_brussel: "Vilvoorde → Brussels",
-            local_brussel_desc: "€30.00 · 10 km",
-            local_leuven: "Vilvoorde → Leuven",
-            local_leuven_desc: "€30.00 · 25 km",
+            local_belfort: "Belfry",
+            local_belfort_desc: "From €30.00 · 1-2 km",
+            local_drie_fonteinen: "Three Fountains",
+            local_drie_fonteinen_desc: "From €30.00 · 3-4 km",
+            local_kasteel: "Castle of Vilvoorde",
+            local_kasteel_desc: "From €30.00 · 2-3 km",
+            local_brussel: "Brussels",
+            local_brussel_desc: "€30.00 · 15 km",
             local_cta: "Other destination? Request a free quote",
             international_title: "<i class='fas fa-globe'></i> International transport from Vilvoorde",
-            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. From Vilvoorde, situated on the E19 and close to Brussels, you are ideally positioned. Indicative prices:",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
             int_ams: "Amsterdam (NL) – Schiphol",
-            int_par: "Paris (FR)",
-            int_lil: "Lille (FR) – Airport",
-            int_ein: "Eindhoven (NL) – Airport",
             int_rot: "Rotterdam (NL)",
-            int_aac: "Aachen (DE)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
             int_lux: "Luxembourg (LU)",
+            int_lon: "London (UK) – via Eurotunnel",
             service1_title: "Flight monitoring",
             service1_desc: "We track your flight; free waiting time in case of delay.",
             service2_title: "Documentation",
-            service2_desc: "All documents for cross‑border transport.",
+            service2_desc: "All documents for cross-border transport.",
             service3_title: "Multilingual drivers",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24‑48h in advance",
+            service4_title: "Book 24-48h in advance",
             service4_desc: "Plan international trips.",
             why_title: "Why FleetConnect in Vilvoorde?",
             why1_title: "Punctual & reliable",
-            why1_desc: "Thanks to real‑time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Vilvoorde's back streets and the surrounding highways (E19, Brussels ring).",
-            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E‑Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V‑Class or equivalent). All our vehicles meet the highest quality and safety standards.",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Vilvoorde's back streets and the surrounding highways (E19, E40). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
             why3_title: "Fixed prices",
-            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick‑up fees, no surcharges for luggage, night rides or weekends.",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Vilvoorde-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
             why4_title: "24/7 service",
-            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready.",
-            business_title: "Customised business, hotel & airport transport",
-            business_desc: "FleetConnect is the preferred partner of several hotels in Vilvoorde, including Hotel Vilvoorde, B&B De Vesting, Van der Valk Vilvoorde and ibis Vilvoorde. For congresses and events, we work with the Vilvoorde Cultural Centre, the Castle of Vilvoorde and the Vilvoorde Business Park.",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            business_title: "Customised business & hotel transport",
+            business_desc: "FleetConnect is the preferred partner of several hotels in Vilvoorde, including Hotel BLOOM, Van der Valk Vilvoorde, B&B De Vijvers and ibis Vilvoorde. For congresses and business events, we work with CC Het Bolwerk, the Vilvoorde Event Hall and the City Congress Centre. Companies in the logistics sector, trade and services trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
             discover_title: "Discover Vilvoorde with FleetConnect",
-            discover_p1: "Combine your business appointment with a cultural exploration. Visit the Castle of Vilvoorde and stroll through the castle gardens with views of the Canal. Admire the Gothic Our Lady's Church and the lively Grand Place with its terraces. Discover the Hanssens Park or take a walk along the Canal. Our drivers also act as informal guides.",
-            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle.",
-            cta_title: "Ready for a worry‑free airport transfer or ride in Vilvoorde?",
+            discover_p1: "Combine your business appointment with a cultural exploration. Visit the Belfry, the Church of Our Lady and the Castle of Vilvoorde. A walk in the Domain of the Three Fountains or along the Senne is also recommended. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
+            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
+            cta_title: "Ready for a worry-free ride in Vilvoorde or abroad?",
             cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
@@ -892,57 +795,7 @@
             nav_courier: "Courier service",
             nav_contact: "Contact",
             nav_book: "Book now",
-            login: "LOGIN",
-
-            // ===== FOOTER VERTALINGEN (EN) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Professional taxi transport in Belgium - Style, punctuality and service.",
-            footer_book_now: "Book now",
-            footer_portal: "Customer portal",
-            footer_partner: "Partner login",
-            footer_popular_cities: "Popular cities",
-            footer_city_brussels: "Taxi Brussels",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Antwerp",
-            footer_city_brugge: "Taxi Bruges",
-            footer_other_cities: "All other cities:",
-            footer_select_city: "-- Choose a city --",
-            footer_legal: "Legal",
-            footer_faq: "FAQ",
-            footer_privacy: "Privacy",
-            footer_cookies: "Cookie policy",
-            footer_terms: "Terms & Conditions",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (EN) =====
-            city_aalst: "Aalst",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Tournai",
-            city_genk: "Genk",
-            city_gent: "Ghent",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Halle",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Kortrijk",
-            city_leuven: "Leuven",
-            city_luik: "Liège",
-            city_machelen: "Machelen",
-            city_mechelen: "Mechelen",
-            city_oostende: "Ostend",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "LOGIN"
         }
     };
 
@@ -951,83 +804,19 @@
     // ============================================================
     let currentLang = 'nl';
 
-    // ============================================================
-    // DROPDOWN STADNAMEN GENEREREN
-    // ============================================================
-    function generateCityDropdown() {
-        const t = translations[currentLang];
-        if (!t) return;
-
-        const cities = [
-            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
-            { key: 'city_asse', url: '/cities/taxi-asse.html' },
-            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
-            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
-            { key: 'city_genk', url: '/cities/taxi-genk.html' },
-            { key: 'city_gent', url: '/cities/taxi-gent.html' },
-            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
-            { key: 'city_halle', url: '/cities/taxi-halle.html' },
-            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
-            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
-            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
-            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
-            { key: 'city_luik', url: '/cities/taxi-luik.html' },
-            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
-            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
-            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
-            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
-            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
-            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
-            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
-            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
-            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
-            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
-            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
-        ];
-
-        const select = document.getElementById('stad-dropdown');
-        if (!select) return;
-
-        const currentValue = select.value;
-        select.innerHTML = '';
-
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
-        select.appendChild(defaultOption);
-
-        cities.forEach(city => {
-            const option = document.createElement('option');
-            option.value = city.url;
-            option.textContent = t[city.key] || city.key;
-            select.appendChild(option);
-        });
-
-        if (currentValue) {
-            select.value = currentValue;
-        }
-    }
-
-    // ============================================================
-    // VERTALINGS FUNCTIE
-    // ============================================================
     function translatePage() {
         const t = translations[currentLang];
         if (!t) return;
-
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key] !== undefined) {
                 if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     el.placeholder = t[key];
-                } else if (el.tagName === 'OPTION') {
-                    el.textContent = t[key];
                 } else {
                     el.innerHTML = t[key];
                 }
             }
         });
-
         document.querySelectorAll('.lang-btn').forEach(btn => {
             if (btn.getAttribute('data-lang') === currentLang) {
                 btn.classList.add('active');
@@ -1035,30 +824,25 @@
                 btn.classList.remove('active');
             }
         });
-
-        generateCityDropdown();
         document.documentElement.lang = currentLang;
     }
 
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            if (lang && translations[lang]) {
+                currentLang = lang;
+                translatePage();
+            }
+        });
+    });
+
+    translatePage();
+
     // ============================================================
-    // EVENT LISTENERS
+    // HAMBURGER MENU FUNCTIONALITEIT
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.getAttribute('data-lang');
-                if (lang && translations[lang]) {
-                    currentLang = lang;
-                    translatePage();
-                }
-            });
-        });
-
-        translatePage();
-
-        // ============================================================
-        // HAMBURGER MENU FUNCTIONALITEIT
-        // ============================================================
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
