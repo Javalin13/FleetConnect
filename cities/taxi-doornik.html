@@ -1,1 +1,892 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>FleetConnect | Taxi Doornik – Historische stad aan de Schelde & luchthaventransfers</title>
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Doornik. Vaste prijs €1,50/km (min. €30). Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Deurne (ANR), Eindhoven, Amsterdam, Lille. 24/7 beschikbaar.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- Alle stijlen zijn identiek aan de template --- */
+        *{margin:0;padding:0;box-sizing:border-box}
+        #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1513639776629-7b61b0a6b1b5?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
+        :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
+        body{font-family:'Inter',sans-serif;background:#f4f7fc;color:var(--text-dark);overflow-x:hidden}
+        .content-overlay{position:relative;z-index:10;background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column}
+        .container{width:100%;max-width:1300px;margin:0 auto;padding:0 24px}
+        .hamburger-btn{position:fixed;top:20px;left:20px;background:var(--primary);color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;border:none;font-size:1.4rem;transition:0.2s}
+        .hamburger-btn:hover{background:var(--primary-dark)}
+        .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1001;visibility:hidden;opacity:0;transition:all 0.3s ease}
+        .sidebar-overlay.active{visibility:visible;opacity:1}
+        .sidebar{position:fixed;top:0;right:-300px;width:300px;height:100%;background:white;box-shadow:-4px 0 25px rgba(0,0,0,0.15);transition:right 0.3s ease;z-index:1002;display:flex;flex-direction:column;border-radius:20px 0 0 20px;overflow:hidden}
+        .sidebar-overlay.active .sidebar{right:0}
+        .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:24px 20px;border-bottom:1px solid var(--border-light);background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:20px 0 0 0;flex-shrink:0}
+        .sidebar-header h3{color:white;display:flex;align-items:center;gap:8px}
+        .close-menu{background:rgba(255,255,255,0.2);border:none;font-size:1.5rem;cursor:pointer;color:white;width:32px;height:32px;border-radius:50%}
+        .sidebar-nav{display:flex;flex-direction:column;padding:20px 16px;gap:8px;flex:1;overflow-y:auto}
+        .sidebar-nav a{color:var(--text-dark);text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:500;display:flex;align-items:center;gap:14px;background:white;border:1px solid var(--border-light);transition:0.2s}
+        .sidebar-nav a i{width:24px;color:var(--primary)}
+        .sidebar-nav a:hover{background:#eef2fa;border-color:var(--primary)}
+        .login-section{padding:16px;border-top:1px solid var(--border-light);margin-top:auto;flex-shrink:0}
+        .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
+        .login-btn:hover{opacity:0.9}
+        
+        /* ========== HERO SECTIE ========== */
+        .hero{padding:80px 0 40px;text-align:center}
+        .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
+        .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
+        .hero-card .hero-slogan{font-size:1.8rem;font-weight:700;color:var(--primary);margin:0;letter-spacing:-0.5px}
+        .hero-card .hero-slogan i{color:var(--primary)}
+        .hero-card .hero-features{font-size:1.1rem;color:var(--text-light);margin:0;letter-spacing:0.3px;font-weight:500}
+        .hero-card .btn-primary{background:var(--primary);color:white;border:none;padding:16px 40px;border-radius:40px;font-weight:700;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:12px;text-decoration:none;transition:all 0.3s ease}
+        .hero-card .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px);box-shadow:0 8px 25px rgba(44,110,158,0.3)}
+        
+        .btn-primary{background:var(--primary);color:white;border:none;padding:14px 32px;border-radius:40px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
+        .section-title{font-size:2rem;color:var(--primary);margin-bottom:40px;text-align:center}
+        .route-grid,.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-bottom:40px}
+        .route-card,.feature-card{background:white;border-radius:24px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,0.08);border:1px solid var(--border-light);transition:transform 0.2s}
+        .route-card:hover,.feature-card:hover{transform:translateY(-4px)}
+        .route-price{font-size:1.6rem;font-weight:800;color:var(--primary);margin:12px 0}
+        .route-airport-code{display:inline-block;background:var(--primary);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:700;margin-top:6px;letter-spacing:0.5px}
+        .feature-card{text-align:center}
+        .feature-icon{font-size:2.5rem;color:var(--primary);margin-bottom:16px}
+        .feature-card p{font-size:0.95rem;line-height:1.5;margin-top:12px;color:var(--text-light)}
+        .international-box{background:#e8f0f8;border-left:5px solid var(--accent-gold);padding:24px;margin:30px 0;border-radius:20px}
+        .service-points{display:flex;flex-wrap:wrap;gap:20px;margin:20px 0}
+        .service-point{flex:1;background:white;padding:16px;border-radius:16px;text-align:center}
+        .contact-wrapper{width:100%;display:flex;justify-content:center;padding:0 16px}
+        .contact-row{background:white;border-radius:44px;padding:30px;margin:40px 0;border:1px solid var(--border-light);width:100%;max-width:600px}
+        .contact-form h3{margin-bottom:20px;color:var(--primary);text-align:center}
+        .compact-form{display:flex;flex-direction:column;gap:16px}
+        .compact-form input,.compact-form textarea{width:100%;padding:12px 16px;border-radius:28px;border:1px solid var(--border-light);font-size:1rem;background:white}
+        .compact-form input:focus,.compact-form textarea:focus{outline:none;border-color:var(--primary)}
+        .button-row{display:flex;justify-content:space-between;gap:15px;margin-top:20px;flex-wrap:wrap}
+        .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
+        .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
+        
+        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
+        .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
+        .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
+        .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+        
+        /* ========== EXTRA OPTIES LIJST ========== */
+        .extra-options-list{list-style:none;margin:0;padding:0}
+        .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .extra-options-list li:last-child{border-bottom:none}
+        .extra-options-list li i{color:var(--primary);width:24px}
+        .extra-options-list li .price-tag{background:var(--primary);color:white;padding:2px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-left:auto}
+        .extra-options-list li .price-tag.free{background:var(--accent-green)}
+        .extra-options-list li strong{min-width:120px}
+        .extra-options-list li span{color:var(--text-light)}
+        
+        /* ========== FOOTER - UNIFORM BLAUW ========== */
+        .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
+        .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
+        .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
+        .footer-grid a{color:#e0edf5;text-decoration:none;line-height:1.8;display:block;transition:0.2s}
+        .footer-grid a:hover{color:var(--primary);text-decoration:underline}
+        .footer-brand p{color:#e0edf5;line-height:1.8}
+        
+        /* ========== DROPDOWN STIJLEN ========== */
+        .footer-city-select {
+            background: #1a2f3f;
+            color: #e0edf5;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+            max-width: 220px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 8px;
+            appearance: auto;
+        }
+        .footer-city-select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        .footer-city-select option {
+            background: #0d1f2c;
+            color: #e0edf5;
+        }
+        
+        .footer-bottom{text-align:center;border-top:1px solid rgba(224,237,245,0.2);padding-top:24px;font-size:0.85rem}
+        .footer-bottom a{color:var(--primary);text-decoration:none}
+        .footer-bottom a:hover{text-decoration:underline}
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width:800px){
+            .hero-card{padding:30px 20px}
+            .hero-card h1{font-size:2rem}
+            .hero-card .hero-slogan{font-size:1.3rem}
+            .hero-card .hero-features{font-size:0.95rem}
+            .section-title{font-size:1.5rem}
+            .language-switcher{top:10px;right:15px;gap:6px;padding:4px 10px}
+            .lang-btn{font-size:0.7rem;padding:4px 10px}
+            .extra-options-list li strong{min-width:100px}
+            .footer-city-select{max-width:100%}
+        }
+        @media (max-width:500px){
+            .container{padding:0 12px}
+            .hero-card{padding:24px 16px}
+            .hero-card h1{font-size:1.5rem}
+            .hero-card .hero-slogan{font-size:1.1rem}
+            .hero-card .hero-features{font-size:0.8rem}
+            .hero-card .btn-primary{padding:14px 28px;font-size:0.95rem}
+            .language-switcher{top:10px;right:10px;gap:4px;padding:4px 8px}
+            .lang-btn{font-size:0.6rem;padding:3px 8px}
+            .route-grid,.features-grid{grid-template-columns:1fr}
+            .extra-options-list li{flex-wrap:wrap}
+            .extra-options-list li .price-tag{margin-left:0}
+        }
+    </style>
+</head>
+<body>
 
+<div id="background-map"></div>
+
+<!-- ========== HAMBURGER MENU ========== -->
+<button class="hamburger-btn" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+
+<!-- ========== SIDEBAR ========== -->
+<div class="sidebar-overlay" id="sidebarOverlay">
+    <div class="sidebar">
+        <div class="sidebar-header"><h3><i class="fas fa-car"></i> FleetConnect</h3><button class="close-menu" id="closeMenuBtn">&times;</button></div>
+        <div class="sidebar-nav">
+            <div style="padding: 10px 16px; font-size: 0.75rem; font-weight: 700; color: var(--text-light);" data-i18n="language_label">Taal / Language</div>
+            <div style="display: flex; gap: 8px; padding: 0 16px 16px;">
+                <button class="lang-btn active" data-lang="nl">NL</button>
+                <button class="lang-btn" data-lang="fr">FR</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <div style="height:1px; background:#e2edf7; margin:8px 0;"></div>
+            <a href="/PV/PV.html"><i class="fas fa-home"></i> <span data-i18n="nav_home">Home</span></a>
+            <a href="/PV/PV_Exclusieve_Service.html"><i class="fas fa-gem"></i> <span data-i18n="nav_exclusive">Exclusieve service</span></a>
+            <a href="/PV/PV-vaste-prijzen.html"><i class="fas fa-euro-sign"></i> <span data-i18n="nav_fixed_prices">Vaste prijzen</span></a>
+            <a href="/PV/PV-premium-vloot.html"><i class="fas fa-car-side"></i> <span data-i18n="nav_premium_fleet">Premium vloot</span></a>
+            <a href="/PV/PV_Luchthavenvervoer.html"><i class="fas fa-plane-departure"></i> <span data-i18n="nav_airport">Luchthavenvervoer</span></a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html"><i class="fas fa-briefcase"></i> <span data-i18n="nav_business">Zakelijk vervoer</span></a>
+            <a href="/PV/PV_Events_Gala.html"><i class="fas fa-glass-cheers"></i> <span data-i18n="nav_events">Events & Gala</span></a>
+            <a href="/PV/PV_Koeriersdienst.html"><i class="fas fa-file-signature"></i> <span data-i18n="nav_courier">Koeriersdienst</span></a>
+            <a href="#contact"><i class="fas fa-envelope"></i> <span data-i18n="nav_contact">Contact</span></a>
+            <a href="/PV/PV.html#booking"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav_book">Reserveer nu</span></a>
+        </div>
+        <div class="login-section"><a href="/PV/index.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="login">LOGIN</span> <i class="fas fa-arrow-right"></i></a></div>
+    </div>
+</div>
+
+<!-- ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
+<div class="content-overlay">
+    <!-- ========== HERO SECTIE - UNIFORM ========== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-card">
+                <h1 data-i18n="hero_title">
+                    <i class="fas fa-taxi"></i> FleetConnect | Taxi Doornik
+                </h1>
+                <div style="height:16px;"></div>
+                <p class="hero-slogan" data-i18n="hero_slogan" style="font-weight:700;">
+                    <strong>"Uw rit, onze zorg. Vaste prijs, 24/7."</strong>
+                </p>
+                <div style="height:20px;"></div>
+                <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
+                    <strong>€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs</strong>
+                </p>
+                <div style="height:30px;"></div>
+                <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
+                    <i class="fas fa-calendar-check"></i> Boek nu →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Blok 1: Introductie Doornik -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Doornik – Historische stad aan de Schelde & oudste stad van België</h2>
+            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Doornik (Tournai) is een van de <strong>oudste steden van België</strong>, gelegen in de provincie Henegouwen aan de rivier de <strong>Schelde</strong>. De stad is rijk aan geschiedenis en cultuur, met de imposante <strong>Onze-Lieve-Vrouwekathedraal</strong> (UNESCO Werelderfgoed), de <strong>Scheldebrug</strong> en het <strong>Belfort</strong> (eveneens UNESCO Werelderfgoed). Doornik was ooit een belangrijke <strong>Romeinse stad</strong> en later een centrum van <strong>tapijtweverij</strong> en <strong>kunst</strong>.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">De stad heeft een levendig economisch leven met sterke sectoren in <strong>toerisme, handel, gezondheidszorg en onderwijs</strong>. De nabijheid van de Franse grens en Lille, en de goede verbindingen via de <strong>E42</strong> en <strong>E429</strong>, maken Doornik een strategische locatie voor bedrijven en pendelaars. Ook het <strong>Parc de la Porte du Hainaut</strong> en de <strong>Scheldevallei</strong> bieden tal van recreatiemogelijkheden.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, culturele instellingen en evenementenorganisatoren</strong> in Doornik. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.</p>
+        </div>
+
+        <!-- Blok 2: Evenementen en zakenwijken -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Doornik</h2>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Doornik heeft een bruisend evenementenaanbod. Jaarlijkse hoogtepunten zijn de <strong>Tournai sur Scène</strong> (zomerfestival), de <strong>Kerstmarkt</strong> op de Grote Markt, het <strong>Festival van de Kathedraal</strong> en de <strong>Grand Tournai</strong> (historische stadsfeesten). Ook het <strong>Musée des Beaux-Arts</strong> en het <strong>Centre Culturel de Tournai</strong> bieden het hele jaar door tentoonstellingen en voorstellingen.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Doornik-Noord</strong>, de <strong>Kantoorzone rond het station</strong> en het <strong>Businesspark Scheldevallei</strong>. Het <strong>Congrescentrum van Doornik</strong> en de <strong>Evenementenhal Tournai Expo</strong> zijn populaire locaties voor seminars, beurzen en bedrijfsevents.</p>
+        </div>
+
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
+        <h2 class="section-title" data-i18n="routes_title">
+            <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
+            Luchthaventransfers vanuit Doornik
+        </h2>
+        <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
+            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+        </p>
+        <div class="route-grid">
+            <div class="route-card">
+                <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
+                <h3 data-i18n="route1_title">Doornik → Zaventem</h3>
+                <span class="route-airport-code">BRU</span>
+                <div class="route-price">€120,00</div>
+                <p data-i18n="route1_desc">80 km · ±1u 05 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route2_title">Doornik → Charleroi</h3>
+                <span class="route-airport-code">CRL</span>
+                <div class="route-price">€105,00</div>
+                <p data-i18n="route2_desc">70 km · ±1u 00 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route3_title">Doornik → Deurne</h3>
+                <span class="route-airport-code">ANR</span>
+                <div class="route-price">€135,00</div>
+                <p data-i18n="route3_desc">90 km · ±1u 15 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route4_title">Doornik → Lille</h3>
+                <span class="route-airport-code">LIL</span>
+                <div class="route-price">€30,00</div>
+                <p data-i18n="route4_desc">20 km · ±20 min · minimumtarief</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route5_title">Doornik → Eindhoven</h3>
+                <span class="route-airport-code">EIN</span>
+                <div class="route-price">€195,00</div>
+                <p data-i18n="route5_desc">130 km · ±1u 30 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Doornik → Amsterdam Schiphol</h3>
+                <span class="route-airport-code">AMS</span>
+                <div class="route-price">€315,00</div>
+                <p data-i18n="route6_desc">210 km · ±2u 15 min · vaste prijs</p>
+            </div>
+        </div>
+
+        <!-- ========== EXTRA OPTIES & MEERPRIJZEN ========== -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="extras_title">➕ Extra opties – transparante meerprijzen</h2>
+            <p data-i18n="extras_intro" style="font-size:1.05rem; line-height:1.6; margin-bottom:20px;">Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:</p>
+            <ul class="extra-options-list">
+                <li>
+                    <i class="fas fa-car"></i>
+                    <strong data-i18n="extras_break">Break model</strong>
+                    <span data-i18n="extras_break_desc">– Meer bagageruimte</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-star"></i>
+                    <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
+                    <span class="price-tag">+€15,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <strong data-i18n="extras_van">Mini Van</strong>
+                    <span data-i18n="extras_van_desc">– Tot 8 personen</span>
+                    <span class="price-tag">+€10,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-handshake"></i>
+                    <strong data-i18n="extras_meet">Meet &amp; Greet</strong>
+                    <span data-i18n="extras_meet_desc">– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur</span>
+                    <span class="price-tag">+€5,00</span>
+                </li>
+                <li>
+                    <i class="fas fa-kiss"></i>
+                    <strong data-i18n="extras_kiss">Kiss &amp; Ride</strong>
+                    <span data-i18n="extras_kiss_desc">– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur</span>
+                    <span class="price-tag free">GRATIS</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========== Extra bestemmingen in Doornik ========== -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
+                <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
+                Ook binnen Doornik
+            </h2>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Doornik en de regio. Enkele voorbeelden:</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-monument" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_kathedraal">Kathedraal</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kathedraal_desc">Vanaf €30,00 · 1-2 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-water" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_schelde">Scheldevallei</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_schelde_desc">Vanaf €30,00 · 3-4 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-building" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_belfort">Belfort</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_belfort_desc">Vanaf €30,00 · 0,5-1 km</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_lille">Lille (Rijsel)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_lille_desc">€30,00 · 20 km</p>
+                </div>
+            </div>
+            <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
+                <i class="fas fa-phone" style="color:var(--primary);"></i> 
+                Andere bestemming? <a href="#contact" style="color:var(--primary); font-weight:600;">Vraag vrijblijvend een offerte aan</a>
+            </p>
+        </div>
+
+        <!-- ========== Internationaal vervoer ========== -->
+        <div class="international-box">
+            <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Doornik</h3>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±210 km – <strong>€315</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±170 km – <strong>€255</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±320 km – <strong>€480</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lon">Londen (UK) – via Eurotunnel:</strong> ±380 km – <strong>€570</strong></li>
+            </ul>
+            <div class="service-points">
+                <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
+                <div class="service-point"><i class="fas fa-file-contract"></i><h4 data-i18n="service2_title">Documentatie</h4><p data-i18n="service2_desc">Alle papieren voor grensoverschrijdend vervoer.</p></div>
+                <div class="service-point"><i class="fas fa-language"></i><h4 data-i18n="service3_title">Meertalige chauffeurs</h4><p data-i18n="service3_desc">NL, FR, EN, DE.</p></div>
+                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24-48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
+            </div>
+        </div>
+
+        <!-- ========== Waarom FleetConnect - UNIFORM ========== -->
+        <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Doornik?</h2>
+        <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Doornik en de omliggende snelwegen (E42, E429) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Doornik-Lille) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
+            
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
+        </div>
+
+        <!-- Zakelijk & hotelvervoer -->
+        <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Doornik, waaronder <strong>Hotel Cathédrale</strong>, <strong>Hotel Le Saint-Antoine</strong>, <strong>B&B Au Fil de l'Eau</strong> en <strong>ibis Tournai</strong>. Voor congressen en zakelijke evenementen werken wij samen met het <strong>Congrescentrum van Doornik</strong>, <strong>Tournai Expo</strong> en het <strong>Cultureel Centrum</strong>. Ook bedrijven in de regio, de gezondheidszorg en de culturele sector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
+        </div>
+
+        <!-- Extra blok: cultuur en bezienswaardigheden -->
+        <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
+            <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Doornik met FleetConnect</h2>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek de <strong>Onze-Lieve-Vrouwekathedraal</strong> (UNESCO), het <strong>Belfort</strong> (UNESCO) en wandel langs de <strong>Schelde</strong>. Ook het <strong>Musée des Beaux-Arts</strong> en de gezellige <strong>Grote Markt</strong> met zijn terrasjes zijn een bezoek waard. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.</p>
+            <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
+        </div>
+
+        <!-- CTA -->
+        <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:white; padding:50px; border-radius:32px; text-align:center; margin:40px 0;">
+            <h2 style="color:white;" data-i18n="cta_title">Klaar voor een zorgeloze rit in Doornik of naar het buitenland?</h2>
+            <p style="margin:20px 0; font-size:1.1rem;" data-i18n="cta_sub">Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.</p>
+            <a href="/PV/PV.html" class="btn-primary" style="background:white; color:var(--primary-dark);" data-i18n="cta_btn"><i class="fas fa-calendar-alt"></i> Boek nu →</a>
+        </div>
+    </div>
+
+    <!-- CONTACTFORMULIER -->
+    <div class="contact-wrapper" id="contact">
+        <div class="contact-row">
+            <div class="contact-form">
+                <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
+                <div class="compact-form">
+                    <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
+                    <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32470123456" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
+    <!-- ========================================================== -->
+    <footer class="footer-dark">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
+                </div>
+
+                <div class="footer-cities">
+                    <h4>Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint-Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
+                </div>
+
+                <div class="footer-partners">
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                2026 FleetConnect - <a href="/">FleetConnect</a>
+            </div>
+        </div>
+    </footer>
+    <!-- ========================================================== -->
+
+</div>
+
+<script>
+    // ============================================================
+    // VERTALINGEN WOORDENBOEK - DOORNIK (TOURNAI)
+    // ============================================================
+    const translations = {
+        nl: {
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Doornik",
+            hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
+            hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
+            intro_title: "Doornik – Historische stad aan de Schelde & oudste stad van België",
+            intro_p1: "Doornik (Tournai) is een van de oudste steden van België, gelegen in de provincie Henegouwen aan de rivier de Schelde. De stad is rijk aan geschiedenis en cultuur, met de imposante Onze-Lieve-Vrouwekathedraal (UNESCO Werelderfgoed), de Scheldebrug en het Belfort (eveneens UNESCO Werelderfgoed). Doornik was ooit een belangrijke Romeinse stad en later een centrum van tapijtweverij en kunst.",
+            intro_p2: "De stad heeft een levendig economisch leven met sterke sectoren in toerisme, handel, gezondheidszorg en onderwijs. De nabijheid van de Franse grens en Lille, en de goede verbindingen via de E42 en E429, maken Doornik een strategische locatie voor bedrijven en pendelaars. Ook het Parc de la Porte du Hainaut en de Scheldevallei bieden tal van recreatiemogelijkheden.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, culturele instellingen en evenementenorganisatoren in Doornik. Onze vloot van Mercedes E-Klasse, BMW 5-serie, Skoda en luxe minivans garandeert een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen voor een vlekkeloze ontvangst van internationale gasten en zakenreizigers.",
+            events_title: "Evenementen & zakenwijken in Doornik",
+            events_p1: "Doornik heeft een bruisend evenementenaanbod. Jaarlijkse hoogtepunten zijn de Tournai sur Scène (zomerfestival), de Kerstmarkt op de Grote Markt, het Festival van de Kathedraal en de Grand Tournai (historische stadsfeesten). Ook het Musée des Beaux-Arts en het Centre Culturel de Tournai bieden het hele jaar door tentoonstellingen en voorstellingen.",
+            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Doornik-Noord, de Kantoorzone rond het station en het Businesspark Scheldevallei. Het Congrescentrum van Doornik en de Evenementenhal Tournai Expo zijn populaire locaties voor seminars, beurzen en bedrijfsevents.",
+            routes_title: "✈️ Luchthaventransfers vanuit Doornik",
+            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Doornik → Zaventem",
+            route1_desc: "80 km · ±1u 05 min · vaste prijs",
+            route2_title: "Doornik → Charleroi",
+            route2_desc: "70 km · ±1u 00 min · vaste prijs",
+            route3_title: "Doornik → Deurne",
+            route3_desc: "90 km · ±1u 15 min · vaste prijs",
+            route4_title: "Doornik → Lille",
+            route4_desc: "20 km · ±20 min · minimumtarief",
+            route5_title: "Doornik → Eindhoven",
+            route5_desc: "130 km · ±1u 30 min · vaste prijs",
+            route6_title: "Doornik → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2u 15 min · vaste prijs",
+            extras_title: "➕ Extra opties – transparante meerprijzen",
+            extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
+            extras_break: "Break model",
+            extras_break_desc: "– Meer bagageruimte",
+            extras_exclusive: "Exclusieve wagen",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Tot 8 personen",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
+            local_title: "📍 Ook binnen Doornik",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Doornik en de regio. Enkele voorbeelden:",
+            local_kathedraal: "Kathedraal",
+            local_kathedraal_desc: "Vanaf €30,00 · 1-2 km",
+            local_schelde: "Scheldevallei",
+            local_schelde_desc: "Vanaf €30,00 · 3-4 km",
+            local_belfort: "Belfort",
+            local_belfort_desc: "Vanaf €30,00 · 0,5-1 km",
+            local_lille: "Lille (Rijsel)",
+            local_lille_desc: "€30,00 · 20 km",
+            local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
+            international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Doornik",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Parijs (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxemburg (LU)",
+            int_lon: "Londen (UK) – via Eurotunnel",
+            service1_title: "Vluchtmonitoring",
+            service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
+            service2_title: "Documentatie",
+            service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
+            service3_title: "Meertalige chauffeurs",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Reserveer 24-48u vooruit",
+            service4_desc: "Internationale ritten plannen.",
+            why_title: "Waarom FleetConnect in Doornik?",
+            why1_title: "Stipt & punctueel",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Doornik en de omliggende snelwegen (E42, E429) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
+            why3_title: "Vaste prijzen",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Doornik-Lille) hanteren we een all-in vast tarief. Transparant en eerlijk.",
+            why4_title: "24/7 service",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            business_title: "Zakelijk & hotelvervoer op maat",
+            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Doornik, waaronder Hotel Cathédrale, Hotel Le Saint-Antoine, B&B Au Fil de l'Eau en ibis Tournai. Voor congressen en zakelijke evenementen werken wij samen met het Congrescentrum van Doornik, Tournai Expo en het Cultureel Centrum. Ook bedrijven in de regio, de gezondheidszorg en de culturele sector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
+            discover_title: "Ontdek Doornik met FleetConnect",
+            discover_p1: "Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek de Onze-Lieve-Vrouwekathedraal (UNESCO), het Belfort (UNESCO) en wandel langs de Schelde. Ook het Musée des Beaux-Arts en de gezellige Grote Markt met zijn terrasjes zijn een bezoek waard. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de stad. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
+            cta_title: "Klaar voor een zorgeloze rit in Doornik of naar het buitenland?",
+            cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
+            contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
+            contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
+            contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
+            language_label: "Taal / Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusieve service",
+            nav_fixed_prices: "Vaste prijzen",
+            nav_premium_fleet: "Premium vloot",
+            nav_airport: "Luchthavenvervoer",
+            nav_business: "Zakelijk vervoer",
+            nav_events: "Events & Gala",
+            nav_courier: "Koeriersdienst",
+            nav_contact: "Contact",
+            nav_book: "Reserveer nu",
+            login: "LOGIN"
+        },
+        fr: {
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Tournai",
+            hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
+            hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
+            intro_title: "Tournai – Ville historique sur l'Escaut & plus vieille ville de Belgique",
+            intro_p1: "Tournai est l'une des plus vieilles villes de Belgique, située dans la province de Hainaut sur la rivière Escaut. La ville est riche en histoire et en culture, avec l'imposante Cathédrale Notre-Dame (patrimoine UNESCO), le Pont de l'Escaut et le Beffroi (également patrimoine UNESCO). Tournai fut autrefois une importante ville romaine et plus tard un centre de tapisserie et d'art.",
+            intro_p2: "La ville possède une vie économique dynamique avec des secteurs forts dans le tourisme, le commerce, la santé et l'éducation. La proximité de la frontière française et de Lille, et les bonnes connexions via l'E42 et l'E429, font de Tournai un emplacement stratégique pour les entreprises et les navetteurs. Le Parc de la Porte du Hainaut et la Vallée de l'Escaut offrent également de nombreuses possibilités de loisirs.",
+            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, institutions culturelles et organisateurs d'événements à Tournai. Notre flotte de Mercedes Classe E, BMW Série 5, Skoda et minibus de luxe garantit un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) assurent un accueil impeccable aux invités internationaux et aux voyageurs d'affaires.",
+            events_title: "Événements et quartiers d'affaires à Tournai",
+            events_p1: "Tournai propose une offre d'événements animée. Les temps forts annuels sont le Tournai sur Scène (festival d'été), le Marché de Noël sur la Grand-Place, le Festival de la Cathédrale et le Grand Tournai (fêtes historiques). Le Musée des Beaux-Arts et le Centre Culturel de Tournai proposent également des expositions et des spectacles toute l'année.",
+            events_p2: "Les principaux quartiers d'affaires sont la zone industrielle de Tournai-Nord, la zone de bureaux autour de la gare et le Businesspark Scheldevallei. Le Centre de Congrès de Tournai et la Salle des Fêtes Tournai Expo sont des lieux prisés pour les séminaires, salons et événements d'entreprise.",
+            routes_title: "✈️ Transferts aéroport depuis Tournai",
+            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Tournai → Zaventem",
+            route1_desc: "80 km · ±1h 05 min · prix fixe",
+            route2_title: "Tournai → Charleroi",
+            route2_desc: "70 km · ±1h 00 min · prix fixe",
+            route3_title: "Tournai → Deurne",
+            route3_desc: "90 km · ±1h 15 min · prix fixe",
+            route4_title: "Tournai → Lille",
+            route4_desc: "20 km · ±20 min · tarif minimum",
+            route5_title: "Tournai → Eindhoven",
+            route5_desc: "130 km · ±1h 30 min · prix fixe",
+            route6_title: "Tournai → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2h 15 min · prix fixe",
+            extras_title: "➕ Options supplémentaires – suppléments transparents",
+            extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
+            extras_break: "Break modèle",
+            extras_break_desc: "– Plus d'espace bagages",
+            extras_exclusive: "Voiture exclusive",
+            extras_exclusive_desc: "– Mercedes Classe E / BMW Série 5",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Jusqu'à 8 personnes",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
+            local_title: "📍 A Tournai également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Tournai et dans la région. Quelques exemples :",
+            local_kathedraal: "Cathédrale",
+            local_kathedraal_desc: "À partir de €30,00 · 1-2 km",
+            local_schelde: "Vallée de l'Escaut",
+            local_schelde_desc: "À partir de €30,00 · 3-4 km",
+            local_belfort: "Beffroi",
+            local_belfort_desc: "À partir de €30,00 · 0,5-1 km",
+            local_lille: "Lille",
+            local_lille_desc: "€30,00 · 20 km",
+            local_cta: "Autre destination ? Demandez un devis sans engagement",
+            international_title: "<i class='fas fa-globe'></i> Transport international depuis Tournai",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxembourg (LU)",
+            int_lon: "Londres (UK) – via Eurotunnel",
+            service1_title: "Suivi de vol",
+            service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
+            service2_title: "Documentation",
+            service2_desc: "Tous les papiers pour le transport transfrontalier.",
+            service3_title: "Chauffeurs multilingues",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Réservez 24-48h à l'avance",
+            service4_desc: "Planification des trajets internationaux.",
+            why_title: "Pourquoi FleetConnect à Tournai?",
+            why1_title: "Ponctuel & fiable",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Tournai et les autoroutes environnantes (E42, E429). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
+            why3_title: "Prix fixes",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Tournai-Lille), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
+            why4_title: "Service 24/7",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            business_title: "Transport professionnel et hôtelier sur mesure",
+            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Tournai, dont Hotel Cathédrale, Hotel Le Saint-Antoine, B&B Au Fil de l'Eau et ibis Tournai. Pour les congrès et événements professionnels, nous collaborons avec le Centre de Congrès de Tournai, Tournai Expo et le Centre Culturel. Les entreprises de la région, du secteur de la santé et du secteur culturel comptent sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
+            discover_title: "Découvrez Tournai avec FleetConnect",
+            discover_p1: "Combinez votre rendez-vous d'affaires avec une découverte culturelle. Visitez la Cathédrale Notre-Dame (UNESCO), le Beffroi (UNESCO) et promenez-vous le long de l'Escaut. Le Musée des Beaux-Arts et la Grand-Place avec ses terrasses valent également le détour. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la ville. Combinez votre trajet avec un Meet & Greet à l'aéroport, y compris une pancarte à votre nom.",
+            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
+            cta_title: "Prêt pour un trajet sans souci à Tournai ou à l'étranger?",
+            cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
+            cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
+            contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
+            contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
+            contact_msg_label: "<i class='fas fa-comment'></i> Message *",
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
+            language_label: "Langue",
+            nav_home: "Accueil",
+            nav_exclusive: "Service exclusif",
+            nav_fixed_prices: "Prix fixes",
+            nav_premium_fleet: "Flotte premium",
+            nav_airport: "Transfert aéroport",
+            nav_business: "Transport d'affaires",
+            nav_events: "Événements & Gala",
+            nav_courier: "Service de messagerie",
+            nav_contact: "Contact",
+            nav_book: "Réservez maintenant",
+            login: "CONNEXION"
+        },
+        en: {
+            hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Tournai",
+            hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
+            hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
+            hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
+            intro_title: "Tournai – Historic city on the Scheldt & oldest city in Belgium",
+            intro_p1: "Tournai is one of the oldest cities in Belgium, located in the province of Hainaut on the river Scheldt. The city is rich in history and culture, with the impressive Notre-Dame Cathedral (UNESCO World Heritage), the Scheldt Bridge and the Belfry (also UNESCO World Heritage). Tournai was once an important Roman city and later a centre of tapestry weaving and art.",
+            intro_p2: "The city has a vibrant economy with strong sectors in tourism, trade, healthcare and education. The proximity of the French border and Lille, and good connections via the E42 and E429, make Tournai a strategic location for businesses and commuters. The Parc de la Porte du Hainaut and the Scheldt Valley also offer many recreational opportunities.",
+            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, cultural institutions and event organisers in Tournai. Our fleet of Mercedes E-Class, BMW 5 Series, Skoda and luxury minivans provides a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) ensure a flawless welcome for international guests and business travellers.",
+            events_title: "Events & Business Districts in Tournai",
+            events_p1: "Tournai has a lively events programme. Annual highlights are the Tournai sur Scène (summer festival), the Christmas Market on the Grand Place, the Cathedral Festival and the Grand Tournai (historic city festivities). The Musée des Beaux-Arts and the Centre Culturel de Tournai also offer exhibitions and performances throughout the year.",
+            events_p2: "The main business districts are the Tournai-Nord industrial estate, the office zone around the station and the Scheldevallei Business Park. The Tournai Congress Centre and the Tournai Expo Event Hall are popular venues for seminars, trade fairs and corporate events.",
+            routes_title: "✈️ Airport transfers from Tournai",
+            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Tournai → Zaventem",
+            route1_desc: "80 km · ±1h 05 min · fixed price",
+            route2_title: "Tournai → Charleroi",
+            route2_desc: "70 km · ±1h 00 min · fixed price",
+            route3_title: "Tournai → Deurne",
+            route3_desc: "90 km · ±1h 15 min · fixed price",
+            route4_title: "Tournai → Lille",
+            route4_desc: "20 km · ±20 min · minimum fare",
+            route5_title: "Tournai → Eindhoven",
+            route5_desc: "130 km · ±1h 30 min · fixed price",
+            route6_title: "Tournai → Amsterdam Schiphol",
+            route6_desc: "210 km · ±2h 15 min · fixed price",
+            extras_title: "➕ Extra options – clear surcharges",
+            extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
+            extras_break: "Break model",
+            extras_break_desc: "– More luggage space",
+            extras_exclusive: "Exclusive car",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
+            extras_van: "Mini Van",
+            extras_van_desc: "– Up to 8 persons",
+            extras_meet: "Meet & Greet",
+            extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
+            extras_kiss: "Kiss & Ride",
+            extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
+            local_title: "📍 Also in Tournai",
+            local_desc: "In addition to airport transfers, we also provide reliable transport within Tournai and the region. Some examples:",
+            local_kathedraal: "Cathedral",
+            local_kathedraal_desc: "From €30.00 · 1-2 km",
+            local_schelde: "Scheldt Valley",
+            local_schelde_desc: "From €30.00 · 3-4 km",
+            local_belfort: "Belfry",
+            local_belfort_desc: "From €30.00 · 0.5-1 km",
+            local_lille: "Lille",
+            local_lille_desc: "€30.00 · 20 km",
+            local_cta: "Other destination? Request a free quote",
+            international_title: "<i class='fas fa-globe'></i> International transport from Tournai",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
+            int_ams: "Amsterdam (NL) – Schiphol",
+            int_rot: "Rotterdam (NL)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
+            int_lux: "Luxembourg (LU)",
+            int_lon: "London (UK) – via Eurotunnel",
+            service1_title: "Flight monitoring",
+            service1_desc: "We track your flight; free waiting time in case of delay.",
+            service2_title: "Documentation",
+            service2_desc: "All documents for cross-border transport.",
+            service3_title: "Multilingual drivers",
+            service3_desc: "NL, FR, EN, DE.",
+            service4_title: "Book 24-48h in advance",
+            service4_desc: "Plan international trips.",
+            why_title: "Why FleetConnect in Tournai?",
+            why1_title: "Punctual & reliable",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Tournai's back streets and the surrounding highways (E42, E429). Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
+            why3_title: "Fixed prices",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Tournai-Lille), we offer an all-in fixed rate. Transparent and fair.",
+            why4_title: "24/7 service",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            business_title: "Customised business & hotel transport",
+            business_desc: "FleetConnect is the preferred partner of several hotels in Tournai, including Hotel Cathédrale, Hotel Le Saint-Antoine, B&B Au Fil de l'Eau and ibis Tournai. For congresses and business events, we work with the Tournai Congress Centre, Tournai Expo and the Cultural Centre. Companies in the region, healthcare and the cultural sector trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
+            discover_title: "Discover Tournai with FleetConnect",
+            discover_p1: "Combine your business appointment with a cultural exploration. Visit Notre-Dame Cathedral (UNESCO), the Belfry (UNESCO) and walk along the Scheldt. The Musée des Beaux-Arts and the lively Grand Place with its terraces are also worth a visit. Our drivers also act as informal guides and are happy to give you tips about the city. Combine your ride with a Meet & Greet at the airport, including a sign with your name.",
+            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
+            cta_title: "Ready for a worry-free ride in Tournai or abroad?",
+            cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
+            cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
+            contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
+            contact_name_label: "<i class='fas fa-user'></i> Your name *",
+            contact_email_label: "<i class='fas fa-envelope'></i> Email *",
+            contact_msg_label: "<i class='fas fa-comment'></i> Message *",
+            contact_send_btn: "<i class='fas fa-paper-plane'></i> Send",
+            language_label: "Language",
+            nav_home: "Home",
+            nav_exclusive: "Exclusive service",
+            nav_fixed_prices: "Fixed prices",
+            nav_premium_fleet: "Premium fleet",
+            nav_airport: "Airport transfer",
+            nav_business: "Business transport",
+            nav_events: "Events & Gala",
+            nav_courier: "Courier service",
+            nav_contact: "Contact",
+            nav_book: "Book now",
+            login: "LOGIN"
+        }
+    };
+
+    // ============================================================
+    // HUIDIGE TAAL
+    // ============================================================
+    let currentLang = 'nl';
+
+    function translatePage() {
+        const t = translations[currentLang];
+        if (!t) return;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key] !== undefined) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = t[key];
+                } else {
+                    el.innerHTML = t[key];
+                }
+            }
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.getAttribute('data-lang') === currentLang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        document.documentElement.lang = currentLang;
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            if (lang && translations[lang]) {
+                currentLang = lang;
+                translatePage();
+            }
+        });
+    });
+
+    translatePage();
+
+    // ============================================================
+    // HAMBURGER MENU FUNCTIONALITEIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                sidebarOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        if (closeMenuBtn) {
+            closeMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function(e) {
+                if (e.target === sidebarOverlay) {
+                    sidebarOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebarOverlay.classList.contains('active')) {
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        const verstuurBtn = document.getElementById('verstuurBerichtBtn');
+        if (verstuurBtn) {
+            verstuurBtn.addEventListener('click', function() {
+                const msg = currentLang === 'nl' ? 'Bericht verzonden! Wij nemen zo snel mogelijk contact op.' :
+                           (currentLang === 'fr' ? 'Message envoyé ! Nous vous contacterons dès que possible.' :
+                            'Message sent! We will contact you as soon as possible.');
+                alert(msg);
+            });
+        }
+    });
+</script>
+</body>
+</html>
+  
