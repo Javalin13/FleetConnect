@@ -876,15 +876,31 @@
         });
     }
     
-    function updateDisplayAndRoute(route) {
+    async function updateDisplayAndRoute(route) {
         let displayDistance = parseFloat(currentRouteData.distanceKm);
         let displayDuration = currentRouteData.durationMin;
+
         let price = displayDistance * 1.5;
-        if (currentRoundTrip) { displayDistance *= 2; displayDuration *= 2; price *= 2; }
-        if (price < 15) price = 15;
+        const supabase = await getSupabase();
+        if (supabase) {
+            const pickupText = document.getElementById('pickupInput').value.trim();
+            const dropoffText = document.getElementById('dropoffInput').value.trim();
+            const { data, error } = await supabase.rpc('calculate_booking_fare', {
+                p_distance_km: displayDistance,
+                p_pickup_address: pickupText,
+                p_dropoff_address: dropoffText,
+                p_is_round_trip: currentRoundTrip
+            });
+            if (!error && data) {
+                price = data.total_amount;
+            }
+        } else {
+            if (currentRoundTrip) { displayDistance *= 2; displayDuration *= 2; price *= 2; }
+            if (price < 15) price = 15;
+        }
         
-        document.getElementById("distVal").innerHTML = displayDistance.toFixed(1);
-        document.getElementById("timeVal").innerHTML = displayDuration;
+        document.getElementById("distVal").innerHTML = currentRoundTrip ? (parseFloat(currentRouteData.distanceKm) * 2).toFixed(1) : parseFloat(currentRouteData.distanceKm).toFixed(1);
+        document.getElementById("timeVal").innerHTML = currentRoundTrip ? (currentRouteData.durationMin * 2) : currentRouteData.durationMin;
         document.getElementById("priceVal").innerHTML = price.toFixed(2);
         updateTotalDisplay();
         
@@ -1032,10 +1048,7 @@
         document.getElementById('returnDateContainer').classList.toggle('visible', e.target.checked);
         if (currentRouteData) {
             currentRoundTrip = e.target.checked;
-            let d = parseFloat(currentRouteData.distanceKm);
-            if (currentRoundTrip) d *= 2;
-            document.getElementById('priceVal').innerHTML = (d * 1.5).toFixed(2);
-            updateTotalDisplay();
+            updateDisplayAndRoute(null);
         }
     });
     
@@ -1054,6 +1067,18 @@
         let dist = parseFloat(currentRouteData.distanceKm);
         if (currentRoundTrip) dist *= 2;
         let totalAmount = dist * 1.5 + selectedVehicleExtra;
+        const supabase = await getSupabase();
+        if (supabase) {
+            const { data, error } = await supabase.rpc('calculate_booking_fare', {
+                p_distance_km: parseFloat(currentRouteData.distanceKm),
+                p_pickup_address: document.getElementById('pickupInput').value,
+                p_dropoff_address: document.getElementById('dropoffInput').value,
+                p_is_round_trip: currentRoundTrip
+            });
+            if (!error && data) {
+                totalAmount = data.total_amount + selectedVehicleExtra;
+            }
+        }
         const dt = document.getElementById('datetime').value;
         let datePart = "", timePart = "";
         if (dt) { const parts = dt.split(' '); datePart = parts[0]; timePart = parts[1] || ""; }
