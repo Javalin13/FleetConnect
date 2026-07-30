@@ -1,5 +1,14 @@
 begin;
 
+-- 1. Add primary_dispatch_driver_id column to public.partners if it doesn't exist
+alter table public.partners add column if not exists primary_dispatch_driver_id uuid references public.drivers(id) on delete set null;
+
+-- 2. Configure Younes' partner (ID 39) and the Hoofdpartner (ID 1) to use Younes' driver ID for auto-assignments
+update public.partners
+   set primary_dispatch_driver_id = '4e40bdca-0468-4d1e-abb3-d39d9ddcc58a'
+ where id in (1, 39);
+
+-- 3. Refactor public.create_public_booking to use configurable auto-assignment settings
 create or replace function public.create_public_booking(payload jsonb)
 returns jsonb
 language plpgsql
@@ -20,10 +29,12 @@ declare
   v_form_data jsonb;
   v_metadata jsonb;
   v_result jsonb;
+  v_partner_id integer;
 
   -- Auto-assignment variables
   v_driver public.drivers%rowtype;
   v_token text;
+  v_primary_driver_id uuid;
 begin
   if payload is null then
     raise exception 'Missing booking payload';
@@ -72,10 +83,25 @@ begin
     v_duration := coalesce(v_duration, 0);
   end if;
 
-  -- Select Younes Mrabet specifically for auto-assignment
-  select * into v_driver from public.drivers where id = '4e40bdca-0468-4d1e-abb3-d39d9ddcc58a' and is_active is not false;
-  -- If not found (e.g. in test suite context where Younes doesn't exist yet), fallback to any active driver
-  if not found then
+  v_partner_id := coalesce(nullif(payload->>'partner_id','')::integer, 1);
+
+  -- Retrieve the configured primary dispatch driver for the partner
+  select primary_dispatch_driver_id into v_primary_driver_id
+    from public.partners
+   where id = v_partner_id;
+
+  -- Select the configured driver
+  if v_primary_driver_id is not null then
+    select * into v_driver from public.drivers where id = v_primary_driver_id and is_active is not false;
+  end if;
+
+  -- Fallback to Younes Mrabet's driver ID if still not resolved
+  if v_driver.id is null then
+    select * into v_driver from public.drivers where id = '4e40bdca-0468-4d1e-abb3-d39d9ddcc58a' and is_active is not false;
+  end if;
+
+  -- Fallback to any active driver if still not found (e.g. in test suite context where Younes doesn't exist yet)
+  if v_driver.id is null then
     select * into v_driver from public.drivers where is_active is not false limit 1;
   end if;
 
@@ -124,7 +150,7 @@ begin
     nullif(payload->>'customer_id',''),
     v_form_data,
     v_metadata,
-    coalesce(nullif(payload->>'partner_id','')::bigint, 1),
+    v_partner_id,
     coalesce(nullif(payload->>'payment_status',''), case when nullif(payload->>'payment','') = 'Cash' then 'cash_pending' else 'unpaid' end),
     auth.uid(),
     v_pickup_place_id,
