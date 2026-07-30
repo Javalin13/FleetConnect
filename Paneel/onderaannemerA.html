@@ -349,6 +349,12 @@
                     <input type="text" id="p_email" placeholder="Email">
                     <input type="text" id="p_phone" placeholder="Telefoon">
                     <input type="text" id="p_prefix" placeholder="Prefix (bv. AA)">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Primary Dispatch Driver</label>
+                        <select id="p_primary_dispatch_driver_id" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; background: white; color: #0f172a;">
+                            <option value="">-- Geen Primary Dispatch Driver --</option>
+                        </select>
+                    </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <input type="checkbox" id="p_is_hoofd" class="compact-checkbox">
                         <label for="p_is_hoofd" id="isHoofdLabel" style="font-size: 0.85rem; cursor: pointer;">Dit is de Hoofdpartner</label>
@@ -529,6 +535,7 @@
         const app = {
             allBookings: [], newOrders: [], ordersList: [], reassignmentOrders: [], expiredOrders: [], historyOrders: [], partners: [], drivers: [], customers: [], accountRequests: [], reviewsByBooking: {}, selectedRideIds: new Set(),
             currentTab: 'neworders', selectedDate: new Date(), currentMonth: new Date(), financePeriod: 'month', revenueChart: null, flipStates: { omzet: false, cash: false, orders: false },
+            editingDriverId: null, preselectedPartnerId: null, editingPartnerId: null,
             
             showToast(msg, isError) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.style.backgroundColor = isError ? '#ef4444' : '#10b981'; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); },
             toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); },
@@ -748,7 +755,7 @@
             selectDate(day, month, year) { this.selectedDate = new Date(year, month-1, day); this.currentMonth = new Date(year, month-1, 1); this.renderSimpleCalendar(); setTimeout(() => { const pc = document.querySelector('.planning-container'); if (pc) pc.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100); },
             renderDrivers() {
                 let t = translations[currentLang];
-                let myDrivers = this.drivers.filter(c => { let partner = this.partners.find(p => p.id === c.partner_id); return partner && partner.is_hoofd === true; });
+                let myDrivers = this.drivers;
                 const activeDrivers = myDrivers.filter(c => c.is_active !== false && !c.archived_at);
                 const archivedDrivers = myDrivers.filter(c => c.is_active === false || c.archived_at);
                 const renderDriverCard = (c, archived = false) => {
@@ -983,32 +990,24 @@
             async editPartner(partnerId) {
                 const p = this.partners.find(x => String(x.id) === String(partnerId));
                 if (!p) return;
-                const t = translations[currentLang];
-                const name = prompt('Bedrijfsnaam:', p.name || '');
-                if (name === null) return;
-                const contact = prompt('Contactpersoon:', p.contact || '');
-                if (contact === null) return;
-                const email = prompt('Email:', p.email || '');
-                if (email === null) return;
-                const phone = prompt('Telefoon:', p.phone || '');
-                if (phone === null) return;
-                const prefix = prompt('Prefix (2-4 letters):', p.prefix || '');
-                if (prefix === null) return;
-                const isHoofdStr = prompt('Hoofdpartner? (ja/nee):', p.is_hoofd ? 'ja' : 'nee');
-                if (isHoofdStr === null) return;
-                const is_hoofd = String(isHoofdStr).toLowerCase().startsWith('j');
-                const { error } = await supabase.rpc('update_partner', {
-                    p_partner_id: p.id,
-                    p_name: name || null,
-                    p_email: email || null,
-                    p_phone: phone || null,
-                    p_prefix: prefix || null,
-                    p_is_hoofd: is_hoofd
-                });
-                if (error) { this.showToast('Bewerken mislukt: ' + error.message, true); return; }
-                this.showToast(`${name} bijgewerkt`);
-                await this.loadPartners();
-                if (this.currentTab === 'partners') this.renderPartners();
+                this.editingPartnerId = p.id;
+
+                document.getElementById('p_name').value = p.name || '';
+                document.getElementById('p_contact').value = p.contact || '';
+                document.getElementById('p_email').value = p.email || '';
+                document.getElementById('p_phone').value = p.phone || '';
+                document.getElementById('p_prefix').value = p.prefix || '';
+                document.getElementById('p_is_hoofd').checked = p.is_hoofd || false;
+
+                // Populate primary dispatch driver dropdown
+                const select = document.getElementById('p_primary_dispatch_driver_id');
+                if (select) {
+                    const partnerDrivers = (this.drivers || []).filter(d => Number(d.partner_id) === Number(p.id) && !d.archived_at);
+                    select.innerHTML = '<option value="">-- Geen Primary Dispatch Driver --</option>' +
+                        partnerDrivers.map(d => `<option value="${d.id}" ${d.id === p.primary_dispatch_driver_id ? 'selected' : ''}>${this.escapeHtml(d.name)}</option>`).join('');
+                }
+
+                document.getElementById('partnerModal').style.display = 'flex';
             },
 
             async archivePartner(partnerId) {
@@ -1430,7 +1429,202 @@
             async completeBooking(bookingId) { if (!confirm('Rit markeren als voltooid en reviewverzoek verzenden?')) return; const { error } = await supabase.rpc('operator_complete_booking', { p_booking_id: bookingId }); if (error) { this.showToast('Voltooien mislukt: ' + error.message, true); return; } const emailResult = await comms.trigger('RIDE_COMPLETED_REVIEW_REQUEST', bookingId, supabase); if (!emailResult?.success) console.warn('RIDE_COMPLETED_REVIEW_REQUEST failed:', emailResult?.error); this.showToast('Rit voltooid'); await this.refreshAllData(); this.closeModal(); },
             async assignDriverToBooking(bookingId) { let t = translations[currentLang]; const select = document.getElementById('driverSelect'); const driverId = select?.value; if (!driverId) { this.showToast(t.ficheSelectDriver, true); return; } const driver = this.drivers.find(c => String(c.id) === String(driverId)); if (!driver) { this.showToast('Driver niet gevonden', true); return; } const { error } = await supabase.rpc('operator_assign_driver', { p_booking_id: bookingId, p_driver_id: driver.id, p_assignment_token: crypto.randomUUID() }); if (error) { this.showToast(`${t.toastError} ${t.btnAssign}: ` + error.message, true); return; } comms.trigger('DRIVER_ASSIGNMENT_REQUEST', bookingId, supabase); this.showToast(`${t.statusAssignmentSent || 'Wachtend op reactie chauffeur'}: ${driver.name}`); await this.refreshAllData(); this.closeModal(); },
             async unassignDriverFromBooking(bookingId) { const reason = prompt('Reden voor terugroepen/opnieuw toewijzen:') || ''; const { error } = await supabase.rpc('operator_unassign_driver', { p_booking_id: bookingId, p_reason: reason }); if (error) { this.showToast('Chauffeur terugroepen mislukt: ' + error.message, true); return; } this.showToast('Chauffeur teruggeroepen - opnieuw toewijzen'); await this.refreshAllData(); const updated = this.allBookings.find(b => b.id === bookingId); if (updated) await this.showBookingFiche(updated); },
-            async editDriver(driverId) { let t = translations[currentLang]; const driver = this.drivers.find(d => String(d.id) === String(driverId)); if (!driver) { this.showToast('Driver niet gevonden', true); return; } const name = prompt(`${t.ficheName} ${t.tableDriver}:`, driver.name || ''); if (!name) return; const email = prompt(`${t.ficheEmail} ${t.tableDriver}:`, driver.email || ''); const phone = prompt('Phone:', driver.phone || ''); const vehicle = prompt(`${t.ficheVehicle}:`, driver.vehicle || ''); const licensePlate = prompt('Plate:', driver.license_plate || ''); const partnerHint = (this.partners || []).map(p => `${p.id}: ${p.name}`).join('\\n'); const partnerInput = prompt(`Partner toewijzing - geef partner ID:\\n${partnerHint}`, String(driver.partner_id || '')); if (partnerInput === null) return; const partnerId = Number(partnerInput); if (!Number.isFinite(partnerId) || !this.partners.some(p => Number(p.id) === partnerId)) { this.showToast('Ongeldige partner toewijzing', true); return; } const { error } = await supabase.rpc('update_operator_driver', { payload: { id: driver.id, partner_id: partnerId, name, email, phone, vehicle, license_plate: licensePlate, color: driver.color || 'Zwart' } }); if (error) { this.showToast(`${t.toastError} ${t.btnEdit}: ` + error.message, true); return; } this.showToast(`${name} ${t.toastAdded}`); await this.refreshAllData(true); if (this.currentTab === 'drivers') this.renderDrivers(); if (this.currentTab === 'partners') this.renderPartners(); },
+            showAddDriverForm(preselectedPartnerId = null) {
+                this.editingDriverId = null;
+                this.preselectedPartnerId = preselectedPartnerId;
+                this.currentTab = 'driver_form';
+                this.renderDriverForm();
+            },
+
+            editDriver(driverId) {
+                this.editingDriverId = driverId;
+                this.preselectedPartnerId = null;
+                this.currentTab = 'driver_form';
+                this.renderDriverForm();
+            },
+
+            renderDriverForm() {
+                const editing = this.editingDriverId !== null;
+                const d = editing ? this.drivers.find(x => String(x.id) === String(this.editingDriverId)) : null;
+
+                // Splitting name
+                const fullName = d ? (d.name || '') : '';
+                const firstName = fullName.split(' ')[0] || '';
+                const lastName = fullName.split(' ').slice(1).join(' ') || '';
+
+                const partnersOptions = (this.partners || [])
+                    .filter(p => !p.archived_at)
+                    .map(p => {
+                        const selected = (editing && Number(p.id) === Number(d.partner_id)) ||
+                                         (!editing && this.preselectedPartnerId && Number(p.id) === Number(this.preselectedPartnerId));
+                        return `<option value="${p.id}" ${selected ? 'selected' : ''}>${this.escapeHtml(p.name)} (Prefix: ${this.escapeHtml(p.prefix || '')})</option>`;
+                    }).join('');
+
+                const pageTitle = editing ? "Chauffeur Bewerken" : "Nieuwe Chauffeur Toevoegen";
+
+                let html = `
+                <div class="people-card" style="max-width: 600px; margin: 0 auto; padding: 24px; border-radius: 16px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
+                    <h3 style="margin-bottom: 20px; font-size: 1.25rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-id-card" style="color: var(--primary);"></i> ${pageTitle}
+                    </h3>
+
+                    <form id="driverFullForm" style="display: flex; flex-direction: column; gap: 16px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Voornaam <span style="color: #ef4444;">*</span></label>
+                                <input type="text" id="df_firstName" value="${this.escapeHtml(firstName)}" required style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                            </div>
+                            <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Achternaam <span style="color: #ef4444;">*</span></label>
+                                <input type="text" id="df_lastName" value="${this.escapeHtml(lastName)}" required style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                            </div>
+                        </div>
+
+                        <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">E-mailadres <span style="color: #ef4444;">*</span></label>
+                            <input type="email" id="df_email" value="${this.escapeHtml(d ? d.email : '')}" required style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                        </div>
+
+                        <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Telefoonnummer</label>
+                            <input type="text" id="df_phone" value="${this.escapeHtml(d ? d.phone : '')}" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                        </div>
+
+                        <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Partner / Onderaannemer <span style="color: #ef4444;">*</span></label>
+                            <select id="df_partner_id" required style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                                <option value="">-- Selecteer Partner --</option>
+                                ${partnersOptions}
+                            </select>
+                        </div>
+
+                        <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Voertuig</label>
+                            <input type="text" id="df_vehicle" value="${this.escapeHtml(d ? d.vehicle : '')}" placeholder="bv. Mercedes E-Klasse" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Nummerplaat</label>
+                                <input type="text" id="df_license" value="${this.escapeHtml(d ? d.license_plate : '')}" placeholder="bv. 1-ABC-123" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                            </div>
+                            <div class="field" style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-weight: 600; font-size: 0.85rem; color: #64748b;">Kleur voertuig</label>
+                                <input type="text" id="df_color" value="${this.escapeHtml(d ? d.color : 'Zwart')}" placeholder="bv. Zilver" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+                            <button type="button" class="fiche-btn close" onclick="app.cancelDriverForm()" style="padding: 10px 20px; border-radius: 8px; cursor: pointer; border: 1px solid #cbd5e1; background: white; color: #0f172a; font-weight: 600;">Annuleren</button>
+                            <button type="submit" class="fiche-btn confirm" style="padding: 10px 20px; border-radius: 8px; cursor: pointer; background: var(--primary); color: white; border: none; font-weight: 600;">Opslaan</button>
+                        </div>
+                    </form>
+                </div>`;
+
+                document.getElementById('contentArea').innerHTML = html;
+                document.getElementById('pageTitle').innerHTML = pageTitle;
+
+                // Bind form submit listener
+                document.getElementById('driverFullForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await this.saveDriverForm();
+                });
+            },
+
+            cancelDriverForm() {
+                // If preselected partner was set, return to partners tab, otherwise drivers tab
+                if (this.preselectedPartnerId !== null) {
+                    this.currentTab = 'partners';
+                    this.renderPartners();
+                } else {
+                    this.currentTab = 'drivers';
+                    this.renderDrivers();
+                }
+            },
+
+            async saveDriverForm() {
+                const editing = this.editingDriverId !== null;
+                const firstName = document.getElementById('df_firstName').value.trim();
+                const lastName = document.getElementById('df_lastName').value.trim();
+                const email = document.getElementById('df_email').value.trim();
+                const phone = document.getElementById('df_phone').value.trim();
+                const partnerId = Number(document.getElementById('df_partner_id').value);
+                const vehicle = document.getElementById('df_vehicle').value.trim() || 'Standaard';
+                const licensePlate = document.getElementById('df_license').value.trim() || 'Onbekend';
+                const color = document.getElementById('df_color').value.trim() || 'Zwart';
+
+                const fullName = `${firstName} ${lastName}`;
+                const targetPartner = this.partners.find(p => Number(p.id) === partnerId);
+                if (!targetPartner) {
+                    this.showToast('Geselecteerde partner niet gevonden', true);
+                    return;
+                }
+
+                if (editing) {
+                    // Update existing driver
+                    const { error } = await supabase.rpc('update_operator_driver', {
+                        payload: {
+                            id: this.editingDriverId,
+                            partner_id: partnerId,
+                            name: fullName,
+                            email: email,
+                            phone: phone,
+                            vehicle: vehicle,
+                            license_plate: licensePlate,
+                            color: color
+                        }
+                    });
+                    if (error) {
+                        this.showToast('Bijwerken chauffeur mislukt: ' + error.message, true);
+                        return;
+                    }
+                    this.showToast(`Chauffeur ${fullName} succesvol bijgewerkt`);
+                } else {
+                    // Create new driver with Partner prefix logic
+                    const prefix = targetPartner.prefix || 'DRV';
+                    const { data: partnerDrivers } = await supabase
+                        .from('drivers')
+                        .select('driver_code')
+                        .eq('partner_id', targetPartner.id);
+
+                    let maxNum = 0;
+                    if (partnerDrivers && partnerDrivers.length) {
+                        partnerDrivers.forEach(dr => {
+                            const parts = (dr.driver_code || '').split('-');
+                            if (parts.length > 1) {
+                                const num = parseInt(parts[parts.length - 1], 10);
+                                if (!isNaN(num) && num > maxNum) {
+                                    maxNum = num;
+                                }
+                            }
+                        });
+                    }
+                    const nextNumber = maxNum + 1;
+                    const driverCode = `${prefix}-${String(nextNumber).padStart(3, '0')}`;
+
+                    const { error } = await supabase.rpc('create_operator_driver', {
+                        payload: {
+                            partner_id: targetPartner.id,
+                            driver_code: driverCode,
+                            name: fullName,
+                            email: email,
+                            phone: phone,
+                            vehicle: vehicle,
+                            color: color,
+                            license_plate: licensePlate
+                        }
+                    });
+                    if (error) {
+                        this.showToast('Aanmaken chauffeur mislukt: ' + error.message, true);
+                        return;
+                    }
+                    this.showToast(`Chauffeur ${fullName} succesvol aangemaakt met code ${driverCode}`);
+                }
+
+                await this.loadDrivers();
+                this.cancelDriverForm();
+            },
+
             async deleteDriver(driverId) { let t = translations[currentLang]; const activeRides = this.allBookings.filter(b => String(b.assigned_driver_id) === String(driverId) && !['completed','cancelled','declined'].includes(b.status)); if (activeRides.length) { alert('Deze chauffeur heeft actieve ritten en kan niet worden gearchiveerd voordat ze opnieuw toegewezen zijn:\\n\\n' + activeRides.map(b => `${b.id} - ${b.datetime} ${b.time || ''} - ${this.getFullRoute(b.pickup, b.destination)}`).join('\\n')); return; } if (!confirm(t.btnArchive + '?')) return; const { error } = await supabase.rpc('archive_operator_driver', { p_driver_id: driverId }); if (error) { this.showToast(`${t.toastError} ${t.btnArchive}: ` + error.message, true); return; } this.showToast(`${t.btnArchive}: OK`); await this.loadDrivers(); if (this.currentTab === 'drivers') this.renderDrivers(); if (this.currentTab === 'partners') this.renderPartners(); },
             async reactivateDriver(driverId) { const { error } = await supabase.rpc('reactivate_operator_driver', { p_driver_id: driverId }); if (error) { this.showToast('Heractiveren mislukt: ' + error.message, true); return; } this.showToast('Chauffeur heractief'); await this.loadDrivers(); if (this.currentTab === 'drivers') this.renderDrivers(); },
             async archiveCustomer(customerId) { if (!confirm('Klant archiveren? Boekingen en historiek blijven behouden.')) return; const reason = prompt('Reden voor archivering (optioneel):') || ''; const { error } = await supabase.rpc('archive_operator_customer', { p_customer_id: customerId, p_reason: reason }); if (error) { this.showToast('Klant archiveren mislukt: ' + error.message, true); return; } this.showToast('Klant gearchiveerd'); await this.refreshAllData(true); this.renderCustomers(); },
@@ -1438,46 +1632,56 @@
             async reactivateCustomer(customerId) { const { error } = await supabase.rpc('update_operator_customer', { payload: { id: customerId, is_active: true } }); if (error) { this.showToast('Klant heractiveren mislukt: ' + error.message, true); return; } this.showToast('Klant heractief'); await this.refreshAllData(true); this.renderCustomers(); },
             async deleteCustomer(customerId) { if (!confirm('Klant definitief verwijderen uit Supabase? Alleen mogelijk zonder ritgeschiedenis. Gebruik anders archiveren.')) return; const { error } = await supabase.rpc('delete_operator_customer', { p_customer_id: customerId }); if (error) { this.showToast('Klant verwijderen mislukt: ' + error.message, true); return; } this.showToast('Klant verwijderd'); await this.refreshAllData(true); this.renderCustomers(); },
             async deletePartner(partnerId) { let t = translations[currentLang]; if (!confirm('Partner definitief verwijderen uit Supabase? Archiveer als ritten/historiek bewaard moeten blijven.')) return; const { error } = await supabase.rpc('delete_operator_partner', { p_partner_id: partnerId }); if (error) { this.showToast(`${t.toastError} ${t.btnDelete}: ` + error.message, true); return; } this.showToast(`${t.toastDeleted}`); await this.loadPartners(); if (this.currentTab === 'partners') this.renderPartners(); },
-            async showAddDriverForm(preselectedPartnerId = null) { let t = translations[currentLang]; let targetPartner = preselectedPartnerId ? this.partners.find(p => Number(p.id) === Number(preselectedPartnerId)) : null; if (!targetPartner) { const partnerHint = (this.partners || []).filter(p => !p.archived_at).map(p => `${p.id}: ${p.name}`).join('\\n'); const partnerInput = prompt(`Partner toewijzing - geef partner ID:\\n${partnerHint}`, String((this.partners.find(p => p.is_hoofd === true) || this.partners[0] || {}).id || '')); if (partnerInput === null) return; targetPartner = this.partners.find(p => Number(p.id) === Number(partnerInput)); } if (!targetPartner) { this.showToast('Kies een geldige partner voor deze chauffeur.', true); return; } let name = prompt(`${t.ficheName} ${t.tableDriver}:`); if (!name) return; let email = prompt(`${t.ficheEmail} ${t.tableDriver}:`); if (!email) return; let vehicle = prompt(`${t.ficheVehicle}:`) || 'Standaard'; const { count } = await supabase.from('drivers').select('*', { count: 'exact', head: true }).eq('partner_id', targetPartner.id); const nextNumber = (count || 0) + 1; const driverCode = `${targetPartner.prefix || 'DRV'}-${String(nextNumber).padStart(2, '0')}`; const { error } = await supabase.rpc('create_operator_driver', { payload: { partner_id: targetPartner.id, driver_code: driverCode, name: name, email: email, vehicle: vehicle, color: 'Zwart', license_plate: 'Onbekend' } }); if (error) { this.showToast(`${t.toastError} ${t.btnAddDriver}: ` + error.message, true); return; } this.showToast(`${name} ${t.toastAdded}`); await this.refreshAllData(true); if (this.currentTab === 'drivers') this.renderDrivers(); if (this.currentTab === 'partners') this.renderPartners(); },
-            async showAddPartnerForm() { document.getElementById('partnerModal').style.display = 'flex'; },
+            async showAddPartnerForm() {
+                this.editingPartnerId = null;
+                document.getElementById('p_name').value = '';
+                document.getElementById('p_contact').value = '';
+                document.getElementById('p_email').value = '';
+                document.getElementById('p_phone').value = '';
+                document.getElementById('p_prefix').value = '';
+                document.getElementById('p_is_hoofd').checked = false;
+
+                const select = document.getElementById('p_primary_dispatch_driver_id');
+                if (select) select.innerHTML = '<option value="">-- Geen Primary Dispatch Driver --</option>';
+
+                document.getElementById('partnerModal').style.display = 'flex';
+            },
             async savePartner() {
                 let t = translations[currentLang];
                 const name = document.getElementById('p_name').value.trim();
                 if (!name) { this.showToast(t.ficheName + ' is verplicht', true); return; }
+
+                const primaryDriverId = document.getElementById('p_primary_dispatch_driver_id').value || null;
+
                 const basePayload = {
                     name,
                     contact: document.getElementById('p_contact').value.trim(),
                     email: document.getElementById('p_email').value.trim(),
                     phone: document.getElementById('p_phone').value.trim(),
                     prefix: document.getElementById('p_prefix').value.trim() || name.slice(0,2).toUpperCase(),
-                    is_hoofd: document.getElementById('p_is_hoofd').checked
+                    is_hoofd: document.getElementById('p_is_hoofd').checked,
+                    primary_dispatch_driver_id: primaryDriverId
                 };
-                const saveWithAction = async (duplicateAction = null) => {
-                    const payload = duplicateAction ? { ...basePayload, duplicate_action: duplicateAction } : basePayload;
-                    return await supabase.rpc('create_operator_partner', { payload });
-                };
-                let { data, error } = await saveWithAction();
-                if (error) { this.showToast(`${t.toastError} ${t.btnAddPartner}: ` + error.message, true); return; }
-                if (data?.status === 'archived_match') {
-                    const label = data.partner?.name || name;
-                    if (confirm(`Er bestaat al een gearchiveerde partner (${label}) met gelijkaardige gegevens.\n\nOK = heractiveren en bijwerken.\nAnnuleren = nieuwe invoer stoppen.`)) {
-                        ({ data, error } = await saveWithAction('reactivate'));
-                        if (error) { this.showToast('Heractiveren mislukt: ' + error.message, true); return; }
-                    } else {
-                        this.showToast('Partner niet toegevoegd. Gearchiveerde partner kan worden heractiveerd.');
-                        return;
-                    }
-                } else if (data?.status === 'duplicate_active') {
-                    const label = data.partner?.name || name;
-                    if (confirm(`Er bestaat al een actieve partner (${label}) met gelijkaardige gegevens.\n\nOK = bestaande partner bijwerken.\nAnnuleren = gegevens wijzigen.`)) {
-                        ({ data, error } = await saveWithAction('replace'));
-                        if (error) { this.showToast('Bijwerken mislukt: ' + error.message, true); return; }
-                    } else {
-                        this.showToast('Partner niet toegevoegd. Pas de gegevens aan om dubbele invoer te vermijden.');
-                        return;
-                    }
+
+                if (this.editingPartnerId) {
+                    const { error } = await supabase.from('partners').update({
+                        name: basePayload.name,
+                        contact: basePayload.contact,
+                        email: basePayload.email,
+                        phone: basePayload.phone,
+                        prefix: basePayload.prefix,
+                        is_hoofd: basePayload.is_hoofd,
+                        primary_dispatch_driver_id: basePayload.primary_dispatch_driver_id
+                    }).eq('id', this.editingPartnerId);
+
+                    if (error) { this.showToast('Bijwerken partner mislukt: ' + error.message, true); return; }
+                    this.showToast(`${name} bijgewerkt`);
+                } else {
+                    const { error } = await supabase.rpc('create_operator_partner', { payload: basePayload });
+                    if (error) { this.showToast('Aanmaken partner mislukt: ' + error.message, true); return; }
+                    this.showToast(`${name} aangemaakt`);
                 }
-                this.showToast(`${data?.partner?.name || name} ${t.toastAdded}`);
+
                 this.closePartnerModal();
                 await this.loadPartners();
                 if (this.currentTab === 'partners') this.renderPartners();
