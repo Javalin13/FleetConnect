@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Zaventem – Luchthavenstad en groene gemeente</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Zaventem. Vaste prijs €1,50/km. Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Antwerpen (ANR), Lille (LIL), Eindhoven (EIN), Amsterdam (AMS). 24/7 beschikbaar.">
+    <title>FleetConnect | Taxi Zaventem – Luchthavenpoort & internationale transfers</title>
+    <meta name="description" content="FleetConnect biedt professionele luchthaventransfers vanuit Zaventem (BRU). Vaste prijs €1,50/km. Ritten naar Brussel, Charleroi (CRL), Antwerpen (ANR), Lille (LIL), Eindhoven (EIN), Amsterdam (AMS). 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -31,6 +31,7 @@
         .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
         .login-btn:hover{opacity:0.9}
         
+        /* ========== HERO SECTIE ========== */
         .hero{padding:80px 0 40px;text-align:center}
         .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
         .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
@@ -64,10 +65,12 @@
         .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
         .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
         
+        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
         .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
         .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
         .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
         
+        /* ========== EXTRA OPTIES LIJST ========== */
         .extra-options-list{list-style:none;margin:0;padding:0}
         .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
         .extra-options-list li:last-child{border-bottom:none}
@@ -77,6 +80,7 @@
         .extra-options-list li strong{min-width:120px}
         .extra-options-list li span{color:var(--text-light)}
         
+        /* ========== FOOTER - UNIFORM BLAUW (zoals Brugge, Antwerpen & Gent) ========== */
         .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
         .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
@@ -84,6 +88,7 @@
         .footer-grid a:hover{color:var(--primary);text-decoration:underline}
         .footer-brand p{color:#e0edf5;line-height:1.8}
         
+        /* ========== DROPDOWN STIJLEN ========== */
         .footer-city-select {
             background: #1a2f3f;
             color: #e0edf5;
@@ -111,6 +116,7 @@
         .footer-bottom a{color:var(--primary);text-decoration:none}
         .footer-bottom a:hover{text-decoration:underline}
         
+        /* ========== RESPONSIVE ========== */
         @media (max-width:800px){
             .hero-card{padding:30px 20px}
             .hero-card h1{font-size:2rem}
@@ -205,69 +211,69 @@
     <div class="container">
         <!-- Blok 1: Introductie Zaventem -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Zaventem – Luchthavenstad en groene gemeente in de Groene Gordel</h2>
-            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Zaventem is een gemeente in de provincie Vlaams-Brabant, gelegen in de <strong>Groene Gordel</strong> rond Brussel. De gemeente is wereldwijd bekend als de thuisbasis van <strong>Brussels Airport (BRU)</strong>, de grootste luchthaven van België. Maar Zaventem is meer dan alleen een luchthaven: het heeft ook uitgestrekte groene zones, waaronder het <strong>Zoniënwoud</strong> en de <strong>Doode Bemde</strong>, en een bruisend centrum met gezellige winkels en restaurants.</p>
-            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Dankzij de uitstekende bereikbaarheid via de <strong>E19</strong>, de <strong>ring rond Brussel</strong> en de <strong>spoorlijn Brussel‑Leuven</strong> is Zaventem een ideale uitvalsbasis voor pendelaars en zakelijke reizigers. De luchthaven zorgt voor een internationale uitstraling en trekt veel bedrijven en hotels aan. Jaarlijks organiseert de gemeente tal van evenementen, waaronder de <strong>Zaventem Kermis</strong>, de <strong>Kerstmarkt</strong> en diverse <strong>culturele festivals</strong>.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen</strong> in Zaventem. Onze Mercedes‑, BMW‑ en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een professionele ontvangst van nationale en internationale gasten.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Zaventem – De internationale poort en economische motor van België</h2>
+            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Zaventem, gelegen in de groene rand rond Brussel, is een gemeente met een opmerkelijke transformatie. Waar het tot ver in de 19e eeuw vooral een agrarisch gebied was met een bloeiende papier- en lederindustrie, is het vandaag de dag synoniem met de <strong>nationale luchthaven Brussels Airport (BRU)</strong>, de grootste luchthaven van België. Met een oppervlakte van maar liefst 1245 hectare, jaarlijks ongeveer 250.000 vliegbewegingen en ruim 18,5 miljoen passagiers, is de luchthaven de absolute motor van de regio.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Zaventem is een gemeente met een rijke, maar minder bekende geschiedenis. De <strong>Sint-Martinuskerk</strong>, daterend uit 1567, is sinds 1938 een beschermd monument. Andere erfgoedparels zijn <strong>Kasteel Mariadal</strong> uit de late 19e eeuw en het <strong>Heemkundig museum "De Veste"</strong>. De aanwezigheid van de luchthaven, die het voormalige hertogelijke jachtdomein Saventerlo verving, trok tal van bedrijven aan en zorgde voor een explosieve economische groei. Sinds 1978 kent de tewerkstelling in Zaventem een constante groei.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de professionele partner voor <strong>luchthaventransfers, bedrijven in de luchthavenregio, hotels en congrescentra</strong> in Zaventem. Of u nu na een lange vlucht snel en comfortabel naar uw bestemming wilt, een directe transfer naar uw verblijfplaats wenst, of betrouwbaar zakelijk vervoer nodig hebt – FleetConnect staat 24/7 voor u klaar. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke service. Onze meertalige chauffeurs (NL/FR/EN/DE) zorgen ervoor dat internationale gasten zich meteen thuis voelen.</p>
         </div>
 
-        <!-- Blok 2: Evenementen en zakenwijken -->
+        <!-- Blok 2: Evenementen, zakencentra en de luchthavenregio -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Zaventem</h2>
-            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Zaventem heeft een gevarieerd evenementenaanbod. Jaarlijkse hoogtepunten zijn de <strong>Zaventem Kermis</strong> in juni, de gezellige <strong>Kerstmarkt</strong> op het Gemeenteplein, de <strong>Historische stoet</strong> door het centrum en diverse <strong>culturele festivals</strong> in het <strong>Cultuurcentrum Zaventem</strong>. Ook het <strong>Zoniënwoud</strong> biedt tal van wandel‑ en fietsevenementen.</p>
-            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Zaventem‑Noord</strong>, de <strong>Kantoorzone rond Brussels Airport</strong> en het <strong>Business Park Zaventem</strong>. Het <strong>Cultuurcentrum</strong> en de <strong>luchthaven</strong> zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen, zakencentra & de luchthavenregio</h2>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Zaventem is een bloeiende zakenregio. Het <strong>Interoffices Brussels Airport Corporate Village</strong> (Da Vincilaan 1) is een modern bedrijfscentrum dat coworking spaces, kantoorverhuur en professionele eventorganisatie biedt. Op een steenworp van de luchthaven biedt <strong>Silversquare Zaventem</strong> inspirerende evenementruimtes voor conferenties tot 60 personen, met alle audiovisuele voorzieningen. Bovendien kan elke reiziger het <strong>Savaria Lounge</strong> vinden voor professionele conferenties, seminaries en vergaderingen.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De <strong>Deloitte Future of Finance</strong> en <strong>Shared Service Conference</strong> vinden plaats in het prestigieuze Gateway Building op Brussels Airport, wat de regio als top MICE-bestemming bevestigt. Unieke eventlocaties zoals <strong>Quartier Papier</strong>, een voormalige papierfabriek van 800 m², en de historische <strong>Ferme de Mont-Saint-Jean</strong> bieden een onvergetelijk decor voor seminars, productlanceringen en teambuildings.</p>
         </div>
 
-        <!-- ========== Luchthavenroutes - 6 luchthavens, aangepaste prijzen ========== -->
+        <!-- ========== Luchthavenroutes - OPTIE A (6 luchthavens/steden) ========== -->
         <h2 class="section-title" data-i18n="routes_title">
             <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
             Luchthaventransfers vanuit Zaventem
         </h2>
         <p style="text-align:center; color:var(--text-light); margin-bottom:30px; font-size:1.05rem;" data-i18n="routes_sub">
-            Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
+            Van en naar alle belangrijke luchthavens en steden in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.
         </p>
         <div class="route-grid">
             <div class="route-card">
                 <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
-                <h3 data-i18n="route1_title">Zaventem → Brussels Airport (BRU)</h3>
+                <h3 data-i18n="route1_title">Zaventem (BRU) → Brussel</h3>
                 <span class="route-airport-code">BRU</span>
                 <div class="route-price">€30,00</div>
-                <p data-i18n="route1_desc">Binnen de gemeente · minimumtarief</p>
+                <p data-i18n="route1_desc">15 km · ±25 min · minimumtarief</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route2_title">Zaventem → Charleroi</h3>
                 <span class="route-airport-code">CRL</span>
-                <div class="route-price">€105,00</div>
-                <p data-i18n="route2_desc">70 km · ±1u 00 min · vaste prijs</p>
+                <div class="route-price">€85,50</div>
+                <p data-i18n="route2_desc">57 km · ±60 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route3_title">Zaventem → Antwerpen</h3>
                 <span class="route-airport-code">ANR</span>
                 <div class="route-price">€67,50</div>
-                <p data-i18n="route3_desc">45 km · ±35 min · vaste prijs</p>
+                <p data-i18n="route3_desc">45 km · ±45 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route4_title">Zaventem → Lille</h3>
                 <span class="route-airport-code">LIL</span>
-                <div class="route-price">€165,00</div>
-                <p data-i18n="route4_desc">110 km · ±1u 15 min · vaste prijs</p>
+                <div class="route-price">€195,00</div>
+                <p data-i18n="route4_desc">130 km · ±70 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route5_title">Zaventem → Eindhoven</h3>
                 <span class="route-airport-code">EIN</span>
-                <div class="route-price">€135,00</div>
-                <p data-i18n="route5_desc">90 km · ±1u 05 min · vaste prijs</p>
+                <div class="route-price">€187,50</div>
+                <p data-i18n="route5_desc">125 km · ±1u 30 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route6_title">Zaventem → Amsterdam Schiphol</h3>
                 <span class="route-airport-code">AMS</span>
-                <div class="route-price">€255,00</div>
-                <p data-i18n="route6_desc">170 km · ±1u 45 min · vaste prijs</p>
+                <div class="route-price">€292,50</div>
+                <p data-i18n="route6_desc">195 km · ±2u 15 min · vaste prijs</p>
             </div>
         </div>
 
@@ -285,7 +291,7 @@
                 <li>
                     <i class="fas fa-star"></i>
                     <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
-                    <span data-i18n="extras_exclusive_desc">– Mercedes E‑Klasse / BMW 5 Serie</span>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
                     <span class="price-tag">+€15,00</span>
                 </li>
                 <li>
@@ -309,33 +315,33 @@
             </ul>
         </div>
 
-        <!-- ========== Extra bestemmingen in Zaventem ========== -->
+        <!-- ========== Extra bestemmingen in de regio ========== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
                 <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
-                Ook in Zaventem
+                Ook in de regio
             </h2>
-            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Zaventem en de regio. Enkele voorbeelden:</p>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer naar andere bestemmingen in de regio. Enkele voorbeelden:</p>
             <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-plane" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_airport">Centrum → Brussels Airport</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_airport_desc">Vanaf €30,00 · 3 km</p>
+                    <i class="fas fa-building" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_noord">Brussel-Noord (Kantoorwijk)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_noord_desc">Vanaf €30,00 · 12-15 km</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-tree" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_zonien">Centrum → Zoniënwoud</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_zonien_desc">Vanaf €30,00 · 5 km</p>
+                    <i class="fas fa-university" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_leuven">Leuven</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_leuven_desc">€37,50 · 25 km</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Zaventem → Brussel</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€30,00 · 12 km</p>
+                    <i class="fas fa-church" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_mechelen">Mechelen</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_mechelen_desc">€30,00 · 20 km</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_leuven">Zaventem → Leuven</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_leuven_desc">€30,00 · 25 km</p>
+                    <i class="fas fa-plane-departure" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_crl">Charleroi (CRL)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_crl_desc">€85,50 · 57 km</p>
                 </div>
             </div>
             <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
@@ -347,13 +353,13 @@
         <!-- ========== Internationaal vervoer ========== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Zaventem</h3>
-            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Zaventem, gelegen aan de E19 en vlakbij Brussel, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Zaventem, de grootste luchthaven van België, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
             <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±170 km – <strong>€255</strong></li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±310 km – <strong>€465</strong></li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR) – Airport:</strong> ±110 km – <strong>€165</strong></li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL) – Airport:</strong> ±90 km – <strong>€135</strong></li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±130 km – <strong>€195</strong></li>
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±195 km – <strong>€292,50</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±305 km – <strong>€457,50</strong></li>
+                <li><strong data-i18n="int_lil">Lille (Rijsel, FR) – Airport:</strong> ±130 km – <strong>€195</strong></li>
+                <li><strong data-i18n="int_ein">Eindhoven (NL) – Airport:</strong> ±125 km – <strong>€187,50</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±170 km – <strong>€255</strong></li>
                 <li><strong data-i18n="int_aac">Aken (DE):</strong> ±140 km – <strong>€210</strong></li>
                 <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±220 km – <strong>€330</strong></li>
             </ul>
@@ -361,32 +367,32 @@
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
                 <div class="service-point"><i class="fas fa-file-contract"></i><h4 data-i18n="service2_title">Documentatie</h4><p data-i18n="service2_desc">Alle papieren voor grensoverschrijdend vervoer.</p></div>
                 <div class="service-point"><i class="fas fa-language"></i><h4 data-i18n="service3_title">Meertalige chauffeurs</h4><p data-i18n="service3_desc">NL, FR, EN, DE.</p></div>
-                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24‑48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
+                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24-48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
             </div>
         </div>
 
         <!-- ========== Waarom FleetConnect - UNIFORM ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Zaventem?</h2>
         <div class="features-grid">
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Zaventem en de omliggende snelwegen (E19, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de routes van en naar Zaventem door en door en vermijden files. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
             
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
             
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Zaventem‑Brussel) hanteren we een all‑in vast tarief. Transparant en eerlijk.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Zaventem-Brussel) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
             
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu een vroege ochtendvlucht moet halen of na middernacht landt – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
-        <!-- Zakelijk & hotelvervoer -->
+        <!-- Zakelijk, hotel- en luchthavenvervoer -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk, hotel‑ en luchthavenvervoer op maat</h2>
-            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Zaventem, waaronder <strong>Hotel Zaventem</strong>, <strong>B&B De Luchthaven</strong>, <strong>Van der Valk Zaventem</strong> en <strong>ibis Zaventem</strong>. Voor congressen en zakelijke evenementen werken wij samen met het <strong>Cultuurcentrum Zaventem</strong>, de <strong>luchthaven</strong> en het <strong>Business Park Zaventem</strong>. Ook bedrijven in de logistiek, technologie en dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk, hotel- en luchthavenvervoer op maat</h2>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van <strong>tientallen hotels</strong> in Zaventem, waaronder het <strong>Sheraton Brussels Airport Hotel</strong> (op een steenworp van de luchthaven, met een van de grootste hotelconferentiecentra van België), <strong>Hobbit Hotel Zaventem</strong> en <strong>Parklaan -34 Zaventem Brussels International Airport</strong>. Voor zakelijke evenementen werken wij nauw samen met <strong>Interoffices Brussels Airport Corporate Village</strong>, <strong>Silversquare Zaventem</strong>, <strong>Savaria Lounge</strong> en unieke locaties zoals <strong>Quartier Papier</strong>. Ook reisorganisatoren en bedrijven in de luchthavenregio vertrouwen op onze stipte service voor klantentransfers, VIP-vervoer en groepsreizen. Facturatie achteraf, groepsvervoer met minivans en VIP-behandeling behoren tot de mogelijkheden.</p>
         </div>
 
         <!-- Extra blok: cultuur en bezienswaardigheden -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Zaventem met FleetConnect</h2>
-            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek de <strong>luchthaven</strong> (brussels Airport) en maak een wandeling in het nabijgelegen <strong>Zoniënwoud</strong>, een van de grootste bossen van België. Verken het centrum van Zaventem met zijn gezellige winkels en eetgelegenheden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een <strong>Meet & Greet</strong> op de luchthaven, inclusief bordje met uw naam.</p>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Zaventem is meer dan alleen de luchthaven. Combineer uw transfer met een bezoek aan de beschermde <strong>Sint-Martinuskerk (1567)</strong> of wandel door het <strong>Mariadal-park</strong> met het gelijknamige kasteel. Het <strong>Heemkundig museum "De Veste"</strong> vertelt de fascinerende geschiedenis van de gemeente. Op wandelafstand van de luchthaven vindt u groene zones en authentieke gehuchten die een verrassend rustig beeld van de regio schetsen. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een <strong>Meet & Greet</strong> op de luchthaven, inclusief bordje met uw naam.</p>
             <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
         </div>
 
@@ -405,7 +411,7 @@
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
                     <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E‑mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
                     <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32494624429" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
@@ -414,57 +420,81 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – UNIFORM BLAUW + VERTAALBARE DROPDOWN             -->
+    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
                 <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
-                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
-                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België – Stijl, stiptheid en service.</p>
-                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
-                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
-                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
                 </div>
 
                 <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
-                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
-                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
-                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
-                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
-                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
+                    <h4>Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
 
-                    <!-- Label en dropdown voor overige steden - wordt dynamisch gevuld -->
+                    <!-- Label en dropdown voor overige steden -->
                     <div style="margin-top: 16px;">
-                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
                         <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
-                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
-                    <h4 data-i18n="footer_legal">Legal</h4>
-                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
-                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
-                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
-                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                 </div>
 
                 <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
-                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
-                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
-                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
                 </div>
             </div>
 
             <!-- Footer bottom -->
             <div class="footer-bottom">
-                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
+                2026 FleetConnect - <a href="/">FleetConnect</a>
             </div>
         </div>
     </footer>
@@ -478,42 +508,42 @@
     // ============================================================
     const translations = {
         nl: {
-            // Hero
+            // Hero - Uniform
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Zaventem",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
             hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
             hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
             // Intro
-            intro_title: "Zaventem – Luchthavenstad en groene gemeente in de Groene Gordel",
-            intro_p1: "Zaventem is een gemeente in de provincie Vlaams-Brabant, gelegen in de Groene Gordel rond Brussel. De gemeente is wereldwijd bekend als de thuisbasis van Brussels Airport (BRU), de grootste luchthaven van België. Maar Zaventem is meer dan alleen een luchthaven: het heeft ook uitgestrekte groene zones, waaronder het Zoniënwoud en de Doode Bemde, en een bruisend centrum met gezellige winkels en restaurants.",
-            intro_p2: "Dankzij de uitstekende bereikbaarheid via de E19, de ring rond Brussel en de spoorlijn Brussel‑Leuven is Zaventem een ideale uitvalsbasis voor pendelaars en zakelijke reizigers. De luchthaven zorgt voor een internationale uitstraling en trekt veel bedrijven en hotels aan. Jaarlijks organiseert de gemeente tal van evenementen, waaronder de Zaventem Kermis, de Kerstmarkt en diverse culturele festivals.",
-            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen in Zaventem. Onze Mercedes‑, BMW‑ en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een professionele ontvangst van nationale en internationale gasten.",
+            intro_title: "Zaventem – De internationale poort en economische motor van België",
+            intro_p1: "Zaventem, gelegen in de groene rand rond Brussel, is een gemeente met een opmerkelijke transformatie. Waar het tot ver in de 19e eeuw vooral een agrarisch gebied was met een bloeiende papier- en lederindustrie, is het vandaag de dag synoniem met de nationale luchthaven Brussels Airport (BRU), de grootste luchthaven van België. Met een oppervlakte van maar liefst 1245 hectare, jaarlijks ongeveer 250.000 vliegbewegingen en ruim 18,5 miljoen passagiers, is de luchthaven de absolute motor van de regio.",
+            intro_p2: "Zaventem is een gemeente met een rijke, maar minder bekende geschiedenis. De Sint-Martinuskerk, daterend uit 1567, is sinds 1938 een beschermd monument. Andere erfgoedparels zijn Kasteel Mariadal uit de late 19e eeuw en het Heemkundig museum 'De Veste'. De aanwezigheid van de luchthaven, die het voormalige hertogelijke jachtdomein Saventerlo verving, trok tal van bedrijven aan en zorgde voor een explosieve economische groei. Sinds 1978 kent de tewerkstelling in Zaventem een constante groei.",
+            intro_p3: "FleetConnect is de professionele partner voor luchthaventransfers, bedrijven in de luchthavenregio, hotels en congrescentra in Zaventem. Of u nu na een lange vlucht snel en comfortabel naar uw bestemming wilt, een directe transfer naar uw verblijfplaats wenst, of betrouwbaar zakelijk vervoer nodig hebt – FleetConnect staat 24/7 voor u klaar. Dankzij onze vloot van Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig en luxe minivans bieden we een onberispelijke service.",
             // Events
-            events_title: "Evenementen & zakenwijken in Zaventem",
-            events_p1: "Zaventem heeft een gevarieerd evenementenaanbod. Jaarlijkse hoogtepunten zijn de Zaventem Kermis in juni, de gezellige Kerstmarkt op het Gemeenteplein, de Historische stoet door het centrum en diverse culturele festivals in het Cultuurcentrum Zaventem. Ook het Zoniënwoud biedt tal van wandel‑ en fietsevenementen.",
-            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Zaventem‑Noord, de Kantoorzone rond Brussels Airport en het Business Park Zaventem. Het Cultuurcentrum en de luchthaven zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.",
-            // Routes
+            events_title: "Evenementen, zakencentra & de luchthavenregio",
+            events_p1: "Zaventem is een bloeiende zakenregio. Het Interoffices Brussels Airport Corporate Village (Da Vincilaan 1) is een modern bedrijfscentrum dat coworking spaces, kantoorverhuur en professionele eventorganisatie biedt. Op een steenworp van de luchthaven biedt Silversquare Zaventem inspirerende evenementruimtes voor conferenties tot 60 personen, met alle audiovisuele voorzieningen. Bovendien kan elke reiziger het Savaria Lounge vinden voor professionele conferenties, seminaries en vergaderingen.",
+            events_p2: "De Deloitte Future of Finance en Shared Service Conference vinden plaats in het prestigieuze Gateway Building op Brussels Airport, wat de regio als top MICE-bestemming bevestigt. Unieke eventlocaties zoals Quartier Papier, een voormalige papierfabriek van 800 m², en de historische Ferme de Mont-Saint-Jean bieden een onvergetelijk decor voor seminars, productlanceringen en teambuildings.",
+            // Routes - OPTIE A (6 luchthavens/steden)
             routes_title: "✈️ Luchthaventransfers vanuit Zaventem",
-            routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
-            route1_title: "Zaventem → Brussels Airport (BRU)",
-            route1_desc: "Binnen de gemeente · minimumtarief",
+            routes_sub: "Van en naar alle belangrijke luchthavens en steden in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
+            route1_title: "Zaventem (BRU) → Brussel",
+            route1_desc: "15 km · ±25 min · minimumtarief",
             route2_title: "Zaventem → Charleroi",
-            route2_desc: "70 km · ±1u 00 min · vaste prijs",
+            route2_desc: "57 km · ±60 min · vaste prijs",
             route3_title: "Zaventem → Antwerpen",
-            route3_desc: "45 km · ±35 min · vaste prijs",
+            route3_desc: "45 km · ±45 min · vaste prijs",
             route4_title: "Zaventem → Lille",
-            route4_desc: "110 km · ±1u 15 min · vaste prijs",
+            route4_desc: "130 km · ±70 min · vaste prijs",
             route5_title: "Zaventem → Eindhoven",
-            route5_desc: "90 km · ±1u 05 min · vaste prijs",
+            route5_desc: "125 km · ±1u 30 min · vaste prijs",
             route6_title: "Zaventem → Amsterdam Schiphol",
-            route6_desc: "170 km · ±1u 45 min · vaste prijs",
+            route6_desc: "195 km · ±2u 15 min · vaste prijs",
             // Extra opties
             extras_title: "➕ Extra opties – transparante meerprijzen",
             extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
             extras_break: "Break model",
             extras_break_desc: "– Meer bagageruimte",
             extras_exclusive: "Exclusieve wagen",
-            extras_exclusive_desc: "– Mercedes E‑Klasse / BMW 5 Serie",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
             extras_van: "Mini Van",
             extras_van_desc: "– Tot 8 personen",
             extras_meet: "Meet & Greet",
@@ -521,20 +551,20 @@
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
             // Lokale bestemmingen
-            local_title: "📍 Ook in Zaventem",
-            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Zaventem en de regio. Enkele voorbeelden:",
-            local_airport: "Centrum → Brussels Airport",
-            local_airport_desc: "Vanaf €30,00 · 3 km",
-            local_zonien: "Centrum → Zoniënwoud",
-            local_zonien_desc: "Vanaf €30,00 · 5 km",
-            local_brussel: "Zaventem → Brussel",
-            local_brussel_desc: "€30,00 · 12 km",
-            local_leuven: "Zaventem → Leuven",
-            local_leuven_desc: "€30,00 · 25 km",
+            local_title: "📍 Ook in de regio",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer naar andere bestemmingen in de regio. Enkele voorbeelden:",
+            local_noord: "Brussel-Noord (Kantoorwijk)",
+            local_noord_desc: "Vanaf €30,00 · 12-15 km",
+            local_leuven: "Leuven",
+            local_leuven_desc: "€37,50 · 25 km",
+            local_mechelen: "Mechelen",
+            local_mechelen_desc: "€30,00 · 20 km",
+            local_crl: "Charleroi (CRL)",
+            local_crl_desc: "€85,50 · 57 km",
             local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
             // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Zaventem",
-            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Zaventem, gelegen aan de E19 en vlakbij Brussel, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Zaventem, de grootste luchthaven van België, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):",
             int_ams: "Amsterdam (NL) – Schiphol",
             int_par: "Parijs (FR)",
             int_lil: "Lille (Rijsel, FR) – Airport",
@@ -548,23 +578,23 @@
             service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
             service3_title: "Meertalige chauffeurs",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24‑48u vooruit",
+            service4_title: "Reserveer 24-48u vooruit",
             service4_desc: "Internationale ritten plannen.",
-            // Why
+            // Why - Uniform
             why_title: "Waarom FleetConnect in Zaventem?",
             why1_title: "Stipt & punctueel",
-            why1_desc: "Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Zaventem en de omliggende snelwegen (E19, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de routes van en naar Zaventem door en door en vermijden files. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
             why3_title: "Vaste prijzen",
-            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Zaventem‑Brussel) hanteren we een all‑in vast tarief. Transparant en eerlijk.",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Zaventem-Brussel) hanteren we een all-in vast tarief. Transparant en eerlijk.",
             why4_title: "24/7 service",
-            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
+            why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu een vroege ochtendvlucht moet halen of na middernacht landt – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
             // Business
-            business_title: "Zakelijk, hotel‑ en luchthavenvervoer op maat",
-            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Zaventem, waaronder Hotel Zaventem, B&B De Luchthaven, Van der Valk Zaventem en ibis Zaventem. Voor congressen en zakelijke evenementen werken wij samen met het Cultuurcentrum Zaventem, de luchthaven en het Business Park Zaventem. Ook bedrijven in de logistiek, technologie en dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.",
+            business_title: "Zakelijk, hotel- en luchthavenvervoer op maat",
+            business_desc: "FleetConnect is de preferred partner van tientallen hotels in Zaventem, waaronder het Sheraton Brussels Airport Hotel (op een steenworp van de luchthaven, met een van de grootste hotelconferentiecentra van België), Hobbit Hotel Zaventem en Parklaan -34 Zaventem Brussels International Airport. Voor zakelijke evenementen werken wij nauw samen met Interoffices Brussels Airport Corporate Village, Silversquare Zaventem, Savaria Lounge en unieke locaties zoals Quartier Papier. Ook reisorganisatoren en bedrijven in de luchthavenregio vertrouwen op onze stipte service.",
             // Discover
             discover_title: "Ontdek Zaventem met FleetConnect",
-            discover_p1: "Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek de luchthaven (Brussels Airport) en maak een wandeling in het nabijgelegen Zoniënwoud, een van de grootste bossen van België. Verken het centrum van Zaventem met zijn gezellige winkels en eetgelegenheden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            discover_p1: "Zaventem is meer dan alleen de luchthaven. Combineer uw transfer met een bezoek aan de beschermde Sint-Martinuskerk (1567) of wandel door het Mariadal-park met het gelijknamige kasteel. Het Heemkundig museum 'De Veste' vertelt de fascinerende geschiedenis van de gemeente. Op wandelafstand van de luchthaven vindt u groene zones en authentieke gehuchten. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
             // CTA
             cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Zaventem?",
@@ -573,7 +603,7 @@
             // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
             // Sidebar nav
@@ -588,86 +618,37 @@
             nav_courier: "Koeriersdienst",
             nav_contact: "Contact",
             nav_book: "Reserveer nu",
-            login: "LOGIN",
-
-            // ===== FOOTER VERTALINGEN (NL) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_book_now: "Reserveer nu",
-            footer_portal: "Klantportaal",
-            footer_partner: "Partner login",
-            footer_popular_cities: "Populaire steden",
-            footer_city_brussels: "Taxi Brussel",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Antwerpen",
-            footer_city_brugge: "Taxi Brugge",
-            footer_other_cities: "Alle andere steden:",
-            footer_select_city: "-- Kies een stad --",
-            footer_legal: "Legal",
-            footer_faq: "FAQ",
-            footer_privacy: "Privacy",
-            footer_cookies: "Cookiebeleid",
-            footer_terms: "Algemene voorwaarden",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (NL) =====
-            city_aalst: "Aalst",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Doornik",
-            city_genk: "Genk",
-            city_gent: "Gent",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Halle",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Kortrijk",
-            city_leuven: "Leuven",
-            city_luik: "Luik",
-            city_machelen: "Machelen",
-            city_mechelen: "Mechelen",
-            city_oostende: "Oostende",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "LOGIN"
         },
         fr: {
-            // Hero
+            // Hero - Uniform
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Zaventem",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
             hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
             hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
             // Intro
-            intro_title: "Zaventem – Ville aéroportuaire et commune verte dans la Ceinture Verte",
-            intro_p1: "Zaventem est une commune du Brabant flamand, située dans la Ceinture Verte autour de Bruxelles. La commune est mondialement connue comme le siège de Brussels Airport (BRU), le plus grand aéroport de Belgique. Mais Zaventem est plus qu'un aéroport : elle possède également de vastes zones vertes, dont la Forêt de Soignes et la Doode Bemde, et un centre animé avec des boutiques et restaurants.",
-            intro_p2: "Grâce à l'excellente accessibilité via l'E19, le ring de Bruxelles et la ligne de train Bruxelles‑Louvain, Zaventem est une base idéale pour les navetteurs et les voyageurs d'affaires. L'aéroport confère un rayonnement international et attire de nombreuses entreprises et hôtels. La commune organise chaque année de nombreux événements, notamment la Foire de Zaventem, le Marché de Noël et divers festivals culturels.",
-            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, organisateurs d'événements et institutions publiques à Zaventem. Nos Mercedes, BMW et minibus assurent un confort et une ponctualité irréprochables.",
-            events_title: "Événements et quartiers d'affaires à Zaventem",
-            events_p1: "Zaventem propose une offre d'événements variée. Les temps forts annuels sont la Foire de Zaventem en juin, le Marché de Noël sur la Place de la Commune, le Défilé Historique dans le centre et divers festivals culturels au Centre Culturel de Zaventem. La Forêt de Soignes offre également de nombreuses randonnées et événements cyclistes.",
-            events_p2: "Les principaux quartiers d'affaires sont la zone industrielle Zaventem‑Nord, la zone de bureaux autour de Brussels Airport et le Business Park Zaventem. Le Centre Culturel et l'aéroport sont des lieux prisés pour les séminaires, fêtes d'entreprise et congrès.",
+            intro_title: "Zaventem – La porte d'entrée internationale et le moteur économique de la Belgique",
+            intro_p1: "Zaventem, située dans la ceinture verte autour de Bruxelles, est une commune qui a connu une transformation remarquable. Alors qu'elle était jusqu'au 19e siècle principalement une zone agricole avec une industrie papetière et du cuir florissante, elle est aujourd'hui synonyme de l'aéroport national Brussels Airport (BRU), le plus grand aéroport de Belgique. Avec une superficie de 1245 hectares, environ 250 000 mouvements d'avions et plus de 18,5 millions de passagers par an, l'aéroport est le véritable moteur de la région.",
+            intro_p2: "Zaventem est une commune à l'histoire riche mais méconnue. L'église Saint-Martin, datant de 1567, est un monument protégé depuis 1938. D'autres joyaux du patrimoine sont le château de Mariadal de la fin du 19e siècle et le musée d'histoire locale 'De Veste'. La présence de l'aéroport, qui a remplacé l'ancien domaine de chasse ducal de Saventerlo, a attiré de nombreuses entreprises et a provoqué une croissance économique explosive.",
+            intro_p3: "FleetConnect est le partenaire professionnel pour les transferts aéroport, les entreprises de la région aéroportuaire, les hôtels et les centres de congrès de Zaventem. Grâce à notre flotte de Skoda, Mercedes Classe E, BMW Série 5 ou équivalent et minibus de luxe, nous offrons un service irréprochable.",
+            events_title: "Événements, centres d'affaires et la région aéroportuaire",
+            events_p1: "Zaventem est une région d'affaires florissante. L'Interoffices Brussels Airport Corporate Village (Da Vincilaan 1) est un centre d'affaires moderne proposant des espaces de coworking, la location de bureaux et l'organisation d'événements professionnels. À deux pas de l'aéroport, Silversquare Zaventem propose des espaces inspirants pour des conférences jusqu'à 60 personnes. Le Savaria Lounge offre également des espaces pour des conférences professionnelles.",
+            events_p2: "La Deloitte Future of Finance et la Shared Service Conference se tiennent dans le prestigieux Gateway Building à Brussels Airport, confirmant la région comme une destination MICE de premier plan. Des lieux uniques comme Quartier Papier et la ferme historique de Mont-Saint-Jean offrent un décor inoubliable pour séminaires et événements.",
+            // Routes - OPTIE A
             routes_title: "✈️ Transferts aéroport depuis Zaventem",
-            routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
-            route1_title: "Zaventem → Brussels Airport (BRU)",
-            route1_desc: "Au sein de la commune · tarif minimum",
+            routes_sub: "Vers et depuis tous les aéroports et villes importants de la région. Prix fixe garanti. Suivi de vol inclus.",
+            route1_title: "Zaventem (BRU) → Bruxelles",
+            route1_desc: "15 km · ±25 min · tarif minimum",
             route2_title: "Zaventem → Charleroi",
-            route2_desc: "70 km · ±1h 00 min · prix fixe",
+            route2_desc: "57 km · ±60 min · prix fixe",
             route3_title: "Zaventem → Anvers",
-            route3_desc: "45 km · ±35 min · prix fixe",
+            route3_desc: "45 km · ±45 min · prix fixe",
             route4_title: "Zaventem → Lille",
-            route4_desc: "110 km · ±1h 15 min · prix fixe",
+            route4_desc: "130 km · ±70 min · prix fixe",
             route5_title: "Zaventem → Eindhoven",
-            route5_desc: "90 km · ±1h 05 min · prix fixe",
+            route5_desc: "125 km · ±1h 30 min · prix fixe",
             route6_title: "Zaventem → Amsterdam Schiphol",
-            route6_desc: "170 km · ±1h 45 min · prix fixe",
+            route6_desc: "195 km · ±2h 15 min · prix fixe",
             extras_title: "➕ Options supplémentaires – suppléments transparents",
             extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
             extras_break: "Break modèle",
@@ -680,25 +661,27 @@
             extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
-            local_title: "📍 À Zaventem également",
-            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Zaventem et dans la région. Quelques exemples :",
-            local_airport: "Centre → Brussels Airport",
-            local_airport_desc: "À partir de €30,00 · 3 km",
-            local_zonien: "Centre → Forêt de Soignes",
-            local_zonien_desc: "À partir de €30,00 · 5 km",
-            local_brussel: "Zaventem → Bruxelles",
-            local_brussel_desc: "€30,00 · 12 km",
-            local_leuven: "Zaventem → Louvain",
-            local_leuven_desc: "€30,00 · 25 km",
+            // Local
+            local_title: "📍 Dans la région également",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables vers d'autres destinations de la région. Quelques exemples :",
+            local_noord: "Bruxelles-Nord (Quartier d'affaires)",
+            local_noord_desc: "À partir de €30,00 · 12-15 km",
+            local_leuven: "Louvain",
+            local_leuven_desc: "€37,50 · 25 km",
+            local_mechelen: "Malines",
+            local_mechelen_desc: "€30,00 · 20 km",
+            local_crl: "Charleroi (CRL)",
+            local_crl_desc: "€85,50 · 57 km",
             local_cta: "Autre destination ? Demandez un devis sans engagement",
+            // International
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Zaventem",
-            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Depuis Zaventem, situé sur l'E19 et proche de Bruxelles, vous êtes idéalement positionné. Prix indicatifs :",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Depuis Zaventem, le plus grand aéroport de Belgique, vous êtes idéalement positionné pour les transferts internationaux. Prix indicatifs (berline, incluant temps d'attente et péages):",
             int_ams: "Amsterdam (NL) – Schiphol",
             int_par: "Paris (FR)",
             int_lil: "Lille (FR) – Airport",
             int_ein: "Eindhoven (NL) – Airport",
             int_rot: "Rotterdam (NL)",
-            int_aac: "Aix‑la‑Chapelle (DE)",
+            int_aac: "Aix-la-Chapelle (DE)",
             int_lux: "Luxembourg (LU)",
             service1_title: "Suivi de vol",
             service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
@@ -706,27 +689,28 @@
             service2_desc: "Tous les papiers pour le transport transfrontalier.",
             service3_title: "Chauffeurs multilingues",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24‑48h à l'avance",
+            service4_title: "Réservez 24-48h à l'avance",
             service4_desc: "Planification des trajets internationaux.",
+            // Why
             why_title: "Pourquoi FleetConnect à Zaventem?",
             why1_title: "Ponctuel & fiable",
-            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues de Zaventem et les autoroutes environnantes (E19, ring de Bruxelles).",
-            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées.",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les itinéraires vers et depuis Zaventem. Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit.",
             why3_title: "Prix fixes",
-            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week‑ends.",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Zaventem-Bruxelles), nous appliquons un tarif forfaitaire tout compris.",
             why4_title: "Service 24/7",
-            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là.",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez un vol matinal ou une arrivée tard dans la nuit, nous sommes là.",
             business_title: "Transport professionnel, hôtelier et aéroportuaire sur mesure",
-            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Zaventem, dont Hotel Zaventem, B&B De Luchthaven, Van der Valk Zaventem et ibis Zaventem. Pour les congrès et événements, nous collaborons avec le Centre Culturel de Zaventem, l'aéroport et le Business Park Zaventem.",
+            business_desc: "FleetConnect est le partenaire privilégié de dizaines d'hôtels à Zaventem, dont le Sheraton Brussels Airport Hotel (à deux pas de l'aéroport), l'Hobbit Hotel Zaventem et le Parklaan -34 Zaventem Brussels International Airport. Pour les événements professionnels, nous collaborons avec Interoffices Brussels Airport Corporate Village, Silversquare Zaventem, Savaria Lounge et des lieux uniques comme Quartier Papier.",
             discover_title: "Découvrez Zaventem avec FleetConnect",
-            discover_p1: "Combinez votre rendez‑vous d'affaires avec une découverte culturelle. Visitez l'aéroport (Brussels Airport) et promenez‑vous dans la Forêt de Soignes voisine, l'une des plus grandes forêts de Belgique. Explorez le centre de Zaventem avec ses boutiques et restaurants. Nos chauffeurs servent également de guides informels.",
-            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté.",
+            discover_p1: "Zaventem est bien plus que son aéroport. Combinez votre transfert avec une visite de l'église Saint-Martin (1567) ou une promenade dans le parc Mariadal avec son château. Le musée d'histoire locale 'De Veste' raconte l'histoire fascinante de la commune. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la région.",
+            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
             cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Zaventem?",
             cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
             language_label: "Langue",
@@ -740,111 +724,64 @@
             nav_courier: "Service de messagerie",
             nav_contact: "Contact",
             nav_book: "Réservez maintenant",
-            login: "CONNEXION",
-
-            // ===== FOOTER VERTALINGEN (FR) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
-            footer_book_now: "Réservez maintenant",
-            footer_portal: "Portail client",
-            footer_partner: "Connexion partenaire",
-            footer_popular_cities: "Villes populaires",
-            footer_city_brussels: "Taxi Bruxelles",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Anvers",
-            footer_city_brugge: "Taxi Bruges",
-            footer_other_cities: "Toutes les autres villes :",
-            footer_select_city: "-- Choisissez une ville --",
-            footer_legal: "Juridique",
-            footer_faq: "FAQ",
-            footer_privacy: "Confidentialité",
-            footer_cookies: "Politique de cookies",
-            footer_terms: "Conditions générales",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (FR) =====
-            city_aalst: "Alost",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Tournai",
-            city_genk: "Genk",
-            city_gent: "Gand",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Hal",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Courtrai",
-            city_leuven: "Louvain",
-            city_luik: "Liège",
-            city_machelen: "Machelen",
-            city_mechelen: "Malines",
-            city_oostende: "Ostende",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "CONNEXION"
         },
         en: {
-            // Hero
+            // Hero - Uniform
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Zaventem",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
             hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
             hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
             // Intro
-            intro_title: "Zaventem – Airport city and green municipality in the Green Belt",
-            intro_p1: "Zaventem is a municipality in Flemish Brabant, located in the Green Belt around Brussels. The municipality is world‑famous as the home of Brussels Airport (BRU), Belgium's largest airport. But Zaventem is more than just an airport: it also has vast green areas, including the Sonian Forest and the Doode Bemde, and a lively centre with cosy shops and restaurants.",
-            intro_p2: "Thanks to excellent accessibility via the E19, the Brussels ring road and the Brussels‑Leuven railway, Zaventem is an ideal base for commuters and business travellers. The airport provides an international appeal and attracts many companies and hotels. The municipality organises many events annually, including the Zaventem Fair, the Christmas Market and various cultural festivals.",
-            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, event organisers and government institutions in Zaventem. Our Mercedes, BMW and minivans provide a comfortable and punctual service.",
-            events_title: "Events & Business Districts in Zaventem",
-            events_p1: "Zaventem offers a varied events programme. Annual highlights are the Zaventem Fair in June, the cosy Christmas Market on the Town Square, the Historical Procession through the centre and various cultural festivals at the Zaventem Cultural Centre. The Sonian Forest also offers numerous walking and cycling events.",
-            events_p2: "The main business districts are the Zaventem‑North industrial estate, the office zone around Brussels Airport and the Zaventem Business Park. The Cultural Centre and the airport are popular venues for seminars, corporate events and conferences.",
+            intro_title: "Zaventem – The international gateway and economic engine of Belgium",
+            intro_p1: "Zaventem, located in the green belt around Brussels, is a municipality that has undergone a remarkable transformation. Where until well into the 19th century it was mainly an agricultural area with a flourishing paper and leather industry, today it is synonymous with Brussels Airport (BRU), Belgium's largest airport. With an area of 1245 hectares, approximately 250,000 aircraft movements and over 18.5 million passengers annually, the airport is the absolute engine of the region.",
+            intro_p2: "Zaventem is a municipality with a rich, lesser-known history. St. Martin's Church, dating from 1567, has been a protected monument since 1938. Other heritage gems are Mariadal Castle from the late 19th century and the 'De Veste' local history museum. The presence of the airport, which replaced the former ducal hunting domain of Saventerlo, attracted many companies and caused explosive economic growth.",
+            intro_p3: "FleetConnect is the professional partner for airport transfers, companies in the airport region, hotels and conference centres in Zaventem. Thanks to our fleet of Skoda, Mercedes E-Class, BMW 5 Series or equivalent and luxury minivans, we offer impeccable service.",
+            events_title: "Events, business centres & the airport region",
+            events_p1: "Zaventem is a thriving business region. Interoffices Brussels Airport Corporate Village (Da Vincilaan 1) is a modern business centre offering coworking spaces, office rental and professional event organisation. A stone's throw from the airport, Silversquare Zaventem offers inspiring event spaces for conferences of up to 60 people. Savaria Lounge also offers spaces for professional conferences.",
+            events_p2: "The Deloitte Future of Finance and Shared Service Conference take place in the prestigious Gateway Building at Brussels Airport, confirming the region as a top MICE destination. Unique venues such as Quartier Papier and the historic Ferme de Mont-Saint-Jean offer an unforgettable setting for seminars and events.",
+            // Routes - OPTIE A
             routes_title: "✈️ Airport transfers from Zaventem",
-            routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
-            route1_title: "Zaventem → Brussels Airport (BRU)",
-            route1_desc: "Within the municipality · minimum fare",
+            routes_sub: "To and from all major airports and cities in the region. Fixed price guaranteed. Flight monitoring included.",
+            route1_title: "Zaventem (BRU) → Brussels",
+            route1_desc: "15 km · ±25 min · minimum fare",
             route2_title: "Zaventem → Charleroi",
-            route2_desc: "70 km · ±1h 00 min · fixed price",
+            route2_desc: "57 km · ±60 min · fixed price",
             route3_title: "Zaventem → Antwerp",
-            route3_desc: "45 km · ±35 min · fixed price",
+            route3_desc: "45 km · ±45 min · fixed price",
             route4_title: "Zaventem → Lille",
-            route4_desc: "110 km · ±1h 15 min · fixed price",
+            route4_desc: "130 km · ±70 min · fixed price",
             route5_title: "Zaventem → Eindhoven",
-            route5_desc: "90 km · ±1h 05 min · fixed price",
+            route5_desc: "125 km · ±1h 30 min · fixed price",
             route6_title: "Zaventem → Amsterdam Schiphol",
-            route6_desc: "170 km · ±1h 45 min · fixed price",
+            route6_desc: "195 km · ±2h 15 min · fixed price",
             extras_title: "➕ Extra options – clear surcharges",
             extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
             extras_break: "Break model",
             extras_break_desc: "– More luggage space",
             extras_exclusive: "Exclusive car",
-            extras_exclusive_desc: "– Mercedes E‑Class / BMW 5 Series",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
             extras_van: "Mini Van",
             extras_van_desc: "– Up to 8 persons",
             extras_meet: "Meet & Greet",
             extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
-            local_title: "📍 Also in Zaventem",
-            local_desc: "In addition to airport transfers, we also provide reliable transport within Zaventem and the region. Some examples:",
-            local_airport: "Centre → Brussels Airport",
-            local_airport_desc: "From €30.00 · 3 km",
-            local_zonien: "Centre → Sonian Forest",
-            local_zonien_desc: "From €30.00 · 5 km",
-            local_brussel: "Zaventem → Brussels",
-            local_brussel_desc: "€30.00 · 12 km",
-            local_leuven: "Zaventem → Leuven",
-            local_leuven_desc: "€30.00 · 25 km",
+            // Local
+            local_title: "📍 Also in the region",
+            local_desc: "In addition to airport transfers, we also provide reliable transport to other destinations in the region. Some examples:",
+            local_noord: "Brussels-North (Business District)",
+            local_noord_desc: "From €30.00 · 12-15 km",
+            local_leuven: "Leuven",
+            local_leuven_desc: "€37.50 · 25 km",
+            local_mechelen: "Mechelen",
+            local_mechelen_desc: "€30.00 · 20 km",
+            local_crl: "Charleroi (CRL)",
+            local_crl_desc: "€85.50 · 57 km",
             local_cta: "Other destination? Request a free quote",
+            // International
             international_title: "<i class='fas fa-globe'></i> International transport from Zaventem",
-            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. From Zaventem, situated on the E19 and close to Brussels, you are ideally positioned. Indicative prices:",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. From Zaventem, Belgium's largest airport, you are ideally positioned for international transfers. Indicative prices (sedan, including waiting time and tolls):",
             int_ams: "Amsterdam (NL) – Schiphol",
             int_par: "Paris (FR)",
             int_lil: "Lille (FR) – Airport",
@@ -855,25 +792,26 @@
             service1_title: "Flight monitoring",
             service1_desc: "We track your flight; free waiting time in case of delay.",
             service2_title: "Documentation",
-            service2_desc: "All documents for cross‑border transport.",
+            service2_desc: "All documents for cross-border transport.",
             service3_title: "Multilingual drivers",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24‑48h in advance",
+            service4_title: "Book 24-48h in advance",
             service4_desc: "Plan international trips.",
+            // Why
             why_title: "Why FleetConnect in Zaventem?",
             why1_title: "Punctual & reliable",
-            why1_desc: "Thanks to real‑time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Zaventem's back streets and the surrounding highways (E19, Brussels ring).",
-            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E‑Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V‑Class or equivalent). All our vehicles meet the highest quality and safety standards.",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pick-up time in case of delay at no extra cost. Our drivers know the routes to and from Zaventem inside out. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi.",
             why3_title: "Fixed prices",
-            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick‑up fees, no surcharges for luggage, night rides or weekends.",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Zaventem-Brussels), we offer an all-in fixed rate.",
             why4_title: "24/7 service",
-            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready.",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you have an early morning flight or a late-night arrival, we are ready.",
             business_title: "Customised business, hotel & airport transport",
-            business_desc: "FleetConnect is the preferred partner of several hotels in Zaventem, including Hotel Zaventem, B&B De Luchthaven, Van der Valk Zaventem and ibis Zaventem. For congresses and events, we work with the Zaventem Cultural Centre, the airport and the Zaventem Business Park.",
+            business_desc: "FleetConnect is the preferred partner of dozens of hotels in Zaventem, including the Sheraton Brussels Airport Hotel (a stone's throw from the airport), Hobbit Hotel Zaventem and Parklaan -34 Zaventem Brussels International Airport. For business events, we work closely with Interoffices Brussels Airport Corporate Village, Silversquare Zaventem, Savaria Lounge and unique venues like Quartier Papier.",
             discover_title: "Discover Zaventem with FleetConnect",
-            discover_p1: "Combine your business appointment with a cultural exploration. Visit the airport (Brussels Airport) and take a walk in the nearby Sonian Forest, one of Belgium's largest forests. Explore the centre of Zaventem with its shops and eateries. Our drivers also act as informal guides.",
-            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle.",
-            cta_title: "Ready for a worry‑free airport transfer or ride in Zaventem?",
+            discover_p1: "Zaventem is more than just its airport. Combine your transfer with a visit to St. Martin's Church (1567) or a walk through Mariadal Park with its castle. The 'De Veste' local history museum tells the fascinating story of the municipality. Our drivers also act as informal guides and are happy to give you tips about the region.",
+            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
+            cta_title: "Ready for a worry-free airport transfer or ride in Zaventem?",
             cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
@@ -892,57 +830,7 @@
             nav_courier: "Courier service",
             nav_contact: "Contact",
             nav_book: "Book now",
-            login: "LOGIN",
-
-            // ===== FOOTER VERTALINGEN (EN) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Professional taxi transport in Belgium - Style, punctuality and service.",
-            footer_book_now: "Book now",
-            footer_portal: "Customer portal",
-            footer_partner: "Partner login",
-            footer_popular_cities: "Popular cities",
-            footer_city_brussels: "Taxi Brussels",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Antwerp",
-            footer_city_brugge: "Taxi Bruges",
-            footer_other_cities: "All other cities:",
-            footer_select_city: "-- Choose a city --",
-            footer_legal: "Legal",
-            footer_faq: "FAQ",
-            footer_privacy: "Privacy",
-            footer_cookies: "Cookie policy",
-            footer_terms: "Terms & Conditions",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (EN) =====
-            city_aalst: "Aalst",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Tournai",
-            city_genk: "Genk",
-            city_gent: "Ghent",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Halle",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Kortrijk",
-            city_leuven: "Leuven",
-            city_luik: "Liège",
-            city_machelen: "Machelen",
-            city_mechelen: "Mechelen",
-            city_oostende: "Ostend",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "LOGIN"
         }
     };
 
@@ -951,83 +839,19 @@
     // ============================================================
     let currentLang = 'nl';
 
-    // ============================================================
-    // DROPDOWN STADNAMEN GENEREREN
-    // ============================================================
-    function generateCityDropdown() {
-        const t = translations[currentLang];
-        if (!t) return;
-
-        const cities = [
-            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
-            { key: 'city_asse', url: '/cities/taxi-asse.html' },
-            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
-            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
-            { key: 'city_genk', url: '/cities/taxi-genk.html' },
-            { key: 'city_gent', url: '/cities/taxi-gent.html' },
-            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
-            { key: 'city_halle', url: '/cities/taxi-halle.html' },
-            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
-            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
-            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
-            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
-            { key: 'city_luik', url: '/cities/taxi-luik.html' },
-            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
-            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
-            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
-            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
-            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
-            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
-            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
-            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
-            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
-            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
-            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
-        ];
-
-        const select = document.getElementById('stad-dropdown');
-        if (!select) return;
-
-        const currentValue = select.value;
-        select.innerHTML = '';
-
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
-        select.appendChild(defaultOption);
-
-        cities.forEach(city => {
-            const option = document.createElement('option');
-            option.value = city.url;
-            option.textContent = t[city.key] || city.key;
-            select.appendChild(option);
-        });
-
-        if (currentValue) {
-            select.value = currentValue;
-        }
-    }
-
-    // ============================================================
-    // VERTALINGS FUNCTIE
-    // ============================================================
     function translatePage() {
         const t = translations[currentLang];
         if (!t) return;
-
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key] !== undefined) {
                 if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     el.placeholder = t[key];
-                } else if (el.tagName === 'OPTION') {
-                    el.textContent = t[key];
                 } else {
                     el.innerHTML = t[key];
                 }
             }
         });
-
         document.querySelectorAll('.lang-btn').forEach(btn => {
             if (btn.getAttribute('data-lang') === currentLang) {
                 btn.classList.add('active');
@@ -1035,30 +859,27 @@
                 btn.classList.remove('active');
             }
         });
-
-        generateCityDropdown();
         document.documentElement.lang = currentLang;
     }
 
+    // Event listeners voor taalknoppen
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            if (lang && translations[lang]) {
+                currentLang = lang;
+                translatePage();
+            }
+        });
+    });
+
+    // Initialiseer vertaling
+    translatePage();
+
     // ============================================================
-    // EVENT LISTENERS
+    // HAMBURGER MENU FUNCTIONALITEIT
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.getAttribute('data-lang');
-                if (lang && translations[lang]) {
-                    currentLang = lang;
-                    translatePage();
-                }
-            });
-        });
-
-        translatePage();
-
-        // ============================================================
-        // HAMBURGER MENU FUNCTIONALITEIT
-        // ============================================================
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -1092,6 +913,7 @@
             }
         });
         
+        // Contactformulier verzenden
         const verstuurBtn = document.getElementById('verstuurBerichtBtn');
         if (verstuurBtn) {
             verstuurBtn.addEventListener('click', function() {

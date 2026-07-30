@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FleetConnect | Taxi Asse – Groene gemeente in de Groene Gordel</title>
-    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Asse. Vaste prijs €1,50/km. Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Antwerpen (ANR), Lille (LIL), Eindhoven (EIN), Amsterdam (AMS). 24/7 beschikbaar.">
+    <title>FleetConnect | Taxi Asse – Groene gemeente aan de rand van Brussel</title>
+    <meta name="description" content="FleetConnect biedt professioneel taxivervoer in Asse. Vaste prijs €1,50/km (min. €30). Luchthaventransfers naar Zaventem (BRU), Charleroi (CRL), Deurne (ANR), Eindhoven (EIN), Amsterdam (AMS), Lille (LIL). 24/7 beschikbaar.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ===== IDENTIEK AAN DE TEMPLATE (ANTWERPEN) ===== */
         *{margin:0;padding:0;box-sizing:border-box}
         #background-map{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;filter:brightness(1.05);opacity:0.9}
         :root{--primary:#2c6e9e;--primary-dark:#1e4a6e;--accent-gold:#c9a03d;--accent-green:#6b8c42;--text-dark:#1a2a3a;--text-light:#4a627a;--white:#ffffff;--card-bg:rgba(255,255,255,0.92);--border-light:#e2edf7}
@@ -31,6 +32,7 @@
         .login-btn{background:linear-gradient(135deg,var(--accent-gold),#b8860b);color:white;text-decoration:none;padding:14px 16px;border-radius:14px;font-weight:600;display:flex;align-items:center;gap:12px;transition:0.2s}
         .login-btn:hover{opacity:0.9}
         
+        /* ========== HERO SECTIE ========== */
         .hero{padding:80px 0 40px;text-align:center}
         .hero-card{background:var(--card-bg);backdrop-filter:blur(8px);max-width:900px;margin:0 auto;padding:50px 40px;border-radius:48px;border:1px solid var(--border-light)}
         .hero-card h1{font-size:2.8rem;font-weight:800;color:var(--primary);margin:0}
@@ -64,10 +66,12 @@
         .btn-whatsapp{background:#25D366;color:white;border:none;padding:12px 28px;border-radius:40px;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:0.2s}
         .btn-whatsapp:hover{background:#128C7E;transform:translateY(-2px)}
         
+        /* ========== TAALSWITCHER - RECHTSBOVEN (FIXED) ========== */
         .language-switcher{position:fixed;top:20px;right:20px;display:flex;gap:12px;z-index:1000;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:40px;backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,0.1)}
         .lang-btn{background:white;border:1px solid var(--border-light);padding:6px 14px;border-radius:40px;cursor:pointer;font-weight:600;transition:0.2s;color:var(--text-dark);font-size:0.85rem;font-family:'Inter',sans-serif}
         .lang-btn:hover,.lang-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
         
+        /* ========== EXTRA OPTIES LIJST ========== */
         .extra-options-list{list-style:none;margin:0;padding:0}
         .extra-options-list li{padding:12px 0;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
         .extra-options-list li:last-child{border-bottom:none}
@@ -77,6 +81,7 @@
         .extra-options-list li strong{min-width:120px}
         .extra-options-list li span{color:var(--text-light)}
         
+        /* ========== FOOTER - UNIFORM BLAUW ========== */
         .footer-dark{background:#0d1f2c;color:#e0edf5;padding:48px 0 24px;margin-top:60px}
         .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:30px}
         .footer-grid h4{color:var(--primary) !important;margin-bottom:16px;font-size:1.1rem;font-weight:700}
@@ -84,6 +89,7 @@
         .footer-grid a:hover{color:var(--primary);text-decoration:underline}
         .footer-brand p{color:#e0edf5;line-height:1.8}
         
+        /* ========== DROPDOWN STIJLEN ========== */
         .footer-city-select {
             background: #1a2f3f;
             color: #e0edf5;
@@ -111,6 +117,7 @@
         .footer-bottom a{color:var(--primary);text-decoration:none}
         .footer-bottom a:hover{text-decoration:underline}
         
+        /* ========== RESPONSIVE ========== */
         @media (max-width:800px){
             .hero-card{padding:30px 20px}
             .hero-card h1{font-size:2rem}
@@ -192,7 +199,7 @@
                 </p>
                 <div style="height:20px;"></div>
                 <p class="hero-features" data-i18n="hero_features" style="font-weight:600;">
-                    <strong>€1,50/km • Luchthaventransfers • Meertalige chauffeurs</strong>
+                    <strong>€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs</strong>
                 </p>
                 <div style="height:30px;"></div>
                 <a href="/PV/PV.html" class="btn-primary" data-i18n="hero_btn">
@@ -205,20 +212,20 @@
     <div class="container">
         <!-- Blok 1: Introductie Asse -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Asse – Groene gemeente in de Groene Gordel rond Brussel</h2>
-            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Asse is een gemeente in de provincie Vlaams-Brabant, gelegen in de <strong>Groene Gordel</strong> rond Brussel. De gemeente heeft een rijke geschiedenis die teruggaat tot de Romeinse tijd en staat bekend om haar <strong>Sint-Martinuskerk</strong>, het <strong>Kasteel van Asse</strong> (een waterkasteel) en het <strong>Béguinage</strong>. Asse is een groene gemeente met uitgestrekte landbouwgebieden, bossen en de vallei van de <strong>Molenbeek</strong>.</p>
-            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Dankzij de uitstekende bereikbaarheid via de <strong>E40</strong> en de <strong>ring rond Brussel</strong> is Asse een ideale woonplaats voor pendelaars naar Brussel, Leuven en Aalst. De nabijheid van de luchthaven van Zaventem en de internationale treinverbindingen maken het een strategische locatie voor zakelijke reizigers. De gemeente heeft een actief verenigingsleven en organiseert jaarlijks tal van evenementen, waaronder de <strong>Asse Kermis</strong>, de <strong>Kerstmarkt</strong> en de <strong>Historische stoet</strong>.</p>
-            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen</strong> in Asse. Onze Mercedes‑, BMW‑ en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een professionele ontvangst van nationale en internationale gasten.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="intro_title">Asse – Groene gemeente aan de rand van Brussel</h2>
+            <p data-i18n="intro_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Asse is een gezellige gemeente in de provincie Vlaams-Brabant, gelegen op het grondgebied van de <strong>Brabantse Kouters</strong>. De gemeente heeft een rijke geschiedenis die teruggaat tot de Gallo-Romeinse periode, met archeologische vondsten zoals de beroemde <strong>schat van Asse</strong>. Vandaag de dag is Asse een groene en rustige woongemeente, ideaal gelegen tussen Brussel, Aalst en Gent.</p>
+            <p data-i18n="intro_p2" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Het centrum van Asse wordt gekenmerkt door de <strong>Sint-Martinuskerk</strong>, het <strong>Kasteel van Asse</strong> en de gezellige marktplaats. De gemeente biedt tal van groene wandel- en fietsroutes, waaronder de <strong>Denderroute</strong> en het <strong>Assebos</strong>. Ook het <strong>Brouwerijmuseum</strong> en de lokale evenementen zoals de <strong>Asse Kermis</strong> trekken jaarlijks vele bezoekers.</p>
+            <p data-i18n="intro_p3" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de vertrouwde partner voor <strong>inwoners, bedrijven, scholen en evenementenorganisatoren</strong> in Asse. Of u nu naar de luchthaven moet, een zakelijke afspraak in Brussel heeft of een dagje uit plant, wij zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) staan klaar om u 24/7 te vervoeren.</p>
         </div>
 
         <!-- Blok 2: Evenementen en zakenwijken -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="events_title">Evenementen & zakenwijken in Asse</h2>
-            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Asse heeft een gevarieerd evenementenaanbod. Jaarlijkse hoogtepunten zijn de <strong>Asse Kermis</strong> in juli, de gezellige <strong>Kerstmarkt</strong> op het Gemeenteplein, de <strong>Historische stoet</strong> rond de Sint-Martinuskerk en diverse <strong>culturele festivals</strong> in het <strong>Cultuurcentrum Asse</strong>. Ook het <strong>Kasteel</strong> en het <strong>Béguinage</strong> worden regelmatig gebruikt als decor voor concerten en tentoonstellingen.</p>
-            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken zijn het <strong>Bedrijventerrein Asse‑Noord</strong>, de <strong>Kantoorzone langs de E40</strong> en het <strong>Business Park Asse</strong>. Het <strong>Kasteel van Asse</strong> en het <strong>Cultuurcentrum</strong> zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.</p>
+            <p data-i18n="events_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Asse bruist van de lokale evenementen, met als hoogtepunten de <strong>Asse Kermis</strong> (eind augustus), de <strong>Kerstmarkt</strong> op de markt en de <strong>Dagen van de Asse</strong> met culturele activiteiten. Ook het <strong>Bierfestival</strong> en de <strong>Wandeltochten</strong> door het groene landschap zijn populair.</p>
+            <p data-i18n="events_p2" style="font-size:1.05rem; line-height:1.6;">De belangrijkste zakenwijken in de regio zijn het <strong>Bedrijventerrein Asse-Zuid</strong>, de kantoorzones langs de <strong>N9</strong> en de <strong>Brusselsesteenweg</strong>. Voor vergaderingen en evenementen kan men terecht in het <strong>Gemeentelijk Cultuurcentrum</strong> en de <strong>Zaal De Zeype</strong>. De nabijheid van Brussel maakt Asse een interessante locatie voor pendelaars en bedrijven.</p>
         </div>
 
-        <!-- ========== Luchthavenroutes - 6 luchthavens, aangepaste prijzen ========== -->
+        <!-- ========== Luchthavenroutes - 6 luchthavens ========== -->
         <h2 class="section-title" data-i18n="routes_title">
             <i class="fas fa-plane-departure" style="color:var(--accent-gold);"></i> 
             Luchthaventransfers vanuit Asse
@@ -231,43 +238,43 @@
                 <i class="fas fa-plane-departure" style="font-size:2rem; color:var(--primary);"></i>
                 <h3 data-i18n="route1_title">Asse → Zaventem</h3>
                 <span class="route-airport-code">BRU</span>
-                <div class="route-price">€45,00</div>
-                <p data-i18n="route1_desc">30 km · ±25 min · vaste prijs</p>
+                <div class="route-price">€37,50</div>
+                <p data-i18n="route1_desc">25 km · ±25 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
                 <h3 data-i18n="route2_title">Asse → Charleroi</h3>
                 <span class="route-airport-code">CRL</span>
                 <div class="route-price">€105,00</div>
-                <p data-i18n="route2_desc">70 km · ±1u 00 min · vaste prijs</p>
+                <p data-i18n="route2_desc">70 km · ±55 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
-                <h3 data-i18n="route3_title">Asse → Antwerpen</h3>
+                <h3 data-i18n="route3_title">Asse → Deurne</h3>
                 <span class="route-airport-code">ANR</span>
-                <div class="route-price">€67,50</div>
-                <p data-i18n="route3_desc">45 km · ±35 min · vaste prijs</p>
+                <div class="route-price">€75,00</div>
+                <p data-i18n="route3_desc">50 km · ±45 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
-                <h3 data-i18n="route4_title">Asse → Lille</h3>
-                <span class="route-airport-code">LIL</span>
-                <div class="route-price">€165,00</div>
-                <p data-i18n="route4_desc">110 km · ±1u 15 min · vaste prijs</p>
-            </div>
-            <div class="route-card">
-                <i class="fas fa-plane-departure"></i>
-                <h3 data-i18n="route5_title">Asse → Eindhoven</h3>
+                <h3 data-i18n="route4_title">Asse → Eindhoven</h3>
                 <span class="route-airport-code">EIN</span>
-                <div class="route-price">€142,50</div>
-                <p data-i18n="route5_desc">95 km · ±1u 05 min · vaste prijs</p>
+                <div class="route-price">€150,00</div>
+                <p data-i18n="route4_desc">100 km · ±1u 10 min · vaste prijs</p>
             </div>
             <div class="route-card">
                 <i class="fas fa-plane-departure"></i>
-                <h3 data-i18n="route6_title">Asse → Amsterdam Schiphol</h3>
+                <h3 data-i18n="route5_title">Asse → Amsterdam Schiphol</h3>
                 <span class="route-airport-code">AMS</span>
-                <div class="route-price">€262,50</div>
-                <p data-i18n="route6_desc">175 km · ±1u 50 min · vaste prijs</p>
+                <div class="route-price">€300,00</div>
+                <p data-i18n="route5_desc">200 km · ±2u 05 min · vaste prijs</p>
+            </div>
+            <div class="route-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3 data-i18n="route6_title">Asse → Lille</h3>
+                <span class="route-airport-code">LIL</span>
+                <div class="route-price">€180,00</div>
+                <p data-i18n="route6_desc">120 km · ±1u 20 min · vaste prijs</p>
             </div>
         </div>
 
@@ -285,7 +292,7 @@
                 <li>
                     <i class="fas fa-star"></i>
                     <strong data-i18n="extras_exclusive">Exclusieve wagen</strong>
-                    <span data-i18n="extras_exclusive_desc">– Mercedes E‑Klasse / BMW 5 Serie</span>
+                    <span data-i18n="extras_exclusive_desc">– Mercedes E-Klasse / BMW 5 Serie</span>
                     <span class="price-tag">+€15,00</span>
                 </li>
                 <li>
@@ -309,33 +316,33 @@
             </ul>
         </div>
 
-        <!-- ========== Extra bestemmingen in Asse ========== -->
+        <!-- ========== Extra bestemmingen (Ook in Asse en de regio) ========== -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="local_title">
                 <i class="fas fa-map-marker-alt" style="color:var(--accent-gold);"></i> 
-                Ook in Asse
+                Ook in Asse en de regio
             </h2>
-            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Asse en de regio. Enkele voorbeelden:</p>
+            <p data-i18n="local_desc" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Asse en naar omliggende steden. Enkele voorbeelden:</p>
             <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-landmark" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_kasteel">Station → Kasteel van Asse</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kasteel_desc">Vanaf €30,00 · 2 km</p>
-                </div>
-                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-church" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_kerk">Station → Sint-Martinuskerk</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_kerk_desc">Vanaf €30,00 · 1,5 km</p>
-                </div>
-                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
-                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <i class="fas fa-city" style="font-size:1.5rem; color:var(--primary);"></i>
                     <h4 style="margin:8px 0 4px;" data-i18n="local_brussel">Asse → Brussel</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€30,00 · 15 km</p>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_brussel_desc">€30,00 · 15 km · ±20 min</p>
                 </div>
                 <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
                     <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
-                    <h4 style="margin:8px 0 4px;" data-i18n="local_leuven">Asse → Leuven</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_leuven_desc">€30,00 · 35 km</p>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_gent">Asse → Gent</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_gent_desc">€75,00 · 50 km · ±40 min</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_mechelen">Asse → Mechelen</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_mechelen_desc">€45,00 · 30 km · ±25 min</p>
+                </div>
+                <div style="background:white; border-radius:16px; padding:16px; text-align:center; border:1px solid var(--border-light);">
+                    <i class="fas fa-train" style="font-size:1.5rem; color:var(--primary);"></i>
+                    <h4 style="margin:8px 0 4px;" data-i18n="local_aalst">Asse → Aalst</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light);" data-i18n="local_aalst_desc">€30,00 · 20 km · ±20 min</p>
                 </div>
             </div>
             <p style="font-size:1rem; color:var(--text-light); margin-top:20px; text-align:center;" data-i18n="local_cta">
@@ -347,46 +354,45 @@
         <!-- ========== Internationaal vervoer ========== -->
         <div class="international-box">
             <h3 data-i18n="international_title"><i class="fas fa-globe"></i> Internationaal vervoer vanuit Asse</h3>
-            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Asse, gelegen aan de E40 en vlakbij Brussel, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
+            <p data-i18n="international_sub">Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):</p>
             <ul style="margin: 16px 0 16px 20px; line-height:1.8;">
-                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±175 km – <strong>€262,50</strong></li>
-                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±310 km – <strong>€465</strong></li>
-                <li><strong data-i18n="int_lil">Lille (Rijsel, FR) – Airport:</strong> ±110 km – <strong>€165</strong></li>
-                <li><strong data-i18n="int_ein">Eindhoven (NL) – Airport:</strong> ±95 km – <strong>€142,50</strong></li>
-                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±130 km – <strong>€195</strong></li>
-                <li><strong data-i18n="int_aac">Aken (DE):</strong> ±150 km – <strong>€225</strong></li>
-                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±230 km – <strong>€345</strong></li>
+                <li><strong data-i18n="int_ams">Amsterdam (NL) – Schiphol:</strong> ±200 km – <strong>€300</strong></li>
+                <li><strong data-i18n="int_rot">Rotterdam (NL):</strong> ±160 km – <strong>€240</strong></li>
+                <li><strong data-i18n="int_par">Parijs (FR):</strong> ±315 km – <strong>€472,50</strong></li>
+                <li><strong data-i18n="int_dus">Düsseldorf (DE) – Airport:</strong> ±220 km – <strong>€330</strong></li>
+                <li><strong data-i18n="int_lux">Luxemburg (LU):</strong> ±240 km – <strong>€360</strong></li>
+                <li><strong data-i18n="int_lon">Londen (UK) – via Eurotunnel:</strong> ±380 km – <strong>€570</strong></li>
             </ul>
             <div class="service-points">
                 <div class="service-point"><i class="fas fa-plane" style="font-size:2rem; color:var(--primary);"></i><h4 data-i18n="service1_title">Vluchtmonitoring</h4><p data-i18n="service1_desc">Wij volgen uw vlucht; gratis wachttijd bij vertraging.</p></div>
                 <div class="service-point"><i class="fas fa-file-contract"></i><h4 data-i18n="service2_title">Documentatie</h4><p data-i18n="service2_desc">Alle papieren voor grensoverschrijdend vervoer.</p></div>
                 <div class="service-point"><i class="fas fa-language"></i><h4 data-i18n="service3_title">Meertalige chauffeurs</h4><p data-i18n="service3_desc">NL, FR, EN, DE.</p></div>
-                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24‑48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
+                <div class="service-point"><i class="fas fa-calendar-week"></i><h4 data-i18n="service4_title">Reserveer 24-48u vooruit</h4><p data-i18n="service4_desc">Internationale ritten plannen.</p></div>
             </div>
         </div>
 
         <!-- ========== Waarom FleetConnect - UNIFORM ========== -->
         <h2 class="section-title" data-i18n="why_title">Waarom FleetConnect in Asse?</h2>
         <div class="features-grid">
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Asse en de omliggende snelwegen (E40, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3 data-i18n="why1_title">Stipt & punctueel</h3><p data-i18n="why1_desc">Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de wegen in Asse en de omliggende regio (E40, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.</p></div>
             
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3 data-i18n="why2_title">Premium vloot</h3><p data-i18n="why2_desc">Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.</p></div>
             
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Asse‑Zaventem) hanteren we een all‑in vast tarief. Transparant en eerlijk.</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-euro-sign"></i></div><h3 data-i18n="why3_title">Vaste prijzen</h3><p data-i18n="why3_desc">Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Asse-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.</p></div>
             
             <div class="feature-card"><div class="feature-icon"><i class="fas fa-headset"></i></div><h3 data-i18n="why4_title">24/7 service</h3><p data-i18n="why4_desc">Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.</p></div>
         </div>
 
         <!-- Zakelijk & hotelvervoer -->
         <div style="background:white; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
-            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk, hotel‑ en luchthavenvervoer op maat</h2>
-            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van verschillende hotels in Asse, waaronder <strong>Hotel Asse</strong>, <strong>B&B Het Kasteel</strong>, <strong>Van der Valk Asse</strong> en <strong>ibis Asse</strong>. Voor congressen en zakelijke evenementen werken wij samen met het <strong>Cultuurcentrum Asse</strong>, het <strong>Kasteel van Asse</strong> en het <strong>Business Park Asse</strong>. Ook bedrijven in de logistiek, technologie en dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.</p>
+            <h2 class="section-title" style="text-align:left;" data-i18n="business_title">Zakelijk & hotelvervoer op maat</h2>
+            <p data-i18n="business_desc" style="font-size:1.05rem; line-height:1.6;">FleetConnect is de preferred partner van diverse hotels en B&B’s in Asse, waaronder <strong>B&B Asse</strong>, <strong>Hotel De Zwaan</strong> en <strong>Gasthof De Drie Koningen</strong>. Voor zakelijke bijeenkomsten en evenementen werken wij samen met het <strong>Gemeentelijk Cultuurcentrum</strong>, <strong>Zaal De Zeype</strong> en lokale bedrijven in het <strong>Bedrijventerrein Asse-Zuid</strong>. Ook pendelaars en scholen vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.</p>
         </div>
 
         <!-- Extra blok: cultuur en bezienswaardigheden -->
         <div style="background:#f8fafc; border-radius:28px; padding:32px; margin:30px 0; border:1px solid var(--border-light);">
             <h2 class="section-title" style="text-align:left;" data-i18n="discover_title">Ontdek Asse met FleetConnect</h2>
-            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek het <strong>Kasteel van Asse</strong> en wandel door de <strong>Kasteeltuinen</strong>. Bewonder de <strong>Sint-Martinuskerk</strong> en het <strong>Béguinage</strong>, een rustige oase in het centrum. Verken de groene omgeving met fiets‑ en wandelpaden langs de <strong>Molenbeek</strong>. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een <strong>Meet & Greet</strong> op de luchthaven, inclusief bordje met uw naam.</p>
+            <p data-i18n="discover_p1" style="font-size:1.05rem; line-height:1.6; margin-bottom:16px;">Combineer uw rit met een bezoek aan de bezienswaardigheden van Asse. Bewonder de <strong>Sint-Martinuskerk</strong> met zijn opmerkelijke toren, wandel door het <strong>Kasteelpark</strong> of ontdek de geschiedenis in het <strong>Brouwerijmuseum</strong>. Voor natuurliefhebbers is er het <strong>Assebos</strong> en de omliggende wandelpaden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio.</p>
             <p data-i18n="discover_p2" style="font-size:1.05rem; line-height:1.6;">Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.</p>
         </div>
 
@@ -405,7 +411,7 @@
                 <h3 data-i18n="contact_title"><i class="fas fa-paper-plane"></i> Stuur een bericht</h3>
                 <div class="compact-form">
                     <div class="form-group"><label data-i18n="contact_name_label"><i class="fas fa-user"></i> Uw naam *</label><input type="text" id="contactNaam" placeholder="Uw naam"></div>
-                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E‑mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
+                    <div class="form-group"><label data-i18n="contact_email_label"><i class="fas fa-envelope"></i> E-mail *</label><input type="email" id="contactEmail" placeholder="info@voorbeeld.be"></div>
                     <div class="form-group"><label data-i18n="contact_msg_label"><i class="fas fa-comment"></i> Bericht *</label><textarea id="contactBericht" rows="2" placeholder="Uw bericht..."></textarea></div>
                     <div class="button-row"><button class="btn-primary" id="verstuurBerichtBtn" data-i18n="contact_send_btn"><i class="fas fa-paper-plane"></i> Verstuur</button><a href="https://wa.me/32494624429" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a></div>
                 </div>
@@ -414,57 +420,74 @@
     </div>
 
     <!-- ========================================================== -->
-    <!-- FOOTER – UNIFORM BLAUW + VERTAALBARE DROPDOWN             -->
+    <!-- FOOTER – UNIFORM BLAUW + /cities/ STRUCTUUR              -->
     <!-- ========================================================== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
-                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
-                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België – Stijl, stiptheid en service.</p>
-                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
-                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
-                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
+                    <h4><i class="fas fa-car"></i> FleetConnect</h4>
+                    <p>Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking">Reserveer nu</a>
+                    <a href="/PV/index.html">Klantportaal</a>
+                    <a href="/partner-login">Partner login</a>
                 </div>
 
-                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
-                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
-                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
-                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
-                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
-                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
-
-                    <!-- Label en dropdown voor overige steden - wordt dynamisch gevuld -->
+                    <h4>Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html">Taxi Brugge</a>
                     <div style="margin-top: 16px;">
-                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;">Alle andere steden:</label>
                         <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
-                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
+                            <option value="">-- Kies een stad --</option>
+                            <option value="/cities/taxi-aalst.html">Aalst</option>
+                            <option value="/cities/taxi-asse.html">Asse</option>
+                            <option value="/cities/taxi-dilbeek.html">Dilbeek</option>
+                            <option value="/cities/taxi-doornik.html">Doornik</option>
+                            <option value="/cities/taxi-genk.html">Genk</option>
+                            <option value="/cities/taxi-gent.html">Gent</option>
+                            <option value="/cities/taxi-grimbergen.html">Grimbergen</option>
+                            <option value="/cities/taxi-halle.html">Halle</option>
+                            <option value="/cities/taxi-hasselt.html">Hasselt</option>
+                            <option value="/cities/taxi-kortenberg.html">Kortenberg</option>
+                            <option value="/cities/taxi-kortrijk.html">Kortrijk</option>
+                            <option value="/cities/taxi-leuven.html">Leuven</option>
+                            <option value="/cities/taxi-luik.html">Luik</option>
+                            <option value="/cities/taxi-machelen.html">Machelen</option>
+                            <option value="/cities/taxi-mechelen.html">Mechelen</option>
+                            <option value="/cities/taxi-oostende.html">Oostende</option>
+                            <option value="/cities/taxi-overijse.html">Overijse</option>
+                            <option value="/cities/taxi-sint-niklaas.html">Sint‑Niklaas</option>
+                            <option value="/cities/taxi-steenokkerzeel.html">Steenokkerzeel</option>
+                            <option value="/cities/taxi-tervuren.html">Tervuren</option>
+                            <option value="/cities/taxi-turnhout.html">Turnhout</option>
+                            <option value="/cities/taxi-vilvoorde.html">Vilvoorde</option>
+                            <option value="/cities/taxi-waterloo.html">Waterloo</option>
+                            <option value="/cities/taxi-zemst.html">Zemst</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
-                    <h4 data-i18n="footer_legal">Legal</h4>
-                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
-                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
-                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
-                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
+                    <h4>Legal</h4>
+                    <a href="/PV/PVfaq.html">FAQ</a>
+                    <a href="/PV/PVprivacy.html">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html">Algemene voorwaarden</a>
                 </div>
 
-                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
-                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
-                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
-                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
+                    <h4>FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be">Support</a>
+                    <a href="/booking#contact">Contact</a>
                 </div>
             </div>
 
-            <!-- Footer bottom -->
             <div class="footer-bottom">
-                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
+                2026 FleetConnect - <a href="/">FleetConnect</a>
             </div>
         </div>
     </footer>
@@ -478,105 +501,91 @@
     // ============================================================
     const translations = {
         nl: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Asse",
             hero_slogan: "\"Uw rit, onze zorg. Vaste prijs, 24/7.\"",
-            hero_features: "€1,50/km • Luchthaventransfers • Meertalige chauffeurs",
+            hero_features: "€1,50/km • Min. €30 • Luchthaventransfers • Meertalige chauffeurs",
             hero_btn: "<i class='fas fa-calendar-check'></i> Boek nu →",
-            // Intro
-            intro_title: "Asse – Groene gemeente in de Groene Gordel rond Brussel",
-            intro_p1: "Asse is een gemeente in de provincie Vlaams-Brabant, gelegen in de Groene Gordel rond Brussel. De gemeente heeft een rijke geschiedenis die teruggaat tot de Romeinse tijd en staat bekend om haar Sint-Martinuskerk, het Kasteel van Asse (een waterkasteel) en het Béguinage. Asse is een groene gemeente met uitgestrekte landbouwgebieden, bossen en de vallei van de Molenbeek.",
-            intro_p2: "Dankzij de uitstekende bereikbaarheid via de E40 en de ring rond Brussel is Asse een ideale woonplaats voor pendelaars naar Brussel, Leuven en Aalst. De nabijheid van de luchthaven van Zaventem en de internationale treinverbindingen maken het een strategische locatie voor zakelijke reizigers. De gemeente heeft een actief verenigingsleven en organiseert jaarlijks tal van evenementen, waaronder de Asse Kermis, de Kerstmarkt en de Historische stoet.",
-            intro_p3: "FleetConnect is de vertrouwde partner voor bedrijven, hotels, evenementenorganisatoren en overheidsinstellingen in Asse. Onze Mercedes‑, BMW‑ en minivans zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) garanderen een professionele ontvangst van nationale en internationale gasten.",
-            // Events
+            intro_title: "Asse – Groene gemeente aan de rand van Brussel",
+            intro_p1: "Asse is een gezellige gemeente in de provincie Vlaams-Brabant, gelegen op het grondgebied van de Brabantse Kouters. De gemeente heeft een rijke geschiedenis die teruggaat tot de Gallo-Romeinse periode, met archeologische vondsten zoals de beroemde schat van Asse. Vandaag de dag is Asse een groene en rustige woongemeente, ideaal gelegen tussen Brussel, Aalst en Gent.",
+            intro_p2: "Het centrum van Asse wordt gekenmerkt door de Sint-Martinuskerk, het Kasteel van Asse en de gezellige marktplaats. De gemeente biedt tal van groene wandel- en fietsroutes, waaronder de Denderroute en het Assebos. Ook het Brouwerijmuseum en de lokale evenementen zoals de Asse Kermis trekken jaarlijks vele bezoekers.",
+            intro_p3: "FleetConnect is de vertrouwde partner voor inwoners, bedrijven, scholen en evenementenorganisatoren in Asse. Of u nu naar de luchthaven moet, een zakelijke afspraak in Brussel heeft of een dagje uit plant, wij zorgen voor een comfortabele en stipte service. Onze meertalige chauffeurs (NL/FR/EN/DE) staan klaar om u 24/7 te vervoeren.",
             events_title: "Evenementen & zakenwijken in Asse",
-            events_p1: "Asse heeft een gevarieerd evenementenaanbod. Jaarlijkse hoogtepunten zijn de Asse Kermis in juli, de gezellige Kerstmarkt op het Gemeenteplein, de Historische stoet rond de Sint-Martinuskerk en diverse culturele festivals in het Cultuurcentrum Asse. Ook het Kasteel en het Béguinage worden regelmatig gebruikt als decor voor concerten en tentoonstellingen.",
-            events_p2: "De belangrijkste zakenwijken zijn het Bedrijventerrein Asse‑Noord, de Kantoorzone langs de E40 en het Business Park Asse. Het Kasteel van Asse en het Cultuurcentrum zijn populaire locaties voor seminars, bedrijfsfeesten en congressen.",
-            // Routes
+            events_p1: "Asse bruist van de lokale evenementen, met als hoogtepunten de Asse Kermis (eind augustus), de Kerstmarkt op de markt en de Dagen van de Asse met culturele activiteiten. Ook het Bierfestival en de Wandeltochten door het groene landschap zijn populair.",
+            events_p2: "De belangrijkste zakenwijken in de regio zijn het Bedrijventerrein Asse-Zuid, de kantoorzones langs de N9 en de Brusselsesteenweg. Voor vergaderingen en evenementen kan men terecht in het Gemeentelijk Cultuurcentrum en de Zaal De Zeype. De nabijheid van Brussel maakt Asse een interessante locatie voor pendelaars en bedrijven.",
             routes_title: "✈️ Luchthaventransfers vanuit Asse",
             routes_sub: "Van en naar alle belangrijke luchthavens in de regio. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             route1_title: "Asse → Zaventem",
-            route1_desc: "30 km · ±25 min · vaste prijs",
+            route1_desc: "25 km · ±25 min · vaste prijs",
             route2_title: "Asse → Charleroi",
-            route2_desc: "70 km · ±1u 00 min · vaste prijs",
-            route3_title: "Asse → Antwerpen",
-            route3_desc: "45 km · ±35 min · vaste prijs",
-            route4_title: "Asse → Lille",
-            route4_desc: "110 km · ±1u 15 min · vaste prijs",
-            route5_title: "Asse → Eindhoven",
-            route5_desc: "95 km · ±1u 05 min · vaste prijs",
-            route6_title: "Asse → Amsterdam Schiphol",
-            route6_desc: "175 km · ±1u 50 min · vaste prijs",
-            // Extra opties
+            route2_desc: "70 km · ±55 min · vaste prijs",
+            route3_title: "Asse → Deurne",
+            route3_desc: "50 km · ±45 min · vaste prijs",
+            route4_title: "Asse → Eindhoven",
+            route4_desc: "100 km · ±1u 10 min · vaste prijs",
+            route5_title: "Asse → Amsterdam Schiphol",
+            route5_desc: "200 km · ±2u 05 min · vaste prijs",
+            route6_title: "Asse → Lille",
+            route6_desc: "120 km · ±1u 20 min · vaste prijs",
             extras_title: "➕ Extra opties – transparante meerprijzen",
             extras_intro: "Wilt u extra luxe of specifieke wensen? Dan berekenen wij hier een klein, transparant bedrag voor:",
             extras_break: "Break model",
             extras_break_desc: "– Meer bagageruimte",
             extras_exclusive: "Exclusieve wagen",
-            extras_exclusive_desc: "– Mercedes E‑Klasse / BMW 5 Serie",
+            extras_exclusive_desc: "– Mercedes E-Klasse / BMW 5 Serie",
             extras_van: "Mini Van",
             extras_van_desc: "– Tot 8 personen",
             extras_meet: "Meet & Greet",
             extras_meet_desc: "– Persoonlijke ontvangst met naamplaatje, 30 min gratis wachttijd, parkeerkosten inbegrepen. Extra wachttijd: €35,00/uur",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Snel & efficiënt, 30 min gratis wachttijd. Extra wachttijd: €25,00/uur",
-            // Lokale bestemmingen
-            local_title: "📍 Ook in Asse",
-            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Asse en de regio. Enkele voorbeelden:",
-            local_kasteel: "Station → Kasteel van Asse",
-            local_kasteel_desc: "Vanaf €30,00 · 2 km",
-            local_kerk: "Station → Sint-Martinuskerk",
-            local_kerk_desc: "Vanaf €30,00 · 1,5 km",
+            local_title: "📍 Ook in Asse en de regio",
+            local_desc: "Naast luchthaventransfers verzorgen wij ook betrouwbaar vervoer binnen Asse en naar omliggende steden. Enkele voorbeelden:",
             local_brussel: "Asse → Brussel",
-            local_brussel_desc: "€30,00 · 15 km",
-            local_leuven: "Asse → Leuven",
-            local_leuven_desc: "€30,00 · 35 km",
+            local_brussel_desc: "€30,00 · 15 km · ±20 min",
+            local_gent: "Asse → Gent",
+            local_gent_desc: "€75,00 · 50 km · ±40 min",
+            local_mechelen: "Asse → Mechelen",
+            local_mechelen_desc: "€45,00 · 30 km · ±25 min",
+            local_aalst: "Asse → Aalst",
+            local_aalst_desc: "€30,00 · 20 km · ±20 min",
             local_cta: "Andere bestemming? Vraag vrijblijvend een offerte aan",
-            // International
             international_title: "<i class='fas fa-globe'></i> Internationaal vervoer vanuit Asse",
-            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Vanuit Asse, gelegen aan de E40 en vlakbij Brussel, bent u ideaal gepositioneerd voor internationale transfers. Richtprijzen (sedan, inclusief wachttijd en tol):",
+            international_sub: "Naast luchthaventransfers biedt FleetConnect ook betrouwbare ritten naar andere internationale bestemmingen. Richtprijzen (sedan, inclusief wachttijd en tol):",
             int_ams: "Amsterdam (NL) – Schiphol",
-            int_par: "Parijs (FR)",
-            int_lil: "Lille (Rijsel, FR) – Airport",
-            int_ein: "Eindhoven (NL) – Airport",
             int_rot: "Rotterdam (NL)",
-            int_aac: "Aken (DE)",
+            int_par: "Parijs (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
             int_lux: "Luxemburg (LU)",
+            int_lon: "Londen (UK) – via Eurotunnel",
             service1_title: "Vluchtmonitoring",
             service1_desc: "Wij volgen uw vlucht; gratis wachttijd bij vertraging.",
             service2_title: "Documentatie",
             service2_desc: "Alle papieren voor grensoverschrijdend vervoer.",
             service3_title: "Meertalige chauffeurs",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Reserveer 24‑48u vooruit",
+            service4_title: "Reserveer 24-48u vooruit",
             service4_desc: "Internationale ritten plannen.",
-            // Why
             why_title: "Waarom FleetConnect in Asse?",
             why1_title: "Stipt & punctueel",
-            why1_desc: "Dankzij real‑time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de binnenwegen van Asse en de omliggende snelwegen (E40, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
-            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E‑Klasse, BMW 5‑serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V‑Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits‑ en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive‑klasse met extra beenruimte en stiltecoupé.",
+            why1_desc: "Dankzij real-time tracking en vluchtmonitoring zijn we altijd op tijd. Uw vluchtnummer doorgeven volstaat; wij passen de ophaaltijd aan bij vertraging, zonder extra kosten. Onze chauffeurs kennen de wegen in Asse en de omliggende regio (E40, ring Brussel) door en door. Punctualiteit is geen belofte, maar een garantie – meer dan 98% van onze ritten stipt uitgevoerd.",
+            why2_desc: "Onze wagens zijn van topkwaliteit: exclusieve sedans zoals Skoda, Mercedes E-Klasse, BMW 5-serie of gelijkwaardig, aangevuld met luxe minivans (Mercedes V-Klasse of gelijkwaardig). Al onze voertuigen voldoen aan de hoogste kwaliteits- en veiligheidsnormen en worden regelmatig onderhouden volgens de geldende wetgeving. Voorzien van lederen zetels, airco en gratis WiFi. Voor exclusieve gelegenheden beschikken we over een speciale Executive-klasse met extra beenruimte en stiltecoupé.",
             why3_title: "Vaste prijzen",
-            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Asse‑Zaventem) hanteren we een all‑in vast tarief. Transparant en eerlijk.",
+            why3_desc: "Geen meter, geen verrassingen. U betaalt €1,50 per kilometer met een minimumtarief van €30,00 – geen opstartkosten, geen toeslagen voor bagage, nachtritten of weekends. De prijs die u ziet bij het boeken, is de prijs die u betaalt. Voor vaste routes (bv. Asse-Zaventem) hanteren we een all-in vast tarief. Transparant en eerlijk.",
             why4_title: "24/7 service",
             why4_desc: "Onze klantendienst is 24 uur per dag, 7 dagen per week bereikbaar, ook op zondag en feestdagen. Of u nu om 4 uur 's nachts een rit naar de luchthaven nodig heeft of op kerstavond naar een familiefeest – wij staan klaar. Reserveren kan tot 1 uur voor vertrek via onze website of telefoon; voor spoedritten: WhatsApp.",
-            // Business
-            business_title: "Zakelijk, hotel‑ en luchthavenvervoer op maat",
-            business_desc: "FleetConnect is de preferred partner van verschillende hotels in Asse, waaronder Hotel Asse, B&B Het Kasteel, Van der Valk Asse en ibis Asse. Voor congressen en zakelijke evenementen werken wij samen met het Cultuurcentrum Asse, het Kasteel van Asse en het Business Park Asse. Ook bedrijven in de logistiek, technologie en dienstensector vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP‑behandeling behoren tot de mogelijkheden.",
-            // Discover
+            business_title: "Zakelijk & hotelvervoer op maat",
+            business_desc: "FleetConnect is de preferred partner van diverse hotels en B&B’s in Asse, waaronder B&B Asse, Hotel De Zwaan en Gasthof De Drie Koningen. Voor zakelijke bijeenkomsten en evenementen werken wij samen met het Gemeentelijk Cultuurcentrum, Zaal De Zeype en lokale bedrijven in het Bedrijventerrein Asse-Zuid. Ook pendelaars en scholen vertrouwen op onze stipte service. Facturatie achteraf, groepsvervoer en VIP-behandeling behoren tot de mogelijkheden.",
             discover_title: "Ontdek Asse met FleetConnect",
-            discover_p1: "Combineer uw zakelijke afspraak met een culturele ontdekkingstocht. Bezoek het Kasteel van Asse en wandel door de Kasteeltuinen. Bewonder de Sint-Martinuskerk en het Béguinage, een rustige oase in het centrum. Verken de groene omgeving met fiets‑ en wandelpaden langs de Molenbeek. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio. Combineer uw rit met een Meet & Greet op de luchthaven, inclusief bordje met uw naam.",
+            discover_p1: "Combineer uw rit met een bezoek aan de bezienswaardigheden van Asse. Bewonder de Sint-Martinuskerk met zijn opmerkelijke toren, wandel door het Kasteelpark of ontdek de geschiedenis in het Brouwerijmuseum. Voor natuurliefhebbers is er het Assebos en de omliggende wandelpaden. Onze chauffeurs fungeren ook als informele gids en geven u graag tips over de regio.",
             discover_p2: "Of u nu kiest voor een standaard sedan, een break, een exclusieve Mercedes of een minivan – FleetConnect heeft het juiste voertuig. Reserveer eenvoudig online en ontvang direct een bevestiging.",
-            // CTA
             cta_title: "Klaar voor een zorgeloze luchthaventransfer of rit in Asse?",
             cta_sub: "Boek nu uw taxi in minder dan 2 minuten. Vaste prijs, gegarandeerd. Vluchtmonitoring inbegrepen.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Boek nu →",
-            // Contact
             contact_title: "<i class='fas fa-paper-plane'></i> Stuur een bericht",
             contact_name_label: "<i class='fas fa-user'></i> Uw naam *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Bericht *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Verstuur",
-            // Sidebar nav
             language_label: "Taal / Language",
             nav_home: "Home",
             nav_exclusive: "Exclusieve service",
@@ -588,86 +597,34 @@
             nav_courier: "Koeriersdienst",
             nav_contact: "Contact",
             nav_book: "Reserveer nu",
-            login: "LOGIN",
-
-            // ===== FOOTER VERTALINGEN (NL) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Professioneel taxivervoer in België – Stijl, stiptheid en service.",
-            footer_book_now: "Reserveer nu",
-            footer_portal: "Klantportaal",
-            footer_partner: "Partner login",
-            footer_popular_cities: "Populaire steden",
-            footer_city_brussels: "Taxi Brussel",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Antwerpen",
-            footer_city_brugge: "Taxi Brugge",
-            footer_other_cities: "Alle andere steden:",
-            footer_select_city: "-- Kies een stad --",
-            footer_legal: "Legal",
-            footer_faq: "FAQ",
-            footer_privacy: "Privacy",
-            footer_cookies: "Cookiebeleid",
-            footer_terms: "Algemene voorwaarden",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (NL) =====
-            city_aalst: "Aalst",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Doornik",
-            city_genk: "Genk",
-            city_gent: "Gent",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Halle",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Kortrijk",
-            city_leuven: "Leuven",
-            city_luik: "Luik",
-            city_machelen: "Machelen",
-            city_mechelen: "Mechelen",
-            city_oostende: "Oostende",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "LOGIN"
         },
         fr: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Asse",
             hero_slogan: "\"Votre trajet, notre priorité. Prix fixe, 24/7.\"",
-            hero_features: "€1,50/km • Transferts aéroport • Chauffeurs multilingues",
+            hero_features: "€1,50/km • Min. €30 • Transferts aéroport • Chauffeurs multilingues",
             hero_btn: "<i class='fas fa-calendar-check'></i> Réservez maintenant →",
-            // Intro
-            intro_title: "Asse – Commune verte dans la Ceinture Verte autour de Bruxelles",
-            intro_p1: "Asse est une commune du Brabant flamand, située dans la Ceinture Verte autour de Bruxelles. La commune a une riche histoire remontant à l'époque romaine et est connue pour son église Saint-Martin, son Château d'Asse (un château‑eau) et son Béguinage. Asse est une commune verte avec de vastes zones agricoles, des forêts et la vallée du Molenbeek.",
-            intro_p2: "Grâce à l'excellente accessibilité via l'E40 et le ring de Bruxelles, Asse est un lieu de résidence idéal pour les navetteurs vers Bruxelles, Louvain et Alost. La proximité de l'aéroport de Zaventem et des connexions ferroviaires internationales en font un emplacement stratégique pour les voyageurs d'affaires. La commune possède une vie associative active et organise de nombreux événements chaque année, notamment la Foire d'Asse, le Marché de Noël et le Défilé Historique.",
-            intro_p3: "FleetConnect est le partenaire de confiance des entreprises, hôtels, organisateurs d'événements et institutions publiques à Asse. Nos Mercedes, BMW et minibus assurent un confort et une ponctualité irréprochables.",
+            intro_title: "Asse – Commune verte à la lisière de Bruxelles",
+            intro_p1: "Asse est une commune accueillante dans la province du Brabant flamand, située sur le territoire des Kouters brabançons. La commune possède une riche histoire remontant à l'époque gallo-romaine, avec des découvertes archéologiques comme le célèbre trésor d'Asse. Aujourd'hui, Asse est une commune verte et paisible, idéalement située entre Bruxelles, Alost et Gand.",
+            intro_p2: "Le centre d'Asse est caractérisé par l'église Saint-Martin, le Château d'Asse et la place de marché animée. La commune offre de nombreux sentiers de randonnée et pistes cyclables, dont la route de la Dendre et le bois d'Asse. Le Musée de la Brasserie et les événements locaux comme la Foire d'Asse attirent chaque année de nombreux visiteurs.",
+            intro_p3: "FleetConnect est le partenaire de confiance des habitants, entreprises, écoles et organisateurs d'événements à Asse. Que vous deviez vous rendre à l'aéroport, à un rendez-vous d'affaires à Bruxelles ou à une journée de détente, nous assurons un service confortable et ponctuel. Nos chauffeurs multilingues (NL/FR/EN/DE) sont à votre disposition 24/7.",
             events_title: "Événements et quartiers d'affaires à Asse",
-            events_p1: "Asse propose une offre d'événements variée. Les temps forts annuels sont la Foire d'Asse en juillet, le Marché de Noël sur la Place de la Commune, le Défilé Historique autour de l'église Saint-Martin et divers festivals culturels au Centre Culturel d'Asse. Le Château et le Béguinage sont également utilisés comme décors pour des concerts et expositions.",
-            events_p2: "Les principaux quartiers d'affaires sont la zone industrielle Asse‑Nord, la zone de bureaux le long de l'E40 et le Business Park Asse. Le Château d'Asse et le Centre Culturel sont des lieux prisés pour les séminaires, fêtes d'entreprise et congrès.",
+            events_p1: "Asse est animée par des événements locaux, avec comme temps forts la Foire d'Asse (fin août), le Marché de Noël sur la place et les Journées d'Asse avec des activités culturelles. Le Festival de la Bière et les Randonnées dans le paysage verdoyant sont également populaires.",
+            events_p2: "Les principales zones d'activités sont la zone industrielle Asse-Sud, les zones de bureaux le long de la N9 et de la chaussée de Bruxelles. Pour les réunions et événements, on peut se rendre au Centre Culturel Communal et à la Salle De Zeype. La proximité de Bruxelles fait d'Asse un lieu intéressant pour les navetteurs et les entreprises.",
             routes_title: "✈️ Transferts aéroport depuis Asse",
             routes_sub: "Vers et depuis tous les aéroports importants de la région. Prix fixe garanti. Suivi de vol inclus.",
             route1_title: "Asse → Zaventem",
-            route1_desc: "30 km · ±25 min · prix fixe",
+            route1_desc: "25 km · ±25 min · prix fixe",
             route2_title: "Asse → Charleroi",
-            route2_desc: "70 km · ±1h 00 min · prix fixe",
-            route3_title: "Asse → Anvers",
-            route3_desc: "45 km · ±35 min · prix fixe",
-            route4_title: "Asse → Lille",
-            route4_desc: "110 km · ±1h 15 min · prix fixe",
-            route5_title: "Asse → Eindhoven",
-            route5_desc: "95 km · ±1h 05 min · prix fixe",
-            route6_title: "Asse → Amsterdam Schiphol",
-            route6_desc: "175 km · ±1h 50 min · prix fixe",
+            route2_desc: "70 km · ±55 min · prix fixe",
+            route3_title: "Asse → Deurne",
+            route3_desc: "50 km · ±45 min · prix fixe",
+            route4_title: "Asse → Eindhoven",
+            route4_desc: "100 km · ±1h 10 min · prix fixe",
+            route5_title: "Asse → Amsterdam Schiphol",
+            route5_desc: "200 km · ±2h 05 min · prix fixe",
+            route6_title: "Asse → Lille",
+            route6_desc: "120 km · ±1h 20 min · prix fixe",
             extras_title: "➕ Options supplémentaires – suppléments transparents",
             extras_intro: "Vous souhaitez plus de luxe ou des demandes spécifiques ? Nous appliquons alors un petit montant transparent :",
             extras_break: "Break modèle",
@@ -680,53 +637,52 @@
             extras_meet_desc: "– Accueil personnalisé avec pancarte, 30 min d'attente gratuites, frais de stationnement inclus. Attente supplémentaire : €35,00/heure",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Rapide & efficace, 30 min d'attente gratuites. Attente supplémentaire : €25,00/heure",
-            local_title: "📍 À Asse également",
-            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Asse et dans la région. Quelques exemples :",
-            local_kasteel: "Gare → Château d'Asse",
-            local_kasteel_desc: "À partir de €30,00 · 2 km",
-            local_kerk: "Gare → Église Saint-Martin",
-            local_kerk_desc: "À partir de €30,00 · 1,5 km",
+            local_title: "📍 À Asse et dans la région",
+            local_desc: "En plus des transferts aéroport, nous assurons également des trajets fiables à Asse et vers les villes environnantes. Quelques exemples :",
             local_brussel: "Asse → Bruxelles",
-            local_brussel_desc: "€30,00 · 15 km",
-            local_leuven: "Asse → Louvain",
-            local_leuven_desc: "€30,00 · 35 km",
+            local_brussel_desc: "€30,00 · 15 km · ±20 min",
+            local_gent: "Asse → Gand",
+            local_gent_desc: "€75,00 · 50 km · ±40 min",
+            local_mechelen: "Asse → Malines",
+            local_mechelen_desc: "€45,00 · 30 km · ±25 min",
+            local_aalst: "Asse → Alost",
+            local_aalst_desc: "€30,00 · 20 km · ±20 min",
             local_cta: "Autre destination ? Demandez un devis sans engagement",
             international_title: "<i class='fas fa-globe'></i> Transport international depuis Asse",
-            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Depuis Asse, situé sur l'E40 et proche de Bruxelles, vous êtes idéalement positionné. Prix indicatifs :",
+            international_sub: "En plus des transferts aéroport, FleetConnect propose des trajets fiables vers d'autres destinations internationales. Prix indicatifs (berline, incluant temps d'attente et péages) :",
             int_ams: "Amsterdam (NL) – Schiphol",
-            int_par: "Paris (FR)",
-            int_lil: "Lille (FR) – Airport",
-            int_ein: "Eindhoven (NL) – Airport",
             int_rot: "Rotterdam (NL)",
-            int_aac: "Aix‑la‑Chapelle (DE)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
             int_lux: "Luxembourg (LU)",
+            int_lon: "Londres (UK) – via Eurotunnel",
             service1_title: "Suivi de vol",
             service1_desc: "Nous suivons votre vol ; attente gratuite en cas de retard.",
             service2_title: "Documentation",
             service2_desc: "Tous les papiers pour le transport transfrontalier.",
             service3_title: "Chauffeurs multilingues",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Réservez 24‑48h à l'avance",
+            service4_title: "Réservez 24-48h à l'avance",
             service4_desc: "Planification des trajets internationaux.",
             why_title: "Pourquoi FleetConnect à Asse?",
             why1_title: "Ponctuel & fiable",
-            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les rues d'Asse et les autoroutes environnantes (E40, ring de Bruxelles).",
-            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées.",
+            why1_desc: "Grâce au suivi en temps réel et au suivi de vol, nous sommes toujours à l'heure. Indiquez votre numéro de vol ; nous ajustons l'heure de prise en charge en cas de retard, sans frais supplémentaires. Nos chauffeurs connaissent les routes d'Asse et la région environnante (E40, ring de Bruxelles). Ponctualité garantie – plus de 98% de nos trajets sont ponctuels.",
+            why2_desc: "Nos véhicules sont de premier ordre : berlines exclusives telles que Skoda, Mercedes Classe E, BMW Série 5 ou équivalent, complétées par des minibus de luxe (Mercedes Classe V ou équivalent). Tous nos véhicules répondent aux normes de qualité et de sécurité les plus élevées et sont régulièrement entretenus conformément à la législation en vigueur. Équipés de sièges en cuir, climatisation et WiFi gratuit. Pour les occasions exclusives, nous disposons d'une classe Executive spéciale avec espace supplémentaire pour les jambes et cabine silencieuse.",
             why3_title: "Prix fixes",
-            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week‑ends.",
+            why3_desc: "Pas de compteur, pas de surprises. Vous payez €1,50 par kilomètre avec un tarif minimum de €30,00 – pas de frais de prise en charge, pas de suppléments pour bagages, trajets de nuit ou week-ends. Le prix que vous voyez lors de la réservation est celui que vous payez. Pour les itinéraires fixes (ex. Asse-Zaventem), nous appliquons un tarif forfaitaire tout compris. Transparent et équitable.",
             why4_title: "Service 24/7",
-            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là.",
-            business_title: "Transport professionnel, hôtelier et aéroportuaire sur mesure",
-            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels à Asse, dont Hotel Asse, B&B Het Kasteel, Van der Valk Asse et ibis Asse. Pour les congrès et événements, nous collaborons avec le Centre Culturel d'Asse, le Château d'Asse et le Business Park Asse.",
+            why4_desc: "Notre service client est disponible 24h/24, 7j/7, y compris les dimanches et jours fériés. Que vous ayez besoin d'un trajet vers l'aéroport à 4 heures du matin ou d'un dîner de famille la veille de Noël, nous sommes là. Vous pouvez réserver jusqu'à 1 heure avant le départ via notre site Web ou par téléphone ; pour les trajets urgents : WhatsApp.",
+            business_title: "Transport professionnel et hôtelier sur mesure",
+            business_desc: "FleetConnect est le partenaire privilégié de plusieurs hôtels et B&B à Asse, dont B&B Asse, Hotel De Zwaan et Gasthof De Drie Koningen. Pour les réunions d'affaires et événements, nous collaborons avec le Centre Culturel Communal, la Salle De Zeype et les entreprises de la zone industrielle Asse-Sud. Les navetteurs et les écoles comptent également sur notre service ponctuel. Facturation différée, transport de groupe et traitement VIP sont possibles.",
             discover_title: "Découvrez Asse avec FleetConnect",
-            discover_p1: "Combinez votre rendez‑vous d'affaires avec une découverte culturelle. Visitez le Château d'Asse et promenez‑vous dans les jardins du château. Admirez l'église Saint-Martin et le Béguinage, une oasis de tranquillité dans le centre. Explorez la verdure avec des sentiers de randonnée et de vélo le long du Molenbeek. Nos chauffeurs servent également de guides informels.",
-            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté.",
+            discover_p1: "Combinez votre trajet avec une visite des curiosités d'Asse. Admirez l'église Saint-Martin avec sa tour remarquable, promenez-vous dans le parc du château ou découvrez l'histoire au Musée de la Brasserie. Pour les amoureux de la nature, le bois d'Asse et les sentiers environnants sont idéaux. Nos chauffeurs servent également de guides informels et vous donneront des conseils sur la région.",
+            discover_p2: "Que vous choisissiez une berline standard, un break, une Mercedes exclusive ou un minibus – FleetConnect dispose du véhicule adapté. Réservez facilement en ligne et recevez une confirmation immédiate.",
             cta_title: "Prêt pour un transfert aéroport ou un trajet sans souci à Asse?",
             cta_sub: "Réservez votre taxi en moins de 2 minutes. Prix fixe garanti. Suivi de vol inclus.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Réservez maintenant →",
             contact_title: "<i class='fas fa-paper-plane'></i> Envoyez un message",
             contact_name_label: "<i class='fas fa-user'></i> Votre nom *",
-            contact_email_label: "<i class='fas fa-envelope'></i> E‑mail *",
+            contact_email_label: "<i class='fas fa-envelope'></i> E-mail *",
             contact_msg_label: "<i class='fas fa-comment'></i> Message *",
             contact_send_btn: "<i class='fas fa-paper-plane'></i> Envoyer",
             language_label: "Langue",
@@ -740,140 +696,87 @@
             nav_courier: "Service de messagerie",
             nav_contact: "Contact",
             nav_book: "Réservez maintenant",
-            login: "CONNEXION",
-
-            // ===== FOOTER VERTALINGEN (FR) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
-            footer_book_now: "Réservez maintenant",
-            footer_portal: "Portail client",
-            footer_partner: "Connexion partenaire",
-            footer_popular_cities: "Villes populaires",
-            footer_city_brussels: "Taxi Bruxelles",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Anvers",
-            footer_city_brugge: "Taxi Bruges",
-            footer_other_cities: "Toutes les autres villes :",
-            footer_select_city: "-- Choisissez une ville --",
-            footer_legal: "Juridique",
-            footer_faq: "FAQ",
-            footer_privacy: "Confidentialité",
-            footer_cookies: "Politique de cookies",
-            footer_terms: "Conditions générales",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (FR) =====
-            city_aalst: "Alost",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Tournai",
-            city_genk: "Genk",
-            city_gent: "Gand",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Hal",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Courtrai",
-            city_leuven: "Louvain",
-            city_luik: "Liège",
-            city_machelen: "Machelen",
-            city_mechelen: "Malines",
-            city_oostende: "Ostende",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "CONNEXION"
         },
         en: {
-            // Hero
             hero_title: "<i class='fas fa-taxi'></i> FleetConnect | Taxi Asse",
             hero_slogan: "\"Your ride, our care. Fixed price, 24/7.\"",
-            hero_features: "€1.50/km • Airport transfers • Multilingual drivers",
+            hero_features: "€1.50/km • Min. €30 • Airport transfers • Multilingual drivers",
             hero_btn: "<i class='fas fa-calendar-check'></i> Book now →",
-            // Intro
-            intro_title: "Asse – Green municipality in the Green Belt around Brussels",
-            intro_p1: "Asse is a municipality in Flemish Brabant, located in the Green Belt around Brussels. The municipality has a rich history dating back to Roman times and is known for its St. Martin's Church, the Castle of Asse (a water castle) and the Béguinage. Asse is a green municipality with extensive agricultural areas, forests and the valley of the Molenbeek.",
-            intro_p2: "Thanks to excellent accessibility via the E40 and the Brussels ring road, Asse is an ideal place to live for commuters to Brussels, Leuven and Aalst. The proximity of Zaventem Airport and international rail connections make it a strategic location for business travellers. The municipality has an active community life and organises many events annually, including the Asse Fair, the Christmas Market and the Historical Procession.",
-            intro_p3: "FleetConnect is the trusted partner for businesses, hotels, event organisers and government institutions in Asse. Our Mercedes, BMW and minivans provide a comfortable and punctual service.",
+            intro_title: "Asse – Green municipality on the outskirts of Brussels",
+            intro_p1: "Asse is a pleasant municipality in the province of Flemish Brabant, located in the Brabantse Kouters region. The municipality has a rich history dating back to the Gallo-Roman period, with archaeological finds such as the famous treasure of Asse. Today, Asse is a green and quiet residential community, ideally located between Brussels, Aalst and Ghent.",
+            intro_p2: "The centre of Asse is characterized by the St. Martin's Church, Asse Castle and the lively market square. The municipality offers numerous green walking and cycling routes, including the Dender route and the Assebos forest. The Brewery Museum and local events such as the Asse Fair attract many visitors each year.",
+            intro_p3: "FleetConnect is the trusted partner for residents, businesses, schools and event organisers in Asse. Whether you need to go to the airport, have a business appointment in Brussels or plan a day out, we provide a comfortable and punctual service. Our multilingual drivers (NL/FR/EN/DE) are ready to transport you 24/7.",
             events_title: "Events & Business Districts in Asse",
-            events_p1: "Asse offers a varied events programme. Annual highlights are the Asse Fair in July, the cosy Christmas Market on the Town Square, the Historical Procession around St. Martin's Church and various cultural festivals at the Asse Cultural Centre. The Castle and the Béguinage are also regularly used as settings for concerts and exhibitions.",
-            events_p2: "The main business districts are the Asse‑North industrial estate, the office zone along the E40 and the Asse Business Park. The Castle of Asse and the Cultural Centre are popular venues for seminars, corporate events and conferences.",
+            events_p1: "Asse is buzzing with local events, with highlights including the Asse Fair (late August), the Christmas Market on the square and the Days of Asse with cultural activities. The Beer Festival and Hiking Tours through the green landscape are also popular.",
+            events_p2: "The main business areas are the Asse-South industrial estate, office zones along the N9 and the Brusselsesteenweg. For meetings and events, the Municipal Cultural Centre and the De Zeype Hall are available. The proximity to Brussels makes Asse an interesting location for commuters and businesses.",
             routes_title: "✈️ Airport transfers from Asse",
             routes_sub: "To and from all major airports in the region. Fixed price guaranteed. Flight monitoring included.",
             route1_title: "Asse → Zaventem",
-            route1_desc: "30 km · ±25 min · fixed price",
+            route1_desc: "25 km · ±25 min · fixed price",
             route2_title: "Asse → Charleroi",
-            route2_desc: "70 km · ±1h 00 min · fixed price",
-            route3_title: "Asse → Antwerp",
-            route3_desc: "45 km · ±35 min · fixed price",
-            route4_title: "Asse → Lille",
-            route4_desc: "110 km · ±1h 15 min · fixed price",
-            route5_title: "Asse → Eindhoven",
-            route5_desc: "95 km · ±1h 05 min · fixed price",
-            route6_title: "Asse → Amsterdam Schiphol",
-            route6_desc: "175 km · ±1h 50 min · fixed price",
+            route2_desc: "70 km · ±55 min · fixed price",
+            route3_title: "Asse → Deurne",
+            route3_desc: "50 km · ±45 min · fixed price",
+            route4_title: "Asse → Eindhoven",
+            route4_desc: "100 km · ±1h 10 min · fixed price",
+            route5_title: "Asse → Amsterdam Schiphol",
+            route5_desc: "200 km · ±2h 05 min · fixed price",
+            route6_title: "Asse → Lille",
+            route6_desc: "120 km · ±1h 20 min · fixed price",
             extras_title: "➕ Extra options – clear surcharges",
             extras_intro: "Do you want extra luxury or specific wishes? Then we charge a small, transparent amount for it:",
             extras_break: "Break model",
             extras_break_desc: "– More luggage space",
             extras_exclusive: "Exclusive car",
-            extras_exclusive_desc: "– Mercedes E‑Class / BMW 5 Series",
+            extras_exclusive_desc: "– Mercedes E-Class / BMW 5 Series",
             extras_van: "Mini Van",
             extras_van_desc: "– Up to 8 persons",
             extras_meet: "Meet & Greet",
             extras_meet_desc: "– Personal welcome with name sign, 30 min free waiting time, parking fees included. Extra waiting time: €35.00/hour",
             extras_kiss: "Kiss & Ride",
             extras_kiss_desc: "– Fast & efficient, 30 min free waiting time. Extra waiting time: €25.00/hour",
-            local_title: "📍 Also in Asse",
-            local_desc: "In addition to airport transfers, we also provide reliable transport within Asse and the region. Some examples:",
-            local_kasteel: "Station → Castle of Asse",
-            local_kasteel_desc: "From €30.00 · 2 km",
-            local_kerk: "Station → St. Martin's Church",
-            local_kerk_desc: "From €30.00 · 1.5 km",
+            local_title: "📍 Also in Asse and the region",
+            local_desc: "In addition to airport transfers, we also provide reliable transport within Asse and to surrounding cities. Some examples:",
             local_brussel: "Asse → Brussels",
-            local_brussel_desc: "€30.00 · 15 km",
-            local_leuven: "Asse → Leuven",
-            local_leuven_desc: "€30.00 · 35 km",
+            local_brussel_desc: "€30.00 · 15 km · ±20 min",
+            local_gent: "Asse → Ghent",
+            local_gent_desc: "€75.00 · 50 km · ±40 min",
+            local_mechelen: "Asse → Mechelen",
+            local_mechelen_desc: "€45.00 · 30 km · ±25 min",
+            local_aalst: "Asse → Aalst",
+            local_aalst_desc: "€30.00 · 20 km · ±20 min",
             local_cta: "Other destination? Request a free quote",
             international_title: "<i class='fas fa-globe'></i> International transport from Asse",
-            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. From Asse, situated on the E40 and close to Brussels, you are ideally positioned. Indicative prices:",
+            international_sub: "In addition to airport transfers, FleetConnect offers reliable rides to other international destinations. Indicative prices (sedan, including waiting time and tolls):",
             int_ams: "Amsterdam (NL) – Schiphol",
-            int_par: "Paris (FR)",
-            int_lil: "Lille (FR) – Airport",
-            int_ein: "Eindhoven (NL) – Airport",
             int_rot: "Rotterdam (NL)",
-            int_aac: "Aachen (DE)",
+            int_par: "Paris (FR)",
+            int_dus: "Düsseldorf (DE) – Airport",
             int_lux: "Luxembourg (LU)",
+            int_lon: "London (UK) – via Eurotunnel",
             service1_title: "Flight monitoring",
             service1_desc: "We track your flight; free waiting time in case of delay.",
             service2_title: "Documentation",
-            service2_desc: "All documents for cross‑border transport.",
+            service2_desc: "All documents for cross-border transport.",
             service3_title: "Multilingual drivers",
             service3_desc: "NL, FR, EN, DE.",
-            service4_title: "Book 24‑48h in advance",
+            service4_title: "Book 24-48h in advance",
             service4_desc: "Plan international trips.",
             why_title: "Why FleetConnect in Asse?",
             why1_title: "Punctual & reliable",
-            why1_desc: "Thanks to real‑time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know Asse's back streets and the surrounding highways (E40, Brussels ring).",
-            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E‑Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V‑Class or equivalent). All our vehicles meet the highest quality and safety standards.",
+            why1_desc: "Thanks to real-time tracking and flight monitoring, we are always on time. Just provide your flight number; we adjust pickup time in case of delay at no extra cost. Our drivers know the roads in Asse and the surrounding region (E40, Brussels ring) inside out. Punctuality is not a promise but a guarantee – over 98% of our rides are on time.",
+            why2_desc: "Our vehicles are top quality: exclusive sedans such as Skoda, Mercedes E-Class, BMW 5 Series or equivalent, complemented by luxury minivans (Mercedes V-Class or equivalent). All our vehicles meet the highest quality and safety standards and are regularly maintained in accordance with current legislation. Equipped with leather seats, air conditioning and free WiFi. For exclusive occasions, we have a special Executive class with extra legroom and a quiet cabin.",
             why3_title: "Fixed prices",
-            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick‑up fees, no surcharges for luggage, night rides or weekends.",
+            why3_desc: "No meter, no surprises. You pay €1.50 per kilometer with a minimum fare of €30.00 – no pick-up fees, no surcharges for luggage, night rides or weekends. The price you see when booking is the price you pay. For fixed routes (e.g. Asse-Zaventem), we offer an all-in fixed rate. Transparent and fair.",
             why4_title: "24/7 service",
-            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready.",
-            business_title: "Customised business, hotel & airport transport",
-            business_desc: "FleetConnect is the preferred partner of several hotels in Asse, including Hotel Asse, B&B Het Kasteel, Van der Valk Asse and ibis Asse. For congresses and events, we work with the Asse Cultural Centre, the Castle of Asse and the Asse Business Park.",
+            why4_desc: "Our customer service is available 24 hours a day, 7 days a week, including Sundays and public holidays. Whether you need an airport ride at 4 a.m. or a Christmas Eve dinner, we are ready. You can book up to 1 hour before departure via our website or phone; for urgent rides: WhatsApp.",
+            business_title: "Customised business & hotel transport",
+            business_desc: "FleetConnect is the preferred partner of several hotels and B&Bs in Asse, including B&B Asse, Hotel De Zwaan and Gasthof De Drie Koningen. For business meetings and events, we work with the Municipal Cultural Centre, De Zeype Hall and local companies in the Asse-South industrial estate. Commuters and schools also trust our punctual service. Invoicing after the fact, group transport and VIP treatment are possible.",
             discover_title: "Discover Asse with FleetConnect",
-            discover_p1: "Combine your business appointment with a cultural exploration. Visit the Castle of Asse and stroll through the castle gardens. Admire St. Martin's Church and the Béguinage, a tranquil oasis in the centre. Explore the green surroundings with walking and cycling paths along the Molenbeek. Our drivers also act as informal guides.",
-            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle.",
-            cta_title: "Ready for a worry‑free airport transfer or ride in Asse?",
+            discover_p1: "Combine your ride with a visit to Asse's attractions. Admire St. Martin's Church with its remarkable tower, stroll through the Castle Park or discover the history at the Brewery Museum. For nature lovers, the Assebos forest and surrounding walking paths are ideal. Our drivers also act as informal guides and are happy to give you tips about the region.",
+            discover_p2: "Whether you choose a standard sedan, an estate, an exclusive Mercedes or a minivan – FleetConnect has the right vehicle. Book easily online and receive immediate confirmation.",
+            cta_title: "Ready for a worry-free airport transfer or ride in Asse?",
             cta_sub: "Book your taxi in less than 2 minutes. Fixed price guaranteed. Flight monitoring included.",
             cta_btn: "<i class='fas fa-calendar-alt'></i> Book now →",
             contact_title: "<i class='fas fa-paper-plane'></i> Send a message",
@@ -892,57 +795,7 @@
             nav_courier: "Courier service",
             nav_contact: "Contact",
             nav_book: "Book now",
-            login: "LOGIN",
-
-            // ===== FOOTER VERTALINGEN (EN) =====
-            footer_brand: "FleetConnect",
-            footer_brand_desc: "Professional taxi transport in Belgium - Style, punctuality and service.",
-            footer_book_now: "Book now",
-            footer_portal: "Customer portal",
-            footer_partner: "Partner login",
-            footer_popular_cities: "Popular cities",
-            footer_city_brussels: "Taxi Brussels",
-            footer_city_zaventem: "Taxi Zaventem",
-            footer_city_antwerpen: "Taxi Antwerp",
-            footer_city_brugge: "Taxi Bruges",
-            footer_other_cities: "All other cities:",
-            footer_select_city: "-- Choose a city --",
-            footer_legal: "Legal",
-            footer_faq: "FAQ",
-            footer_privacy: "Privacy",
-            footer_cookies: "Cookie policy",
-            footer_terms: "Terms & Conditions",
-            footer_contact_title: "FleetConnect",
-            footer_support: "Support",
-            footer_contact: "Contact",
-            footer_copyright: "2026 FleetConnect -",
-            footer_home_link: "FleetConnect",
-
-            // ===== STEDEN (EN) =====
-            city_aalst: "Aalst",
-            city_asse: "Asse",
-            city_dilbeek: "Dilbeek",
-            city_doornik: "Tournai",
-            city_genk: "Genk",
-            city_gent: "Ghent",
-            city_grimbergen: "Grimbergen",
-            city_halle: "Halle",
-            city_hasselt: "Hasselt",
-            city_kortenberg: "Kortenberg",
-            city_kortrijk: "Kortrijk",
-            city_leuven: "Leuven",
-            city_luik: "Liège",
-            city_machelen: "Machelen",
-            city_mechelen: "Mechelen",
-            city_oostende: "Ostend",
-            city_overijse: "Overijse",
-            city_sint_niklaas: "Sint‑Niklaas",
-            city_steenokkerzeel: "Steenokkerzeel",
-            city_tervuren: "Tervuren",
-            city_turnhout: "Turnhout",
-            city_vilvoorde: "Vilvoorde",
-            city_waterloo: "Waterloo",
-            city_zemst: "Zemst"
+            login: "LOGIN"
         }
     };
 
@@ -951,83 +804,19 @@
     // ============================================================
     let currentLang = 'nl';
 
-    // ============================================================
-    // DROPDOWN STADNAMEN GENEREREN
-    // ============================================================
-    function generateCityDropdown() {
-        const t = translations[currentLang];
-        if (!t) return;
-
-        const cities = [
-            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
-            { key: 'city_asse', url: '/cities/taxi-asse.html' },
-            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
-            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
-            { key: 'city_genk', url: '/cities/taxi-genk.html' },
-            { key: 'city_gent', url: '/cities/taxi-gent.html' },
-            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
-            { key: 'city_halle', url: '/cities/taxi-halle.html' },
-            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
-            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
-            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
-            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
-            { key: 'city_luik', url: '/cities/taxi-luik.html' },
-            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
-            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
-            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
-            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
-            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
-            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
-            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
-            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
-            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
-            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
-            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
-        ];
-
-        const select = document.getElementById('stad-dropdown');
-        if (!select) return;
-
-        const currentValue = select.value;
-        select.innerHTML = '';
-
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
-        select.appendChild(defaultOption);
-
-        cities.forEach(city => {
-            const option = document.createElement('option');
-            option.value = city.url;
-            option.textContent = t[city.key] || city.key;
-            select.appendChild(option);
-        });
-
-        if (currentValue) {
-            select.value = currentValue;
-        }
-    }
-
-    // ============================================================
-    // VERTALINGS FUNCTIE
-    // ============================================================
     function translatePage() {
         const t = translations[currentLang];
         if (!t) return;
-
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key] !== undefined) {
                 if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     el.placeholder = t[key];
-                } else if (el.tagName === 'OPTION') {
-                    el.textContent = t[key];
                 } else {
                     el.innerHTML = t[key];
                 }
             }
         });
-
         document.querySelectorAll('.lang-btn').forEach(btn => {
             if (btn.getAttribute('data-lang') === currentLang) {
                 btn.classList.add('active');
@@ -1035,30 +824,25 @@
                 btn.classList.remove('active');
             }
         });
-
-        generateCityDropdown();
         document.documentElement.lang = currentLang;
     }
 
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            if (lang && translations[lang]) {
+                currentLang = lang;
+                translatePage();
+            }
+        });
+    });
+
+    translatePage();
+
     // ============================================================
-    // EVENT LISTENERS
+    // HAMBURGER MENU FUNCTIONALITEIT
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.getAttribute('data-lang');
-                if (lang && translations[lang]) {
-                    currentLang = lang;
-                    translatePage();
-                }
-            });
-        });
-
-        translatePage();
-
-        // ============================================================
-        // HAMBURGER MENU FUNCTIONALITEIT
-        // ============================================================
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
