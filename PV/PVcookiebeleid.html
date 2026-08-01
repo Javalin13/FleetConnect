@@ -10,9 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ========================================================== */
-        /* GLOBAL VARIABELEN - Identiek aan Antwerpen pagina           */
-        /* ========================================================== */
+        /* ===== DEZELFDE STIJLEN ALS COOKIEBELEID ===== */
         :root {
             --bg-body: #f4f7fc;
             --primary: #2c6e9e;
@@ -32,9 +30,6 @@
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* ========================================================== */
-        /* RESET & BASIS                                              */
-        /* ========================================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { margin: 0; padding: 0; height: 100%; }
         body {
@@ -45,9 +40,6 @@
             overflow-x: hidden;
         }
         
-        /* ========================================================== */
-        /* ACHTERGRONDKAART                                           */
-        /* ========================================================== */
         #background-map {
             position: fixed;
             top: 0;
@@ -74,9 +66,6 @@
             flex-direction: column;
         }
         
-        /* ========================================================== */
-        /* CONTAINER                                                  */
-        /* ========================================================== */
         .container {
             width: 100%;
             max-width: 1300px;
@@ -84,26 +73,25 @@
             padding: 0 24px;
         }
 
-        /* ========================================================== */
-        /* STICKY TAALSWITCHER                                        */
-        /* ========================================================== */
+        /* ===== STICKY TAALSWITCHER - BLIJFT PLAKKEN ===== */
         .language-switcher {
             position: fixed;
             top: 20px;
             right: 20px;
             display: flex;
             gap: 12px;
-            z-index: 1000;
-            background: rgba(255,255,255,0.9);
-            padding: 6px 12px;
-            border-radius: 40px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(0,0,0,0.1);
+            z-index: 99999;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(44,110,158,0.2);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
         }
         .lang-btn {
             background: white;
             border: 1px solid var(--border-light);
-            padding: 6px 14px;
+            padding: 8px 18px;
             border-radius: 40px;
             cursor: pointer;
             font-weight: 600;
@@ -112,20 +100,24 @@
             font-size: 0.85rem;
             font-family: 'Inter', sans-serif;
         }
-        .lang-btn:hover, .lang-btn.active {
+        .lang-btn:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(44,110,158,0.3);
         }
 
-        /* ========================================================== */
-        /* BREADCRUMB                                                 */
-        /* ========================================================== */
         .breadcrumb {
             margin: 30px 0 16px;
             font-size: 0.85rem;
             color: var(--text-light);
-            padding-top: 70px;
+            padding-top: 80px;
         }
         .breadcrumb a {
             color: var(--primary);
@@ -147,9 +139,6 @@
             font-weight: 600;
         }
 
-        /* ========================================================== */
-        /* PAGE HEADER                                                */
-        /* ========================================================== */
         .page-header {
             padding: 20px 0 10px;
         }
@@ -179,13 +168,7 @@
             line-height: 1.7;
             margin-bottom: 10px;
         }
-        .intro-text strong {
-            color: var(--text-dark);
-        }
 
-        /* ========================================================== */
-        /* NAVIGATIE TABS                                             */
-        /* ========================================================== */
         .nav-tabs {
             display: flex;
             justify-content: center;
@@ -234,16 +217,9 @@
             color: white;
         }
 
-        /* ========================================================== */
-        /* CONTENT SECTIE                                             */
-        /* ========================================================== */
         .content-section {
             padding: 10px 0 50px;
         }
-        
-        /* ========================================================== */
-        /* CONTENT CARDS                                              */
-        /* ========================================================== */
         .content-card {
             background: var(--card-bg);
             backdrop-filter: blur(8px);
@@ -272,16 +248,6 @@
             color: var(--accent-gold);
             font-size: 1.6rem;
         }
-        .content-card h3 {
-            color: var(--text-dark);
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 28px 0 14px 0;
-        }
-        .content-card h3 i {
-            color: var(--primary);
-            margin-right: 10px;
-        }
         .content-card p {
             color: var(--text-light);
             margin-bottom: 16px;
@@ -303,115 +269,6 @@
             border-bottom-color: var(--primary);
         }
 
-        /* ========================================================== */
-        /* FEATURE LISTS                                              */
-        /* ========================================================== */
-        .feature-list {
-            list-style: none;
-            margin: 20px 0 24px;
-        }
-        .feature-list li {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border-light);
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            transition: var(--transition);
-        }
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-        .feature-list li:hover {
-            padding-left: 8px;
-        }
-        .feature-list li i {
-            color: var(--accent-green);
-            width: 24px;
-            font-size: 1.2rem;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-        .feature-list li strong {
-            color: var(--text-dark);
-            font-weight: 600;
-            min-width: 180px;
-        }
-        .feature-list li span {
-            color: var(--text-light);
-        }
-
-        /* ========================================================== */
-        /* COOKIE TABLE                                               */
-        /* ========================================================== */
-        .cookie-table-wrap {
-            overflow-x: auto;
-            margin: 20px 0 24px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-light);
-        }
-        .cookie-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-            background: var(--white);
-            min-width: 500px;
-        }
-        .cookie-table thead {
-            background: var(--primary);
-            color: white;
-        }
-        .cookie-table th {
-            padding: 14px 20px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .cookie-table td {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border-light);
-            color: var(--text-light);
-        }
-        .cookie-table tbody tr:hover {
-            background: rgba(44,110,158,0.04);
-        }
-        .cookie-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-        .cookie-table .cookie-name {
-            font-weight: 600;
-            color: var(--text-dark);
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-        .cookie-table .cookie-type {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .cookie-table .cookie-type.necessary {
-            background: #ff6b6b20;
-            color: #c0392b;
-        }
-        .cookie-table .cookie-type.functional {
-            background: #f39c1220;
-            color: #d68910;
-        }
-        .cookie-table .cookie-type.analytical {
-            background: #3498db20;
-            color: #2471a3;
-        }
-        .cookie-table .cookie-type.marketing {
-            background: #8e44ad20;
-            color: #6c3483;
-        }
-
-        /* ========================================================== */
-        /* HIGHLIGHT BOX                                              */
-        /* ========================================================== */
         .highlight-box {
             background: linear-gradient(135deg, rgba(44,110,158,0.06) 0%, rgba(107,140,66,0.06) 100%);
             border-left: 5px solid var(--accent-gold);
@@ -444,9 +301,6 @@
             color: var(--text-light);
         }
 
-        /* ========================================================== */
-        /* BUTTONS                                                    */
-        /* ========================================================== */
         .btn-primary {
             background: var(--primary);
             color: white;
@@ -472,7 +326,6 @@
         .btn-primary i {
             color: white;
         }
-
         .btn-outline {
             background: transparent;
             color: var(--primary);
@@ -496,111 +349,35 @@
             box-shadow: 0 8px 25px rgba(44,110,158,0.25);
         }
 
-        /* ========================================================== */
-        /* RESPONSIVE                                                 */
-        /* ========================================================== */
         @media (max-width: 768px) {
-            .page-title { 
-                font-size: 1.8rem; 
-                flex-wrap: wrap;
-            }
+            .page-title { font-size: 1.8rem; flex-wrap: wrap; }
             .page-title i { font-size: 1.6rem; }
             .content-card { padding: 28px; }
             .content-card h2 { font-size: 1.4rem; }
-            
-            .language-switcher { 
-                top: 12px; 
-                right: 12px; 
-                gap: 6px; 
-                padding: 4px 10px;
-            }
-            .lang-btn { 
-                font-size: 0.7rem; 
-                padding: 4px 10px;
-            }
-            
-            .breadcrumb { 
-                padding-top: 60px;
-                font-size: 0.75rem;
-            }
-            
-            .feature-list li {
-                flex-wrap: wrap;
-            }
-            .feature-list li strong {
-                min-width: 100%;
-            }
-            .cookie-table-wrap {
-                border-radius: 12px;
-            }
-            .cookie-table {
-                font-size: 0.85rem;
-                min-width: 400px;
-            }
-            .cookie-table th,
-            .cookie-table td {
-                padding: 10px 14px;
-            }
+            .language-switcher { top: 12px; right: 12px; gap: 6px; padding: 6px 12px; }
+            .lang-btn { font-size: 0.7rem; padding: 6px 12px; }
+            .breadcrumb { padding-top: 70px; font-size: 0.75rem; }
         }
-        
         @media (max-width: 500px) {
             .container { padding: 0 16px; }
-            .content-card { 
-                padding: 20px; 
-                border-radius: 20px;
-            }
-            .content-card h2 { 
-                font-size: 1.2rem;
-                padding-left: 14px;
-                flex-wrap: wrap;
-            }
-            
+            .content-card { padding: 20px; border-radius: 20px; }
+            .content-card h2 { font-size: 1.2rem; padding-left: 14px; flex-wrap: wrap; }
             .nav-tabs { gap: 6px; }
-            .nav-tab { 
-                font-size: 0.7rem; 
-                padding: 6px 12px;
-            }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
             .nav-tab i { font-size: 0.7rem; }
-            
-            .page-title { 
-                font-size: 1.4rem;
-                gap: 10px;
-            }
+            .page-title { font-size: 1.4rem; gap: 10px; }
             .page-title i { font-size: 1.2rem; }
             .intro-text { font-size: 0.95rem; }
-            
-            .highlight-box {
-                padding: 20px;
-                margin: 20px 0;
-            }
-            .highlight-box i {
-                font-size: 1.4rem;
-            }
-            .highlight-box p {
-                font-size: 0.95rem;
-            }
-            .cookie-table {
-                font-size: 0.8rem;
-                min-width: 320px;
-            }
-            .cookie-table th,
-            .cookie-table td {
-                padding: 8px 10px;
-            }
-            .cookie-table .cookie-type {
-                font-size: 0.6rem;
-                padding: 2px 8px;
-            }
-            .btn-primary,
-            .btn-outline {
-                padding: 10px 20px;
-                font-size: 0.85rem;
-            }
+            .highlight-box { padding: 20px; margin: 20px 0; }
+            .highlight-box i { font-size: 1.4rem; }
+            .highlight-box p { font-size: 0.95rem; }
+            .btn-primary, .btn-outline { padding: 10px 20px; font-size: 0.85rem; }
+            .language-switcher { top: 10px; right: 10px; gap: 4px; padding: 4px 8px; }
+            .lang-btn { font-size: 0.6rem; padding: 4px 8px; }
+            .breadcrumb { padding-top: 60px; }
         }
 
-        /* ========================================================== */
-        /* FOOTER - IDENTIEK AAN ANTWERPEN PAGINA                     */
-        /* ========================================================== */
+        /* ===== FOOTER - IDENTIEK AAN ANTWERPEN ===== */
         .footer-dark {
             background: #0d1f2c;
             color: #e0edf5;
@@ -674,325 +451,131 @@
 </head>
 <body>
 
-<!-- ========================================================== -->
-<!-- ACHTERGRONDKAART                                            -->
-<!-- ========================================================== -->
 <div id="background-map"></div>
 
-<!-- ========================================================== -->
-<!-- CONTENT OVERLAY                                             -->
-<!-- ========================================================== -->
-<div class="content-overlay">
-    
-    <!-- ===== STICKY TAALSWITCHER ===== -->
-    <div class="language-switcher">
-        <button class="lang-btn active" data-lang="nl">NL</button>
-        <button class="lang-btn" data-lang="fr">FR</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+<!-- ===== STICKY TAALSWITCHER - BOVEN ALLES ===== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
 
-    <!-- ========================================================== -->
-    <!-- MAIN CONTENT                                               -->
-    <!-- ========================================================== -->
+<div class="content-overlay">
     <div class="container">
-        
-        <!-- ===== BREADCRUMB ===== -->
         <div class="breadcrumb">
             <a href="/PV/PV.html" data-i18n="breadcrumb-home">Home</a> 
             <i class="fas fa-chevron-right"></i> 
             <span class="current" data-i18n="breadcrumb-current">Cookiebeleid</span>
         </div>
         
-        <!-- ===== PAGE HEADER ===== -->
         <div class="page-header">
             <h1 class="page-title">
                 <i class="fas fa-cookie-bite"></i>
                 <span data-i18n="page-title">Cookiebeleid</span>
             </h1>
             <p class="intro-text" data-i18n="intro-text">
-                Deze website maakt gebruik van cookies om uw ervaring te verbeteren en onze diensten te personaliseren. 
-                Hieronder leggen we uit welke cookies we gebruiken, waarom en hoe u ze kunt beheren. 
-                Door verder te surfen op deze site gaat u akkoord met ons cookiebeleid.
+                Wij maken gebruik van cookies om uw gebruikservaring te verbeteren en onze diensten te optimaliseren. 
+                In dit cookiebeleid leggen wij uit wat cookies zijn, welke cookies wij gebruiken en hoe u uw cookievoorkeuren kunt beheren.
             </p>
         </div>
         
-        <!-- ===== NAVIGATIE TABS ===== -->
         <div class="nav-tabs">
-            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home">
-                <i class="fas fa-home"></i> Home
-            </a>
-            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive">
-                <i class="fas fa-gem"></i> Exclusief
-            </a>
-            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices">
-                <i class="fas fa-euro-sign"></i> Prijzen
-            </a>
-            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet">
-                <i class="fas fa-car-side"></i> Vloot
-            </a>
-            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport">
-                <i class="fas fa-plane-departure"></i> Luchthaven
-            </a>
-            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business">
-                <i class="fas fa-briefcase"></i> Zakelijk
-            </a>
-            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events">
-                <i class="fas fa-glass-cheers"></i> Events
-            </a>
-            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier">
-                <i class="fas fa-file-signature"></i> Koerier
-            </a>
+            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
         </div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- CONTENT SECTIE                                             -->
-    <!-- ========================================================== -->
     <div class="container">
         <div class="content-section">
             
-            <!-- ===== CONTENT CARD 1 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-question-circle"></i> <span data-i18n="article1-title">Wat zijn cookies?</span></h2>
-                <p data-i18n="article1-text">
-                    Cookies zijn kleine tekstbestandjes die door een website op uw computer of mobiele apparaat worden geplaatst 
-                    wanneer u de site bezoekt. Ze bevatten informatie over uw browsegedrag en voorkeuren, zodat de website u kan 
-                    herkennen bij een volgend bezoek. Cookies zijn essentieel voor het goed functioneren van veel websites en 
-                    helpen ons om onze diensten te verbeteren.
-                </p>
+                <h2><i class="fas fa-info-circle"></i> <span data-i18n="cookie-title-1">Wat zijn cookies?</span></h2>
+                <p data-i18n="cookie-p1">Cookies zijn kleine tekstbestanden die door uw browser worden opgeslagen op uw apparaat (computer, tablet of smartphone) wanneer u een website bezoekt. Deze bestanden bevatten informatie over uw bezoek aan de website, zoals uw voorkeuren en instellingen. Cookies stellen ons in staat om uw gebruikservaring te verbeteren, de website te optimaliseren en relevante inhoud aan te bieden.</p>
+                <p data-i18n="cookie-p2">Er zijn verschillende soorten cookies, die verschillen in functionaliteit, duur en herkomst. Sommige cookies zijn essentieel voor het goed functioneren van de website, terwijl andere cookies worden gebruikt voor analyse- en marketingdoeleinden. In dit cookiebeleid leggen wij uit welke cookies wij gebruiken en waarom.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 2 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-list-ul"></i> <span data-i18n="article2-title">Soorten cookies die wij gebruiken</span></h2>
-                <p data-i18n="article2-text">
-                    FleetConnect maakt gebruik van verschillende soorten cookies, ingedeeld naar functie:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-shield-alt"></i>
-                        <strong>Noodzakelijke cookies</strong>
-                        <span>– onmisbaar voor de basisfunctionaliteit van de website, zoals navigatie en toegang tot beveiligde delen.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-sliders-h"></i>
-                        <strong>Functionele cookies</strong>
-                        <span>– onthouden uw keuzes (bijv. taalvoorkeur) om de gebruikservaring te personaliseren.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-chart-line"></i>
-                        <strong>Analytische cookies</strong>
-                        <span>– verzamelen geanonimiseerde gegevens over het gebruik van de site, zoals bezochte pagina's en klikgedrag, zodat we de website kunnen optimaliseren.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-bullhorn"></i>
-                        <strong>Marketingcookies</strong>
-                        <span>– worden gebruikt om relevante advertenties te tonen op basis van uw interesses en surfgedrag.</span>
-                    </li>
+                <h2><i class="fas fa-cookie"></i> <span data-i18n="cookie-title-2">Welke cookies gebruiken wij?</span></h2>
+                <p data-i18n="cookie-p3">Wij maken gebruik van de volgende soorten cookies op onze website:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="cookie-li1"><strong>Functionele cookies:</strong> Deze cookies zijn noodzakelijk voor het goed functioneren van de website. Ze zorgen ervoor dat de website correct werkt en dat u gebruik kunt maken van de basisfunctionaliteiten. Zonder deze cookies kan de website niet optimaal functioneren.</li>
+                    <li data-i18n="cookie-li2"><strong>Analytische cookies:</strong> Deze cookies verzamelen anonieme gegevens over hoe bezoekers de website gebruiken. We gebruiken deze informatie om de prestaties van de website te meten, het gebruikersgedrag te analyseren en de website te verbeteren. Deze gegevens worden niet gebruikt voor marketingdoeleinden.</li>
+                    <li data-i18n="cookie-li3"><strong>Functionele cookies voor voorkeuren:</strong> Deze cookies onthouden uw voorkeuren en instellingen, zoals uw taalvoorkeur, zodat u niet elke keer dezelfde instellingen hoeft in te voeren wanneer u de website bezoekt.</li>
+                    <li data-i18n="cookie-li4"><strong>Marketingcookies:</strong> Deze cookies worden gebruikt om gepersonaliseerde advertenties te tonen op basis van uw surfgedrag. Ze verzamelen informatie over uw bezoeken aan onze website en andere websites om relevante advertenties aan te bieden.</li>
+                    <li data-i18n="cookie-li5"><strong>Sociale mediacookies:</strong> Deze cookies worden geplaatst door sociale mediaplatforms zoals Facebook, Instagram en LinkedIn. Ze stellen u in staat om inhoud van onze website te delen op sociale media en stellen ons in staat om uw interacties met onze sociale media-berichten te volgen.</li>
                 </ul>
+                <p data-i18n="cookie-p4">Wij gebruiken alleen cookies die noodzakelijk zijn voor het functioneren van de website en cookies waarvoor u expliciet toestemming heeft gegeven. U kunt op elk moment uw cookievoorkeuren aanpassen of cookies uitschakelen via de instellingen van uw browser.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 3 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-question"></i> <span data-i18n="article3-title">Waarom gebruiken wij cookies?</span></h2>
-                <p data-i18n="article3-text">Wij gebruiken cookies om:</p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <span>De website technisch correct te laten werken.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Uw voorkeuren te onthouden (taal, regio, enz.).</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Inzicht te krijgen in hoe bezoekers onze site gebruiken, zodat we de inhoud en structuur kunnen verbeteren.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Gerichte communicatie en aanbiedingen te doen die aansluiten bij uw behoeften.</span></li>
+                <h2><i class="fas fa-clock"></i> <span data-i18n="cookie-title-3">Hoe lang blijven cookies actief?</span></h2>
+                <p data-i18n="cookie-p5">De levensduur van cookies varieert afhankelijk van het type cookie en het doel ervan. Wij maken onderscheid tussen:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="cookie-li6"><strong>Sessiecookies:</strong> Deze cookies zijn tijdelijk en worden automatisch verwijderd wanneer u uw browser sluit. Ze worden gebruikt om uw activiteiten tijdens een bezoek aan de website te onthouden.</li>
+                    <li data-i18n="cookie-li7"><strong>Permanente cookies:</strong> Deze cookies blijven op uw apparaat staan totdat ze vervallen of totdat u ze handmatig verwijdert. Ze worden gebruikt om uw voorkeuren en instellingen te onthouden voor toekomstige bezoeken aan de website.</li>
                 </ul>
+                <p data-i18n="cookie-p6">De meeste permanente cookies hebben een vervaldatum van maximaal 2 jaar. Na deze datum worden ze automatisch verwijderd. U kunt cookies op elk moment handmatig verwijderen via de instellingen van uw browser.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 4 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-table"></i> <span data-i18n="article4-title">Welke cookies gebruiken wij precies?</span></h2>
-                <p data-i18n="article4-text">
-                    Hieronder volgt een overzicht van de specifieke cookies die wij plaatsen, met hun naam, doel en bewaartermijn:
-                </p>
-                
-                <div class="cookie-table-wrap">
-                    <table class="cookie-table">
-                        <thead>
-                            <tr>
-                                <th>Cookie naam</th>
-                                <th>Type</th>
-                                <th>Doel</th>
-                                <th>Bewaartermijn</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="cookie-name">fleetconnect_session</td>
-                                <td><span class="cookie-type necessary">Noodzakelijk</span></td>
-                                <td>Bewaart uw sessie</td>
-                                <td>30 minuten</td>
-                            </tr>
-                            <tr>
-                                <td class="cookie-name">language_preference</td>
-                                <td><span class="cookie-type functional">Functioneel</span></td>
-                                <td>Onthoudt uw gekozen taal</td>
-                                <td>1 jaar</td>
-                            </tr>
-                            <tr>
-                                <td class="cookie-name">_ga</td>
-                                <td><span class="cookie-type analytical">Analytisch</span></td>
-                                <td>Google Analytics - gebruikersonderscheid</td>
-                                <td>2 jaar</td>
-                            </tr>
-                            <tr>
-                                <td class="cookie-name">_gid</td>
-                                <td><span class="cookie-type analytical">Analytisch</span></td>
-                                <td>Google Analytics - gebruikerssessies</td>
-                                <td>24 uur</td>
-                            </tr>
-                            <tr>
-                                <td class="cookie-name">cookie_consent</td>
-                                <td><span class="cookie-type necessary">Noodzakelijk</span></td>
-                                <td>Slaat uw toestemming voor cookies op</td>
-                                <td>1 jaar</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- ===== CONTENT CARD 5 ===== -->
-            <div class="content-card">
-                <h2><i class="fas fa-share-alt"></i> <span data-i18n="article5-title">Cookies van derden</span></h2>
-                <p data-i18n="article5-text">
-                    Op onze website kunnen ook cookies van derden worden geplaatst, zoals van Google (Analytics en Ads), 
-                    sociale-mediaknoppen (Facebook, LinkedIn) en videoplatforms (YouTube). Deze partijen hebben hun eigen 
-                    privacy- en cookiebeleid. FleetConnect heeft geen invloed op de gegevens die deze derden verzamelen. 
-                    We raden u aan hun beleid te raadplegen voor meer informatie.
-                </p>
-                <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <a href="https://policies.google.com/privacy" target="_blank" class="btn-outline" style="font-size:0.85rem; padding:8px 20px;">
-                        <i class="fab fa-google"></i> Google Privacy
-                    </a>
-                    <a href="https://www.facebook.com/privacy/policy/" target="_blank" class="btn-outline" style="font-size:0.85rem; padding:8px 20px;">
-                        <i class="fab fa-facebook"></i> Facebook Privacy
-                    </a>
-                    <a href="https://www.linkedin.com/legal/privacy-policy" target="_blank" class="btn-outline" style="font-size:0.85rem; padding:8px 20px;">
-                        <i class="fab fa-linkedin"></i> LinkedIn Privacy
-                    </a>
-                </div>
-            </div>
-
-            <!-- ===== CONTENT CARD 6 ===== -->
-            <div class="content-card">
-                <h2><i class="fas fa-cog"></i> <span data-i18n="article6-title">Hoe kunt u cookies beheren?</span></h2>
-                <p data-i18n="article6-text">
-                    U kunt op elk moment uw cookie-instellingen wijzigen of cookies volledig uitschakelen via de instellingen 
-                    van uw browser. Hieronder vindt u links naar de instructies van de meest voorkomende browsers:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fab fa-chrome"></i>
-                        <a href="https://support.google.com/chrome/answer/95647" target="_blank">
-                            Google Chrome
-                        </a>
-                    </li>
-                    <li>
-                        <i class="fab fa-firefox"></i>
-                        <a href="https://support.mozilla.org/nl/kb/cookies-verwijderen-gegevens-wissen-websites" target="_blank">
-                            Mozilla Firefox
-                        </a>
-                    </li>
-                    <li>
-                        <i class="fab fa-edge"></i>
-                        <a href="https://support.microsoft.com/nl-nl/windows/cookies-in-microsoft-edge-verwijderen-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank">
-                            Microsoft Edge
-                        </a>
-                    </li>
-                    <li>
-                        <i class="fab fa-safari"></i>
-                        <a href="https://support.apple.com/nl-nl/guide/safari/sfri11471/mac" target="_blank">
-                            Safari
-                        </a>
-                    </li>
+                <h2><i class="fas fa-sliders-h"></i> <span data-i18n="cookie-title-4">Cookievoorkeuren beheren</span></h2>
+                <p data-i18n="cookie-p7">U heeft de mogelijkheid om uw cookievoorkeuren op elk moment aan te passen of cookies volledig uit te schakelen. Dit kunt u doen via de instellingen van uw browser. Hieronder vindt u instructies voor de meest gebruikte browsers:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="cookie-li8"><strong>Google Chrome:</strong> Ga naar Instellingen > Privacy en beveiliging > Cookies en andere sitegegevens. Hier kunt u cookies beheren, blokkeren of verwijderen.</li>
+                    <li data-i18n="cookie-li9"><strong>Mozilla Firefox:</strong> Ga naar Opties > Privacy & Beveiliging > Cookies en sitegegevens. Hier kunt u uw cookievoorkeuren aanpassen.</li>
+                    <li data-i18n="cookie-li10"><strong>Safari:</strong> Ga naar Voorkeuren > Privacy > Beheer websitegegevens. Hier kunt u cookies beheren en verwijderen.</li>
+                    <li data-i18n="cookie-li11"><strong>Microsoft Edge:</strong> Ga naar Instellingen > Privacy, zoeken en services > Cookies en sitegegevens. Hier kunt u uw cookievoorkeuren aanpassen.</li>
                 </ul>
-                <p data-i18n="article6-text2" style="margin-top:12px; font-style:italic;">
-                    <i class="fas fa-info-circle" style="color:var(--primary);"></i> 
-                    Houd er rekening mee dat het uitschakelen van cookies bepaalde functies van de website kan beperken.
-                </p>
+                <p data-i18n="cookie-p8">Houd er rekening mee dat het uitschakelen van cookies invloed kan hebben op de functionaliteit van de website. Sommige onderdelen van de website werken mogelijk niet meer naar behoren als u cookies uitschakelt. Wij raden u aan om functionele cookies altijd ingeschakeld te laten voor een optimale gebruikservaring.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 7 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-gavel"></i> <span data-i18n="article7-title">Uw rechten en toestemming</span></h2>
-                <p data-i18n="article7-text">
-                    Bij uw eerste bezoek aan onze site vragen wij uw toestemming voor het plaatsen van niet-noodzakelijke cookies. 
-                    U kunt deze toestemming te allen tijde intrekken door uw browserinstellingen aan te passen of door contact 
-                    met ons op te nemen. U heeft het recht om inzage te vragen in de gegevens die wij over u verzamelen en om 
-                    correctie of verwijdering te verzoeken.
-                </p>
-                <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <a href="/PV/PVprivacy.html" class="btn-primary">
-                        <i class="fas fa-shield-alt"></i> Privacybeleid bekijken
-                    </a>
-                    <a href="mailto:info@fleetconnect.be" class="btn-outline">
-                        <i class="fas fa-envelope"></i> Contact opnemen
-                    </a>
-                </div>
+                <h2><i class="fas fa-shield-alt"></i> <span data-i18n="cookie-title-5">Privacy en gegevensbescherming</span></h2>
+                <p data-i18n="cookie-p9">Wij hechten veel waarde aan uw privacy en de bescherming van uw persoonsgegevens. De gegevens die via cookies worden verzameld, worden uitsluitend gebruikt voor de doeleinden zoals beschreven in dit cookiebeleid en ons <a href="/PV/PVprivacy.html">privacybeleid</a>. Wij verkopen uw gegevens nooit aan derden en delen deze alleen wanneer dit wettelijk verplicht is of wanneer dit noodzakelijk is voor de uitvoering van onze diensten.</p>
+                <p data-i18n="cookie-p10">Wij nemen passende technische en organisatorische maatregelen om uw gegevens te beschermen tegen verlies, misbruik of onbevoegde toegang. Onze beveiligingsmaatregelen worden regelmatig geëvalueerd en verbeterd om een optimale bescherming te garanderen.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 8 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-edit"></i> <span data-i18n="article8-title">Wijzigingen in dit cookiebeleid</span></h2>
-                <p data-i18n="article8-text">
-                    FleetConnect behoudt zich het recht voor om dit cookiebeleid aan te passen aan veranderingen in wet- of 
-                    regelgeving, of aan onze dienstverlening. De meest recente versie wordt altijd op deze pagina gepubliceerd 
-                    met de datum van laatste wijziging. Wij raden u aan deze pagina regelmatig te raadplegen.
-                </p>
+                <h2><i class="fas fa-file-alt"></i> <span data-i18n="cookie-title-6">Wijzigingen in dit cookiebeleid</span></h2>
+                <p data-i18n="cookie-p11">Wij behouden ons het recht voor om dit cookiebeleid aan te passen aan veranderende wet- en regelgeving of aanpassingen in onze dienstverlening. De meest recente versie van ons cookiebeleid is altijd beschikbaar op deze pagina. Wij raden u aan om dit cookiebeleid regelmatig te raadplegen, zodat u op de hoogte blijft van eventuele wijzigingen. Bij belangrijke wijzigingen zullen wij u hierover informeren via een melding op onze website.</p>
+                <p data-i18n="cookie-p12">Dit cookiebeleid is voor het laatst bijgewerkt op <strong>1 januari 2026</strong>.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 9 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-phone"></i> <span data-i18n="article9-title">Contact</span></h2>
-                <p data-i18n="article9-text">
-                    Voor vragen over ons cookiebeleid of over de verwerking van uw persoonsgegevens kunt u contact met ons 
-                    opnemen via <strong>info@fleetconnect.be</strong> of via het contactformulier op onze website. 
-                    Wij helpen u graag verder.
-                </p>
-                <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <a href="mailto:info@fleetconnect.be" class="btn-primary">
-                        <i class="fas fa-envelope"></i> E-mail sturen
-                    </a>
-                    <a href="/PV/PV.html#contact" class="btn-outline">
-                        <i class="fas fa-comment"></i> Contactformulier
-                    </a>
-                </div>
+                <h2><i class="fas fa-address-book"></i> <span data-i18n="cookie-title-7">Contactgegevens</span></h2>
+                <p data-i18n="cookie-p13">Heeft u vragen, opmerkingen of verzoeken met betrekking tot dit cookiebeleid of het gebruik van cookies op onze website? Neem dan gerust contact met ons op via de onderstaande gegevens:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="cookie-li12"><strong>Bedrijfsnaam:</strong> FleetConnect</li>
+                    <li data-i18n="cookie-li13"><strong>Adres:</strong> Italiëlei 124, 2000 Antwerpen, België</li>
+                    <li data-i18n="cookie-li14"><strong>E-mail:</strong> <a href="mailto:info@fleetconnect.be">info@fleetconnect.be</a></li>
+                    <li data-i18n="cookie-li15"><strong>Telefoon:</strong> +32 3 123 45 67</li>
+                </ul>
+                <p data-i18n="cookie-p14">Wij streven ernaar om uw vragen binnen 3 werkdagen te beantwoorden. Indien uw vraag complexer is, kunnen wij u vragen om meer tijd om een volledig antwoord te geven.</p>
             </div>
 
-            <!-- ===== HIGHLIGHT BOX ===== -->
             <div class="highlight-box">
-                <i class="fas fa-shield-alt"></i>
-                <p><strong>Laatst bijgewerkt:</strong> 26 juli 2026</p>
-                <p class="meta-text">
-                    FleetConnect hecht groot belang aan uw privacy. Dit cookiebeleid is opgesteld in overeenstemming met de 
-                    Algemene Verordening Gegevensbescherming (AVG) en de Belgische wetgeving.
-                </p>
+                <i class="fas fa-check-circle"></i>
+                <p><strong data-i18n="cookie-highlight-title">Uw privacy is belangrijk voor ons</strong></p>
+                <p class="meta-text" data-i18n="cookie-highlight-text">Wij gebruiken cookies om uw gebruikservaring te verbeteren. Heeft u vragen over ons cookiebeleid? Neem dan gerust contact met ons op.</p>
                 <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <a href="/PV/PVprivacy.html" class="btn-primary" style="font-size:0.85rem; padding:10px 24px;">
-                        <i class="fas fa-lock"></i> Privacybeleid
-                    </a>
-                    <a href="/PV/PValgemene-voorwaarden.html" class="btn-outline" style="font-size:0.85rem; padding:10px 24px;">
-                        <i class="fas fa-file-contract"></i> Algemene voorwaarden
-                    </a>
+                    <a href="mailto:info@fleetconnect.be" class="btn-primary" style="font-size:0.85rem; padding:10px 24px;"><i class="fas fa-envelope"></i> <span data-i18n="cookie-btn-email">E-mail sturen</span></a>
+                    <a href="/PV/PV.html#contact" class="btn-outline" style="font-size:0.85rem; padding:10px 24px;"><i class="fas fa-phone"></i> <span data-i18n="cookie-btn-phone">Contactformulier</span></a>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- FOOTER - IDENTIEK AAN ANTWERPEN PAGINA                     -->
-    <!-- ========================================================== -->
+    <!-- ===== FOOTER - IDENTIEK AAN ANTWERPEN ===== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
                     <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
                     <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
@@ -1000,25 +583,17 @@
                     <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
                     <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
                 </div>
-
-                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
                     <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
                     <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
                     <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
                     <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
                     <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
-
-                    <!-- Label en dropdown voor overige steden -->
                     <div style="margin-top: 16px;">
                         <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
-                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
-                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
-                        </select>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;"></select>
                     </div>
                 </div>
-
-                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
                     <h4 data-i18n="footer_legal">Legal</h4>
                     <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
@@ -1026,42 +601,29 @@
                     <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
                     <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
                 </div>
-
-                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
                     <h4 data-i18n="footer_contact_title">FleetConnect</h4>
                     <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
                     <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
                 </div>
             </div>
-
-            <!-- Footer bottom -->
             <div class="footer-bottom">
                 <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
             </div>
         </div>
     </footer>
-    <!-- ========================================================== -->
 
 </div>
 
-<!-- ========================================================== -->
-<!-- SCRIPTS                                                     -->
-<!-- ========================================================== -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // ============================================================
-    // VERTALINGEN - IDENTIEK AAN ANTWERPEN PAGINA (inclusief steden)
-    // ============================================================
+    // ===== VERTALINGEN =====
     const translations = {
         nl: {
-            // Breadcrumb & header
             "breadcrumb-home": "Home",
             "breadcrumb-current": "Cookiebeleid",
             "page-title": "Cookiebeleid",
-            "intro-text": "Deze website maakt gebruik van cookies om uw ervaring te verbeteren en onze diensten te personaliseren. Hieronder leggen we uit welke cookies we gebruiken, waarom en hoe u ze kunt beheren. Door verder te surfen op deze site gaat u akkoord met ons cookiebeleid.",
-            
-            // Navigatie tabs
+            "intro-text": "Wij maken gebruik van cookies om uw gebruikservaring te verbeteren en onze diensten te optimaliseren. In dit cookiebeleid leggen wij uit wat cookies zijn, welke cookies wij gebruiken en hoe u uw cookievoorkeuren kunt beheren.",
             "tab-home": "Home",
             "tab-exclusive": "Exclusief",
             "tab-prices": "Prijzen",
@@ -1070,29 +632,46 @@
             "tab-business": "Zakelijk",
             "tab-events": "Events",
             "tab-courier": "Koerier",
-            
-            // Artikelen
-            "article1-title": "Wat zijn cookies?",
-            "article1-text": "Cookies zijn kleine tekstbestandjes die door een website op uw computer of mobiele apparaat worden geplaatst wanneer u de site bezoekt. Ze bevatten informatie over uw browsegedrag en voorkeuren, zodat de website u kan herkennen bij een volgend bezoek. Cookies zijn essentieel voor het goed functioneren van veel websites en helpen ons om onze diensten te verbeteren.",
-            "article2-title": "Soorten cookies die wij gebruiken",
-            "article2-text": "FleetConnect maakt gebruik van verschillende soorten cookies, ingedeeld naar functie:",
-            "article3-title": "Waarom gebruiken wij cookies?",
-            "article3-text": "Wij gebruiken cookies om:",
-            "article4-title": "Welke cookies gebruiken wij precies?",
-            "article4-text": "Hieronder volgt een overzicht van de specifieke cookies die wij plaatsen, met hun naam, doel en bewaartermijn:",
-            "article5-title": "Cookies van derden",
-            "article5-text": "Op onze website kunnen ook cookies van derden worden geplaatst, zoals van Google (Analytics en Ads), sociale-mediaknoppen (Facebook, LinkedIn) en videoplatforms (YouTube). Deze partijen hebben hun eigen privacy- en cookiebeleid. FleetConnect heeft geen invloed op de gegevens die deze derden verzamelen. We raden u aan hun beleid te raadplegen voor meer informatie.",
-            "article6-title": "Hoe kunt u cookies beheren?",
-            "article6-text": "U kunt op elk moment uw cookie-instellingen wijzigen of cookies volledig uitschakelen via de instellingen van uw browser. Hieronder vindt u links naar de instructies van de meest voorkomende browsers:",
-            "article6-text2": "Houd er rekening mee dat het uitschakelen van cookies bepaalde functies van de website kan beperken.",
-            "article7-title": "Uw rechten en toestemming",
-            "article7-text": "Bij uw eerste bezoek aan onze site vragen wij uw toestemming voor het plaatsen van niet-noodzakelijke cookies. U kunt deze toestemming te allen tijde intrekken door uw browserinstellingen aan te passen of door contact met ons op te nemen. U heeft het recht om inzage te vragen in de gegevens die wij over u verzamelen en om correctie of verwijdering te verzoeken.",
-            "article8-title": "Wijzigingen in dit cookiebeleid",
-            "article8-text": "FleetConnect behoudt zich het recht voor om dit cookiebeleid aan te passen aan veranderingen in wet- of regelgeving, of aan onze dienstverlening. De meest recente versie wordt altijd op deze pagina gepubliceerd met de datum van laatste wijziging. Wij raden u aan deze pagina regelmatig te raadplegen.",
-            "article9-title": "Contact",
-            "article9-text": "Voor vragen over ons cookiebeleid of over de verwerking van uw persoonsgegevens kunt u contact met ons opnemen via info@fleetconnect.be of via het contactformulier op onze website. Wij helpen u graag verder.",
-
-            // ===== FOOTER VERTALINGEN (NL) - IDENTIEK AAN ANTWERPEN =====
+            "cookie-title-1": "Wat zijn cookies?",
+            "cookie-p1": "Cookies zijn kleine tekstbestanden die door uw browser worden opgeslagen op uw apparaat (computer, tablet of smartphone) wanneer u een website bezoekt. Deze bestanden bevatten informatie over uw bezoek aan de website, zoals uw voorkeuren en instellingen. Cookies stellen ons in staat om uw gebruikservaring te verbeteren, de website te optimaliseren en relevante inhoud aan te bieden.",
+            "cookie-p2": "Er zijn verschillende soorten cookies, die verschillen in functionaliteit, duur en herkomst. Sommige cookies zijn essentieel voor het goed functioneren van de website, terwijl andere cookies worden gebruikt voor analyse- en marketingdoeleinden. In dit cookiebeleid leggen wij uit welke cookies wij gebruiken en waarom.",
+            "cookie-title-2": "Welke cookies gebruiken wij?",
+            "cookie-p3": "Wij maken gebruik van de volgende soorten cookies op onze website:",
+            "cookie-li1": "Functionele cookies: Deze cookies zijn noodzakelijk voor het goed functioneren van de website. Ze zorgen ervoor dat de website correct werkt en dat u gebruik kunt maken van de basisfunctionaliteiten. Zonder deze cookies kan de website niet optimaal functioneren.",
+            "cookie-li2": "Analytische cookies: Deze cookies verzamelen anonieme gegevens over hoe bezoekers de website gebruiken. We gebruiken deze informatie om de prestaties van de website te meten, het gebruikersgedrag te analyseren en de website te verbeteren. Deze gegevens worden niet gebruikt voor marketingdoeleinden.",
+            "cookie-li3": "Functionele cookies voor voorkeuren: Deze cookies onthouden uw voorkeuren en instellingen, zoals uw taalvoorkeur, zodat u niet elke keer dezelfde instellingen hoeft in te voeren wanneer u de website bezoekt.",
+            "cookie-li4": "Marketingcookies: Deze cookies worden gebruikt om gepersonaliseerde advertenties te tonen op basis van uw surfgedrag. Ze verzamelen informatie over uw bezoeken aan onze website en andere websites om relevante advertenties aan te bieden.",
+            "cookie-li5": "Sociale mediacookies: Deze cookies worden geplaatst door sociale mediaplatforms zoals Facebook, Instagram en LinkedIn. Ze stellen u in staat om inhoud van onze website te delen op sociale media en stellen ons in staat om uw interacties met onze sociale media-berichten te volgen.",
+            "cookie-p4": "Wij gebruiken alleen cookies die noodzakelijk zijn voor het functioneren van de website en cookies waarvoor u expliciet toestemming heeft gegeven. U kunt op elk moment uw cookievoorkeuren aanpassen of cookies uitschakelen via de instellingen van uw browser.",
+            "cookie-title-3": "Hoe lang blijven cookies actief?",
+            "cookie-p5": "De levensduur van cookies varieert afhankelijk van het type cookie en het doel ervan. Wij maken onderscheid tussen:",
+            "cookie-li6": "Sessiecookies: Deze cookies zijn tijdelijk en worden automatisch verwijderd wanneer u uw browser sluit. Ze worden gebruikt om uw activiteiten tijdens een bezoek aan de website te onthouden.",
+            "cookie-li7": "Permanente cookies: Deze cookies blijven op uw apparaat staan totdat ze vervallen of totdat u ze handmatig verwijdert. Ze worden gebruikt om uw voorkeuren en instellingen te onthouden voor toekomstige bezoeken aan de website.",
+            "cookie-p6": "De meeste permanente cookies hebben een vervaldatum van maximaal 2 jaar. Na deze datum worden ze automatisch verwijderd. U kunt cookies op elk moment handmatig verwijderen via de instellingen van uw browser.",
+            "cookie-title-4": "Cookievoorkeuren beheren",
+            "cookie-p7": "U heeft de mogelijkheid om uw cookievoorkeuren op elk moment aan te passen of cookies volledig uit te schakelen. Dit kunt u doen via de instellingen van uw browser. Hieronder vindt u instructies voor de meest gebruikte browsers:",
+            "cookie-li8": "Google Chrome: Ga naar Instellingen > Privacy en beveiliging > Cookies en andere sitegegevens. Hier kunt u cookies beheren, blokkeren of verwijderen.",
+            "cookie-li9": "Mozilla Firefox: Ga naar Opties > Privacy & Beveiliging > Cookies en sitegegevens. Hier kunt u uw cookievoorkeuren aanpassen.",
+            "cookie-li10": "Safari: Ga naar Voorkeuren > Privacy > Beheer websitegegevens. Hier kunt u cookies beheren en verwijderen.",
+            "cookie-li11": "Microsoft Edge: Ga naar Instellingen > Privacy, zoeken en services > Cookies en sitegegevens. Hier kunt u uw cookievoorkeuren aanpassen.",
+            "cookie-p8": "Houd er rekening mee dat het uitschakelen van cookies invloed kan hebben op de functionaliteit van de website. Sommige onderdelen van de website werken mogelijk niet meer naar behoren als u cookies uitschakelt. Wij raden u aan om functionele cookies altijd ingeschakeld te laten voor een optimale gebruikservaring.",
+            "cookie-title-5": "Privacy en gegevensbescherming",
+            "cookie-p9": "Wij hechten veel waarde aan uw privacy en de bescherming van uw persoonsgegevens. De gegevens die via cookies worden verzameld, worden uitsluitend gebruikt voor de doeleinden zoals beschreven in dit cookiebeleid en ons privacybeleid. Wij verkopen uw gegevens nooit aan derden en delen deze alleen wanneer dit wettelijk verplicht is of wanneer dit noodzakelijk is voor de uitvoering van onze diensten.",
+            "cookie-p10": "Wij nemen passende technische en organisatorische maatregelen om uw gegevens te beschermen tegen verlies, misbruik of onbevoegde toegang. Onze beveiligingsmaatregelen worden regelmatig geëvalueerd en verbeterd om een optimale bescherming te garanderen.",
+            "cookie-title-6": "Wijzigingen in dit cookiebeleid",
+            "cookie-p11": "Wij behouden ons het recht voor om dit cookiebeleid aan te passen aan veranderende wet- en regelgeving of aanpassingen in onze dienstverlening. De meest recente versie van ons cookiebeleid is altijd beschikbaar op deze pagina. Wij raden u aan om dit cookiebeleid regelmatig te raadplegen, zodat u op de hoogte blijft van eventuele wijzigingen. Bij belangrijke wijzigingen zullen wij u hierover informeren via een melding op onze website.",
+            "cookie-p12": "Dit cookiebeleid is voor het laatst bijgewerkt op 1 januari 2026.",
+            "cookie-title-7": "Contactgegevens",
+            "cookie-p13": "Heeft u vragen, opmerkingen of verzoeken met betrekking tot dit cookiebeleid of het gebruik van cookies op onze website? Neem dan gerust contact met ons op via de onderstaande gegevens:",
+            "cookie-li12": "Bedrijfsnaam: FleetConnect",
+            "cookie-li13": "Adres: Italiëlei 124, 2000 Antwerpen, België",
+            "cookie-li14": "E-mail: info@fleetconnect.be",
+            "cookie-li15": "Telefoon: +32 3 123 45 67",
+            "cookie-p14": "Wij streven ernaar om uw vragen binnen 3 werkdagen te beantwoorden. Indien uw vraag complexer is, kunnen wij u vragen om meer tijd om een volledig antwoord te geven.",
+            "cookie-highlight-title": "Uw privacy is belangrijk voor ons",
+            "cookie-highlight-text": "Wij gebruiken cookies om uw gebruikservaring te verbeteren. Heeft u vragen over ons cookiebeleid? Neem dan gerust contact met ons op.",
+            "cookie-btn-email": "E-mail sturen",
+            "cookie-btn-phone": "Contactformulier",
             "footer_brand": "FleetConnect",
             "footer_brand_desc": "Professioneel taxivervoer in België - Stijl, stiptheid en service.",
             "footer_book_now": "Reserveer nu",
@@ -1115,8 +694,6 @@
             "footer_contact": "Contact",
             "footer_copyright": "2026 FleetConnect -",
             "footer_home_link": "FleetConnect",
-
-            // ===== STEDEN (NL) - IDENTIEK AAN ANTWERPEN =====
             "city_aalst": "Aalst",
             "city_asse": "Asse",
             "city_dilbeek": "Dilbeek",
@@ -1143,13 +720,10 @@
             "city_zemst": "Zemst"
         },
         fr: {
-            // Breadcrumb & header
             "breadcrumb-home": "Accueil",
             "breadcrumb-current": "Politique de cookies",
             "page-title": "Politique de cookies",
-            "intro-text": "Ce site utilise des cookies pour améliorer votre expérience et personnaliser nos services. Nous expliquons ci-dessous quels cookies nous utilisons, pourquoi et comment vous pouvez les gérer. En continuant à naviguer sur ce site, vous acceptez notre politique de cookies.",
-            
-            // Navigatie tabs
+            "intro-text": "Nous utilisons des cookies pour améliorer votre expérience utilisateur et optimiser nos services. Dans cette politique de cookies, nous expliquons ce que sont les cookies, quels cookies nous utilisons et comment gérer vos préférences en matière de cookies.",
             "tab-home": "Accueil",
             "tab-exclusive": "Exclusif",
             "tab-prices": "Prix fixes",
@@ -1158,29 +732,46 @@
             "tab-business": "Affaires",
             "tab-events": "Événements",
             "tab-courier": "Messagerie",
-            
-            // Artikelen
-            "article1-title": "Que sont les cookies ?",
-            "article1-text": "Les cookies sont de petits fichiers texte déposés par un site Web sur votre ordinateur ou appareil mobile lorsque vous visitez le site. Ils contiennent des informations sur votre comportement de navigation et vos préférences, afin que le site puisse vous reconnaître lors d'une visite ultérieure. Les cookies sont essentiels au bon fonctionnement de nombreux sites Web et nous aident à améliorer nos services.",
-            "article2-title": "Types de cookies que nous utilisons",
-            "article2-text": "FleetConnect utilise différents types de cookies, classés par fonction :",
-            "article3-title": "Pourquoi utilisons-nous des cookies ?",
-            "article3-text": "Nous utilisons des cookies pour :",
-            "article4-title": "Quels cookies utilisons-nous exactement ?",
-            "article4-text": "Voici un aperçu des cookies spécifiques que nous déposons, avec leur nom, leur objectif et leur durée de conservation :",
-            "article5-title": "Cookies tiers",
-            "article5-text": "Des cookies tiers peuvent également être déposés sur notre site, par exemple par Google (Analytics et Ads), les boutons de médias sociaux (Facebook, LinkedIn) et les plateformes vidéo (YouTube). Ces tiers ont leurs propres politiques de confidentialité et de cookies. FleetConnect n'a aucun contrôle sur les données collectées par ces tiers. Nous vous invitons à consulter leurs politiques pour plus d'informations.",
-            "article6-title": "Comment gérer les cookies ?",
-            "article6-text": "Vous pouvez à tout moment modifier vos paramètres de cookies ou désactiver complètement les cookies via les paramètres de votre navigateur. Vous trouverez ci-dessous des liens vers les instructions des navigateurs les plus courants :",
-            "article6-text2": "Veuillez noter que la désactivation des cookies peut limiter certaines fonctionnalités du site.",
-            "article7-title": "Vos droits et consentement",
-            "article7-text": "Lors de votre première visite sur notre site, nous vous demandons votre consentement pour le dépôt de cookies non nécessaires. Vous pouvez retirer ce consentement à tout moment en modifiant les paramètres de votre navigateur ou en nous contactant. Vous avez le droit d'accéder aux données que nous collectons à votre sujet, de les rectifier ou de demander leur suppression.",
-            "article8-title": "Modifications de cette politique",
-            "article8-text": "FleetConnect se réserve le droit de modifier cette politique de cookies en fonction des évolutions législatives ou réglementaires, ou de nos services. La version la plus récente est toujours publiée sur cette page avec la date de la dernière mise à jour. Nous vous recommandons de consulter régulièrement cette page.",
-            "article9-title": "Contact",
-            "article9-text": "Pour toute question concernant notre politique de cookies ou le traitement de vos données personnelles, vous pouvez nous contacter à info@fleetconnect.be ou via le formulaire de contact sur notre site. Nous nous ferons un plaisir de vous aider.",
-
-            // ===== FOOTER VERTALINGEN (FR) - IDENTIEK AAN ANTWERPEN =====
+            "cookie-title-1": "Que sont les cookies ?",
+            "cookie-p1": "Les cookies sont de petits fichiers texte stockés par votre navigateur sur votre appareil (ordinateur, tablette ou smartphone) lorsque vous visitez un site Web. Ces fichiers contiennent des informations sur votre visite du site Web, telles que vos préférences et paramètres. Les cookies nous permettent d'améliorer votre expérience utilisateur, d'optimiser le site Web et de proposer un contenu pertinent.",
+            "cookie-p2": "Il existe différents types de cookies, qui diffèrent en termes de fonctionnalité, de durée et d'origine. Certains cookies sont essentiels au bon fonctionnement du site Web, tandis que d'autres cookies sont utilisés à des fins d'analyse et de marketing. Dans cette politique de cookies, nous expliquons quels cookies nous utilisons et pourquoi.",
+            "cookie-title-2": "Quels cookies utilisons-nous ?",
+            "cookie-p3": "Nous utilisons les types de cookies suivants sur notre site Web :",
+            "cookie-li1": "Cookies fonctionnels : Ces cookies sont nécessaires au bon fonctionnement du site Web. Ils garantissent que le site Web fonctionne correctement et que vous pouvez utiliser les fonctionnalités de base. Sans ces cookies, le site Web ne peut pas fonctionner de manière optimale.",
+            "cookie-li2": "Cookies analytiques : Ces cookies collectent des données anonymes sur la façon dont les visiteurs utilisent le site Web. Nous utilisons ces informations pour mesurer les performances du site Web, analyser le comportement des utilisateurs et améliorer le site Web. Ces données ne sont pas utilisées à des fins de marketing.",
+            "cookie-li3": "Cookies fonctionnels de préférences : Ces cookies mémorisent vos préférences et paramètres, comme votre préférence linguistique, afin que vous n'ayez pas à saisir les mêmes paramètres à chaque fois que vous visitez le site Web.",
+            "cookie-li4": "Cookies marketing : Ces cookies sont utilisés pour afficher des publicités personnalisées en fonction de votre comportement de navigation. Ils collectent des informations sur vos visites sur notre site Web et d'autres sites Web pour proposer des publicités pertinentes.",
+            "cookie-li5": "Cookies de médias sociaux : Ces cookies sont placés par des plateformes de médias sociaux telles que Facebook, Instagram et LinkedIn. Ils vous permettent de partager le contenu de notre site Web sur les médias sociaux et nous permettent de suivre vos interactions avec nos messages sur les médias sociaux.",
+            "cookie-p4": "Nous utilisons uniquement les cookies nécessaires au fonctionnement du site Web et les cookies pour lesquels vous avez explicitement donné votre consentement. Vous pouvez à tout moment modifier vos préférences en matière de cookies ou désactiver les cookies via les paramètres de votre navigateur.",
+            "cookie-title-3": "Combien de temps les cookies restent-ils actifs ?",
+            "cookie-p5": "La durée de vie des cookies varie en fonction du type de cookie et de son objectif. Nous distinguons :",
+            "cookie-li6": "Cookies de session : Ces cookies sont temporaires et sont automatiquement supprimés lorsque vous fermez votre navigateur. Ils sont utilisés pour mémoriser vos activités lors d'une visite sur le site Web.",
+            "cookie-li7": "Cookies permanents : Ces cookies restent sur votre appareil jusqu'à leur expiration ou jusqu'à ce que vous les supprimiez manuellement. Ils sont utilisés pour mémoriser vos préférences et paramètres pour de futures visites sur le site Web.",
+            "cookie-p6": "La plupart des cookies permanents ont une date d'expiration maximale de 2 ans. Passé ce délai, ils sont automatiquement supprimés. Vous pouvez supprimer manuellement les cookies à tout moment via les paramètres de votre navigateur.",
+            "cookie-title-4": "Gérer les préférences en matière de cookies",
+            "cookie-p7": "Vous avez la possibilité de modifier vos préférences en matière de cookies à tout moment ou de désactiver complètement les cookies. Vous pouvez le faire via les paramètres de votre navigateur. Vous trouverez ci-dessous des instructions pour les navigateurs les plus courants :",
+            "cookie-li8": "Google Chrome : Allez dans Paramètres > Confidentialité et sécurité > Cookies et autres données de site. Ici, vous pouvez gérer, bloquer ou supprimer des cookies.",
+            "cookie-li9": "Mozilla Firefox : Allez dans Options > Vie privée et sécurité > Cookies et données de site. Ici, vous pouvez ajuster vos préférences en matière de cookies.",
+            "cookie-li10": "Safari : Allez dans Préférences > Confidentialité > Gérer les données de site. Ici, vous pouvez gérer et supprimer des cookies.",
+            "cookie-li11": "Microsoft Edge : Allez dans Paramètres > Confidentialité, recherche et services > Cookies et données de site. Ici, vous pouvez ajuster vos préférences en matière de cookies.",
+            "cookie-p8": "Veuillez noter que la désactivation des cookies peut affecter la fonctionnalité du site Web. Certaines parties du site Web peuvent ne plus fonctionner correctement si vous désactivez les cookies. Nous vous recommandons de toujours laisser les cookies fonctionnels activés pour une expérience utilisateur optimale.",
+            "cookie-title-5": "Confidentialité et protection des données",
+            "cookie-p9": "Nous accordons une grande importance à votre vie privée et à la protection de vos données personnelles. Les données collectées via les cookies sont utilisées uniquement aux fins décrites dans cette politique de cookies et notre politique de confidentialité. Nous ne vendons jamais vos données à des tiers et ne les partageons que lorsque cela est légalement requis ou nécessaire à l'exécution de nos services.",
+            "cookie-p10": "Nous prenons des mesures techniques et organisationnelles appropriées pour protéger vos données contre la perte, l'abus ou l'accès non autorisé. Nos mesures de sécurité sont régulièrement évaluées et améliorées pour garantir une protection optimale.",
+            "cookie-title-6": "Modifications de cette politique de cookies",
+            "cookie-p11": "Nous nous réservons le droit de modifier cette politique de cookies pour l'adapter à l'évolution des lois et réglementations ou aux changements de nos services. La version la plus récente de notre politique de cookies est toujours disponible sur cette page. Nous vous recommandons de consulter régulièrement cette politique de cookies afin de rester informé des éventuelles modifications. En cas de changements importants, nous vous en informerons par une notification sur notre site Web.",
+            "cookie-p12": "Cette politique de cookies a été mise à jour pour la dernière fois le 1er janvier 2026.",
+            "cookie-title-7": "Coordonnées",
+            "cookie-p13": "Avez-vous des questions, des commentaires ou des demandes concernant cette politique de cookies ou l'utilisation de cookies sur notre site Web ? N'hésitez pas à nous contacter via les coordonnées ci-dessous :",
+            "cookie-li12": "Nom de l'entreprise : FleetConnect",
+            "cookie-li13": "Adresse : Italiëlei 124, 2000 Anvers, Belgique",
+            "cookie-li14": "E-mail : info@fleetconnect.be",
+            "cookie-li15": "Téléphone : +32 3 123 45 67",
+            "cookie-p14": "Nous nous efforçons de répondre à vos questions dans un délai de 3 jours ouvrables. Si votre question est plus complexe, nous pouvons vous demander un peu plus de temps pour vous fournir une réponse complète.",
+            "cookie-highlight-title": "Votre vie privée est importante pour nous",
+            "cookie-highlight-text": "Nous utilisons des cookies pour améliorer votre expérience utilisateur. Avez-vous des questions sur notre politique de cookies ? N'hésitez pas à nous contacter.",
+            "cookie-btn-email": "Envoyer un e-mail",
+            "cookie-btn-phone": "Formulaire de contact",
             "footer_brand": "FleetConnect",
             "footer_brand_desc": "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
             "footer_book_now": "Réservez maintenant",
@@ -1203,8 +794,6 @@
             "footer_contact": "Contact",
             "footer_copyright": "2026 FleetConnect -",
             "footer_home_link": "FleetConnect",
-
-            // ===== STEDEN (FR) - IDENTIEK AAN ANTWERPEN =====
             "city_aalst": "Alost",
             "city_asse": "Asse",
             "city_dilbeek": "Dilbeek",
@@ -1231,13 +820,10 @@
             "city_zemst": "Zemst"
         },
         en: {
-            // Breadcrumb & header
             "breadcrumb-home": "Home",
             "breadcrumb-current": "Cookie Policy",
             "page-title": "Cookie Policy",
-            "intro-text": "This website uses cookies to improve your experience and personalize our services. Below we explain which cookies we use, why, and how you can manage them. By continuing to browse this site, you agree to our cookie policy.",
-            
-            // Navigatie tabs
+            "intro-text": "We use cookies to improve your user experience and optimize our services. In this cookie policy, we explain what cookies are, which cookies we use, and how you can manage your cookie preferences.",
             "tab-home": "Home",
             "tab-exclusive": "Exclusive",
             "tab-prices": "Prices",
@@ -1246,29 +832,46 @@
             "tab-business": "Business",
             "tab-events": "Events",
             "tab-courier": "Courier",
-            
-            // Artikelen
-            "article1-title": "What are cookies?",
-            "article1-text": "Cookies are small text files placed on your computer or mobile device by a website when you visit the site. They contain information about your browsing behavior and preferences, so that the website can recognize you on a subsequent visit. Cookies are essential for the proper functioning of many websites and help us improve our services.",
-            "article2-title": "Types of cookies we use",
-            "article2-text": "FleetConnect uses different types of cookies, classified by function:",
-            "article3-title": "Why do we use cookies?",
-            "article3-text": "We use cookies to:",
-            "article4-title": "Which cookies do we use exactly?",
-            "article4-text": "Below is an overview of the specific cookies we place, with their name, purpose and retention period:",
-            "article5-title": "Third-party cookies",
-            "article5-text": "Third-party cookies may also be placed on our website, for example by Google (Analytics and Ads), social media buttons (Facebook, LinkedIn) and video platforms (YouTube). These third parties have their own privacy and cookie policies. FleetConnect has no control over the data collected by these third parties. We recommend that you consult their policies for more information.",
-            "article6-title": "How can you manage cookies?",
-            "article6-text": "You can change your cookie settings or disable cookies entirely at any time via your browser settings. Below are links to the instructions for the most common browsers:",
-            "article6-text2": "Please note that disabling cookies may limit certain features of the website.",
-            "article7-title": "Your rights and consent",
-            "article7-text": "On your first visit to our site, we ask for your consent to place non-necessary cookies. You can withdraw this consent at any time by adjusting your browser settings or by contacting us. You have the right to request access to the data we collect about you, and to request correction or deletion.",
-            "article8-title": "Changes to this policy",
-            "article8-text": "FleetConnect reserves the right to amend this cookie policy in line with changes in legislation or regulations, or to our services. The most recent version is always published on this page with the date of the last update. We recommend that you check this page regularly.",
-            "article9-title": "Contact",
-            "article9-text": "For questions about our cookie policy or about the processing of your personal data, you can contact us at info@fleetconnect.be or via the contact form on our website. We will be happy to help you.",
-
-            // ===== FOOTER VERTALINGEN (EN) - IDENTIEK AAN ANTWERPEN =====
+            "cookie-title-1": "What are cookies?",
+            "cookie-p1": "Cookies are small text files stored by your browser on your device (computer, tablet or smartphone) when you visit a website. These files contain information about your visit to the website, such as your preferences and settings. Cookies allow us to improve your user experience, optimize the website, and offer relevant content.",
+            "cookie-p2": "There are different types of cookies, which differ in functionality, duration, and origin. Some cookies are essential for the proper functioning of the website, while other cookies are used for analysis and marketing purposes. In this cookie policy, we explain which cookies we use and why.",
+            "cookie-title-2": "Which cookies do we use?",
+            "cookie-p3": "We use the following types of cookies on our website:",
+            "cookie-li1": "Functional cookies: These cookies are necessary for the proper functioning of the website. They ensure that the website works correctly and that you can use the basic functionalities. Without these cookies, the website cannot function optimally.",
+            "cookie-li2": "Analytical cookies: These cookies collect anonymous data about how visitors use the website. We use this information to measure the performance of the website, analyze user behavior, and improve the website. This data is not used for marketing purposes.",
+            "cookie-li3": "Functional preference cookies: These cookies remember your preferences and settings, such as your language preference, so you don't have to enter the same settings every time you visit the website.",
+            "cookie-li4": "Marketing cookies: These cookies are used to display personalized advertisements based on your browsing behavior. They collect information about your visits to our website and other websites to offer relevant advertisements.",
+            "cookie-li5": "Social media cookies: These cookies are placed by social media platforms such as Facebook, Instagram, and LinkedIn. They allow you to share content from our website on social media and allow us to track your interactions with our social media posts.",
+            "cookie-p4": "We only use cookies that are necessary for the functioning of the website and cookies for which you have explicitly given consent. You can adjust your cookie preferences at any time or disable cookies via your browser settings.",
+            "cookie-title-3": "How long do cookies remain active?",
+            "cookie-p5": "The lifespan of cookies varies depending on the type of cookie and its purpose. We distinguish between:",
+            "cookie-li6": "Session cookies: These cookies are temporary and are automatically deleted when you close your browser. They are used to remember your activities during a visit to the website.",
+            "cookie-li7": "Persistent cookies: These cookies remain on your device until they expire or until you manually delete them. They are used to remember your preferences and settings for future visits to the website.",
+            "cookie-p6": "Most persistent cookies have an expiration date of up to 2 years. After this date, they are automatically deleted. You can manually delete cookies at any time via your browser settings.",
+            "cookie-title-4": "Managing cookie preferences",
+            "cookie-p7": "You have the option to adjust your cookie preferences at any time or completely disable cookies. You can do this via your browser settings. Below are instructions for the most common browsers:",
+            "cookie-li8": "Google Chrome: Go to Settings > Privacy and security > Cookies and other site data. Here you can manage, block, or delete cookies.",
+            "cookie-li9": "Mozilla Firefox: Go to Options > Privacy & Security > Cookies and site data. Here you can adjust your cookie preferences.",
+            "cookie-li10": "Safari: Go to Preferences > Privacy > Manage website data. Here you can manage and delete cookies.",
+            "cookie-li11": "Microsoft Edge: Go to Settings > Privacy, search, and services > Cookies and site data. Here you can adjust your cookie preferences.",
+            "cookie-p8": "Please note that disabling cookies may affect the functionality of the website. Some parts of the website may not work properly if you disable cookies. We recommend always keeping functional cookies enabled for an optimal user experience.",
+            "cookie-title-5": "Privacy and data protection",
+            "cookie-p9": "We attach great importance to your privacy and the protection of your personal data. The data collected through cookies is used solely for the purposes described in this cookie policy and our privacy policy. We never sell your data to third parties and only share it when legally required or necessary for the execution of our services.",
+            "cookie-p10": "We take appropriate technical and organizational measures to protect your data against loss, abuse, or unauthorized access. Our security measures are regularly evaluated and improved to guarantee optimal protection.",
+            "cookie-title-6": "Changes to this cookie policy",
+            "cookie-p11": "We reserve the right to amend this cookie policy to comply with changing laws and regulations or changes in our services. The most recent version of our cookie policy is always available on this page. We recommend that you regularly consult this cookie policy to stay informed of any changes. In case of important changes, we will inform you via a notification on our website.",
+            "cookie-p12": "This cookie policy was last updated on January 1, 2026.",
+            "cookie-title-7": "Contact details",
+            "cookie-p13": "Do you have questions, comments, or requests regarding this cookie policy or the use of cookies on our website? Please feel free to contact us via the details below:",
+            "cookie-li12": "Company name: FleetConnect",
+            "cookie-li13": "Address: Italiëlei 124, 2000 Antwerp, Belgium",
+            "cookie-li14": "Email: info@fleetconnect.be",
+            "cookie-li15": "Phone: +32 3 123 45 67",
+            "cookie-p14": "We aim to answer your questions within 3 working days. If your question is more complex, we may ask for a little more time to provide a complete answer.",
+            "cookie-highlight-title": "Your privacy is important to us",
+            "cookie-highlight-text": "We use cookies to improve your user experience. Do you have questions about our cookie policy? Please feel free to contact us.",
+            "cookie-btn-email": "Send email",
+            "cookie-btn-phone": "Contact form",
             "footer_brand": "FleetConnect",
             "footer_brand_desc": "Professional taxi transport in Belgium - Style, punctuality and service.",
             "footer_book_now": "Book now",
@@ -1291,8 +894,6 @@
             "footer_contact": "Contact",
             "footer_copyright": "2026 FleetConnect -",
             "footer_home_link": "FleetConnect",
-
-            // ===== STEDEN (EN) - IDENTIEK AAN ANTWERPEN =====
             "city_aalst": "Aalst",
             "city_asse": "Asse",
             "city_dilbeek": "Dilbeek",
@@ -1320,18 +921,11 @@
         }
     };
 
-    // ============================================================
-    // HUIDIGE TAAL
-    // ============================================================
     let currentLang = 'nl';
 
-    // ============================================================
-    // DROPDOWN STADNAMEN GENEREREN - IDENTIEK AAN ANTWERPEN
-    // ============================================================
     function generateCityDropdown() {
         const t = translations[currentLang];
         if (!t) return;
-
         const cities = [
             { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
             { key: 'city_asse', url: '/cities/taxi-asse.html' },
@@ -1358,65 +952,41 @@
             { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
             { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
         ];
-
         const select = document.getElementById('stad-dropdown');
         if (!select) return;
-
         const currentValue = select.value;
         select.innerHTML = '';
-
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
         select.appendChild(defaultOption);
-
         cities.forEach(city => {
             const option = document.createElement('option');
             option.value = city.url;
             option.textContent = t[city.key] || city.key;
             select.appendChild(option);
         });
-
-        if (currentValue) {
-            select.value = currentValue;
-        }
+        if (currentValue) select.value = currentValue;
     }
 
-    // ============================================================
-    // VERTALINGS FUNCTIE - IDENTIEK AAN ANTWERPEN
-    // ============================================================
     function translatePage() {
         const t = translations[currentLang];
         if (!t) return;
-
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key] !== undefined) {
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                    el.placeholder = t[key];
-                } else if (el.tagName === 'OPTION') {
-                    el.textContent = t[key];
-                } else {
-                    el.innerHTML = t[key];
-                }
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = t[key];
+                else if (el.tagName === 'OPTION') el.textContent = t[key];
+                else el.innerHTML = t[key];
             }
         });
-
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            if (btn.getAttribute('data-lang') === currentLang) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
         });
-
         generateCityDropdown();
         document.documentElement.lang = currentLang;
     }
 
-    // ============================================================
-    // EVENT LISTENERS - IDENTIEK AAN ANTWERPEN
-    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1427,25 +997,13 @@
                 }
             });
         });
-
         translatePage();
 
-        // ============================================================
-        // LEAFLET KAART
-        // ============================================================
         (function initMap() {
             try {
-                if (typeof L === 'undefined') {
-                    console.warn('Leaflet is niet geladen.');
-                    return;
-                }
-
+                if (typeof L === 'undefined') return;
                 const mapContainer = document.getElementById('background-map');
-                if (!mapContainer) {
-                    console.warn('Element #background-map niet gevonden.');
-                    return;
-                }
-
+                if (!mapContainer) return;
                 const bgMap = L.map('background-map', {
                     center: [50.8503, 4.3517],
                     zoom: 7,
@@ -1458,38 +1016,22 @@
                     keyboard: false,
                     attributionControl: true
                 });
-
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
                     subdomains: 'abcd',
                     maxZoom: 19,
                     minZoom: 1
                 }).addTo(bgMap);
-
                 setTimeout(() => { bgMap.invalidateSize(); }, 200);
-
                 let resizeTimeout;
                 window.addEventListener('resize', function() {
                     clearTimeout(resizeTimeout);
                     resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
                 });
-
-                console.log('Leaflet-kaart succesvol geladen.');
-
             } catch (error) {
                 console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
-                const mapContainer = document.getElementById('background-map');
-                if (mapContainer) {
-                    mapContainer.style.backgroundImage = 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
-                    mapContainer.style.backgroundSize = 'cover';
-                    mapContainer.style.backgroundPosition = 'center';
-                    mapContainer.style.backgroundRepeat = 'no-repeat';
-                }
             }
         })();
-
-        console.log('FleetConnect - Cookiebeleid pagina geladen');
-        console.log('Huidige taal:', currentLang);
     });
 </script>
 </body>
