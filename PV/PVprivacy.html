@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Privacybeleid | Fleetconnect</title>
+    <title>Privacy | Fleetconnect</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ========================================================== */
-        /* GLOBAL VARIABELEN - Identiek aan Antwerpen pagina           */
-        /* ========================================================== */
+        /* ===== DEZELFDE STIJLEN ALS COOKIEBELEID ===== */
         :root {
             --bg-body: #f4f7fc;
             --primary: #2c6e9e;
@@ -32,9 +30,6 @@
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* ========================================================== */
-        /* RESET & BASIS                                              */
-        /* ========================================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { margin: 0; padding: 0; height: 100%; }
         body {
@@ -45,9 +40,6 @@
             overflow-x: hidden;
         }
         
-        /* ========================================================== */
-        /* ACHTERGRONDKAART                                           */
-        /* ========================================================== */
         #background-map {
             position: fixed;
             top: 0;
@@ -74,9 +66,6 @@
             flex-direction: column;
         }
         
-        /* ========================================================== */
-        /* CONTAINER                                                  */
-        /* ========================================================== */
         .container {
             width: 100%;
             max-width: 1300px;
@@ -84,26 +73,25 @@
             padding: 0 24px;
         }
 
-        /* ========================================================== */
-        /* STICKY TAALSWITCHER                                        */
-        /* ========================================================== */
+        /* ===== STICKY TAALSWITCHER - BLIJFT PLAKKEN ===== */
         .language-switcher {
             position: fixed;
             top: 20px;
             right: 20px;
             display: flex;
             gap: 12px;
-            z-index: 1000;
-            background: rgba(255,255,255,0.9);
-            padding: 6px 12px;
-            border-radius: 40px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(0,0,0,0.1);
+            z-index: 99999;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(44,110,158,0.2);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
         }
         .lang-btn {
             background: white;
             border: 1px solid var(--border-light);
-            padding: 6px 14px;
+            padding: 8px 18px;
             border-radius: 40px;
             cursor: pointer;
             font-weight: 600;
@@ -112,20 +100,24 @@
             font-size: 0.85rem;
             font-family: 'Inter', sans-serif;
         }
-        .lang-btn:hover, .lang-btn.active {
+        .lang-btn:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(44,110,158,0.3);
         }
 
-        /* ========================================================== */
-        /* BREADCRUMB                                                 */
-        /* ========================================================== */
         .breadcrumb {
             margin: 30px 0 16px;
             font-size: 0.85rem;
             color: var(--text-light);
-            padding-top: 70px;
+            padding-top: 80px;
         }
         .breadcrumb a {
             color: var(--primary);
@@ -147,9 +139,6 @@
             font-weight: 600;
         }
 
-        /* ========================================================== */
-        /* PAGE HEADER                                                */
-        /* ========================================================== */
         .page-header {
             padding: 20px 0 10px;
         }
@@ -179,13 +168,7 @@
             line-height: 1.7;
             margin-bottom: 10px;
         }
-        .intro-text strong {
-            color: var(--text-dark);
-        }
 
-        /* ========================================================== */
-        /* NAVIGATIE TABS                                             */
-        /* ========================================================== */
         .nav-tabs {
             display: flex;
             justify-content: center;
@@ -234,16 +217,9 @@
             color: white;
         }
 
-        /* ========================================================== */
-        /* CONTENT SECTIE                                             */
-        /* ========================================================== */
         .content-section {
             padding: 10px 0 50px;
         }
-        
-        /* ========================================================== */
-        /* CONTENT CARDS                                              */
-        /* ========================================================== */
         .content-card {
             background: var(--card-bg);
             backdrop-filter: blur(8px);
@@ -272,16 +248,6 @@
             color: var(--accent-gold);
             font-size: 1.6rem;
         }
-        .content-card h3 {
-            color: var(--text-dark);
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 28px 0 14px 0;
-        }
-        .content-card h3 i {
-            color: var(--primary);
-            margin-right: 10px;
-        }
         .content-card p {
             color: var(--text-light);
             margin-bottom: 16px;
@@ -303,46 +269,6 @@
             border-bottom-color: var(--primary);
         }
 
-        /* ========================================================== */
-        /* FEATURE LISTS                                              */
-        /* ========================================================== */
-        .feature-list {
-            list-style: none;
-            margin: 20px 0 24px;
-        }
-        .feature-list li {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border-light);
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            transition: var(--transition);
-        }
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-        .feature-list li:hover {
-            padding-left: 8px;
-        }
-        .feature-list li i {
-            color: var(--accent-green);
-            width: 24px;
-            font-size: 1.2rem;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-        .feature-list li strong {
-            color: var(--text-dark);
-            font-weight: 600;
-            min-width: 180px;
-        }
-        .feature-list li span {
-            color: var(--text-light);
-        }
-
-        /* ========================================================== */
-        /* HIGHLIGHT BOX                                              */
-        /* ========================================================== */
         .highlight-box {
             background: linear-gradient(135deg, rgba(44,110,158,0.06) 0%, rgba(107,140,66,0.06) 100%);
             border-left: 5px solid var(--accent-gold);
@@ -375,9 +301,6 @@
             color: var(--text-light);
         }
 
-        /* ========================================================== */
-        /* BUTTONS                                                    */
-        /* ========================================================== */
         .btn-primary {
             background: var(--primary);
             color: white;
@@ -403,7 +326,6 @@
         .btn-primary i {
             color: white;
         }
-
         .btn-outline {
             background: transparent;
             color: var(--primary);
@@ -427,88 +349,35 @@
             box-shadow: 0 8px 25px rgba(44,110,158,0.25);
         }
 
-        /* ========================================================== */
-        /* RESPONSIVE                                                 */
-        /* ========================================================== */
         @media (max-width: 768px) {
-            .page-title { 
-                font-size: 1.8rem; 
-                flex-wrap: wrap;
-            }
+            .page-title { font-size: 1.8rem; flex-wrap: wrap; }
             .page-title i { font-size: 1.6rem; }
             .content-card { padding: 28px; }
             .content-card h2 { font-size: 1.4rem; }
-            
-            .language-switcher { 
-                top: 12px; 
-                right: 12px; 
-                gap: 6px; 
-                padding: 4px 10px;
-            }
-            .lang-btn { 
-                font-size: 0.7rem; 
-                padding: 4px 10px;
-            }
-            
-            .breadcrumb { 
-                padding-top: 60px;
-                font-size: 0.75rem;
-            }
-            
-            .feature-list li {
-                flex-wrap: wrap;
-            }
-            .feature-list li strong {
-                min-width: 100%;
-            }
+            .language-switcher { top: 12px; right: 12px; gap: 6px; padding: 6px 12px; }
+            .lang-btn { font-size: 0.7rem; padding: 6px 12px; }
+            .breadcrumb { padding-top: 70px; font-size: 0.75rem; }
         }
-        
         @media (max-width: 500px) {
             .container { padding: 0 16px; }
-            .content-card { 
-                padding: 20px; 
-                border-radius: 20px;
-            }
-            .content-card h2 { 
-                font-size: 1.2rem;
-                padding-left: 14px;
-                flex-wrap: wrap;
-            }
-            
+            .content-card { padding: 20px; border-radius: 20px; }
+            .content-card h2 { font-size: 1.2rem; padding-left: 14px; flex-wrap: wrap; }
             .nav-tabs { gap: 6px; }
-            .nav-tab { 
-                font-size: 0.7rem; 
-                padding: 6px 12px;
-            }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
             .nav-tab i { font-size: 0.7rem; }
-            
-            .page-title { 
-                font-size: 1.4rem;
-                gap: 10px;
-            }
+            .page-title { font-size: 1.4rem; gap: 10px; }
             .page-title i { font-size: 1.2rem; }
             .intro-text { font-size: 0.95rem; }
-            
-            .highlight-box {
-                padding: 20px;
-                margin: 20px 0;
-            }
-            .highlight-box i {
-                font-size: 1.4rem;
-            }
-            .highlight-box p {
-                font-size: 0.95rem;
-            }
-            .btn-primary,
-            .btn-outline {
-                padding: 10px 20px;
-                font-size: 0.85rem;
-            }
+            .highlight-box { padding: 20px; margin: 20px 0; }
+            .highlight-box i { font-size: 1.4rem; }
+            .highlight-box p { font-size: 0.95rem; }
+            .btn-primary, .btn-outline { padding: 10px 20px; font-size: 0.85rem; }
+            .language-switcher { top: 10px; right: 10px; gap: 4px; padding: 4px 8px; }
+            .lang-btn { font-size: 0.6rem; padding: 4px 8px; }
+            .breadcrumb { padding-top: 60px; }
         }
 
-        /* ========================================================== */
-        /* FOOTER - IDENTIEK AAN ANTWERPEN PAGINA                     */
-        /* ========================================================== */
+        /* ===== FOOTER - IDENTIEK AAN ANTWERPEN ===== */
         .footer-dark {
             background: #0d1f2c;
             color: #e0edf5;
@@ -582,413 +451,166 @@
 </head>
 <body>
 
-<!-- ========================================================== -->
-<!-- ACHTERGRONDKAART                                            -->
-<!-- ========================================================== -->
 <div id="background-map"></div>
 
-<!-- ========================================================== -->
-<!-- CONTENT OVERLAY                                             -->
-<!-- ========================================================== -->
-<div class="content-overlay">
-    
-    <!-- ===== STICKY TAALSWITCHER ===== -->
-    <div class="language-switcher">
-        <button class="lang-btn active" data-lang="nl">NL</button>
-        <button class="lang-btn" data-lang="fr">FR</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+<!-- ===== STICKY TAALSWITCHER - BOVEN ALLES ===== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
 
-    <!-- ========================================================== -->
-    <!-- MAIN CONTENT                                               -->
-    <!-- ========================================================== -->
+<div class="content-overlay">
     <div class="container">
-        
-        <!-- ===== BREADCRUMB ===== -->
         <div class="breadcrumb">
             <a href="/PV/PV.html" data-i18n="breadcrumb-home">Home</a> 
             <i class="fas fa-chevron-right"></i> 
-            <span class="current" data-i18n="breadcrumb-current">Privacybeleid</span>
+            <span class="current" data-i18n="breadcrumb-current">Privacy</span>
         </div>
         
-        <!-- ===== PAGE HEADER ===== -->
         <div class="page-header">
             <h1 class="page-title">
                 <i class="fas fa-shield-alt"></i>
                 <span data-i18n="page-title">Privacybeleid</span>
             </h1>
             <p class="intro-text" data-i18n="intro-text">
-                FleetConnect hecht groot belang aan uw privacy en de bescherming van uw persoonsgegevens. 
-                In dit privacybeleid leggen we uit welke gegevens we verzamelen, waarom we dat doen en hoe we 
-                uw gegevens beschermen. Dit beleid is opgesteld in overeenstemming met de Algemene Verordening 
-                Gegevensbescherming (AVG) en de Belgische wetgeving.
+                Wij hechten veel waarde aan uw privacy en de bescherming van uw persoonsgegevens. 
+                In dit privacybeleid leggen wij uit welke gegevens wij verzamelen, hoe wij deze gebruiken en welke rechten u heeft.
             </p>
         </div>
         
-        <!-- ===== NAVIGATIE TABS ===== -->
         <div class="nav-tabs">
-            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home">
-                <i class="fas fa-home"></i> Home
-            </a>
-            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive">
-                <i class="fas fa-gem"></i> Exclusief
-            </a>
-            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices">
-                <i class="fas fa-euro-sign"></i> Prijzen
-            </a>
-            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet">
-                <i class="fas fa-car-side"></i> Vloot
-            </a>
-            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport">
-                <i class="fas fa-plane-departure"></i> Luchthaven
-            </a>
-            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business">
-                <i class="fas fa-briefcase"></i> Zakelijk
-            </a>
-            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events">
-                <i class="fas fa-glass-cheers"></i> Events
-            </a>
-            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier">
-                <i class="fas fa-file-signature"></i> Koerier
-            </a>
+            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
         </div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- CONTENT SECTIE                                             -->
-    <!-- ========================================================== -->
     <div class="container">
         <div class="content-section">
             
-            <!-- ===== CONTENT CARD 1 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-info-circle"></i> <span data-i18n="article1-title">1. Wie zijn wij?</span></h2>
-                <p data-i18n="article1-text">
-                    FleetConnect (hierna: "wij", "ons" of "onze") is een professionele taxidienst actief in België. 
-                    Wij zijn verantwoordelijk voor de verwerking van uw persoonsgegevens zoals beschreven in dit privacybeleid. 
-                    Onze contactgegevens vindt u onderaan deze pagina.
-                </p>
-                <p data-i18n="article1-text2">
-                    Wij zijn geregistreerd bij de Gegevensbeschermingsautoriteit (GBA) en voldoen aan de vereisten van 
-                    de Algemene Verordening Gegevensbescherming (AVG) en de Belgische wet van 30 juli 2018 betreffende 
-                    de bescherming van natuurlijke personen met betrekking tot de verwerking van persoonsgegevens.
-                </p>
+                <h2><i class="fas fa-info-circle"></i> <span data-i18n="privacy-title-1">Algemene informatie</span></h2>
+                <p data-i18n="privacy-p1">FleetConnect, gevestigd te Antwerpen, is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in dit privacybeleid. Wij respecteren uw privacy en zorgen ervoor dat de persoonsgegevens die u aan ons verstrekt vertrouwelijk worden behandeld. De verwerking van uw persoonsgegevens gebeurt in overeenstemming met de Algemene Verordening Gegevensbescherming (AVG) en de Belgische wetgeving.</p>
+                <p data-i18n="privacy-p2">Wij verzamelen alleen persoonsgegevens die noodzakelijk zijn voor het leveren van onze diensten, het verbeteren van onze website en het onderhouden van klantrelaties. Wij verkopen uw gegevens nooit aan derden en delen deze alleen wanneer dit wettelijk verplicht is of wanneer dit noodzakelijk is voor de uitvoering van onze diensten.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 2 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-database"></i> <span data-i18n="article2-title">2. Welke gegevens verzamelen wij?</span></h2>
-                <p data-i18n="article2-text">
-                    Wij verzamelen en verwerken de volgende persoonsgegevens:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-user"></i>
-                        <strong>Identificatiegegevens</strong>
-                        <span>– naam, adres, telefoonnummer, e-mailadres.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-credit-card"></i>
-                        <strong>Betalingsgegevens</strong>
-                        <span>– factureringsadres, betaalgegevens (worden veilig verwerkt via onze betalingsprovider).</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <strong>Locatiegegevens</strong>
-                        <span>– ophaal- en bestemmingsadressen, route-informatie.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-calendar-alt"></i>
-                        <strong>Boekingsgegevens</strong>
-                        <span>– datum en tijd van uw rit, type voertuig, speciale verzoeken.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-laptop"></i>
-                        <strong>Technische gegevens</strong>
-                        <span>– IP-adres, browsertype, apparaatinformatie, cookies (zie ons cookiebeleid).</span>
-                    </li>
+                <h2><i class="fas fa-database"></i> <span data-i18n="privacy-title-2">Welke gegevens verzamelen wij?</span></h2>
+                <p data-i18n="privacy-p3">Wij verwerken de volgende persoonsgegevens van u:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="privacy-li1"><strong>Naam en contactgegevens:</strong> Voor- en achternaam, telefoonnummer, e-mailadres en adres.</li>
+                    <li data-i18n="privacy-li2"><strong>Reserveringsgegevens:</strong> Ophaal- en bestemmingsadres, datum en tijd van de rit, aantal personen en speciale wensen.</li>
+                    <li data-i18n="privacy-li3"><strong>Betaalgegevens:</strong> Bankrekeningnummer of creditcardgegevens voor de verwerking van betalingen.</li>
+                    <li data-i18n="privacy-li4"><strong>Technische gegevens:</strong> IP-adres, browsergegevens en informatie over uw bezoek aan onze website via cookies.</li>
+                    <li data-i18n="privacy-li5"><strong>Communicatiegegevens:</strong> E-mails, telefoongesprekken en andere communicatie die u met ons voert.</li>
                 </ul>
+                <p data-i18n="privacy-p4">Wij gebruiken uw persoonsgegevens uitsluitend voor de doeleinden waarvoor u deze aan ons heeft verstrekt, zoals het uitvoeren van reserveringen, het verwerken van betalingen en het verbeteren van onze dienstverlening.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 3 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-question-circle"></i> <span data-i18n="article3-title">3. Waarom verwerken wij uw gegevens?</span></h2>
-                <p data-i18n="article3-text">
-                    Wij verwerken uw persoonsgegevens voor de volgende doeleinden:
-                </p>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> <span>Het uitvoeren van uw taxibestellingen en ritten.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Communicatie over uw reserveringen en wijzigingen.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Facturatie en betalingsverwerking.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Klantenservice en ondersteuning.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Verbetering van onze diensten en website.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Voldoen aan wettelijke verplichtingen (bv. fiscale wetgeving).</span></li>
+                <h2><i class="fas fa-cogs"></i> <span data-i18n="privacy-title-3">Doeleinden van de verwerking</span></h2>
+                <p data-i18n="privacy-p5">Wij verwerken uw persoonsgegevens voor de volgende doeleinden:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="privacy-li6"><strong>Het leveren van onze diensten:</strong> Het uitvoeren van taxireserveringen, luchthaventransfers en andere vervoersdiensten.</li>
+                    <li data-i18n="privacy-li7"><strong>Klantenservice:</strong> Het beantwoorden van vragen, het oplossen van problemen en het verstrekken van informatie over onze diensten.</li>
+                    <li data-i18n="privacy-li8"><strong>Facturatie:</strong> Het verwerken van betalingen en het verzenden van facturen.</li>
+                    <li data-i18n="privacy-li9"><strong>Marketing:</strong> Het versturen van nieuwsbrieven en aanbiedingen, mits u hiervoor toestemming heeft gegeven.</li>
+                    <li data-i18n="privacy-li10"><strong>Verbetering van onze diensten:</strong> Het analyseren van gebruikersgedrag om onze website en diensten te optimaliseren.</li>
+                    <li data-i18n="privacy-li11"><strong>Wettelijke verplichtingen:</strong> Het voldoen aan wettelijke vereisten, zoals belastingaangiften en boekhoudkundige verplichtingen.</li>
                 </ul>
+                <p data-i18n="privacy-p6">Wij bewaren uw persoonsgegevens niet langer dan strikt noodzakelijk is voor de doeleinden waarvoor ze zijn verzameld. De bewaartermijnen variëren afhankelijk van het doel en de wettelijke vereisten.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 4 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-gavel"></i> <span data-i18n="article4-title">4. Rechtsgronden voor verwerking</span></h2>
-                <p data-i18n="article4-text">
-                    Wij verwerken uw persoonsgegevens op basis van de volgende rechtsgronden:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Uitvoering van een overeenkomst</strong>
-                        <span>– voor het uitvoeren van uw taxibestellingen.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Wettelijke verplichting</strong>
-                        <span>– voor fiscale en boekhoudkundige doeleinden.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Gerechtvaardigd belang</strong>
-                        <span>– voor het verbeteren van onze diensten en het waarborgen van veiligheid.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Toestemming</strong>
-                        <span>– voor marketingdoeleinden (u kunt uw toestemming altijd intrekken).</span>
-                    </li>
+                <h2><i class="fas fa-share-alt"></i> <span data-i18n="privacy-title-4">Delen met derden</span></h2>
+                <p data-i18n="privacy-p7">Wij delen uw persoonsgegevens alleen met derden wanneer dit noodzakelijk is voor de uitvoering van onze diensten of wanneer wij wettelijk verplicht zijn om dit te doen. Dit kan bijvoorbeeld het geval zijn bij:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="privacy-li12"><strong>Chauffeurs:</strong> Zij ontvangen uw naam, telefoonnummer en ophaaladres om de rit correct uit te kunnen voeren.</li>
+                    <li data-i18n="privacy-li13"><strong>Betaalproviders:</strong> Voor de verwerking van betalingen worden uw betaalgegevens gedeeld met onze betaalpartners.</li>
+                    <li data-i18n="privacy-li14"><strong>IT-leveranciers:</strong> Voor het beheren en onderhouden van onze website en IT-systemen.</li>
+                    <li data-i18n="privacy-li15"><strong>Wettelijke autoriteiten:</strong> Wanneer wij hiertoe wettelijk verplicht zijn, bijvoorbeeld voor belastingdoeleinden of bij een gerechtelijk bevel.</li>
                 </ul>
+                <p data-i18n="privacy-p8">Wij hebben met alle derden die uw gegevens verwerken, verwerkersovereenkomsten afgesloten waarin staat dat zij uw gegevens vertrouwelijk behandelen en alleen gebruiken voor de afgesproken doeleinden. Wij zorgen ervoor dat uw gegevens niet worden verkocht of gebruikt voor andere doeleinden dan waarvoor u toestemming heeft gegeven.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 5 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-share-alt"></i> <span data-i18n="article5-title">5. Delen van gegevens met derden</span></h2>
-                <p data-i18n="article5-text">
-                    Wij delen uw persoonsgegevens alleen met derden wanneer dit noodzakelijk is voor de uitvoering van 
-                    onze diensten of wanneer wij hiertoe wettelijk verplicht zijn. Dit omvat:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Betalingsverwerkers</strong>
-                        <span>– voor veilige betalingsverwerking.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>IT-dienstverleners</strong>
-                        <span>– voor hosting, onderhoud en ondersteuning van onze systemen.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Chauffeurs</strong>
-                        <span>– voor het uitvoeren van uw rit (alleen noodzakelijke gegevens).</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Overheidsinstanties</strong>
-                        <span>– wanneer wij hiertoe wettelijk verplicht zijn.</span>
-                    </li>
+                <h2><i class="fas fa-cookie-bite"></i> <span data-i18n="privacy-title-5">Cookies</span></h2>
+                <p data-i18n="privacy-p9">Onze website maakt gebruik van cookies om uw gebruikservaring te verbeteren en onze diensten te optimaliseren. Cookies zijn kleine tekstbestanden die door uw browser worden opgeslagen op uw apparaat. Wij maken gebruik van de volgende soorten cookies:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="privacy-li16"><strong>Functionele cookies:</strong> Deze cookies zijn noodzakelijk voor het goed functioneren van de website, zoals het onthouden van uw taalvoorkeur.</li>
+                    <li data-i18n="privacy-li17"><strong>Analytische cookies:</strong> Deze cookies verzamelen anonieme gegevens over hoe bezoekers de website gebruiken, zodat wij de gebruikservaring kunnen verbeteren.</li>
+                    <li data-i18n="privacy-li18"><strong>Marketingcookies:</strong> Deze cookies worden gebruikt om gepersonaliseerde advertenties te tonen op basis van uw surfgedrag.</li>
                 </ul>
-                <p data-i18n="article5-text2" style="margin-top:12px;">
-                    Wij verkopen uw persoonsgegevens nooit aan derden voor marketingdoeleinden.
-                </p>
+                <p data-i18n="privacy-p10">U kunt uw cookievoorkeuren op elk moment aanpassen via de instellingen van uw browser. Meer informatie over ons cookiebeleid vindt u op onze <a href="/PV/PVcookiebeleid.html">cookiebeleid pagina</a>.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 6 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-clock"></i> <span data-i18n="article6-title">6. Hoe lang bewaren wij uw gegevens?</span></h2>
-                <p data-i18n="article6-text">
-                    Wij bewaren uw persoonsgegevens niet langer dan noodzakelijk voor de doeleinden waarvoor ze zijn verzameld. 
-                    De bewaartermijnen zijn als volgt:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Boekingsgegevens</strong>
-                        <span>– 7 jaar (fiscale bewaarplicht).</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Klantgegevens</strong>
-                        <span>– maximaal 3 jaar na laatste contact, tenzij u verzoekt om verwijdering.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Marketinggegevens</strong>
-                        <span>– totdat u uw toestemming intrekt.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Technische gegevens (cookies)</strong>
-                        <span>– zie ons cookiebeleid voor specifieke termijnen.</span>
-                    </li>
+                <h2><i class="fas fa-user-shield"></i> <span data-i18n="privacy-title-6">Uw rechten</span></h2>
+                <p data-i18n="privacy-p11">Als betrokkene heeft u verschillende rechten met betrekking tot uw persoonsgegevens. U kunt ons altijd verzoeken om:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="privacy-li19"><strong>Inzage:</strong> U kunt een overzicht vragen van alle persoonsgegevens die wij van u verwerken.</li>
+                    <li data-i18n="privacy-li20"><strong>Correctie:</strong> U kunt vragen om onjuiste of onvolledige gegevens te laten corrigeren.</li>
+                    <li data-i18n="privacy-li21"><strong>Verwijdering:</strong> U kunt vragen om uw persoonsgegevens te laten verwijderen, tenzij wij deze nodig hebben voor wettelijke verplichtingen.</li>
+                    <li data-i18n="privacy-li22"><strong>Beperking:</strong> U kunt vragen om de verwerking van uw gegevens te beperken terwijl wij uw verzoek behandelen.</li>
+                    <li data-i18n="privacy-li23"><strong>Bezwaar:</strong> U kunt bezwaar maken tegen de verwerking van uw gegevens voor marketingdoeleinden.</li>
+                    <li data-i18n="privacy-li24"><strong>Gegevensoverdraagbaarheid:</strong> U kunt vragen om uw gegevens in een gestructureerd, gangbaar en machineleesbaar formaat te ontvangen.</li>
                 </ul>
+                <p data-i18n="privacy-p12">U kunt een verzoek indienen door contact met ons op te nemen via <a href="mailto:info@fleetconnect.be">info@fleetconnect.be</a>. Wij behandelen uw verzoek binnen 30 dagen. Als u niet tevreden bent met onze behandeling, kunt u een klacht indienen bij de Belgische Gegevensbeschermingsautoriteit.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 7 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-user-check"></i> <span data-i18n="article7-title">7. Uw rechten</span></h2>
-                <p data-i18n="article7-text">
-                    U heeft de volgende rechten met betrekking tot uw persoonsgegevens:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Recht op inzage</strong>
-                        <span>– u kunt te allen tijde inzage vragen in de gegevens die wij over u verwerken.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Recht op rectificatie</strong>
-                        <span>– u kunt onjuiste of onvolledige gegevens laten corrigeren.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Recht op verwijdering</strong>
-                        <span>– u kunt verzoeken om uw gegevens te verwijderen ("recht om vergeten te worden").</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Recht op beperking</strong>
-                        <span>– u kunt de verwerking van uw gegevens laten beperken.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Recht op dataportabiliteit</strong>
-                        <span>– u kunt uw gegevens in een gestructureerd, gangbaar formaat ontvangen.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Recht van bezwaar</strong>
-                        <span>– u kunt bezwaar maken tegen de verwerking van uw gegevens.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Recht op intrekking van toestemming</strong>
-                        <span>– u kunt uw toestemming voor marketingdoeleinden te allen tijde intrekken.</span>
-                    </li>
+                <h2><i class="fas fa-lock"></i> <span data-i18n="privacy-title-7">Beveiliging</span></h2>
+                <p data-i18n="privacy-p13">Wij nemen de bescherming van uw persoonsgegevens serieus en nemen passende technische en organisatorische maatregelen om misbruik, verlies, onbevoegde toegang, ongewenste openbaarmaking en ongeoorloofde wijziging tegen te gaan. Onze maatregelen omvatten:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="privacy-li25"><strong>SSL-encryptie:</strong> Alle gegevens die via onze website worden verzonden, worden versleuteld met SSL-technologie.</li>
+                    <li data-i18n="privacy-li26"><strong>Toegangscontrole:</strong> Alleen geautoriseerd personeel heeft toegang tot uw persoonsgegevens.</li>
+                    <li data-i18n="privacy-li27"><strong>Beveiligde servers:</strong> Uw gegevens worden opgeslagen op beveiligde servers met geavanceerde firewalls.</li>
+                    <li data-i18n="privacy-li28"><strong>Regelmatige controles:</strong> Wij voeren regelmatig beveiligingsaudits uit om onze systemen te testen en te verbeteren.</li>
                 </ul>
-                <p data-i18n="article7-text2" style="margin-top:12px;">
-                    Om een verzoek in te dienen, kunt u contact met ons opnemen via <strong>privacy@fleetconnect.be</strong>. 
-                    Wij behandelen uw verzoek binnen 30 dagen.
-                </p>
+                <p data-i18n="privacy-p14">Ondanks onze inspanningen om uw gegevens te beschermen, is geen enkele overdracht van gegevens via internet volledig veilig. Wij kunnen daarom geen absolute garantie geven voor de veiligheid van uw gegevens, maar we doen er alles aan om deze zo goed mogelijk te beschermen.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 8 ===== -->
             <div class="content-card">
-                <h2><i class="fas fa-lock"></i> <span data-i18n="article8-title">8. Beveiliging van uw gegevens</span></h2>
-                <p data-i18n="article8-text">
-                    Wij nemen passende technische en organisatorische maatregelen om uw persoonsgegevens te beschermen 
-                    tegen verlies, diefstal, misbruik en ongeautoriseerde toegang. Dit omvat:
-                </p>
-                <ul class="feature-list">
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>SSL-encryptie voor alle gegevensoverdrachten.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Beveiligde servers en datacenters.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Toegangscontrole en autorisatieprocedures.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Regelmatige beveiligingsaudits en updates.</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Medewerkers zijn gebonden aan geheimhouding.</span>
-                    </li>
+                <h2><i class="fas fa-file-alt"></i> <span data-i18n="privacy-title-8">Wijzigingen in dit privacybeleid</span></h2>
+                <p data-i18n="privacy-p15">Wij behouden ons het recht voor om dit privacybeleid aan te passen aan veranderende wet- en regelgeving of aanpassingen in onze dienstverlening. De meest recente versie van ons privacybeleid is altijd beschikbaar op onze website. Wij raden u aan om dit privacybeleid regelmatig te raadplegen, zodat u op de hoogte blijft van eventuele wijzigingen. Bij belangrijke wijzigingen zullen wij u hierover informeren via een melding op onze website of per e-mail.</p>
+                <p data-i18n="privacy-p16">Dit privacybeleid is voor het laatst bijgewerkt op <strong>1 januari 2026</strong>.</p>
+            </div>
+
+            <div class="content-card">
+                <h2><i class="fas fa-address-book"></i> <span data-i18n="privacy-title-9">Contactgegevens</span></h2>
+                <p data-i18n="privacy-p17">Heeft u vragen, opmerkingen of verzoeken met betrekking tot dit privacybeleid of de verwerking van uw persoonsgegevens? Neem dan gerust contact met ons op via de onderstaande gegevens:</p>
+                <ul style="color: var(--text-light); line-height: 1.7; margin-left: 20px; margin-bottom: 16px;">
+                    <li data-i18n="privacy-li29"><strong>Bedrijfsnaam:</strong> FleetConnect</li>
+                    <li data-i18n="privacy-li30"><strong>Adres:</strong> Italiëlei 124, 2000 Antwerpen, België</li>
+                    <li data-i18n="privacy-li31"><strong>E-mail:</strong> <a href="mailto:info@fleetconnect.be">info@fleetconnect.be</a></li>
+                    <li data-i18n="privacy-li32"><strong>Telefoon:</strong> +32 3 123 45 67</li>
                 </ul>
+                <p data-i18n="privacy-p18">Wij streven ernaar om uw vragen binnen 3 werkdagen te beantwoorden. Indien uw vraag complexer is, kunnen wij u vragen om meer tijd om een volledig antwoord te geven.</p>
             </div>
 
-            <!-- ===== CONTENT CARD 9 ===== -->
-            <div class="content-card">
-                <h2><i class="fas fa-cookie-bite"></i> <span data-i18n="article9-title">9. Cookies</span></h2>
-                <p data-i18n="article9-text">
-                    Onze website maakt gebruik van cookies om uw ervaring te verbeteren en onze diensten te personaliseren. 
-                    Voor meer informatie over het gebruik van cookies, verwijzen wij u naar ons 
-                    <a href="/PV/PVcookiebeleid.html">cookiebeleid</a>.
-                </p>
-                <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <a href="/PV/PVcookiebeleid.html" class="btn-primary">
-                        <i class="fas fa-cookie-bite"></i> Cookiebeleid bekijken
-                    </a>
-                </div>
-            </div>
-
-            <!-- ===== CONTENT CARD 10 ===== -->
-            <div class="content-card">
-                <h2><i class="fas fa-edit"></i> <span data-i18n="article10-title">10. Wijzigingen in dit privacybeleid</span></h2>
-                <p data-i18n="article10-text">
-                    FleetConnect behoudt zich het recht voor om dit privacybeleid aan te passen aan veranderingen in 
-                    wet- of regelgeving, of aan onze dienstverlening. De meest recente versie wordt altijd op deze 
-                    pagina gepubliceerd met de datum van laatste wijziging. Wij raden u aan deze pagina regelmatig te 
-                    raadplegen.
-                </p>
-            </div>
-
-            <!-- ===== CONTENT CARD 11 ===== -->
-            <div class="content-card">
-                <h2><i class="fas fa-phone"></i> <span data-i18n="article11-title">11. Contact</span></h2>
-                <p data-i18n="article11-text">
-                    Voor vragen over ons privacybeleid of over de verwerking van uw persoonsgegevens kunt u contact met ons 
-                    opnemen via:
-                </p>
-                <ul class="feature-list" style="margin-top:12px;">
-                    <li>
-                        <i class="fas fa-envelope"></i>
-                        <strong>E-mail</strong>
-                        <span><a href="mailto:privacy@fleetconnect.be">privacy@fleetconnect.be</a></span>
-                    </li>
-                    <li>
-                        <i class="fas fa-phone"></i>
-                        <strong>Telefoon</strong>
-                        <span>+32 (0)2 123 45 67</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <strong>Adres</strong>
-                        <span>FleetConnect, [Adresgegevens], België</span>
-                    </li>
-                </ul>
-                <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <a href="mailto:privacy@fleetconnect.be" class="btn-primary">
-                        <i class="fas fa-envelope"></i> E-mail sturen
-                    </a>
-                    <a href="/PV/PV.html#contact" class="btn-outline">
-                        <i class="fas fa-comment"></i> Contactformulier
-                    </a>
-                </div>
-            </div>
-
-            <!-- ===== HIGHLIGHT BOX ===== -->
             <div class="highlight-box">
-                <i class="fas fa-shield-alt"></i>
-                <p><strong>Laatst bijgewerkt:</strong> 26 juli 2026</p>
-                <p class="meta-text">
-                    FleetConnect hecht groot belang aan uw privacy. Dit privacybeleid is opgesteld in overeenstemming met de 
-                    Algemene Verordening Gegevensbescherming (AVG) en de Belgische wetgeving van 30 juli 2018.
-                </p>
+                <i class="fas fa-check-circle"></i>
+                <p><strong data-i18n="privacy-highlight-title">Uw privacy is belangrijk voor ons</strong></p>
+                <p class="meta-text" data-i18n="privacy-highlight-text">Wij behandelen uw persoonsgegevens met de grootste zorg en vertrouwelijkheid. Heeft u vragen over onze privacybescherming? Neem dan gerust contact met ons op.</p>
                 <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <a href="/PV/PVcookiebeleid.html" class="btn-primary" style="font-size:0.85rem; padding:10px 24px;">
-                        <i class="fas fa-cookie-bite"></i> Cookiebeleid
-                    </a>
-                    <a href="/PV/PValgemene-voorwaarden.html" class="btn-outline" style="font-size:0.85rem; padding:10px 24px;">
-                        <i class="fas fa-file-contract"></i> Algemene voorwaarden
-                    </a>
+                    <a href="mailto:info@fleetconnect.be" class="btn-primary" style="font-size:0.85rem; padding:10px 24px;"><i class="fas fa-envelope"></i> <span data-i18n="privacy-btn-email">E-mail sturen</span></a>
+                    <a href="/PV/PV.html#contact" class="btn-outline" style="font-size:0.85rem; padding:10px 24px;"><i class="fas fa-phone"></i> <span data-i18n="privacy-btn-phone">Contactformulier</span></a>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- ========================================================== -->
-    <!-- FOOTER - IDENTIEK AAN ANTWERPEN PAGINA                     -->
-    <!-- ========================================================== -->
+    <!-- ===== FOOTER - IDENTIEK AAN ANTWERPEN ===== -->
     <footer class="footer-dark">
         <div class="container">
             <div class="footer-grid">
-                <!-- Kolom 1: Brand -->
                 <div class="footer-brand">
                     <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
                     <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
@@ -996,25 +618,17 @@
                     <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
                     <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
                 </div>
-
-                <!-- Kolom 2: Populaire steden (4 kernsteden) + dropdown -->
                 <div class="footer-cities">
                     <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
                     <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
                     <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
                     <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
                     <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
-
-                    <!-- Label en dropdown voor overige steden -->
                     <div style="margin-top: 16px;">
                         <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
-                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;">
-                            <!-- Wordt dynamisch gegenereerd door JavaScript -->
-                        </select>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;"></select>
                     </div>
                 </div>
-
-                <!-- Kolom 3: Legal -->
                 <div class="footer-legal">
                     <h4 data-i18n="footer_legal">Legal</h4>
                     <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
@@ -1022,42 +636,29 @@
                     <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
                     <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
                 </div>
-
-                <!-- Kolom 4: FleetConnect (Contact) -->
                 <div class="footer-partners">
                     <h4 data-i18n="footer_contact_title">FleetConnect</h4>
                     <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
                     <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
                 </div>
             </div>
-
-            <!-- Footer bottom -->
             <div class="footer-bottom">
                 <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
             </div>
         </div>
     </footer>
-    <!-- ========================================================== -->
 
 </div>
 
-<!-- ========================================================== -->
-<!-- SCRIPTS                                                     -->
-<!-- ========================================================== -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // ============================================================
-    // VERTALINGEN - IDENTIEK AAN ANTWERPEN PAGINA (inclusief steden)
-    // ============================================================
+    // ===== VERTALINGEN =====
     const translations = {
         nl: {
-            // Breadcrumb & header
             "breadcrumb-home": "Home",
-            "breadcrumb-current": "Privacybeleid",
+            "breadcrumb-current": "Privacy",
             "page-title": "Privacybeleid",
-            "intro-text": "FleetConnect hecht groot belang aan uw privacy en de bescherming van uw persoonsgegevens. In dit privacybeleid leggen we uit welke gegevens we verzamelen, waarom we dat doen en hoe we uw gegevens beschermen. Dit beleid is opgesteld in overeenstemming met de Algemene Verordening Gegevensbescherming (AVG) en de Belgische wetgeving.",
-            
-            // Navigatie tabs
+            "intro-text": "Wij hechten veel waarde aan uw privacy en de bescherming van uw persoonsgegevens. In dit privacybeleid leggen wij uit welke gegevens wij verzamelen, hoe wij deze gebruiken en welke rechten u heeft.",
             "tab-home": "Home",
             "tab-exclusive": "Exclusief",
             "tab-prices": "Prijzen",
@@ -1066,45 +667,69 @@
             "tab-business": "Zakelijk",
             "tab-events": "Events",
             "tab-courier": "Koerier",
-            
-            // Artikelen
-            "article1-title": "1. Wie zijn wij?",
-            "article1-text": "FleetConnect (hierna: 'wij', 'ons' of 'onze') is een professionele taxidienst actief in België. Wij zijn verantwoordelijk voor de verwerking van uw persoonsgegevens zoals beschreven in dit privacybeleid. Onze contactgegevens vindt u onderaan deze pagina.",
-            "article1-text2": "Wij zijn geregistreerd bij de Gegevensbeschermingsautoriteit (GBA) en voldoen aan de vereisten van de Algemene Verordening Gegevensbescherming (AVG) en de Belgische wet van 30 juli 2018 betreffende de bescherming van natuurlijke personen met betrekking tot de verwerking van persoonsgegevens.",
-            
-            "article2-title": "2. Welke gegevens verzamelen wij?",
-            "article2-text": "Wij verzamelen en verwerken de volgende persoonsgegevens:",
-            
-            "article3-title": "3. Waarom verwerken wij uw gegevens?",
-            "article3-text": "Wij verwerken uw persoonsgegevens voor de volgende doeleinden:",
-            
-            "article4-title": "4. Rechtsgronden voor verwerking",
-            "article4-text": "Wij verwerken uw persoonsgegevens op basis van de volgende rechtsgronden:",
-            
-            "article5-title": "5. Delen van gegevens met derden",
-            "article5-text": "Wij delen uw persoonsgegevens alleen met derden wanneer dit noodzakelijk is voor de uitvoering van onze diensten of wanneer wij hiertoe wettelijk verplicht zijn. Dit omvat:",
-            "article5-text2": "Wij verkopen uw persoonsgegevens nooit aan derden voor marketingdoeleinden.",
-            
-            "article6-title": "6. Hoe lang bewaren wij uw gegevens?",
-            "article6-text": "Wij bewaren uw persoonsgegevens niet langer dan noodzakelijk voor de doeleinden waarvoor ze zijn verzameld. De bewaartermijnen zijn als volgt:",
-            
-            "article7-title": "7. Uw rechten",
-            "article7-text": "U heeft de volgende rechten met betrekking tot uw persoonsgegevens:",
-            "article7-text2": "Om een verzoek in te dienen, kunt u contact met ons opnemen via privacy@fleetconnect.be. Wij behandelen uw verzoek binnen 30 dagen.",
-            
-            "article8-title": "8. Beveiliging van uw gegevens",
-            "article8-text": "Wij nemen passende technische en organisatorische maatregelen om uw persoonsgegevens te beschermen tegen verlies, diefstal, misbruik en ongeautoriseerde toegang. Dit omvat:",
-            
-            "article9-title": "9. Cookies",
-            "article9-text": "Onze website maakt gebruik van cookies om uw ervaring te verbeteren en onze diensten te personaliseren. Voor meer informatie over het gebruik van cookies, verwijzen wij u naar ons cookiebeleid.",
-            
-            "article10-title": "10. Wijzigingen in dit privacybeleid",
-            "article10-text": "FleetConnect behoudt zich het recht voor om dit privacybeleid aan te passen aan veranderingen in wet- of regelgeving, of aan onze dienstverlening. De meest recente versie wordt altijd op deze pagina gepubliceerd met de datum van laatste wijziging. Wij raden u aan deze pagina regelmatig te raadplegen.",
-            
-            "article11-title": "11. Contact",
-            "article11-text": "Voor vragen over ons privacybeleid of over de verwerking van uw persoonsgegevens kunt u contact met ons opnemen via:",
-
-            // ===== FOOTER VERTALINGEN (NL) - IDENTIEK AAN ANTWERPEN =====
+            "privacy-title-1": "Algemene informatie",
+            "privacy-p1": "FleetConnect, gevestigd te Antwerpen, is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in dit privacybeleid. Wij respecteren uw privacy en zorgen ervoor dat de persoonsgegevens die u aan ons verstrekt vertrouwelijk worden behandeld. De verwerking van uw persoonsgegevens gebeurt in overeenstemming met de Algemene Verordening Gegevensbescherming (AVG) en de Belgische wetgeving.",
+            "privacy-p2": "Wij verzamelen alleen persoonsgegevens die noodzakelijk zijn voor het leveren van onze diensten, het verbeteren van onze website en het onderhouden van klantrelaties. Wij verkopen uw gegevens nooit aan derden en delen deze alleen wanneer dit wettelijk verplicht is of wanneer dit noodzakelijk is voor de uitvoering van onze diensten.",
+            "privacy-title-2": "Welke gegevens verzamelen wij?",
+            "privacy-p3": "Wij verwerken de volgende persoonsgegevens van u:",
+            "privacy-li1": "Naam en contactgegevens: Voor- en achternaam, telefoonnummer, e-mailadres en adres.",
+            "privacy-li2": "Reserveringsgegevens: Ophaal- en bestemmingsadres, datum en tijd van de rit, aantal personen en speciale wensen.",
+            "privacy-li3": "Betaalgegevens: Bankrekeningnummer of creditcardgegevens voor de verwerking van betalingen.",
+            "privacy-li4": "Technische gegevens: IP-adres, browsergegevens en informatie over uw bezoek aan onze website via cookies.",
+            "privacy-li5": "Communicatiegegevens: E-mails, telefoongesprekken en andere communicatie die u met ons voert.",
+            "privacy-p4": "Wij gebruiken uw persoonsgegevens uitsluitend voor de doeleinden waarvoor u deze aan ons heeft verstrekt, zoals het uitvoeren van reserveringen, het verwerken van betalingen en het verbeteren van onze dienstverlening.",
+            "privacy-title-3": "Doeleinden van de verwerking",
+            "privacy-p5": "Wij verwerken uw persoonsgegevens voor de volgende doeleinden:",
+            "privacy-li6": "Het leveren van onze diensten: Het uitvoeren van taxireserveringen, luchthaventransfers en andere vervoersdiensten.",
+            "privacy-li7": "Klantenservice: Het beantwoorden van vragen, het oplossen van problemen en het verstrekken van informatie over onze diensten.",
+            "privacy-li8": "Facturatie: Het verwerken van betalingen en het verzenden van facturen.",
+            "privacy-li9": "Marketing: Het versturen van nieuwsbrieven en aanbiedingen, mits u hiervoor toestemming heeft gegeven.",
+            "privacy-li10": "Verbetering van onze diensten: Het analyseren van gebruikersgedrag om onze website en diensten te optimaliseren.",
+            "privacy-li11": "Wettelijke verplichtingen: Het voldoen aan wettelijke vereisten, zoals belastingaangiften en boekhoudkundige verplichtingen.",
+            "privacy-p6": "Wij bewaren uw persoonsgegevens niet langer dan strikt noodzakelijk is voor de doeleinden waarvoor ze zijn verzameld. De bewaartermijnen variëren afhankelijk van het doel en de wettelijke vereisten.",
+            "privacy-title-4": "Delen met derden",
+            "privacy-p7": "Wij delen uw persoonsgegevens alleen met derden wanneer dit noodzakelijk is voor de uitvoering van onze diensten of wanneer wij wettelijk verplicht zijn om dit te doen. Dit kan bijvoorbeeld het geval zijn bij:",
+            "privacy-li12": "Chauffeurs: Zij ontvangen uw naam, telefoonnummer en ophaaladres om de rit correct uit te kunnen voeren.",
+            "privacy-li13": "Betaalproviders: Voor de verwerking van betalingen worden uw betaalgegevens gedeeld met onze betaalpartners.",
+            "privacy-li14": "IT-leveranciers: Voor het beheren en onderhouden van onze website en IT-systemen.",
+            "privacy-li15": "Wettelijke autoriteiten: Wanneer wij hiertoe wettelijk verplicht zijn, bijvoorbeeld voor belastingdoeleinden of bij een gerechtelijk bevel.",
+            "privacy-p8": "Wij hebben met alle derden die uw gegevens verwerken, verwerkersovereenkomsten afgesloten waarin staat dat zij uw gegevens vertrouwelijk behandelen en alleen gebruiken voor de afgesproken doeleinden. Wij zorgen ervoor dat uw gegevens niet worden verkocht of gebruikt voor andere doeleinden dan waarvoor u toestemming heeft gegeven.",
+            "privacy-title-5": "Cookies",
+            "privacy-p9": "Onze website maakt gebruik van cookies om uw gebruikservaring te verbeteren en onze diensten te optimaliseren. Cookies zijn kleine tekstbestanden die door uw browser worden opgeslagen op uw apparaat. Wij maken gebruik van de volgende soorten cookies:",
+            "privacy-li16": "Functionele cookies: Deze cookies zijn noodzakelijk voor het goed functioneren van de website, zoals het onthouden van uw taalvoorkeur.",
+            "privacy-li17": "Analytische cookies: Deze cookies verzamelen anonieme gegevens over hoe bezoekers de website gebruiken, zodat wij de gebruikservaring kunnen verbeteren.",
+            "privacy-li18": "Marketingcookies: Deze cookies worden gebruikt om gepersonaliseerde advertenties te tonen op basis van uw surfgedrag.",
+            "privacy-p10": "U kunt uw cookievoorkeuren op elk moment aanpassen via de instellingen van uw browser. Meer informatie over ons cookiebeleid vindt u op onze cookiebeleid pagina.",
+            "privacy-title-6": "Uw rechten",
+            "privacy-p11": "Als betrokkene heeft u verschillende rechten met betrekking tot uw persoonsgegevens. U kunt ons altijd verzoeken om:",
+            "privacy-li19": "Inzage: U kunt een overzicht vragen van alle persoonsgegevens die wij van u verwerken.",
+            "privacy-li20": "Correctie: U kunt vragen om onjuiste of onvolledige gegevens te laten corrigeren.",
+            "privacy-li21": "Verwijdering: U kunt vragen om uw persoonsgegevens te laten verwijderen, tenzij wij deze nodig hebben voor wettelijke verplichtingen.",
+            "privacy-li22": "Beperking: U kunt vragen om de verwerking van uw gegevens te beperken terwijl wij uw verzoek behandelen.",
+            "privacy-li23": "Bezwaar: U kunt bezwaar maken tegen de verwerking van uw gegevens voor marketingdoeleinden.",
+            "privacy-li24": "Gegevensoverdraagbaarheid: U kunt vragen om uw gegevens in een gestructureerd, gangbaar en machineleesbaar formaat te ontvangen.",
+            "privacy-p12": "U kunt een verzoek indienen door contact met ons op te nemen via info@fleetconnect.be. Wij behandelen uw verzoek binnen 30 dagen. Als u niet tevreden bent met onze behandeling, kunt u een klacht indienen bij de Belgische Gegevensbeschermingsautoriteit.",
+            "privacy-title-7": "Beveiliging",
+            "privacy-p13": "Wij nemen de bescherming van uw persoonsgegevens serieus en nemen passende technische en organisatorische maatregelen om misbruik, verlies, onbevoegde toegang, ongewenste openbaarmaking en ongeoorloofde wijziging tegen te gaan. Onze maatregelen omvatten:",
+            "privacy-li25": "SSL-encryptie: Alle gegevens die via onze website worden verzonden, worden versleuteld met SSL-technologie.",
+            "privacy-li26": "Toegangscontrole: Alleen geautoriseerd personeel heeft toegang tot uw persoonsgegevens.",
+            "privacy-li27": "Beveiligde servers: Uw gegevens worden opgeslagen op beveiligde servers met geavanceerde firewalls.",
+            "privacy-li28": "Regelmatige controles: Wij voeren regelmatig beveiligingsaudits uit om onze systemen te testen en te verbeteren.",
+            "privacy-p14": "Ondanks onze inspanningen om uw gegevens te beschermen, is geen enkele overdracht van gegevens via internet volledig veilig. Wij kunnen daarom geen absolute garantie geven voor de veiligheid van uw gegevens, maar we doen er alles aan om deze zo goed mogelijk te beschermen.",
+            "privacy-title-8": "Wijzigingen in dit privacybeleid",
+            "privacy-p15": "Wij behouden ons het recht voor om dit privacybeleid aan te passen aan veranderende wet- en regelgeving of aanpassingen in onze dienstverlening. De meest recente versie van ons privacybeleid is altijd beschikbaar op onze website. Wij raden u aan om dit privacybeleid regelmatig te raadplegen, zodat u op de hoogte blijft van eventuele wijzigingen. Bij belangrijke wijzigingen zullen wij u hierover informeren via een melding op onze website of per e-mail.",
+            "privacy-p16": "Dit privacybeleid is voor het laatst bijgewerkt op 1 januari 2026.",
+            "privacy-title-9": "Contactgegevens",
+            "privacy-p17": "Heeft u vragen, opmerkingen of verzoeken met betrekking tot dit privacybeleid of de verwerking van uw persoonsgegevens? Neem dan gerust contact met ons op via de onderstaande gegevens:",
+            "privacy-li29": "Bedrijfsnaam: FleetConnect",
+            "privacy-li30": "Adres: Italiëlei 124, 2000 Antwerpen, België",
+            "privacy-li31": "E-mail: info@fleetconnect.be",
+            "privacy-li32": "Telefoon: +32 3 123 45 67",
+            "privacy-p18": "Wij streven ernaar om uw vragen binnen 3 werkdagen te beantwoorden. Indien uw vraag complexer is, kunnen wij u vragen om meer tijd om een volledig antwoord te geven.",
+            "privacy-highlight-title": "Uw privacy is belangrijk voor ons",
+            "privacy-highlight-text": "Wij behandelen uw persoonsgegevens met de grootste zorg en vertrouwelijkheid. Heeft u vragen over onze privacybescherming? Neem dan gerust contact met ons op.",
+            "privacy-btn-email": "E-mail sturen",
+            "privacy-btn-phone": "Contactformulier",
             "footer_brand": "FleetConnect",
             "footer_brand_desc": "Professioneel taxivervoer in België - Stijl, stiptheid en service.",
             "footer_book_now": "Reserveer nu",
@@ -1127,8 +752,6 @@
             "footer_contact": "Contact",
             "footer_copyright": "2026 FleetConnect -",
             "footer_home_link": "FleetConnect",
-
-            // ===== STEDEN (NL) - IDENTIEK AAN ANTWERPEN =====
             "city_aalst": "Aalst",
             "city_asse": "Asse",
             "city_dilbeek": "Dilbeek",
@@ -1155,13 +778,10 @@
             "city_zemst": "Zemst"
         },
         fr: {
-            // Breadcrumb & header
             "breadcrumb-home": "Accueil",
-            "breadcrumb-current": "Politique de confidentialité",
+            "breadcrumb-current": "Confidentialité",
             "page-title": "Politique de confidentialité",
-            "intro-text": "FleetConnect attache une grande importance à votre vie privée et à la protection de vos données personnelles. Dans cette politique de confidentialité, nous expliquons quelles données nous collectons, pourquoi nous le faisons et comment nous protégeons vos données. Cette politique est conforme au Règlement Général sur la Protection des Données (RGPD) et à la législation belge.",
-            
-            // Navigatie tabs
+            "intro-text": "Nous accordons une grande importance à votre vie privée et à la protection de vos données personnelles. Dans cette politique de confidentialité, nous expliquons quelles données nous collectons, comment nous les utilisons et quels sont vos droits.",
             "tab-home": "Accueil",
             "tab-exclusive": "Exclusif",
             "tab-prices": "Prix fixes",
@@ -1170,45 +790,69 @@
             "tab-business": "Affaires",
             "tab-events": "Événements",
             "tab-courier": "Messagerie",
-            
-            // Artikelen
-            "article1-title": "1. Qui sommes-nous ?",
-            "article1-text": "FleetConnect (ci-après 'nous', 'notre' ou 'nos') est un service de taxi professionnel actif en Belgique. Nous sommes responsables du traitement de vos données personnelles comme décrit dans cette politique de confidentialité. Nos coordonnées se trouvent en bas de cette page.",
-            "article1-text2": "Nous sommes enregistrés auprès de l'Autorité de protection des données (APD) et respectons les exigences du Règlement Général sur la Protection des Données (RGPD) et de la loi belge du 30 juillet 2018 relative à la protection des personnes physiques à l'égard du traitement des données à caractère personnel.",
-            
-            "article2-title": "2. Quelles données collectons-nous ?",
-            "article2-text": "Nous collectons et traitons les données personnelles suivantes :",
-            
-            "article3-title": "3. Pourquoi traitons-nous vos données ?",
-            "article3-text": "Nous traitons vos données personnelles pour les finalités suivantes :",
-            
-            "article4-title": "4. Bases légales du traitement",
-            "article4-text": "Nous traitons vos données personnelles sur la base des bases légales suivantes :",
-            
-            "article5-title": "5. Partage de données avec des tiers",
-            "article5-text": "Nous ne partageons vos données personnelles avec des tiers que lorsque cela est nécessaire à l'exécution de nos services ou lorsque nous y sommes légalement obligés. Cela comprend :",
-            "article5-text2": "Nous ne vendons jamais vos données personnelles à des tiers à des fins de marketing.",
-            
-            "article6-title": "6. Combien de temps conservons-nous vos données ?",
-            "article6-text": "Nous ne conservons vos données personnelles pas plus longtemps que nécessaire aux fins pour lesquelles elles ont été collectées. Les délais de conservation sont les suivants :",
-            
-            "article7-title": "7. Vos droits",
-            "article7-text": "Vous disposez des droits suivants concernant vos données personnelles :",
-            "article7-text2": "Pour introduire une demande, vous pouvez nous contacter à privacy@fleetconnect.be. Nous traitons votre demande dans les 30 jours.",
-            
-            "article8-title": "8. Sécurisation de vos données",
-            "article8-text": "Nous prenons des mesures techniques et organisationnelles appropriées pour protéger vos données personnelles contre la perte, le vol, l'abus et l'accès non autorisé. Cela comprend :",
-            
-            "article9-title": "9. Cookies",
-            "article9-text": "Notre site Web utilise des cookies pour améliorer votre expérience et personnaliser nos services. Pour plus d'informations sur l'utilisation des cookies, nous vous renvoyons à notre politique de cookies.",
-            
-            "article10-title": "10. Modifications de cette politique",
-            "article10-text": "FleetConnect se réserve le droit de modifier cette politique de confidentialité en fonction des évolutions législatives ou réglementaires, ou de nos services. La version la plus récente est toujours publiée sur cette page avec la date de la dernière mise à jour. Nous vous recommandons de consulter régulièrement cette page.",
-            
-            "article11-title": "11. Contact",
-            "article11-text": "Pour toute question concernant notre politique de confidentialité ou le traitement de vos données personnelles, vous pouvez nous contacter via :",
-
-            // ===== FOOTER VERTALINGEN (FR) - IDENTIEK AAN ANTWERPEN =====
+            "privacy-title-1": "Informations générales",
+            "privacy-p1": "FleetConnect, situé à Anvers, est responsable du traitement des données personnelles comme indiqué dans cette politique de confidentialité. Nous respectons votre vie privée et veillons à ce que les données personnelles que vous nous fournissez soient traitées de manière confidentielle. Le traitement de vos données personnelles est effectué conformément au Règlement Général sur la Protection des Données (RGPD) et à la législation belge.",
+            "privacy-p2": "Nous ne collectons que les données personnelles nécessaires à la fourniture de nos services, à l'amélioration de notre site Web et au maintien des relations avec les clients. Nous ne vendons jamais vos données à des tiers et ne les partageons que lorsque cela est légalement requis ou nécessaire à l'exécution de nos services.",
+            "privacy-title-2": "Quelles données collectons-nous ?",
+            "privacy-p3": "Nous traitons les données personnelles suivantes vous concernant :",
+            "privacy-li1": "Nom et coordonnées : Prénom et nom, numéro de téléphone, adresse e-mail et adresse postale.",
+            "privacy-li2": "Données de réservation : Adresse de prise en charge et de destination, date et heure du trajet, nombre de passagers et demandes spéciales.",
+            "privacy-li3": "Données de paiement : Numéro de compte bancaire ou informations de carte de crédit pour le traitement des paiements.",
+            "privacy-li4": "Données techniques : Adresse IP, données du navigateur et informations sur votre visite sur notre site Web via des cookies.",
+            "privacy-li5": "Données de communication : E-mails, appels téléphoniques et autres communications que vous avez avec nous.",
+            "privacy-p4": "Nous utilisons vos données personnelles uniquement aux fins pour lesquelles vous nous les avez fournies, comme l'exécution de réservations, le traitement des paiements et l'amélioration de nos services.",
+            "privacy-title-3": "Finalités du traitement",
+            "privacy-p5": "Nous traitons vos données personnelles pour les finalités suivantes :",
+            "privacy-li6": "Fourniture de nos services : Exécution des réservations de taxi, des transferts aéroportuaires et d'autres services de transport.",
+            "privacy-li7": "Service client : Répondre aux questions, résoudre les problèmes et fournir des informations sur nos services.",
+            "privacy-li8": "Facturation : Traitement des paiements et envoi des factures.",
+            "privacy-li9": "Marketing : Envoi de newsletters et d'offres, sous réserve de votre consentement.",
+            "privacy-li10": "Amélioration de nos services : Analyse du comportement des utilisateurs pour optimiser notre site Web et nos services.",
+            "privacy-li11": "Obligations légales : Respect des exigences légales, telles que les déclarations fiscales et les obligations comptables.",
+            "privacy-p6": "Nous ne conservons vos données personnelles pas plus longtemps que strictement nécessaire aux fins pour lesquelles elles ont été collectées. Les durées de conservation varient selon l'objectif et les exigences légales.",
+            "privacy-title-4": "Partage avec des tiers",
+            "privacy-p7": "Nous partageons vos données personnelles uniquement avec des tiers lorsque cela est nécessaire pour l'exécution de nos services ou lorsque nous y sommes légalement tenus. Cela peut être le cas pour :",
+            "privacy-li12": "Chauffeurs : Ils reçoivent votre nom, votre numéro de téléphone et votre adresse de prise en charge pour effectuer correctement le trajet.",
+            "privacy-li13": "Fournisseurs de paiement : Pour le traitement des paiements, vos données de paiement sont partagées avec nos partenaires de paiement.",
+            "privacy-li14": "Fournisseurs informatiques : Pour la gestion et la maintenance de notre site Web et de nos systèmes informatiques.",
+            "privacy-li15": "Autorités légales : Lorsque nous y sommes légalement tenus, par exemple à des fins fiscales ou sur ordre judiciaire.",
+            "privacy-p8": "Nous avons conclu des accords de traitement avec tous les tiers qui traitent vos données, stipulant qu'ils traitent vos données de manière confidentielle et ne les utilisent qu'aux fins convenues. Nous veillons à ce que vos données ne soient pas vendues ou utilisées à d'autres fins que celles pour lesquelles vous avez donné votre consentement.",
+            "privacy-title-5": "Cookies",
+            "privacy-p9": "Notre site Web utilise des cookies pour améliorer votre expérience utilisateur et optimiser nos services. Les cookies sont de petits fichiers texte stockés par votre navigateur sur votre appareil. Nous utilisons les types de cookies suivants :",
+            "privacy-li16": "Cookies fonctionnels : Ces cookies sont nécessaires au bon fonctionnement du site Web, comme la mémorisation de votre préférence linguistique.",
+            "privacy-li17": "Cookies analytiques : Ces cookies collectent des données anonymes sur la façon dont les visiteurs utilisent le site Web, afin que nous puissions améliorer l'expérience utilisateur.",
+            "privacy-li18": "Cookies marketing : Ces cookies sont utilisés pour afficher des publicités personnalisées en fonction de votre comportement de navigation.",
+            "privacy-p10": "Vous pouvez modifier vos préférences en matière de cookies à tout moment via les paramètres de votre navigateur. Plus d'informations sur notre politique en matière de cookies sont disponibles sur notre page de politique en matière de cookies.",
+            "privacy-title-6": "Vos droits",
+            "privacy-p11": "En tant que personne concernée, vous disposez de plusieurs droits concernant vos données personnelles. Vous pouvez toujours nous demander :",
+            "privacy-li19": "Accès : Vous pouvez demander un aperçu de toutes les données personnelles que nous traitons vous concernant.",
+            "privacy-li20": "Rectification : Vous pouvez demander la correction de données inexactes ou incomplètes.",
+            "privacy-li21": "Effacement : Vous pouvez demander la suppression de vos données personnelles, sauf si nous en avons besoin pour des obligations légales.",
+            "privacy-li22": "Limitation : Vous pouvez demander la limitation du traitement de vos données pendant que nous traitons votre demande.",
+            "privacy-li23": "Opposition : Vous pouvez vous opposer au traitement de vos données à des fins de marketing.",
+            "privacy-li24": "Portabilité : Vous pouvez demander à recevoir vos données dans un format structuré, couramment utilisé et lisible par machine.",
+            "privacy-p12": "Vous pouvez soumettre une demande en nous contactant à info@fleetconnect.be. Nous traitons votre demande dans les 30 jours. Si vous n'êtes pas satisfait de notre traitement, vous pouvez déposer une plainte auprès de l'Autorité belge de protection des données.",
+            "privacy-title-7": "Sécurité",
+            "privacy-p13": "Nous prenons la protection de vos données personnelles au sérieux et prenons des mesures techniques et organisationnelles appropriées pour prévenir les abus, les pertes, les accès non autorisés, les divulgations indésirables et les modifications non autorisées. Nos mesures comprennent :",
+            "privacy-li25": "Chiffrement SSL : Toutes les données transmises via notre site Web sont chiffrées avec la technologie SSL.",
+            "privacy-li26": "Contrôle d'accès : Seul le personnel autorisé a accès à vos données personnelles.",
+            "privacy-li27": "Serveurs sécurisés : Vos données sont stockées sur des serveurs sécurisés avec des pare-feu avancés.",
+            "privacy-li28": "Contrôles réguliers : Nous effectuons régulièrement des audits de sécurité pour tester et améliorer nos systèmes.",
+            "privacy-p14": "Malgré nos efforts pour protéger vos données, aucune transmission de données via Internet n'est totalement sécurisée. Par conséquent, nous ne pouvons pas garantir la sécurité absolue de vos données, mais nous faisons tout notre possible pour les protéger au mieux.",
+            "privacy-title-8": "Modifications de cette politique de confidentialité",
+            "privacy-p15": "Nous nous réservons le droit de modifier cette politique de confidentialité pour l'adapter à l'évolution des lois et réglementations ou aux changements de nos services. La version la plus récente de notre politique de confidentialité est toujours disponible sur notre site Web. Nous vous recommandons de consulter régulièrement cette politique de confidentialité afin de rester informé des éventuelles modifications. En cas de changements importants, nous vous en informerons par une notification sur notre site Web ou par e-mail.",
+            "privacy-p16": "Cette politique de confidentialité a été mise à jour pour la dernière fois le 1er janvier 2026.",
+            "privacy-title-9": "Coordonnées",
+            "privacy-p17": "Avez-vous des questions, des commentaires ou des demandes concernant cette politique de confidentialité ou le traitement de vos données personnelles ? N'hésitez pas à nous contacter via les coordonnées ci-dessous :",
+            "privacy-li29": "Nom de l'entreprise : FleetConnect",
+            "privacy-li30": "Adresse : Italiëlei 124, 2000 Anvers, Belgique",
+            "privacy-li31": "E-mail : info@fleetconnect.be",
+            "privacy-li32": "Téléphone : +32 3 123 45 67",
+            "privacy-p18": "Nous nous efforçons de répondre à vos questions dans un délai de 3 jours ouvrables. Si votre question est plus complexe, nous pouvons vous demander un peu plus de temps pour vous fournir une réponse complète.",
+            "privacy-highlight-title": "Votre vie privée est importante pour nous",
+            "privacy-highlight-text": "Nous traitons vos données personnelles avec le plus grand soin et la plus grande confidentialité. Avez-vous des questions sur notre protection de la vie privée ? N'hésitez pas à nous contacter.",
+            "privacy-btn-email": "Envoyer un e-mail",
+            "privacy-btn-phone": "Formulaire de contact",
             "footer_brand": "FleetConnect",
             "footer_brand_desc": "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
             "footer_book_now": "Réservez maintenant",
@@ -1231,8 +875,6 @@
             "footer_contact": "Contact",
             "footer_copyright": "2026 FleetConnect -",
             "footer_home_link": "FleetConnect",
-
-            // ===== STEDEN (FR) - IDENTIEK AAN ANTWERPEN =====
             "city_aalst": "Alost",
             "city_asse": "Asse",
             "city_dilbeek": "Dilbeek",
@@ -1259,13 +901,10 @@
             "city_zemst": "Zemst"
         },
         en: {
-            // Breadcrumb & header
             "breadcrumb-home": "Home",
-            "breadcrumb-current": "Privacy Policy",
+            "breadcrumb-current": "Privacy",
             "page-title": "Privacy Policy",
-            "intro-text": "FleetConnect attaches great importance to your privacy and the protection of your personal data. In this privacy policy, we explain what data we collect, why we do so and how we protect your data. This policy is in accordance with the General Data Protection Regulation (GDPR) and Belgian legislation.",
-            
-            // Navigatie tabs
+            "intro-text": "We attach great importance to your privacy and the protection of your personal data. In this privacy policy, we explain what data we collect, how we use it, and what rights you have.",
             "tab-home": "Home",
             "tab-exclusive": "Exclusive",
             "tab-prices": "Prices",
@@ -1274,45 +913,69 @@
             "tab-business": "Business",
             "tab-events": "Events",
             "tab-courier": "Courier",
-            
-            // Artikelen
-            "article1-title": "1. Who are we?",
-            "article1-text": "FleetConnect (hereinafter 'we', 'us' or 'our') is a professional taxi service active in Belgium. We are responsible for the processing of your personal data as described in this privacy policy. Our contact details can be found at the bottom of this page.",
-            "article1-text2": "We are registered with the Data Protection Authority (DPA) and comply with the requirements of the General Data Protection Regulation (GDPR) and the Belgian law of 30 July 2018 on the protection of natural persons with regard to the processing of personal data.",
-            
-            "article2-title": "2. What data do we collect?",
-            "article2-text": "We collect and process the following personal data:",
-            
-            "article3-title": "3. Why do we process your data?",
-            "article3-text": "We process your personal data for the following purposes:",
-            
-            "article4-title": "4. Legal bases for processing",
-            "article4-text": "We process your personal data on the basis of the following legal bases:",
-            
-            "article5-title": "5. Sharing data with third parties",
-            "article5-text": "We only share your personal data with third parties when this is necessary for the performance of our services or when we are legally obliged to do so. This includes:",
-            "article5-text2": "We never sell your personal data to third parties for marketing purposes.",
-            
-            "article6-title": "6. How long do we keep your data?",
-            "article6-text": "We do not keep your personal data longer than necessary for the purposes for which they were collected. The retention periods are as follows:",
-            
-            "article7-title": "7. Your rights",
-            "article7-text": "You have the following rights with regard to your personal data:",
-            "article7-text2": "To submit a request, you can contact us at privacy@fleetconnect.be. We will process your request within 30 days.",
-            
-            "article8-title": "8. Security of your data",
-            "article8-text": "We take appropriate technical and organisational measures to protect your personal data against loss, theft, misuse and unauthorised access. This includes:",
-            
-            "article9-title": "9. Cookies",
-            "article9-text": "Our website uses cookies to improve your experience and personalise our services. For more information on the use of cookies, please refer to our cookie policy.",
-            
-            "article10-title": "10. Changes to this policy",
-            "article10-text": "FleetConnect reserves the right to amend this privacy policy in line with changes in legislation or regulations, or to our services. The most recent version is always published on this page with the date of the last update. We recommend that you check this page regularly.",
-            
-            "article11-title": "11. Contact",
-            "article11-text": "For questions about our privacy policy or about the processing of your personal data, you can contact us via:",
-
-            // ===== FOOTER VERTALINGEN (EN) - IDENTIEK AAN ANTWERPEN =====
+            "privacy-title-1": "General information",
+            "privacy-p1": "FleetConnect, based in Antwerp, is responsible for the processing of personal data as set out in this privacy policy. We respect your privacy and ensure that the personal data you provide to us is treated confidentially. The processing of your personal data is carried out in accordance with the General Data Protection Regulation (GDPR) and Belgian legislation.",
+            "privacy-p2": "We only collect personal data that is necessary for providing our services, improving our website, and maintaining customer relationships. We never sell your data to third parties and only share it when legally required or necessary for the execution of our services.",
+            "privacy-title-2": "What data do we collect?",
+            "privacy-p3": "We process the following personal data about you:",
+            "privacy-li1": "Name and contact details: First and last name, phone number, email address, and address.",
+            "privacy-li2": "Reservation details: Pick-up and destination address, date and time of the ride, number of passengers, and special requests.",
+            "privacy-li3": "Payment details: Bank account number or credit card information for processing payments.",
+            "privacy-li4": "Technical data: IP address, browser data, and information about your visit to our website via cookies.",
+            "privacy-li5": "Communication data: Emails, phone calls, and other communications you have with us.",
+            "privacy-p4": "We only use your personal data for the purposes for which you provided it to us, such as executing reservations, processing payments, and improving our services.",
+            "privacy-title-3": "Purposes of processing",
+            "privacy-p5": "We process your personal data for the following purposes:",
+            "privacy-li6": "Providing our services: Executing taxi reservations, airport transfers, and other transport services.",
+            "privacy-li7": "Customer service: Answering questions, resolving issues, and providing information about our services.",
+            "privacy-li8": "Invoicing: Processing payments and sending invoices.",
+            "privacy-li9": "Marketing: Sending newsletters and offers, subject to your consent.",
+            "privacy-li10": "Improving our services: Analyzing user behavior to optimize our website and services.",
+            "privacy-li11": "Legal obligations: Complying with legal requirements, such as tax returns and accounting obligations.",
+            "privacy-p6": "We do not retain your personal data longer than strictly necessary for the purposes for which they were collected. The retention periods vary depending on the purpose and legal requirements.",
+            "privacy-title-4": "Sharing with third parties",
+            "privacy-p7": "We only share your personal data with third parties when necessary for the execution of our services or when we are legally obliged to do so. This may include:",
+            "privacy-li12": "Drivers: They receive your name, phone number, and pick-up address to correctly execute the ride.",
+            "privacy-li13": "Payment providers: For processing payments, your payment details are shared with our payment partners.",
+            "privacy-li14": "IT providers: For managing and maintaining our website and IT systems.",
+            "privacy-li15": "Legal authorities: When we are legally required to do so, for example for tax purposes or by court order.",
+            "privacy-p8": "We have concluded processing agreements with all third parties that process your data, stating that they treat your data confidentially and only use it for the agreed purposes. We ensure that your data is not sold or used for purposes other than those for which you have given consent.",
+            "privacy-title-5": "Cookies",
+            "privacy-p9": "Our website uses cookies to improve your user experience and optimize our services. Cookies are small text files stored by your browser on your device. We use the following types of cookies:",
+            "privacy-li16": "Functional cookies: These cookies are necessary for the proper functioning of the website, such as remembering your language preference.",
+            "privacy-li17": "Analytical cookies: These cookies collect anonymous data about how visitors use the website, so we can improve the user experience.",
+            "privacy-li18": "Marketing cookies: These cookies are used to display personalized advertisements based on your browsing behavior.",
+            "privacy-p10": "You can adjust your cookie preferences at any time via your browser settings. More information about our cookie policy can be found on our cookie policy page.",
+            "privacy-title-6": "Your rights",
+            "privacy-p11": "As a data subject, you have various rights regarding your personal data. You can always request us to:",
+            "privacy-li19": "Access: You can request an overview of all personal data we process about you.",
+            "privacy-li20": "Rectification: You can request the correction of inaccurate or incomplete data.",
+            "privacy-li21": "Erasure: You can request the deletion of your personal data, unless we need it for legal obligations.",
+            "privacy-li22": "Restriction: You can request the restriction of the processing of your data while we handle your request.",
+            "privacy-li23": "Objection: You can object to the processing of your data for marketing purposes.",
+            "privacy-li24": "Data portability: You can request to receive your data in a structured, commonly used, and machine-readable format.",
+            "privacy-p12": "You can submit a request by contacting us at info@fleetconnect.be. We will process your request within 30 days. If you are not satisfied with our handling, you can file a complaint with the Belgian Data Protection Authority.",
+            "privacy-title-7": "Security",
+            "privacy-p13": "We take the protection of your personal data seriously and take appropriate technical and organizational measures to prevent misuse, loss, unauthorized access, unwanted disclosure, and unauthorized modification. Our measures include:",
+            "privacy-li25": "SSL encryption: All data transmitted via our website is encrypted with SSL technology.",
+            "privacy-li26": "Access control: Only authorized personnel have access to your personal data.",
+            "privacy-li27": "Secure servers: Your data is stored on secure servers with advanced firewalls.",
+            "privacy-li28": "Regular checks: We conduct regular security audits to test and improve our systems.",
+            "privacy-p14": "Despite our efforts to protect your data, no data transmission over the internet is completely secure. We therefore cannot give an absolute guarantee of the security of your data, but we do everything we can to protect it as well as possible.",
+            "privacy-title-8": "Changes to this privacy policy",
+            "privacy-p15": "We reserve the right to amend this privacy policy to comply with changing laws and regulations or changes in our services. The most recent version of our privacy policy is always available on our website. We recommend that you regularly consult this privacy policy to stay informed of any changes. In case of important changes, we will inform you via a notification on our website or by email.",
+            "privacy-p16": "This privacy policy was last updated on January 1, 2026.",
+            "privacy-title-9": "Contact details",
+            "privacy-p17": "Do you have questions, comments, or requests regarding this privacy policy or the processing of your personal data? Please feel free to contact us via the details below:",
+            "privacy-li29": "Company name: FleetConnect",
+            "privacy-li30": "Address: Italiëlei 124, 2000 Antwerp, Belgium",
+            "privacy-li31": "Email: info@fleetconnect.be",
+            "privacy-li32": "Phone: +32 3 123 45 67",
+            "privacy-p18": "We aim to answer your questions within 3 working days. If your question is more complex, we may ask for a little more time to provide a complete answer.",
+            "privacy-highlight-title": "Your privacy is important to us",
+            "privacy-highlight-text": "We treat your personal data with the utmost care and confidentiality. Do you have questions about our privacy protection? Please feel free to contact us.",
+            "privacy-btn-email": "Send email",
+            "privacy-btn-phone": "Contact form",
             "footer_brand": "FleetConnect",
             "footer_brand_desc": "Professional taxi transport in Belgium - Style, punctuality and service.",
             "footer_book_now": "Book now",
@@ -1335,8 +998,6 @@
             "footer_contact": "Contact",
             "footer_copyright": "2026 FleetConnect -",
             "footer_home_link": "FleetConnect",
-
-            // ===== STEDEN (EN) - IDENTIEK AAN ANTWERPEN =====
             "city_aalst": "Aalst",
             "city_asse": "Asse",
             "city_dilbeek": "Dilbeek",
@@ -1364,18 +1025,11 @@
         }
     };
 
-    // ============================================================
-    // HUIDIGE TAAL
-    // ============================================================
     let currentLang = 'nl';
 
-    // ============================================================
-    // DROPDOWN STADNAMEN GENEREREN - IDENTIEK AAN ANTWERPEN
-    // ============================================================
     function generateCityDropdown() {
         const t = translations[currentLang];
         if (!t) return;
-
         const cities = [
             { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
             { key: 'city_asse', url: '/cities/taxi-asse.html' },
@@ -1402,65 +1056,41 @@
             { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
             { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
         ];
-
         const select = document.getElementById('stad-dropdown');
         if (!select) return;
-
         const currentValue = select.value;
         select.innerHTML = '';
-
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
         select.appendChild(defaultOption);
-
         cities.forEach(city => {
             const option = document.createElement('option');
             option.value = city.url;
             option.textContent = t[city.key] || city.key;
             select.appendChild(option);
         });
-
-        if (currentValue) {
-            select.value = currentValue;
-        }
+        if (currentValue) select.value = currentValue;
     }
 
-    // ============================================================
-    // VERTALINGS FUNCTIE - IDENTIEK AAN ANTWERPEN
-    // ============================================================
     function translatePage() {
         const t = translations[currentLang];
         if (!t) return;
-
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (t[key] !== undefined) {
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                    el.placeholder = t[key];
-                } else if (el.tagName === 'OPTION') {
-                    el.textContent = t[key];
-                } else {
-                    el.innerHTML = t[key];
-                }
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = t[key];
+                else if (el.tagName === 'OPTION') el.textContent = t[key];
+                else el.innerHTML = t[key];
             }
         });
-
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            if (btn.getAttribute('data-lang') === currentLang) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
         });
-
         generateCityDropdown();
         document.documentElement.lang = currentLang;
     }
 
-    // ============================================================
-    // EVENT LISTENERS - IDENTIEK AAN ANTWERPEN
-    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1471,25 +1101,13 @@
                 }
             });
         });
-
         translatePage();
 
-        // ============================================================
-        // LEAFLET KAART
-        // ============================================================
         (function initMap() {
             try {
-                if (typeof L === 'undefined') {
-                    console.warn('Leaflet is niet geladen.');
-                    return;
-                }
-
+                if (typeof L === 'undefined') return;
                 const mapContainer = document.getElementById('background-map');
-                if (!mapContainer) {
-                    console.warn('Element #background-map niet gevonden.');
-                    return;
-                }
-
+                if (!mapContainer) return;
                 const bgMap = L.map('background-map', {
                     center: [50.8503, 4.3517],
                     zoom: 7,
@@ -1502,38 +1120,22 @@
                     keyboard: false,
                     attributionControl: true
                 });
-
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
                     subdomains: 'abcd',
                     maxZoom: 19,
                     minZoom: 1
                 }).addTo(bgMap);
-
                 setTimeout(() => { bgMap.invalidateSize(); }, 200);
-
                 let resizeTimeout;
                 window.addEventListener('resize', function() {
                     clearTimeout(resizeTimeout);
                     resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
                 });
-
-                console.log('Leaflet-kaart succesvol geladen.');
-
             } catch (error) {
                 console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
-                const mapContainer = document.getElementById('background-map');
-                if (mapContainer) {
-                    mapContainer.style.backgroundImage = 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80")';
-                    mapContainer.style.backgroundSize = 'cover';
-                    mapContainer.style.backgroundPosition = 'center';
-                    mapContainer.style.backgroundRepeat = 'no-repeat';
-                }
             }
         })();
-
-        console.log('FleetConnect - Privacybeleid pagina geladen');
-        console.log('Huidige taal:', currentLang);
     });
 </script>
 </body>
