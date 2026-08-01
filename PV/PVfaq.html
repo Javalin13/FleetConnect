@@ -1,1 +1,1265 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>FAQ | Fleetconnect</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== DEZELFDE STIJLEN ALS COOKIEBELEID ===== */
+        :root {
+            --bg-body: #f4f7fc;
+            --primary: #2c6e9e;
+            --primary-dark: #1e4a6e;
+            --primary-light: #4a8ab5;
+            --accent-gold: #c9a03d;
+            --accent-green: #6b8c42;
+            --text-dark: #1a2a3a;
+            --text-light: #4a627a;
+            --white: #ffffff;
+            --card-bg: rgba(255,255,255,0.92);
+            --border-light: #e2edf7;
+            --shadow: 0 8px 20px rgba(0,0,0,0.05);
+            --shadow-hover: 0 12px 30px rgba(0,0,0,0.10);
+            --radius: 32px;
+            --radius-sm: 16px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; height: 100%; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        #background-map {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            filter: brightness(1.05) contrast(1.02);
+            opacity: 0.85;
+        }
+        
+        .content-overlay {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(2px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
+        /* ===== STICKY TAALSWITCHER - BLIJFT PLAKKEN ===== */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 99999;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(44,110,158,0.2);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+        }
+        .lang-btn {
+            background: white;
+            border: 1px solid var(--border-light);
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .lang-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(44,110,158,0.3);
+        }
+
+        .breadcrumb {
+            margin: 30px 0 16px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            padding-top: 80px;
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        .breadcrumb i {
+            margin: 0 8px;
+            font-size: 0.6rem;
+            color: var(--text-light);
+        }
+        .breadcrumb .current {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .page-header {
+            padding: 20px 0 10px;
+        }
+        .page-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .page-title i {
+            color: var(--accent-gold);
+            font-size: 2.2rem;
+        }
+        .page-title span {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .intro-text {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 850px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 24px 0 32px;
+            flex-wrap: wrap;
+        }
+        .nav-tab {
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border-light);
+            padding: 10px 22px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .nav-tab i {
+            font-size: 0.9rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        .nav-tab:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            background: var(--white);
+        }
+        .nav-tab:hover i {
+            color: var(--accent-gold);
+        }
+        .nav-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(44,110,158,0.3);
+        }
+        .nav-tab.active i {
+            color: white;
+        }
+
+        .content-section {
+            padding: 10px 0 50px;
+        }
+        .content-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 48px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .content-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+        .content-card h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--accent-gold);
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .content-card h2 i {
+            color: var(--accent-gold);
+            font-size: 1.6rem;
+        }
+        .content-card p {
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        .content-card p strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        .content-card a:not(.btn-primary) {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: var(--transition);
+        }
+        .content-card a:not(.btn-primary):hover {
+            color: var(--primary-dark);
+            border-bottom-color: var(--primary);
+        }
+
+        /* ===== FAQ ACCORDION ===== */
+        .faq-item {
+            border-bottom: 1px solid var(--border-light);
+            padding: 8px 0;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            transition: var(--transition);
+            gap: 16px;
+        }
+        .faq-question:hover {
+            color: var(--primary);
+        }
+        .faq-question i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .faq-question .fa-chevron-down {
+            color: var(--accent-gold);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0 0 0 0;
+        }
+        .faq-answer.open {
+            max-height: 500px;
+            padding: 0 0 20px 0;
+        }
+        .faq-answer p {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+        .faq-answer ul {
+            color: var(--text-light);
+            margin: 8px 0 8px 20px;
+            line-height: 1.7;
+        }
+        .faq-answer ul li {
+            margin-bottom: 4px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(44,110,158,0.06) 0%, rgba(107,140,66,0.06) 100%);
+            border-left: 5px solid var(--accent-gold);
+            padding: 30px 32px;
+            border-radius: var(--radius-sm);
+            margin: 32px 0 10px;
+            transition: var(--transition);
+        }
+        .highlight-box:hover {
+            background: linear-gradient(135deg, rgba(44,110,158,0.10) 0%, rgba(107,140,66,0.10) 100%);
+        }
+        .highlight-box i {
+            color: var(--accent-gold);
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        .highlight-box p {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+        .highlight-box .meta-text {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(44,110,158,0.25);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(44,110,158,0.35);
+        }
+        .btn-primary i {
+            color: white;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(44,110,158,0.25);
+        }
+
+        @media (max-width: 768px) {
+            .page-title { font-size: 1.8rem; flex-wrap: wrap; }
+            .page-title i { font-size: 1.6rem; }
+            .content-card { padding: 28px; }
+            .content-card h2 { font-size: 1.4rem; }
+            .language-switcher { top: 12px; right: 12px; gap: 6px; padding: 6px 12px; }
+            .lang-btn { font-size: 0.7rem; padding: 6px 12px; }
+            .breadcrumb { padding-top: 70px; font-size: 0.75rem; }
+            .faq-question { font-size: 1rem; }
+        }
+        @media (max-width: 500px) {
+            .container { padding: 0 16px; }
+            .content-card { padding: 20px; border-radius: 20px; }
+            .content-card h2 { font-size: 1.2rem; padding-left: 14px; flex-wrap: wrap; }
+            .nav-tabs { gap: 6px; }
+            .nav-tab { font-size: 0.7rem; padding: 6px 12px; }
+            .nav-tab i { font-size: 0.7rem; }
+            .page-title { font-size: 1.4rem; gap: 10px; }
+            .page-title i { font-size: 1.2rem; }
+            .intro-text { font-size: 0.95rem; }
+            .highlight-box { padding: 20px; margin: 20px 0; }
+            .highlight-box i { font-size: 1.4rem; }
+            .highlight-box p { font-size: 0.95rem; }
+            .btn-primary, .btn-outline { padding: 10px 20px; font-size: 0.85rem; }
+            .language-switcher { top: 10px; right: 10px; gap: 4px; padding: 4px 8px; }
+            .lang-btn { font-size: 0.6rem; padding: 4px 8px; }
+            .breadcrumb { padding-top: 60px; }
+            .faq-question { font-size: 0.95rem; }
+        }
+
+        /* ===== FOOTER - IDENTIEK AAN ANTWERPEN ===== */
+        .footer-dark {
+            background: #0d1f2c;
+            color: #e0edf5;
+            padding: 48px 0 24px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .footer-grid h4 {
+            color: var(--primary) !important;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .footer-grid a {
+            color: #e0edf5;
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+            transition: 0.2s;
+        }
+        .footer-grid a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .footer-brand p {
+            color: #e0edf5;
+            line-height: 1.8;
+        }
+        .footer-city-select {
+            background: #1a2f3f;
+            color: #e0edf5;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 100%;
+            max-width: 220px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 8px;
+            appearance: auto;
+        }
+        .footer-city-select:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        .footer-city-select option {
+            background: #0d1f2c;
+            color: #e0edf5;
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(224,237,245,0.2);
+            padding-top: 24px;
+            font-size: 0.85rem;
+        }
+        .footer-bottom a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div id="background-map"></div>
+
+<!-- ===== STICKY TAALSWITCHER - BOVEN ALLES ===== -->
+<div class="language-switcher">
+    <button class="lang-btn active" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+</div>
+
+<div class="content-overlay">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/PV/PV.html" data-i18n="breadcrumb-home">Home</a> 
+            <i class="fas fa-chevron-right"></i> 
+            <span class="current" data-i18n="breadcrumb-current">FAQ</span>
+        </div>
+        
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-question-circle"></i>
+                <span data-i18n="page-title">Veelgestelde vragen</span>
+            </h1>
+            <p class="intro-text" data-i18n="intro-text">
+                Hier vindt u antwoorden op de meest gestelde vragen over onze diensten, tarieven, reserveringen en meer. 
+                Staat uw vraag er niet tussen? Neem dan gerust contact met ons op.
+            </p>
+        </div>
+        
+        <div class="nav-tabs">
+            <a href="/PV/PV.html" class="nav-tab" data-i18n="tab-home"><i class="fas fa-home"></i> Home</a>
+            <a href="/PV/PV_Exclusieve_Service.html" class="nav-tab" data-i18n="tab-exclusive"><i class="fas fa-gem"></i> Exclusief</a>
+            <a href="/PV/PV-vaste-prijzen.html" class="nav-tab" data-i18n="tab-prices"><i class="fas fa-euro-sign"></i> Prijzen</a>
+            <a href="/PV/PV-premium-vloot.html" class="nav-tab" data-i18n="tab-fleet"><i class="fas fa-car-side"></i> Vloot</a>
+            <a href="/PV/PV_Luchthavenvervoer.html" class="nav-tab" data-i18n="tab-airport"><i class="fas fa-plane-departure"></i> Luchthaven</a>
+            <a href="/PV/PV_Zakelijk_Vervoer.html" class="nav-tab" data-i18n="tab-business"><i class="fas fa-briefcase"></i> Zakelijk</a>
+            <a href="/PV/PV_Events_Gala.html" class="nav-tab" data-i18n="tab-events"><i class="fas fa-glass-cheers"></i> Events</a>
+            <a href="/PV/PV_Koeriersdienst.html" class="nav-tab" data-i18n="tab-courier"><i class="fas fa-file-signature"></i> Koerier</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section">
+            
+            <div class="content-card">
+                <h2><i class="fas fa-question"></i> <span data-i18n="faq-title">Veelgestelde vragen</span></h2>
+                
+                <!-- FAQ 1 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq1-q">Hoe kan ik een taxi reserveren?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq1-a">U kunt eenvoudig een taxi reserveren via onze website. Ga naar de <a href="/PV/PV.html">homepagina</a> en klik op de knop "Boek nu". U kunt ook bellen naar ons klantenservice nummer of een e-mail sturen naar <a href="mailto:info@fleetconnect.be">info@fleetconnect.be</a>. Voor spoedritten kunt u ons ook via WhatsApp bereiken.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq2-q">Wat zijn de tarieven?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq2-a">Wij hanteren een vaste prijs van <strong>€1,50 per kilometer</strong> met een minimumtarief van €30,00. Er zijn geen verborgen kosten. De prijs is all-in, inclusief:</p>
+                        <ul>
+                            <li data-i18n="faq2-a1">Geen opstartkosten</li>
+                            <li data-i18n="faq2-a2">Geen toeslagen voor bagage</li>
+                            <li data-i18n="faq2-a3">Geen toeslagen voor nachtritten of weekends</li>
+                            <li data-i18n="faq2-a4">Wachttijd inbegrepen (30 min bij Meet & Greet)</li>
+                        </ul>
+                        <p data-i18n="faq2-a5">Bekijk <a href="/PV/PV-vaste-prijzen.html">onze prijspagina</a> voor meer informatie en specifieke routeprijzen.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq3-q">Kan ik op de dag zelf nog een taxi boeken?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq3-a">Ja, dat kan! Wij zijn 24/7 beschikbaar. U kunt tot 1 uur voor vertrek een rit reserveren via onze website of telefonisch. Voor spoedritten raden we aan om ons te bellen of een WhatsApp-bericht te sturen, zodat wij uw rit snel kunnen bevestigen.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq4-q">Welke betaalmethoden accepteren jullie?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq4-a">Wij accepteren de volgende betaalmethoden:</p>
+                        <ul>
+                            <li data-i18n="faq4-a1">Contant (in de wagen)</li>
+                            <li data-i18n="faq4-a2">Bancontact</li>
+                            <li data-i18n="faq4-a3">Creditcard (Visa, Mastercard)</li>
+                            <li data-i18n="faq4-a4">Facturatie achteraf (voor zakelijke klanten)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq5-q">Bieden jullie ook luchthaventransfers?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq5-a">Ja, wij verzorgen luchthaventransfers naar alle belangrijke luchthavens in de regio:</p>
+                        <ul>
+                            <li data-i18n="faq5-a1">Antwerpen (ANR)</li>
+                            <li data-i18n="faq5-a2">Zaventem (BRU)</li>
+                            <li data-i18n="faq5-a3">Charleroi (CRL)</li>
+                            <li data-i18n="faq5-a4">Eindhoven (EIN)</li>
+                            <li data-i18n="faq5-a5">Amsterdam Schiphol (AMS)</li>
+                            <li data-i18n="faq5-a6">Düsseldorf (DUS)</li>
+                        </ul>
+                        <p data-i18n="faq5-a7">Vluchtmonitoring is inbegrepen. Onze chauffeurs volgen uw vlucht en passen de ophaaltijd aan bij vertraging, zonder extra kosten.</p>
+                        <p data-i18n="faq5-a8">Bekijk <a href="/PV/PV_Luchthavenvervoer.html">onze luchthavenpagina</a> voor meer informatie en prijzen.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq6-q">Wat is het verschil tussen Meet & Greet en Kiss & Ride?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq6-a"><strong>Meet & Greet:</strong> Uw chauffeur wacht u op met een naamplaatje bij de aankomsthal. Dit is ideaal voor zakenreizigers en internationale gasten. 30 minuten wachttijd is inbegrepen. Parkeerkosten zijn ook inbegrepen. Meerprijs: €5,00.</p>
+                        <p data-i18n="faq6-a2"><strong>Kiss & Ride:</strong> Een snelle en efficiënte ophaalservice zonder naamplaatje. U wordt opgehaald bij de Kiss & Ride-zone. 30 minuten wachttijd is inbegrepen. Extra wachttijd: €25,00/uur. Deze service is <strong>gratis</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq7-q">Kunnen jullie ook groepsvervoer aanbieden?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq7-a">Ja, wij bieden ook groepsvervoer aan met onze luxe minivans (Mercedes V-Klasse of gelijkwaardig). Deze zijn geschikt voor maximaal 8 personen. Voor grotere groepen kunnen wij meerdere voertuigen inzetten. Neem contact met ons op voor een vrijblijvende offerte op maat.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 8 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq8-q">Hoe kan ik mijn reservering annuleren of wijzigen?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq8-a">U kunt uw reservering kosteloos annuleren tot 2 uur voor de geplande ophaaltijd. Neem hiervoor contact met ons op via telefoon of e-mail. Bij annuleringen binnen 2 uur voor vertrek kunnen wij een annuleringskosten in rekening brengen.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 9 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq9-q">Zijn jullie 24/7 beschikbaar?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq9-a">Ja, onze service is 24 uur per dag, 7 dagen per week beschikbaar, inclusief weekends en feestdagen. Of u nu een vroege ochtendrit of een late avondrit nodig heeft, wij staan voor u klaar. Onze klantenservice is ook 24/7 bereikbaar voor vragen en reserveringen.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 10 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq10-q">Hoe weet ik dat mijn chauffeur er is?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq10-a">Bij Meet & Greet herkent u uw chauffeur aan het naamplaatje met uw naam. Bij Kiss & Ride ontvangt u een bevestiging met het kenteken van de wagen en het telefoonnummer van de chauffeur. U kunt de chauffeur ook bellen als u hem niet direct vindt. Daarnaast ontvangt u een bevestigingsmail met alle details van uw rit.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 11 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq11-q">Wat als mijn vlucht vertraging heeft?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq11-a">Geen zorgen! Wij monitoren alle vluchten in real-time. Als uw vlucht vertraging heeft, passen wij de ophaaltijd automatisch aan. U hoeft niets te doen. De wachttijd is gratis bij vertraging. Dit is één van de voordelen van onze luchthavenservice.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 12 -->
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span data-i18n="faq12-q">Bieden jullie ook internationale ritten aan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-i18n="faq12-a">Ja, wij verzorgen ook internationale ritten naar bestemmingen zoals:</p>
+                        <ul>
+                            <li data-i18n="faq12-a1">Amsterdam (NL)</li>
+                            <li data-i18n="faq12-a2">Rotterdam (NL)</li>
+                            <li data-i18n="faq12-a3">Eindhoven (NL)</li>
+                            <li data-i18n="faq12-a4">Düsseldorf (DE)</li>
+                            <li data-i18n="faq12-a5">Lille (FR)</li>
+                            <li data-i18n="faq12-a6">Maastricht (NL)</li>
+                            <li data-i18n="faq12-a7">Aken (DE)</li>
+                        </ul>
+                        <p data-i18n="faq12-a8">Voor internationale ritten raden wij aan om <strong>24 tot 48 uur van tevoren</strong> te reserveren. Onze chauffeurs beschikken over de juiste documentatie voor grensoverschrijdend vervoer.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top:40px;">
+                    <i class="fas fa-comment-dots"></i>
+                    <p><strong data-i18n="faq-help-title">Heeft u nog een vraag?</strong></p>
+                    <p class="meta-text" data-i18n="faq-help-text">Neem gerust contact met ons op. Wij helpen u graag verder!</p>
+                    <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+                        <a href="/PV/PV.html#contact" class="btn-primary" style="font-size:0.85rem; padding:10px 24px;"><i class="fas fa-envelope"></i> Contactformulier</a>
+                        <a href="mailto:info@fleetconnect.be" class="btn-outline" style="font-size:0.85rem; padding:10px 24px;"><i class="fas fa-at"></i> E-mail sturen</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== FOOTER - IDENTIEK AAN ANTWERPEN ===== -->
+    <footer class="footer-dark">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h4><i class="fas fa-car"></i> <span data-i18n="footer_brand">FleetConnect</span></h4>
+                    <p data-i18n="footer_brand_desc">Professioneel taxivervoer in België - Stijl, stiptheid en service.</p>
+                    <a href="/booking#booking" data-i18n="footer_book_now">Reserveer nu</a>
+                    <a href="/PV/index.html" data-i18n="footer_portal">Klantportaal</a>
+                    <a href="/partner-login" data-i18n="footer_partner">Partner login</a>
+                </div>
+                <div class="footer-cities">
+                    <h4 data-i18n="footer_popular_cities">Populaire steden</h4>
+                    <a href="/cities/taxi-brussels.html" data-i18n="footer_city_brussels">Taxi Brussel</a>
+                    <a href="/cities/taxi-zaventem.html" data-i18n="footer_city_zaventem">Taxi Zaventem</a>
+                    <a href="/cities/taxi-antwerpen.html" data-i18n="footer_city_antwerpen">Taxi Antwerpen</a>
+                    <a href="/cities/taxi-brugge.html" data-i18n="footer_city_brugge">Taxi Brugge</a>
+                    <div style="margin-top: 16px;">
+                        <label for="stad-dropdown" style="display: block; font-size: 0.9rem; color: #e0edf5; margin-bottom: 4px;" data-i18n="footer_other_cities">Alle andere steden:</label>
+                        <select id="stad-dropdown" class="footer-city-select" onchange="window.location.href=this.value;"></select>
+                    </div>
+                </div>
+                <div class="footer-legal">
+                    <h4 data-i18n="footer_legal">Legal</h4>
+                    <a href="/PV/PVfaq.html" data-i18n="footer_faq">FAQ</a>
+                    <a href="/PV/PVprivacy.html" data-i18n="footer_privacy">Privacy</a>
+                    <a href="/PV/PVcookiebeleid.html" data-i18n="footer_cookies">Cookiebeleid</a>
+                    <a href="/PV/PValgemene-voorwaarden.html" data-i18n="footer_terms">Algemene voorwaarden</a>
+                </div>
+                <div class="footer-partners">
+                    <h4 data-i18n="footer_contact_title">FleetConnect</h4>
+                    <a href="mailto:support@fleetconnect.be" data-i18n="footer_support">Support</a>
+                    <a href="/booking#contact" data-i18n="footer_contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span data-i18n="footer_copyright">2026 FleetConnect -</span> <a href="/" data-i18n="footer_home_link">FleetConnect</a>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // ===== FAQ ACCORDION =====
+    function toggleFaq(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('.fa-chevron-down');
+        
+        if (answer.classList.contains('open')) {
+            answer.classList.remove('open');
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            document.querySelectorAll('.faq-answer.open').forEach(function(item) {
+                item.classList.remove('open');
+                const parentIcon = item.previousElementSibling.querySelector('.fa-chevron-down');
+                if (parentIcon) {
+                    parentIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+            answer.classList.add('open');
+            icon.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    // ===== VERTALINGEN =====
+    const translations = {
+        nl: {
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "FAQ",
+            "page-title": "Veelgestelde vragen",
+            "intro-text": "Hier vindt u antwoorden op de meest gestelde vragen over onze diensten, tarieven, reserveringen en meer. Staat uw vraag er niet tussen? Neem dan gerust contact met ons op.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusief",
+            "tab-prices": "Prijzen",
+            "tab-fleet": "Vloot",
+            "tab-airport": "Luchthaven",
+            "tab-business": "Zakelijk",
+            "tab-events": "Events",
+            "tab-courier": "Koerier",
+            "faq-title": "Veelgestelde vragen",
+            "faq1-q": "Hoe kan ik een taxi reserveren?",
+            "faq1-a": "U kunt eenvoudig een taxi reserveren via onze website. Ga naar de homepagina en klik op de knop 'Boek nu'. U kunt ook bellen naar ons klantenservice nummer of een e-mail sturen naar info@fleetconnect.be. Voor spoedritten kunt u ons ook via WhatsApp bereiken.",
+            "faq2-q": "Wat zijn de tarieven?",
+            "faq2-a": "Wij hanteren een vaste prijs van €1,50 per kilometer met een minimumtarief van €30,00. Er zijn geen verborgen kosten. De prijs is all-in, inclusief:",
+            "faq2-a1": "Geen opstartkosten",
+            "faq2-a2": "Geen toeslagen voor bagage",
+            "faq2-a3": "Geen toeslagen voor nachtritten of weekends",
+            "faq2-a4": "Wachttijd inbegrepen (30 min bij Meet & Greet)",
+            "faq2-a5": "Bekijk onze prijspagina voor meer informatie en specifieke routeprijzen.",
+            "faq3-q": "Kan ik op de dag zelf nog een taxi boeken?",
+            "faq3-a": "Ja, dat kan! Wij zijn 24/7 beschikbaar. U kunt tot 1 uur voor vertrek een rit reserveren via onze website of telefonisch. Voor spoedritten raden we aan om ons te bellen of een WhatsApp-bericht te sturen, zodat wij uw rit snel kunnen bevestigen.",
+            "faq4-q": "Welke betaalmethoden accepteren jullie?",
+            "faq4-a": "Wij accepteren de volgende betaalmethoden:",
+            "faq4-a1": "Contant (in de wagen)",
+            "faq4-a2": "Bancontact",
+            "faq4-a3": "Creditcard (Visa, Mastercard)",
+            "faq4-a4": "Facturatie achteraf (voor zakelijke klanten)",
+            "faq5-q": "Bieden jullie ook luchthaventransfers?",
+            "faq5-a": "Ja, wij verzorgen luchthaventransfers naar alle belangrijke luchthavens in de regio:",
+            "faq5-a1": "Antwerpen (ANR)",
+            "faq5-a2": "Zaventem (BRU)",
+            "faq5-a3": "Charleroi (CRL)",
+            "faq5-a4": "Eindhoven (EIN)",
+            "faq5-a5": "Amsterdam Schiphol (AMS)",
+            "faq5-a6": "Düsseldorf (DUS)",
+            "faq5-a7": "Vluchtmonitoring is inbegrepen. Onze chauffeurs volgen uw vlucht en passen de ophaaltijd aan bij vertraging, zonder extra kosten.",
+            "faq5-a8": "Bekijk onze luchthavenpagina voor meer informatie en prijzen.",
+            "faq6-q": "Wat is het verschil tussen Meet & Greet en Kiss & Ride?",
+            "faq6-a": "Meet & Greet: Uw chauffeur wacht u op met een naamplaatje bij de aankomsthal. Dit is ideaal voor zakenreizigers en internationale gasten. 30 minuten wachttijd is inbegrepen. Parkeerkosten zijn ook inbegrepen. Meerprijs: €5,00.",
+            "faq6-a2": "Kiss & Ride: Een snelle en efficiënte ophaalservice zonder naamplaatje. U wordt opgehaald bij de Kiss & Ride-zone. 30 minuten wachttijd is inbegrepen. Extra wachttijd: €25,00/uur. Deze service is gratis.",
+            "faq7-q": "Kunnen jullie ook groepsvervoer aanbieden?",
+            "faq7-a": "Ja, wij bieden ook groepsvervoer aan met onze luxe minivans (Mercedes V-Klasse of gelijkwaardig). Deze zijn geschikt voor maximaal 8 personen. Voor grotere groepen kunnen wij meerdere voertuigen inzetten. Neem contact met ons op voor een vrijblijvende offerte op maat.",
+            "faq8-q": "Hoe kan ik mijn reservering annuleren of wijzigen?",
+            "faq8-a": "U kunt uw reservering kosteloos annuleren tot 2 uur voor de geplande ophaaltijd. Neem hiervoor contact met ons op via telefoon of e-mail. Bij annuleringen binnen 2 uur voor vertrek kunnen wij een annuleringskosten in rekening brengen.",
+            "faq9-q": "Zijn jullie 24/7 beschikbaar?",
+            "faq9-a": "Ja, onze service is 24 uur per dag, 7 dagen per week beschikbaar, inclusief weekends en feestdagen. Of u nu een vroege ochtendrit of een late avondrit nodig heeft, wij staan voor u klaar. Onze klantenservice is ook 24/7 bereikbaar voor vragen en reserveringen.",
+            "faq10-q": "Hoe weet ik dat mijn chauffeur er is?",
+            "faq10-a": "Bij Meet & Greet herkent u uw chauffeur aan het naamplaatje met uw naam. Bij Kiss & Ride ontvangt u een bevestiging met het kenteken van de wagen en het telefoonnummer van de chauffeur. U kunt de chauffeur ook bellen als u hem niet direct vindt. Daarnaast ontvangt u een bevestigingsmail met alle details van uw rit.",
+            "faq11-q": "Wat als mijn vlucht vertraging heeft?",
+            "faq11-a": "Geen zorgen! Wij monitoren alle vluchten in real-time. Als uw vlucht vertraging heeft, passen wij de ophaaltijd automatisch aan. U hoeft niets te doen. De wachttijd is gratis bij vertraging. Dit is één van de voordelen van onze luchthavenservice.",
+            "faq12-q": "Bieden jullie ook internationale ritten aan?",
+            "faq12-a": "Ja, wij verzorgen ook internationale ritten naar bestemmingen zoals:",
+            "faq12-a1": "Amsterdam (NL)",
+            "faq12-a2": "Rotterdam (NL)",
+            "faq12-a3": "Eindhoven (NL)",
+            "faq12-a4": "Düsseldorf (DE)",
+            "faq12-a5": "Lille (FR)",
+            "faq12-a6": "Maastricht (NL)",
+            "faq12-a7": "Aken (DE)",
+            "faq12-a8": "Voor internationale ritten raden wij aan om 24 tot 48 uur van tevoren te reserveren. Onze chauffeurs beschikken over de juiste documentatie voor grensoverschrijdend vervoer.",
+            "faq-help-title": "Heeft u nog een vraag?",
+            "faq-help-text": "Neem gerust contact met ons op. Wij helpen u graag verder!",
+            "footer_brand": "FleetConnect",
+            "footer_brand_desc": "Professioneel taxivervoer in België - Stijl, stiptheid en service.",
+            "footer_book_now": "Reserveer nu",
+            "footer_portal": "Klantportaal",
+            "footer_partner": "Partner login",
+            "footer_popular_cities": "Populaire steden",
+            "footer_city_brussels": "Taxi Brussel",
+            "footer_city_zaventem": "Taxi Zaventem",
+            "footer_city_antwerpen": "Taxi Antwerpen",
+            "footer_city_brugge": "Taxi Brugge",
+            "footer_other_cities": "Alle andere steden:",
+            "footer_select_city": "-- Kies een stad --",
+            "footer_legal": "Legal",
+            "footer_faq": "FAQ",
+            "footer_privacy": "Privacy",
+            "footer_cookies": "Cookiebeleid",
+            "footer_terms": "Algemene voorwaarden",
+            "footer_contact_title": "FleetConnect",
+            "footer_support": "Support",
+            "footer_contact": "Contact",
+            "footer_copyright": "2026 FleetConnect -",
+            "footer_home_link": "FleetConnect",
+            "city_aalst": "Aalst",
+            "city_asse": "Asse",
+            "city_dilbeek": "Dilbeek",
+            "city_doornik": "Doornik",
+            "city_genk": "Genk",
+            "city_gent": "Gent",
+            "city_grimbergen": "Grimbergen",
+            "city_halle": "Halle",
+            "city_hasselt": "Hasselt",
+            "city_kortenberg": "Kortenberg",
+            "city_kortrijk": "Kortrijk",
+            "city_leuven": "Leuven",
+            "city_luik": "Luik",
+            "city_machelen": "Machelen",
+            "city_mechelen": "Mechelen",
+            "city_oostende": "Oostende",
+            "city_overijse": "Overijse",
+            "city_sint_niklaas": "Sint-Niklaas",
+            "city_steenokkerzeel": "Steenokkerzeel",
+            "city_tervuren": "Tervuren",
+            "city_turnhout": "Turnhout",
+            "city_vilvoorde": "Vilvoorde",
+            "city_waterloo": "Waterloo",
+            "city_zemst": "Zemst"
+        },
+        fr: {
+            "breadcrumb-home": "Accueil",
+            "breadcrumb-current": "FAQ",
+            "page-title": "Questions fréquemment posées",
+            "intro-text": "Vous trouverez ici les réponses aux questions les plus fréquentes sur nos services, nos tarifs, nos réservations et plus encore. Votre question ne figure pas dans la liste ? N'hésitez pas à nous contacter.",
+            "tab-home": "Accueil",
+            "tab-exclusive": "Exclusif",
+            "tab-prices": "Prix fixes",
+            "tab-fleet": "Flotte",
+            "tab-airport": "Aéroport",
+            "tab-business": "Affaires",
+            "tab-events": "Événements",
+            "tab-courier": "Messagerie",
+            "faq-title": "Questions fréquemment posées",
+            "faq1-q": "Comment puis-je réserver un taxi ?",
+            "faq1-a": "Vous pouvez facilement réserver un taxi via notre site Web. Allez sur la page d'accueil et cliquez sur le bouton 'Réservez maintenant'. Vous pouvez également appeler notre service client ou envoyer un e-mail à info@fleetconnect.be. Pour les trajets urgents, vous pouvez également nous joindre via WhatsApp.",
+            "faq2-q": "Quels sont les tarifs ?",
+            "faq2-a": "Nous appliquons un prix fixe de €1,50 par kilomètre avec un tarif minimum de €30,00. Il n'y a pas de frais cachés. Le prix est tout compris, incluant :",
+            "faq2-a1": "Pas de frais de prise en charge",
+            "faq2-a2": "Pas de supplément pour les bagages",
+            "faq2-a3": "Pas de supplément pour les trajets de nuit ou le week-end",
+            "faq2-a4": "Temps d'attente inclus (30 min pour Meet & Greet)",
+            "faq2-a5": "Consultez notre page des prix pour plus d'informations et les prix des itinéraires spécifiques.",
+            "faq3-q": "Puis-je réserver un taxi le jour même ?",
+            "faq3-a": "Oui, c'est possible ! Nous sommes disponibles 24/7. Vous pouvez réserver un trajet jusqu'à 1 heure avant le départ via notre site Web ou par téléphone. Pour les trajets urgents, nous vous recommandons de nous appeler ou de nous envoyer un message WhatsApp afin que nous puissions confirmer votre trajet rapidement.",
+            "faq4-q": "Quels modes de paiement acceptez-vous ?",
+            "faq4-a": "Nous acceptons les modes de paiement suivants :",
+            "faq4-a1": "Espèces (dans le véhicule)",
+            "faq4-a2": "Bancontact",
+            "faq4-a3": "Carte de crédit (Visa, Mastercard)",
+            "faq4-a4": "Facturation ultérieure (pour les clients professionnels)",
+            "faq5-q": "Proposez-vous également des transferts aéroport ?",
+            "faq5-a": "Oui, nous assurons des transferts aéroport vers tous les aéroports importants de la région :",
+            "faq5-a1": "Anvers (ANR)",
+            "faq5-a2": "Zaventem (BRU)",
+            "faq5-a3": "Charleroi (CRL)",
+            "faq5-a4": "Eindhoven (EIN)",
+            "faq5-a5": "Amsterdam Schiphol (AMS)",
+            "faq5-a6": "Düsseldorf (DUS)",
+            "faq5-a7": "Le suivi des vols est inclus. Nos chauffeurs suivent votre vol et ajustent l'heure de prise en charge en cas de retard, sans frais supplémentaires.",
+            "faq5-a8": "Consultez notre page aéroport pour plus d'informations et les prix.",
+            "faq6-q": "Quelle est la différence entre Meet & Greet et Kiss & Ride ?",
+            "faq6-a": "Meet & Greet : Votre chauffeur vous attend avec une pancarte à votre nom dans le hall d'arrivée. Idéal pour les voyageurs d'affaires et les invités internationaux. 30 minutes d'attente sont incluses. Les frais de stationnement sont également inclus. Supplément : €5,00.",
+            "faq6-a2": "Kiss & Ride : Un service de prise en charge rapide et efficace sans pancarte. Vous êtes pris en charge dans la zone Kiss & Ride. 30 minutes d'attente sont incluses. Temps d'attente supplémentaire : €25,00/heure. Ce service est gratuit.",
+            "faq7-q": "Proposez-vous également un transport de groupe ?",
+            "faq7-a": "Oui, nous proposons également un transport de groupe avec nos minibus de luxe (Mercedes Classe V ou équivalent). Ils peuvent accueillir jusqu'à 8 personnes. Pour les groupes plus importants, nous pouvons déployer plusieurs véhicules. Contactez-nous pour un devis personnalisé sans engagement.",
+            "faq8-q": "Comment puis-je annuler ou modifier ma réservation ?",
+            "faq8-a": "Vous pouvez annuler votre réservation gratuitement jusqu'à 2 heures avant l'heure de prise en charge prévue. Contactez-nous par téléphone ou par e-mail. Pour les annulations dans les 2 heures précédant le départ, des frais d'annulation peuvent être facturés.",
+            "faq9-q": "Êtes-vous disponible 24/7 ?",
+            "faq9-a": "Oui, notre service est disponible 24 heures sur 24, 7 jours sur 7, y compris les week-ends et les jours fériés. Que vous ayez besoin d'un trajet tôt le matin ou tard le soir, nous sommes là pour vous. Notre service client est également disponible 24/7 pour les questions et les réservations.",
+            "faq10-q": "Comment savoir que mon chauffeur est arrivé ?",
+            "faq10-a": "Pour Meet & Greet, vous reconnaîtrez votre chauffeur à la pancarte avec votre nom. Pour Kiss & Ride, vous recevez une confirmation avec la plaque d'immatriculation du véhicule et le numéro de téléphone du chauffeur. Vous pouvez également appeler le chauffeur si vous ne le trouvez pas directement. De plus, vous recevez un e-mail de confirmation avec tous les détails de votre trajet.",
+            "faq11-q": "Que faire si mon vol est retardé ?",
+            "faq11-a": "Ne vous inquiétez pas ! Nous surveillons tous les vols en temps réel. Si votre vol est retardé, nous ajustons automatiquement l'heure de prise en charge. Vous n'avez rien à faire. Le temps d'attente est gratuit en cas de retard. C'est l'un des avantages de notre service aéroport.",
+            "faq12-q": "Proposez-vous également des trajets internationaux ?",
+            "faq12-a": "Oui, nous assurons également des trajets internationaux vers des destinations telles que :",
+            "faq12-a1": "Amsterdam (NL)",
+            "faq12-a2": "Rotterdam (NL)",
+            "faq12-a3": "Eindhoven (NL)",
+            "faq12-a4": "Düsseldorf (DE)",
+            "faq12-a5": "Lille (FR)",
+            "faq12-a6": "Maastricht (NL)",
+            "faq12-a7": "Aix-la-Chapelle (DE)",
+            "faq12-a8": "Pour les trajets internationaux, nous vous recommandons de réserver 24 à 48 heures à l'avance. Nos chauffeurs disposent de la documentation appropriée pour le transport transfrontalier.",
+            "faq-help-title": "Vous avez encore une question ?",
+            "faq-help-text": "N'hésitez pas à nous contacter. Nous serons ravis de vous aider !",
+            "footer_brand": "FleetConnect",
+            "footer_brand_desc": "Transport de taxi professionnel en Belgique - Style, ponctualité et service.",
+            "footer_book_now": "Réservez maintenant",
+            "footer_portal": "Portail client",
+            "footer_partner": "Connexion partenaire",
+            "footer_popular_cities": "Villes populaires",
+            "footer_city_brussels": "Taxi Bruxelles",
+            "footer_city_zaventem": "Taxi Zaventem",
+            "footer_city_antwerpen": "Taxi Anvers",
+            "footer_city_brugge": "Taxi Bruges",
+            "footer_other_cities": "Toutes les autres villes :",
+            "footer_select_city": "-- Choisissez une ville --",
+            "footer_legal": "Juridique",
+            "footer_faq": "FAQ",
+            "footer_privacy": "Confidentialité",
+            "footer_cookies": "Politique de cookies",
+            "footer_terms": "Conditions générales",
+            "footer_contact_title": "FleetConnect",
+            "footer_support": "Support",
+            "footer_contact": "Contact",
+            "footer_copyright": "2026 FleetConnect -",
+            "footer_home_link": "FleetConnect",
+            "city_aalst": "Alost",
+            "city_asse": "Asse",
+            "city_dilbeek": "Dilbeek",
+            "city_doornik": "Tournai",
+            "city_genk": "Genk",
+            "city_gent": "Gand",
+            "city_grimbergen": "Grimbergen",
+            "city_halle": "Hal",
+            "city_hasselt": "Hasselt",
+            "city_kortenberg": "Kortenberg",
+            "city_kortrijk": "Courtrai",
+            "city_leuven": "Louvain",
+            "city_luik": "Liège",
+            "city_machelen": "Machelen",
+            "city_mechelen": "Malines",
+            "city_oostende": "Ostende",
+            "city_overijse": "Overijse",
+            "city_sint_niklaas": "Saint-Nicolas",
+            "city_steenokkerzeel": "Steenokkerzeel",
+            "city_tervuren": "Tervuren",
+            "city_turnhout": "Turnhout",
+            "city_vilvoorde": "Vilvorde",
+            "city_waterloo": "Waterloo",
+            "city_zemst": "Zemst"
+        },
+        en: {
+            "breadcrumb-home": "Home",
+            "breadcrumb-current": "FAQ",
+            "page-title": "Frequently Asked Questions",
+            "intro-text": "Here you will find answers to the most frequently asked questions about our services, rates, reservations and more. Is your question not listed? Please feel free to contact us.",
+            "tab-home": "Home",
+            "tab-exclusive": "Exclusive",
+            "tab-prices": "Prices",
+            "tab-fleet": "Fleet",
+            "tab-airport": "Airport",
+            "tab-business": "Business",
+            "tab-events": "Events",
+            "tab-courier": "Courier",
+            "faq-title": "Frequently Asked Questions",
+            "faq1-q": "How can I book a taxi?",
+            "faq1-a": "You can easily book a taxi through our website. Go to the home page and click the 'Book now' button. You can also call our customer service or send an email to info@fleetconnect.be. For urgent rides, you can also reach us via WhatsApp.",
+            "faq2-q": "What are the rates?",
+            "faq2-a": "We charge a fixed rate of €1.50 per kilometer with a minimum fare of €30.00. There are no hidden costs. The price is all-inclusive, including:",
+            "faq2-a1": "No pick-up fees",
+            "faq2-a2": "No luggage surcharges",
+            "faq2-a3": "No night or weekend surcharges",
+            "faq2-a4": "Waiting time included (30 min for Meet & Greet)",
+            "faq2-a5": "Check our price page for more information and specific route prices.",
+            "faq3-q": "Can I book a taxi on the same day?",
+            "faq3-a": "Yes, you can! We are available 24/7. You can book a ride up to 1 hour before departure via our website or by phone. For urgent rides, we recommend calling us or sending a WhatsApp message so we can confirm your ride quickly.",
+            "faq4-q": "What payment methods do you accept?",
+            "faq4-a": "We accept the following payment methods:",
+            "faq4-a1": "Cash (in the vehicle)",
+            "faq4-a2": "Bancontact",
+            "faq4-a3": "Credit card (Visa, Mastercard)",
+            "faq4-a4": "Invoicing afterwards (for business customers)",
+            "faq5-q": "Do you also offer airport transfers?",
+            "faq5-a": "Yes, we provide airport transfers to all major airports in the region:",
+            "faq5-a1": "Antwerp (ANR)",
+            "faq5-a2": "Zaventem (BRU)",
+            "faq5-a3": "Charleroi (CRL)",
+            "faq5-a4": "Eindhoven (EIN)",
+            "faq5-a5": "Amsterdam Schiphol (AMS)",
+            "faq5-a6": "Düsseldorf (DUS)",
+            "faq5-a7": "Flight monitoring is included. Our drivers track your flight and adjust pick-up time in case of delay, at no extra cost.",
+            "faq5-a8": "Check our airport page for more information and prices.",
+            "faq6-q": "What is the difference between Meet & Greet and Kiss & Ride?",
+            "faq6-a": "Meet & Greet: Your driver awaits you with a name sign at the arrival hall. Ideal for business travelers and international guests. 30 minutes waiting time is included. Parking fees are also included. Surcharge: €5.00.",
+            "faq6-a2": "Kiss & Ride: A fast and efficient pick-up service without a name sign. You are picked up at the Kiss & Ride zone. 30 minutes waiting time is included. Extra waiting time: €25.00/hour. This service is free.",
+            "faq7-q": "Do you also offer group transport?",
+            "faq7-a": "Yes, we also offer group transport with our luxury minivans (Mercedes V-Class or equivalent). They can accommodate up to 8 people. For larger groups, we can deploy multiple vehicles. Contact us for a no-obligation custom quote.",
+            "faq8-q": "How can I cancel or change my reservation?",
+            "faq8-a": "You can cancel your reservation free of charge up to 2 hours before the scheduled pick-up time. Contact us by phone or email. For cancellations within 2 hours of departure, cancellation fees may apply.",
+            "faq9-q": "Are you available 24/7?",
+            "faq9-a": "Yes, our service is available 24 hours a day, 7 days a week, including weekends and public holidays. Whether you need an early morning ride or a late evening ride, we are here for you. Our customer service is also available 24/7 for questions and reservations.",
+            "faq10-q": "How do I know my driver has arrived?",
+            "faq10-a": "For Meet & Greet, you will recognize your driver by the name sign with your name. For Kiss & Ride, you will receive a confirmation with the vehicle license plate and the driver's phone number. You can also call the driver if you cannot find them directly. Additionally, you will receive a confirmation email with all the details of your ride.",
+            "faq11-q": "What if my flight is delayed?",
+            "faq11-a": "Don't worry! We monitor all flights in real-time. If your flight is delayed, we automatically adjust the pick-up time. You don't have to do anything. Waiting time is free in case of delay. This is one of the benefits of our airport service.",
+            "faq12-q": "Do you also offer international rides?",
+            "faq12-a": "Yes, we also provide international rides to destinations such as:",
+            "faq12-a1": "Amsterdam (NL)",
+            "faq12-a2": "Rotterdam (NL)",
+            "faq12-a3": "Eindhoven (NL)",
+            "faq12-a4": "Düsseldorf (DE)",
+            "faq12-a5": "Lille (FR)",
+            "faq12-a6": "Maastricht (NL)",
+            "faq12-a7": "Aachen (DE)",
+            "faq12-a8": "For international rides, we recommend booking 24 to 48 hours in advance. Our drivers have the appropriate documentation for cross-border transport.",
+            "faq-help-title": "Do you still have a question?",
+            "faq-help-text": "Please feel free to contact us. We will be happy to help you!",
+            "footer_brand": "FleetConnect",
+            "footer_brand_desc": "Professional taxi transport in Belgium - Style, punctuality and service.",
+            "footer_book_now": "Book now",
+            "footer_portal": "Customer portal",
+            "footer_partner": "Partner login",
+            "footer_popular_cities": "Popular cities",
+            "footer_city_brussels": "Taxi Brussels",
+            "footer_city_zaventem": "Taxi Zaventem",
+            "footer_city_antwerpen": "Taxi Antwerp",
+            "footer_city_brugge": "Taxi Bruges",
+            "footer_other_cities": "All other cities:",
+            "footer_select_city": "-- Choose a city --",
+            "footer_legal": "Legal",
+            "footer_faq": "FAQ",
+            "footer_privacy": "Privacy",
+            "footer_cookies": "Cookie policy",
+            "footer_terms": "Terms & Conditions",
+            "footer_contact_title": "FleetConnect",
+            "footer_support": "Support",
+            "footer_contact": "Contact",
+            "footer_copyright": "2026 FleetConnect -",
+            "footer_home_link": "FleetConnect",
+            "city_aalst": "Aalst",
+            "city_asse": "Asse",
+            "city_dilbeek": "Dilbeek",
+            "city_doornik": "Tournai",
+            "city_genk": "Genk",
+            "city_gent": "Ghent",
+            "city_grimbergen": "Grimbergen",
+            "city_halle": "Halle",
+            "city_hasselt": "Hasselt",
+            "city_kortenberg": "Kortenberg",
+            "city_kortrijk": "Kortrijk",
+            "city_leuven": "Leuven",
+            "city_luik": "Liège",
+            "city_machelen": "Machelen",
+            "city_mechelen": "Mechelen",
+            "city_oostende": "Ostend",
+            "city_overijse": "Overijse",
+            "city_sint_niklaas": "Sint-Niklaas",
+            "city_steenokkerzeel": "Steenokkerzeel",
+            "city_tervuren": "Tervuren",
+            "city_turnhout": "Turnhout",
+            "city_vilvoorde": "Vilvoorde",
+            "city_waterloo": "Waterloo",
+            "city_zemst": "Zemst"
+        }
+    };
+
+    let currentLang = 'nl';
+
+    function generateCityDropdown() {
+        const t = translations[currentLang];
+        if (!t) return;
+        const cities = [
+            { key: 'city_aalst', url: '/cities/taxi-aalst.html' },
+            { key: 'city_asse', url: '/cities/taxi-asse.html' },
+            { key: 'city_dilbeek', url: '/cities/taxi-dilbeek.html' },
+            { key: 'city_doornik', url: '/cities/taxi-doornik.html' },
+            { key: 'city_genk', url: '/cities/taxi-genk.html' },
+            { key: 'city_gent', url: '/cities/taxi-gent.html' },
+            { key: 'city_grimbergen', url: '/cities/taxi-grimbergen.html' },
+            { key: 'city_halle', url: '/cities/taxi-halle.html' },
+            { key: 'city_hasselt', url: '/cities/taxi-hasselt.html' },
+            { key: 'city_kortenberg', url: '/cities/taxi-kortenberg.html' },
+            { key: 'city_kortrijk', url: '/cities/taxi-kortrijk.html' },
+            { key: 'city_leuven', url: '/cities/taxi-leuven.html' },
+            { key: 'city_luik', url: '/cities/taxi-luik.html' },
+            { key: 'city_machelen', url: '/cities/taxi-machelen.html' },
+            { key: 'city_mechelen', url: '/cities/taxi-mechelen.html' },
+            { key: 'city_oostende', url: '/cities/taxi-oostende.html' },
+            { key: 'city_overijse', url: '/cities/taxi-overijse.html' },
+            { key: 'city_sint_niklaas', url: '/cities/taxi-sint-niklaas.html' },
+            { key: 'city_steenokkerzeel', url: '/cities/taxi-steenokkerzeel.html' },
+            { key: 'city_tervuren', url: '/cities/taxi-tervuren.html' },
+            { key: 'city_turnhout', url: '/cities/taxi-turnhout.html' },
+            { key: 'city_vilvoorde', url: '/cities/taxi-vilvoorde.html' },
+            { key: 'city_waterloo', url: '/cities/taxi-waterloo.html' },
+            { key: 'city_zemst', url: '/cities/taxi-zemst.html' }
+        ];
+        const select = document.getElementById('stad-dropdown');
+        if (!select) return;
+        const currentValue = select.value;
+        select.innerHTML = '';
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = t.footer_select_city || '-- Kies een stad --';
+        select.appendChild(defaultOption);
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city.url;
+            option.textContent = t[city.key] || city.key;
+            select.appendChild(option);
+        });
+        if (currentValue) select.value = currentValue;
+    }
+
+    function translatePage() {
+        const t = translations[currentLang];
+        if (!t) return;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key] !== undefined) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = t[key];
+                else if (el.tagName === 'OPTION') el.textContent = t[key];
+                else el.innerHTML = t[key];
+            }
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
+        });
+        generateCityDropdown();
+        document.documentElement.lang = currentLang;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (lang && translations[lang]) {
+                    currentLang = lang;
+                    translatePage();
+                }
+            });
+        });
+        translatePage();
+
+        (function initMap() {
+            try {
+                if (typeof L === 'undefined') return;
+                const mapContainer = document.getElementById('background-map');
+                if (!mapContainer) return;
+                const bgMap = L.map('background-map', {
+                    center: [50.8503, 4.3517],
+                    zoom: 7,
+                    zoomControl: false,
+                    dragging: false,
+                    touchZoom: false,
+                    doubleClickZoom: false,
+                    scrollWheelZoom: false,
+                    boxZoom: false,
+                    keyboard: false,
+                    attributionControl: true
+                });
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    minZoom: 1
+                }).addTo(bgMap);
+                setTimeout(() => { bgMap.invalidateSize(); }, 200);
+                let resizeTimeout;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => { bgMap.invalidateSize(); }, 100);
+                });
+            } catch (error) {
+                console.warn('Leaflet kon niet worden geïnitialiseerd:', error.message);
+            }
+        })();
+    });
+</script>
+</body>
+</html>
