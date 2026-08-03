@@ -783,7 +783,7 @@
                 }
                 noteEl.style.color = '#2e7d32';
             } else if (prijsResult.isMinimum) {
-                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
+                noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - ${prijsResult.ritOmschrijving}`;
                 noteEl.style.color = 'var(--accent-gold)';
             } else {
                 noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
@@ -896,7 +896,7 @@
         if (fare.prijsResult?.isHotelKorting) {
             kortingNote = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
         } else if (fare.minimumApplied) {
-            kortingNote = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
+            kortingNote = `<br><small>Minimumtarief €${fare.prijsResult.applicableMinFare.toFixed(2)} - ${fare.prijsResult.ritOmschrijving}</small>`;
         }
         
         // TOTAL DISPLAY: ALLEEN DE PRIJS, GEEN KORTINGSTEKST
@@ -930,7 +930,7 @@
             if (fare.prijsResult?.isHotelKorting) {
                 extraText = `<br><small>${fare.prijsResult.hotelWeergave}</small>`;
             } else if (fare.minimumApplied) {
-                extraText = `<br><small>Minimumtarief €30 - Regio Zaventem</small>`;
+                extraText = `<br><small>Minimumtarief €${fare.prijsResult.applicableMinFare.toFixed(2)} - ${fare.prijsResult.ritOmschrijving}</small>`;
             }
             if (fare.extraKosten && fare.extraKosten.totaal > 0) {
                 extraText += `<br><small>+ Extra opties: ${fare.extraKosten.lijst.join(', ')}</small>`;
@@ -1407,7 +1407,7 @@
                     noteEl.innerHTML = `<span style="color:#2e7d32;font-weight:600;">${prijsResult.hotelWeergave}</span>`;
                     noteEl.style.color = '#2e7d32';
                 } else if (prijsResult.isMinimum) {
-                    noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - Regio Zaventem`;
+                    noteEl.innerHTML = `<i class="fas fa-info-circle"></i> ${prijsResult.berekening} - ${prijsResult.ritOmschrijving}`;
                     noteEl.style.color = 'var(--accent-gold)';
                 } else {
                     noteEl.innerHTML = `<i class="fas fa-calculator"></i> ${prijsResult.berekening}`;
