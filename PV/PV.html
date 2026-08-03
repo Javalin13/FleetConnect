@@ -212,7 +212,7 @@
         </div>
 
         <div id="page1" class="carousel-page active-page">
-            <h1>Ritgegevens</h1><div class="sub">België - Minimumtarief €30 | Berekend per km voor lange ritten</div>
+            <h1>Ritgegevens</h1><div class="sub">België - Minimumtarief vanaf €15 | Berekend per km voor lange ritten</div>
             <div class="sub" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;"><span>Heeft u een account? Gebruik uw profiel om ophaaladres automatisch in te vullen en ritten te koppelen.</span><a href="/PV/index.html" style="font-weight:800; color:var(--primary);">Inloggen / registreren</a></div>
             <div class="field"><label> Ophaaladres <span class="required-star">*</span></label><input type="text" id="pickupInput" placeholder="bv. Brussels Airport" autocomplete="off" inputmode="text"></div>
             <div class="field"><label> Afzetadres <span class="required-star">*</span></label><input type="text" id="dropoffInput" placeholder="bv. Grand Place Brussels" autocomplete="off" inputmode="text"></div>
@@ -429,10 +429,10 @@
     };
 
     function berekenFleetconnectPrijs(afstandKm, pickupAdres, dropoffAdres, isRoundTrip) {
-        const { minimumTarief, prijsPerKm, regioRadius, luchthavenPrijs } = FLEETCONNECT_PRICING;
+        const { prijsPerKm, regioRadius, luchthavenPrijs } = FLEETCONNECT_PRICING;
         
-        const pickupNormalized = normalizeAddress(pickupAdres || '');
-        const dropoffNormalized = normalizeAddress(dropoffAdres || '');
+        const pickupNormalized = normalizeAddress(pickupAdres || '').toLowerCase();
+        const dropoffNormalized = normalizeAddress(dropoffAdres || '').toLowerCase();
         
         const isHotelPickup = pickupNormalized.includes(HOTEL_ADRES);
         const isHotelDropoff = dropoffNormalized.includes(HOTEL_ADRES);
@@ -445,6 +445,27 @@
                                                      dropoffAdres.toLowerCase().includes('brussels airport') || 
                                                      dropoffAdres.toLowerCase().includes('luchthaven'));
         
+        // Dynamic region-aware minimum fare calculation
+        let applicableMinFare = 30.00; // Default Brussels / other regions minimum
+        let regionName = 'Standaard';
+
+        const hasVilvoordeInvolved = (pickupAdres && (pickupAdres.toLowerCase().includes('vilvoorde') || pickupAdres.toLowerCase().includes('machelen') || pickupAdres.toLowerCase().includes('peutie') || pickupAdres.toLowerCase().includes('perk') || pickupAdres.toLowerCase().includes('grimbergen') || pickupAdres.toLowerCase().includes('zemst'))) ||
+                                     (dropoffAdres && (dropoffAdres.toLowerCase().includes('vilvoorde') || dropoffAdres.toLowerCase().includes('machelen') || dropoffAdres.toLowerCase().includes('peutie') || dropoffAdres.toLowerCase().includes('perk') || dropoffAdres.toLowerCase().includes('grimbergen') || dropoffAdres.toLowerCase().includes('zemst')));
+
+        const hasBrusselsInvolved = (pickupAdres && (pickupAdres.toLowerCase().includes('brussel') || pickupAdres.toLowerCase().includes('bruxelles') || pickupAdres.toLowerCase().includes('brussels'))) ||
+                                    (dropoffAdres && (dropoffAdres.toLowerCase().includes('brussel') || dropoffAdres.toLowerCase().includes('bruxelles') || dropoffAdres.toLowerCase().includes('brussels')));
+
+        if (isLuchthavenPickup || isLuchthavenDropoff) {
+            applicableMinFare = 30.00;
+            regionName = 'Luchthaven';
+        } else if (hasBrusselsInvolved) {
+            applicableMinFare = 30.00;
+            regionName = 'Brussel';
+        } else if (hasVilvoordeInvolved) {
+            applicableMinFare = 15.00;
+            regionName = 'Vilvoorde';
+        }
+
         let basisPrijsPerRit = 0;
         let ritOmschrijving = '';
         let korting = 0;
@@ -452,24 +473,24 @@
         let hotelWeergave = '';
         
         if (isHotelPickup && isLuchthavenDropoff) {
-            basisPrijsPerRit = minimumTarief;
+            basisPrijsPerRit = 30.00; // Fixed Campanile -> Zaventem base before discount
             ritOmschrijving = 'Hotel → Luchthaven';
             korting = HOTEL_KORTING;
             isHotelKorting = true;
             hotelWeergave = `🏨 ${HOTEL_NAAM} - incl. €${korting.toFixed(2)} korting`;
         }
         else if (isLuchthavenPickup && isHotelDropoff) {
-            basisPrijsPerRit = luchthavenPrijs;
+            basisPrijsPerRit = luchthavenPrijs; // €35.00
             ritOmschrijving = 'Luchthaven → Hotel';
             korting = HOTEL_KORTING;
             isHotelKorting = true;
             hotelWeergave = `🏨 ${HOTEL_NAAM} - incl. €${korting.toFixed(2)} korting`;
         }
         else if (afstandKm <= regioRadius) {
-            basisPrijsPerRit = minimumTarief;
-            ritOmschrijving = 'Regio Zaventem';
+            basisPrijsPerRit = applicableMinFare;
+            ritOmschrijving = `Regio ${regionName}`;
         } else {
-            basisPrijsPerRit = Math.max(afstandKm * prijsPerKm, minimumTarief);
+            basisPrijsPerRit = Math.max(afstandKm * prijsPerKm, applicableMinFare);
             ritOmschrijving = 'Lange afstand';
         }
         
@@ -489,7 +510,7 @@
         }
         
         let totaal = Math.max(basisPrijsTotaal - korting, 0);
-        let isMinimum = totaal === minimumTarief && !isRoundTrip && !isHotelKorting;
+        let isMinimum = totaal === applicableMinFare && !isRoundTrip && !isHotelKorting;
         let berekening = `€${basisPrijsTotaal.toFixed(2)}`;
         
         return {
@@ -509,6 +530,7 @@
             isHotelDropoff: isHotelDropoff,
             isLuchthavenPickup: isLuchthavenPickup,
             isLuchthavenDropoff: isLuchthavenDropoff,
+            applicableMinFare: applicableMinFare,
             rawBerekening: {
                 afstand: afstandKm,
                 prijsPerKm: prijsPerKm,
