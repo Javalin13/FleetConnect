@@ -437,13 +437,15 @@
         const isHotelPickup = pickupNormalized.includes(HOTEL_ADRES);
         const isHotelDropoff = dropoffNormalized.includes(HOTEL_ADRES);
         
-        const isLuchthavenPickup = pickupAdres && (pickupAdres.toLowerCase().includes('zaventem') || 
-                                                   pickupAdres.toLowerCase().includes('brussels airport') || 
-                                                   pickupAdres.toLowerCase().includes('luchthaven'));
-        
-        const isLuchthavenDropoff = dropoffAdres && (dropoffAdres.toLowerCase().includes('zaventem') || 
-                                                     dropoffAdres.toLowerCase().includes('brussels airport') || 
-                                                     dropoffAdres.toLowerCase().includes('luchthaven'));
+        const isLuchthavenAddress = (addr) => {
+            if (!addr) return false;
+            const lower = addr.toLowerCase();
+            const cleaned = lower.replace(/luchthavenlaan/g, '').replace(/luchthavenweg/g, '');
+            return cleaned.includes('zaventem') || cleaned.includes('brussels airport') || cleaned.includes('luchthaven');
+        };
+
+        const isLuchthavenPickup = isLuchthavenAddress(pickupAdres);
+        const isLuchthavenDropoff = isLuchthavenAddress(dropoffAdres);
         
         // Dynamic region-aware minimum fare calculation
         let applicableMinFare = 30.00; // Default Brussels / other regions minimum

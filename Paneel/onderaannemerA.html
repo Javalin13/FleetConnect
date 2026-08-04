@@ -904,6 +904,7 @@
                             </div>
                         </div>
                         <div style="display:flex; gap:6px; align-items:center;">
+                            <button class="action-btn" onclick="app.showAddDriverForm(${p.id})" title="Chauffeur toevoegen"><i class="fas fa-user-plus"></i></button>
                             <button class="action-btn" onclick="app.editPartner(${p.id})" title="Bewerken"><i class="fas fa-edit"></i></button>
                             <button class="action-btn" onclick="app.showPartnerDetails(${p.id})" title="Details"><i class="fas fa-eye"></i></button>
                             ${p.archived_at ? `<button class="action-btn" onclick="app.unarchivePartner(${p.id})" title="Heractiveren"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.archivePartner(${p.id})" title="Archiveren"><i class="fas fa-archive"></i></button>`}
@@ -975,6 +976,7 @@
                             <div style="color:#94a3b8; font-size:0.8rem; margin-top:4px;"><strong>${driversCount}</strong> chauffeur${driversCount !== 1 ? 's' : ''} · <strong>${ordersCount}</strong> rit${ordersCount !== 1 ? 'ten' : ''} · Prefix: <code>${this.escapeHtml(p.prefix || '-')}</code></div>
                         </div>
                         <div style="display:flex; gap:6px; align-items:center;">
+                            <button class="action-btn" onclick="app.showAddDriverForm(${p.id})" title="Chauffeur toevoegen"><i class="fas fa-user-plus"></i></button>
                             <button class="action-btn" onclick="app.editPartner(${p.id})"><i class="fas fa-edit"></i></button>
                             <button class="action-btn" onclick="app.showPartnerDetails(${p.id})"><i class="fas fa-eye"></i></button>
                             <button class="delete-btn" onclick="app.archivePartner(${p.id})"><i class="fas fa-archive"></i></button>
@@ -1042,7 +1044,11 @@
                         <div class="fiche-row"><span class="fiche-label">Type:</span><span class="fiche-value">${p.is_hoofd ? 'Hoofdpartner' : 'Sub-partner'}</span></div>
                         <div class="fiche-row"><span class="fiche-label">Auth login:</span><span class="fiche-value">${p.user_id ? 'Ja' : 'Nee'}</span></div>
                     </div>
-                    <div class="fiche-section"><h4>Chauffeurs (${drivers.length})</h4>
+                    <div class="fiche-section">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <h4 style="margin:0;">Chauffeurs (${drivers.length})</h4>
+                            <button class="add-btn" style="padding: 4px 10px; font-size: 0.8rem; margin: 0;" onclick="app.closeModal(); app.showAddDriverForm(${p.id});">+ Chauffeur toevoegen</button>
+                        </div>
                         ${drivers.length === 0 ? '<p style="color:#94a3b8;">Geen chauffeurs</p>' :
                           drivers.map(d => `<div style="padding:8px 0; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(d.name)}</strong> · ${this.escapeHtml(d.email || '-')} · ${this.escapeHtml(d.vehicle || '-')} ${d.is_active ? '' : '<span class="status-badge status-cancelled">Inactief</span>'}</div><button class="action-btn" onclick="app.showDriverDetails('${d.id}')">Details</button></div>`).join('')}
                     </div>
