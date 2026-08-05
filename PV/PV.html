@@ -439,8 +439,7 @@
         
         const isLuchthavenAddress = (addr) => {
             if (!addr) return false;
-            const lower = addr.toLowerCase();
-            const cleaned = lower.replace(/luchthavenlaan/g, '').replace(/luchthavenweg/g, '');
+            const cleaned = addr.toLowerCase().replace(/luchthavenlaan/g, '').replace(/luchthavenweg/g, '');
             return cleaned.includes('zaventem') || cleaned.includes('brussels airport') || cleaned.includes('luchthaven');
         };
 
