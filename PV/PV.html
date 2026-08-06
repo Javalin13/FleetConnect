@@ -439,8 +439,8 @@
         
         const isLuchthavenAddress = (addr) => {
             if (!addr) return false;
-            const cleaned = addr.toLowerCase().replace(/luchthavenlaan/g, '').replace(/luchthavenweg/g, '');
-            return cleaned.includes('zaventem') || cleaned.includes('brussels airport') || cleaned.includes('luchthaven');
+            const clean = addr.toLowerCase().replace(/luchthavenlaan/g, '').replace(/luchthavenweg/g, '');
+            return clean.includes('zaventem') || clean.includes('brussels airport') || clean.includes('luchthaven');
         };
 
         const isLuchthavenPickup = isLuchthavenAddress(pickupAdres);

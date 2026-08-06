@@ -16,7 +16,6 @@ describe('Pricing Engine', () => {
   });
 
   it('correctly calculates fare for airport and non-airport addresses', async () => {
-    // Tests that call supabase client get mocked via the rpc mock
     mockRpc.mockResolvedValueOnce({
       data: {
         total_amount: 15.00,

@@ -68,8 +68,6 @@ declare
   v_fixed_price numeric;
   v_pickup text;
   v_dropoff text;
-  v_clean_pickup text;
-  v_clean_dropoff text;
   v_applicable_min numeric;
   v_is_min_applied boolean;
   v_base_fare numeric;
@@ -114,13 +112,9 @@ begin
   v_applicable_min := v_profile.default_minimum_fare;
   v_route_name := 'Standaard';
 
-  -- Clean street names from airport patterns to prevent false positives on e.g. "luchthavenlaan"
-  v_clean_pickup := replace(replace(v_pickup, 'luchthavenlaan', ''), 'luchthavenweg', '');
-  v_clean_dropoff := replace(replace(v_dropoff, 'luchthavenlaan', ''), 'luchthavenweg', '');
-
   -- Check Brussels Airport transfers
-  if v_clean_pickup like '%zaventem%' or v_clean_pickup like '%brussels airport%' or v_clean_pickup like '%luchthaven%' or
-     v_clean_dropoff like '%zaventem%' or v_clean_dropoff like '%brussels airport%' or v_clean_dropoff like '%luchthaven%' then
+  if v_pickup like '%zaventem%' or v_pickup like '%brussels airport%' or v_pickup like '%luchthaven%' or
+     v_dropoff like '%zaventem%' or v_dropoff like '%brussels airport%' or v_dropoff like '%luchthaven%' then
     v_applicable_min := v_profile.airport_minimum_fare;
     v_route_name := 'Luchthaven';
   -- Check Brussels region
