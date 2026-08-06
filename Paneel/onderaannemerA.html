@@ -10,7 +10,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #f1f5f9; height: 100vh; display: flex; }
-        
+
         .sidebar {
             width: 280px;
             background: #0f172a;
@@ -28,7 +28,7 @@
         .sidebar.collapsed .nav-section-title { display: none; }
         .sidebar.collapsed .nav-item { justify-content: center; }
         .sidebar.collapsed .nav-item i { margin: 0; }
-        
+
         .logo {
             padding: 24px 20px;
             font-size: 1.3rem;
@@ -44,7 +44,7 @@
         .logo .logo-text { flex: 1; }
         .logo i.fa-taxi { color: #2dd4bf; margin-right: 8px; }
         .logo small { font-size: 0.7rem; display: block; color: #64748b; margin-top: 4px; }
-        
+
         .nav-menu { padding: 20px 16px; flex: 1; }
         .nav-section { margin-bottom: 20px; }
         .nav-section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; padding: 8px 12px; white-space: nowrap; }
@@ -69,7 +69,7 @@
         .nav-item.logout-item { margin-top: 16px; border-top: 1px solid #1e293b; border-radius: 0; padding-top: 16px; color: #f87171; }
         .nav-item.switch-item { border-top: 1px solid #1e293b; margin-top: 8px; padding-top: 16px; color: #f59e0b; }
         .nav-item.switch-item:hover { background: #f59e0b20; color: #f59e0b; }
-        
+
         .language-selector {
             display: flex;
             gap: 5px;
@@ -91,7 +91,7 @@
         }
         .lang-btn:hover { background: #334155; color: white; }
         .lang-btn.active { background: #2dd4bf; color: #0f172a; }
-        
+
         /* Route kolom styling - eenvoudige browser tooltip */
         .route-cell {
             max-width: 250px;
@@ -104,7 +104,7 @@
         .route-cell:hover {
             background-color: #f1f5f9;
         }
-        
+
         .main { flex: 1; display: flex; flex-direction: column; overflow: auto; }
         .header {
             background: white;
@@ -138,7 +138,7 @@
         .back-btn { background: #e2e8f0; color: #0f172a; }
         .back-btn:hover { background: #cbd5e1; }
         .content { padding: 32px; }
-        
+
         .filter-bar { background: white; padding: 8px 16px; border-radius: 48px; margin-bottom: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border: 1px solid #e2e8f0; }
         .filter-group { display: flex; flex-direction: column; gap: 4px; }
         .filter-group label { font-size: 0.65rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; padding-left: 16px; }
@@ -157,19 +157,19 @@
         .filter-actions button { padding: 6px 14px; border-radius: 32px; border: none; cursor: pointer; font-weight: 500; font-size: 0.75rem; }
         .btn-filter { background: #0f172a; color: white; }
         .btn-reset { background: #e2e8f0; color: #1e293b; }
-        
+
         .orders-table-wrapper { overflow-x: auto; background: white; border-radius: 16px; padding: 20px; }
         .orders-table { width: 100%; border-collapse: collapse; min-width: 800px; }
         .orders-table th { text-align: left; padding: 12px 8px; border-bottom: 1px solid #e2e8f0; font-size: 0.75rem; font-weight: 600; color: #64748b; }
         .orders-table td { padding: 12px 8px; border-bottom: 1px solid #f1f5f9; font-size: 0.8rem; }
-        
+
         .action-btn { background: #2dd4bf; color: #0f172a; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 0.75rem; }
         .approve-btn { background: #10b981 !important; color: #ffffff !important; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.8rem; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; }
         .delete-btn { background: #ef4444; color: white; margin-left: 8px; padding: 4px 10px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.7rem; }
         .account-request-actions { display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap; justify-content: flex-end; }
         .add-btn { background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 0.8rem; margin-bottom: 16px; }
         .order-count { background: #2dd4bf20; padding: 4px 12px; border-radius: 40px; font-size: 0.75rem; font-weight: 600; color: #0f172a; }
-        
+
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
         .modal-content { background: white; border-radius: 20px; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; }
         .fiche-header { background: #0f172a; color: white; padding: 20px; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 5; }
@@ -189,7 +189,7 @@
         .fiche-btn.confirm { background: #10b981; color: white; }
         .fiche-btn.close { background: #64748b; color: white; }
         .fiche-btn.assign { background: #f59e0b; color: white; }
-        
+
         .people-card { background: white; border-radius: 16px; padding: 20px; }
         .calendar-container { background: white; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
@@ -206,7 +206,7 @@
         .calendar-day.today { border: 2px solid #f59e0b; font-weight: 600; }
         .calendar-day.has-rides { background: #dbeafe; }
         .ride-dot { width: 6px; height: 6px; background: #2dd4bf; border-radius: 50%; margin-top: 2px; }
-        
+
         .dashboard-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
         .info-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; }
         .mini-flip-container { perspective: 600px; height: 140px; }
@@ -216,33 +216,33 @@
         .mini-flip-front { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; transform: rotateY(0deg); }
         .mini-flip-back { background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%); color: #0f172a; transform: rotateY(180deg); }
         .mini-flip-front .value, .mini-flip-back .value { font-size: 1.8rem; font-weight: 700; margin: 8px 0; }
-        
+
         .planning-container { margin-top: 20px; background: white; border-radius: 16px; padding: 20px; }
         .planning-list { max-height: 400px; overflow-y: auto; }
         .planning-item { background: #f1f5f9; border-radius: 12px; padding: 12px; margin-bottom: 10px; border-left: 4px solid #2dd4bf; }
         .planning-time { font-weight: 700; color: #0f172a; margin-bottom: 4px; }
         .planning-ride { font-size: 0.85rem; color: #475569; }
         .empty-planning { text-align: center; padding: 40px; color: #94a3b8; }
-        
+
         .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
         .kpi-card { background: white; border-radius: 16px; padding: 20px; text-align: center; }
         .kpi-card .value { font-size: 1.8rem; font-weight: 700; }
         .kpi-card .label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-top: 8px; }
-        
+
         .wiki-container { background: white; border-radius: 16px; padding: 24px; }
         .wiki-content { text-align: left; max-width: 1000px; margin: 0 auto; line-height: 1.6; }
         .wiki-content h2 { color: #0f172a; border-bottom: 2px solid #2dd4bf; padding-bottom: 10px; margin-bottom: 20px; }
         .wiki-content h3 { color: #2dd4bf; margin-top: 20px; margin-bottom: 10px; }
-        
+
         .partner-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 16px; background: #f8fafc; }
         .partner-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
         .partner-name { font-size: 1.1rem; font-weight: 700; color: #0f172a; }
-        
+
         .toast { position: fixed; bottom: 20px; right: 20px; background: #10b981; color: white; padding: 12px 24px; border-radius: 40px; z-index: 2000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
         .toast.show { opacity: 1; }
         .hidden { display: none; }
         .compact-checkbox { width: 18px !important; min-width: 18px !important; height: 18px !important; margin: 0 !important; cursor: pointer; -webkit-appearance: checkbox !important; appearance: checkbox !important; flex: none !important; }
-        
+
         .status-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
         .status-pending { background: #fef3c7; color: #92400e; }
         .status-accepted { background: #dbeafe; color: #1e40af; }
@@ -364,7 +364,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="toast" class="toast"></div>
 
     <script type="module">
@@ -536,7 +536,7 @@
             allBookings: [], newOrders: [], ordersList: [], reassignmentOrders: [], expiredOrders: [], historyOrders: [], partners: [], drivers: [], customers: [], accountRequests: [], reviewsByBooking: {}, selectedRideIds: new Set(),
             currentTab: 'neworders', selectedDate: new Date(), currentMonth: new Date(), financePeriod: 'month', revenueChart: null, flipStates: { omzet: false, cash: false, orders: false },
             editingDriverId: null, preselectedPartnerId: null, editingPartnerId: null,
-            
+
             showToast(msg, isError) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.style.backgroundColor = isError ? '#ef4444' : '#10b981'; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); },
             toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); },
             async loadPartners() { const { data, error } = await supabase.from('partners').select('*').order('is_hoofd', { ascending: false }); if (error) { this.showToast('Fout bij laden partners: ' + error.message, true); return; } this.partners = data || []; },
@@ -567,7 +567,7 @@
             escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); },
             closeModal() { document.getElementById('bookingModal').style.display = 'none'; },
             closePartnerModal() { document.getElementById('partnerModal').style.display = 'none'; },
-            
+
             filterAndSortData() {
                 this.newOrders = this.allBookings.filter(b => this.isNewOrderStatus(b.status) && !this.isExpired(b.datetime, b.time));
                 this.expiredOrders = this.allBookings.filter(b => this.isNewOrderStatus(b.status) && this.isExpired(b.datetime, b.time));
@@ -591,7 +591,7 @@
             getAccountRequestKindLabel(request) { const accountType = String(request?.account_type || '').toLowerCase(); if (accountType === 'driver') return 'Driver PWA'; if (accountType === 'partner') return 'Partner PWA'; if (accountType === 'operations') return 'Operations'; return this.escapeHtml(request?.account_type || 'Account'); },
             formatDashboardTimestamp(value) { if (!value) return '—'; try { return new Date(value).toLocaleString('nl-BE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); } catch { return value; } },
             getTodayStats() { let todayStr = this.formatDate(new Date()); let todayRides = this.getRidesByDate(todayStr); let todayTotal = todayRides.reduce((sum, r) => sum + (r.amount || 0), 0); let todayCash = todayRides.filter(r => r.payment === 'Cash').reduce((sum, r) => sum + (r.amount || 0), 0); let nowTime = `${new Date().getHours().toString().padStart(2,'0')}:${new Date().getMinutes().toString().padStart(2,'0')}`; let futureRidesToday = todayRides.filter(r => r.status !== 'completed' && r.status !== 'cancelled' && r.time > nowTime); return { total: todayTotal, cash: todayCash, completed: todayRides.filter(r => r.status === 'completed').length, canceled: todayRides.filter(r => r.status === 'cancelled').length, futureRides: futureRidesToday.length }; },
-            
+
             shortenRoute(pickup, destination) {
                 const shortenAddress = (address) => {
                     if (!address) return '';
@@ -674,7 +674,7 @@
                 await this.refreshAllData(true);
                 this.refreshCurrentTab();
             },
-            
+
             renderNewOrders() {
                 let t = translations[currentLang];
                 let html = `<div style="display:flex; justify-content:flex-end; margin-bottom:12px;"><button class="add-btn" onclick="app.showCreateBookingForm()">+ Rit aanmaken</button></div><div class="filter-bar"><div class="filter-group"><label>${t.filterOrderId}</label><input type="text" id="filterOrderNew" placeholder="${t.btnSearch}"></div><div class="filter-group"><label>${t.filterName}</label><input type="text" id="filterNameNew" placeholder="${t.tableCustomer}"></div><div class="filter-group"><label>Sorteer</label><select id="sortNewOrders" onchange="app.applyFiltersNew()"><option value="date_asc">Datum oplopend</option><option value="date_desc">Datum aflopend</option><option value="customer">Klant</option><option value="amount_desc">Bedrag hoog-laag</option></select></div><div class="filter-actions"><button class="btn-filter" onclick="app.applyFiltersNew()">${t.btnSearch}</button><button class="btn-reset" onclick="app.resetFiltersNew()">${t.btnReset}</button></div></div>${this.renderBulkRideActions('neworders')}<div class="orders-table-wrapper"><table class="orders-table"><thead><tr><th><input type="checkbox" class="compact-checkbox" onchange="app.toggleVisibleRideSelection('neworders', this.checked)"></th><th>${t.tableId}</th><th>${t.tableDatetime}</th><th>${t.tableCustomer}</th><th>${t.tableRoute}</th><th>${t.tableVehicle}</th><th>${t.tableAmount}</th><th>${t.tableAction}</th></tr></thead><tbody id="newOrdersTable"></tbody>}</div>`;
@@ -904,7 +904,6 @@
                             </div>
                         </div>
                         <div style="display:flex; gap:6px; align-items:center;">
-                            <button class="action-btn" onclick="app.showAddDriverForm(${p.id})" title="Chauffeur toevoegen"><i class="fas fa-user-plus"></i></button>
                             <button class="action-btn" onclick="app.editPartner(${p.id})" title="Bewerken"><i class="fas fa-edit"></i></button>
                             <button class="action-btn" onclick="app.showPartnerDetails(${p.id})" title="Details"><i class="fas fa-eye"></i></button>
                             ${p.archived_at ? `<button class="action-btn" onclick="app.unarchivePartner(${p.id})" title="Heractiveren"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.archivePartner(${p.id})" title="Archiveren"><i class="fas fa-archive"></i></button>`}
@@ -976,7 +975,6 @@
                             <div style="color:#94a3b8; font-size:0.8rem; margin-top:4px;"><strong>${driversCount}</strong> chauffeur${driversCount !== 1 ? 's' : ''} · <strong>${ordersCount}</strong> rit${ordersCount !== 1 ? 'ten' : ''} · Prefix: <code>${this.escapeHtml(p.prefix || '-')}</code></div>
                         </div>
                         <div style="display:flex; gap:6px; align-items:center;">
-                            <button class="action-btn" onclick="app.showAddDriverForm(${p.id})" title="Chauffeur toevoegen"><i class="fas fa-user-plus"></i></button>
                             <button class="action-btn" onclick="app.editPartner(${p.id})"><i class="fas fa-edit"></i></button>
                             <button class="action-btn" onclick="app.showPartnerDetails(${p.id})"><i class="fas fa-eye"></i></button>
                             <button class="delete-btn" onclick="app.archivePartner(${p.id})"><i class="fas fa-archive"></i></button>
@@ -1044,11 +1042,7 @@
                         <div class="fiche-row"><span class="fiche-label">Type:</span><span class="fiche-value">${p.is_hoofd ? 'Hoofdpartner' : 'Sub-partner'}</span></div>
                         <div class="fiche-row"><span class="fiche-label">Auth login:</span><span class="fiche-value">${p.user_id ? 'Ja' : 'Nee'}</span></div>
                     </div>
-                    <div class="fiche-section">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <h4 style="margin:0;">Chauffeurs (${drivers.length})</h4>
-                            <button class="add-btn" style="padding: 4px 10px; font-size: 0.8rem; margin: 0;" onclick="app.closeModal(); app.showAddDriverForm(${p.id});">+ Chauffeur toevoegen</button>
-                        </div>
+                    <div class="fiche-section"><h4>Chauffeurs (${drivers.length})</h4>
                         ${drivers.length === 0 ? '<p style="color:#94a3b8;">Geen chauffeurs</p>' :
                           drivers.map(d => `<div style="padding:8px 0; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(d.name)}</strong> · ${this.escapeHtml(d.email || '-')} · ${this.escapeHtml(d.vehicle || '-')} ${d.is_active ? '' : '<span class="status-badge status-cancelled">Inactief</span>'}</div><button class="action-btn" onclick="app.showDriverDetails('${d.id}')">Details</button></div>`).join('')}
                     </div>
@@ -1426,7 +1420,46 @@
             applyFiltersHistory() { let orderFilter = document.getElementById("filterOrderHistory")?.value.toLowerCase() || ""; let nameFilter = document.getElementById("filterNameHistory")?.value.toLowerCase() || ""; let sort = document.getElementById("sortHistory")?.value || "date_desc"; let filtered = this.historyOrders.filter(o => (orderFilter === "" || o.id?.toLowerCase().includes(orderFilter)) && (nameFilter === "" || o.name?.toLowerCase().includes(nameFilter))); this.renderHistoryTable(this.sortBookings(filtered, sort)); },
             resetFiltersHistory() { if (document.getElementById("sortHistory")) document.getElementById("sortHistory").value = "date_desc"; this.renderHistoryTable(this.sortBookings(this.historyOrders, "date_desc")); },
             cleanupDashboardHistory() { if (!confirm('Historische ritten uit deze dashboardweergave verbergen? De databasegegevens blijven behouden.')) return; this.historyOrders = []; this.renderHistory(); this.showToast('Historiekweergave opgeruimd'); },
-            async showBookingFiche(booking) { let t = translations[currentLang]; let driverOptions = `<option value="">${t.ficheSelectDriver}</option>`; let availableDrivers = this.drivers.filter(c => c.partner_id === (booking.partner_id || 1) && c.is_active !== false); availableDrivers.forEach(d => { driverOptions += `<option value="${d.id}">${this.escapeHtml(d.name)} (${d.vehicle})</option>`; }); const isExpired = this.isExpired(booking.datetime, booking.time); const needsReassignment = booking.status === 'reassignment_needed' || booking.metadata?.requires_reassignment === true; const currentDriver = this.getDriverForBooking(booking); const assignable = (booking.status === 'accepted' || needsReassignment) && !isExpired; const recallable = booking.status === 'assigned' && currentDriver && !isExpired; const cancelable = ['accepted','assignment_sent','assigned','reassignment_needed'].includes(booking.status) && !isExpired; const completable = booking.status === 'assigned' && !isExpired; const currentDriverHtml = currentDriver ? `<div class="fiche-section"><h4>Toegewezen chauffeur</h4><div class="fiche-row"><span class="fiche-label">${t.tableDriver}:</span><span class="fiche-value"><strong>${this.escapeHtml(currentDriver.name || '-')}</strong></span></div><div class="fiche-row"><span class="fiche-label">Voertuig:</span><span class="fiche-value">${this.escapeHtml(currentDriver.vehicle || '-')} ${currentDriver.license_plate ? `(${this.escapeHtml(currentDriver.license_plate)})` : ''}</span></div></div>` : ''; document.getElementById('ficheBody').innerHTML = `<div class="fiche-section"><h4>${t.ficheBookingInfo}</h4><div class="fiche-row"><span class="fiche-label">${t.ficheBookingNumber}:</span><span class="fiche-value"><strong>${booking.id}</strong></span></div><div class="fiche-row"><span class="fiche-label">Status:</span><span class="fiche-value">${this.getStatusText(booking)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheDateTime}:</span><span class="fiche-value">${booking.datetime} om ${booking.time} uur</span></div></div><div class="fiche-section"><h4>${t.ficheCustomerInfo}</h4><div class="fiche-row"><span class="fiche-label">${t.ficheName}:</span><span class="fiche-value">${this.escapeHtml(booking.name)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheEmail}:</span><span class="fiche-value">${booking.email || '-'}</span></div></div><div class="fiche-section"><h4>${t.ficheRideInfo}</h4><div class="fiche-row"><span class="fiche-label">${t.fichePickup}:</span><span class="fiche-value">${this.escapeHtml(booking.pickup)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheDestination}:</span><span class="fiche-value">${this.escapeHtml(booking.destination)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheVehicle}:</span><span class="fiche-value">${booking.vehicle}</span></div></div>${this.renderB2BBookingDetails(booking)}${currentDriverHtml}${assignable ? `<div class="fiche-section"><h4>${t.ficheAssign}</h4><div class="fiche-row"><span class="fiche-label">${t.tableDriver}:</span><span class="fiche-value"><select id="driverSelect" style="width:100%;">${driverOptions}</select></span></div></div>` : ''}<div class="fiche-total"><div class="amount">EUR ${(booking.amount || 0).toFixed(2)}</div><div>${t.fichePayment}: ${booking.payment || t.ficheUnknown}</div></div><div class="fiche-actions">${booking.status === 'pending' ? `<button class="fiche-btn confirm" onclick="app.confirmBooking('${booking.id}')">${t.btnAccept}</button><button class="fiche-btn close" style="background:#ef4444; color:white;" onclick="app.rejectBooking('${booking.id}')">Afwijzen</button>` : ''}${assignable ? `<button class="fiche-btn assign" onclick="app.assignDriverToBooking('${booking.id}')">${t.btnAssign}</button>` : ''}${recallable ? `<button class="fiche-btn close" style="background:#f59e0b; color:white;" onclick="app.unassignDriverFromBooking('${booking.id}')">Chauffeur terugroepen</button>` : ''}${completable ? `<button class="fiche-btn confirm" onclick="app.completeBooking('${booking.id}')">Voltooien</button>` : ''}${cancelable ? `<button class="fiche-btn close" style="background:#ef4444; color:white;" onclick="app.cancelBooking('${booking.id}')">${t.btnCancel}</button>` : ''}<button class="fiche-btn close" onclick="app.closeModal()">${t.btnClose}</button></div>`; document.getElementById('bookingModal').style.display = 'flex'; },
+            async showBookingFiche(booking) {
+                let t = translations[currentLang];
+                let driverOptions = `<option value="">${t.ficheSelectDriver}</option>`;
+                let availableDrivers = this.drivers.filter(c => c.partner_id === (booking.partner_id || 1) && c.is_active !== false);
+
+                availableDrivers.forEach(d => {
+                    const selected = String(d.id) === String(booking.assigned_driver_id) ? 'selected' : '';
+                    driverOptions += `<option value="${d.id}" ${selected}>${this.escapeHtml(d.name)} (${d.vehicle})</option>`;
+                });
+
+                const isExpired = this.isExpired(booking.datetime, booking.time);
+                const needsReassignment = booking.status === 'reassignment_needed' || booking.metadata?.requires_reassignment === true;
+                const currentDriver = this.getDriverForBooking(booking);
+
+                // Dispatchers must be able to change assigned driver at any time for active statuses
+                const assignable = ['accepted', 'assignment_sent', 'assigned', 'reassignment_needed'].includes(booking.status) && !isExpired;
+                const recallable = booking.status === 'assigned' && currentDriver && !isExpired;
+                const cancelable = ['accepted','assignment_sent','assigned','reassignment_needed'].includes(booking.status) && !isExpired;
+                const completable = booking.status === 'assigned' && !isExpired;
+
+                const currentDriverHtml = currentDriver ? `<div class="fiche-section"><h4>Toegewezen chauffeur</h4><div class="fiche-row"><span class="fiche-label">${t.tableDriver}:</span><span class="fiche-value"><strong>${this.escapeHtml(currentDriver.name || '-')}</strong></span></div><div class="fiche-row"><span class="fiche-label">Voertuig:</span><span class="fiche-value">${this.escapeHtml(currentDriver.vehicle || '-')} ${currentDriver.license_plate ? `(${this.escapeHtml(currentDriver.license_plate)})` : ''}</span></div></div>` : '';
+
+                document.getElementById('ficheBody').innerHTML = `
+                    <div class="fiche-section"><h4>${t.ficheBookingInfo}</h4><div class="fiche-row"><span class="fiche-label">${t.ficheBookingNumber}:</span><span class="fiche-value"><strong>${booking.id}</strong></span></div><div class="fiche-row"><span class="fiche-label">Status:</span><span class="fiche-value">${this.getStatusText(booking)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheDateTime}:</span><span class="fiche-value">${booking.datetime} om ${booking.time} uur</span></div></div>
+                    <div class="fiche-section"><h4>${t.ficheCustomerInfo}</h4><div class="fiche-row"><span class="fiche-label">${t.ficheName}:</span><span class="fiche-value">${this.escapeHtml(booking.name)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheEmail}:</span><span class="fiche-value">${booking.email || '-'}</span></div></div>
+                    <div class="fiche-section"><h4>${t.ficheRideInfo}</h4><div class="fiche-row"><span class="fiche-label">${t.fichePickup}:</span><span class="fiche-value">${this.escapeHtml(booking.pickup)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheDestination}:</span><span class="fiche-value">${this.escapeHtml(booking.destination)}</span></div><div class="fiche-row"><span class="fiche-label">${t.ficheVehicle}:</span><span class="fiche-value">${booking.vehicle}</span></div></div>
+                    ${this.renderB2BBookingDetails(booking)}
+                    ${currentDriverHtml}
+                    ${assignable ? `<div class="fiche-section"><h4>${t.ficheAssign}</h4><div class="fiche-row"><span class="fiche-label">${t.tableDriver}:</span><span class="fiche-value"><select id="driverSelect" style="width:100%;">${driverOptions}</select></span></div></div>` : ''}
+                    <div class="fiche-total"><div class="amount">EUR ${(booking.amount || 0).toFixed(2)}</div><div>${t.fichePayment}: ${booking.payment || t.ficheUnknown}</div></div>
+                    <div class="fiche-actions">
+                        ${booking.status === 'pending' ? `<button class="fiche-btn confirm" onclick="app.confirmBooking('${booking.id}')">${t.btnAccept}</button><button class="fiche-btn close" style="background:#ef4444; color:white;" onclick="app.rejectBooking('${booking.id}')">Afwijzen</button>` : ''}
+                        ${assignable ? `<button class="fiche-btn assign" onclick="app.assignDriverToBooking('${booking.id}')">${t.btnAssign}</button>` : ''}
+                        ${recallable ? `<button class="fiche-btn close" style="background:#f59e0b; color:white;" onclick="app.unassignDriverFromBooking('${booking.id}')">Chauffeur terugroepen</button>` : ''}
+                        ${completable ? `<button class="fiche-btn confirm" onclick="app.completeBooking('${booking.id}')">Voltooien</button>` : ''}
+                        ${cancelable ? `<button class="fiche-btn close" style="background:#ef4444; color:white;" onclick="app.cancelBooking('${booking.id}')">${t.btnCancel}</button>` : ''}
+                        <button class="fiche-btn close" onclick="app.closeModal()">${t.btnClose}</button>
+                    </div>`;
+                document.getElementById('bookingModal').style.display = 'flex';
+            },
             async fetchBookingsFromSupabase() { const { data, error } = await supabase.from('bookings').select('*').order('datetime', { ascending: false }); if (error) { console.error('Supabase fout:', error); this.showToast('Fout bij laden boekingen: ' + error.message, true); return []; } return data || []; },
             async confirmBooking(bookingId) { let t = translations[currentLang]; const { error } = await supabase.from('bookings').update({ status: 'accepted' }).eq('id', bookingId); if (error) { this.showToast(`${t.toastError} ${t.btnAccept}: ` + error.message, true); return; } await this.refreshAllData(true); this.currentTab = 'orders'; this.refreshCurrentTab(); const accepted = this.allBookings.find(b => b.id === bookingId); if (accepted) await this.showBookingFiche(accepted); this.showToast(`${t.toastAccepted}`); },
             async rejectBooking(bookingId) { const reason = prompt('Reden voor afwijzing (optioneel):') || ''; const { error } = await supabase.rpc('operator_reject_booking', { p_booking_id: bookingId, p_reason: reason }); if (error) { this.showToast('Afwijzen mislukt: ' + error.message, true); return; } await comms.trigger('BOOKING_REJECTED', bookingId, supabase); this.showToast('Rit afgewezen'); await this.refreshAllData(); this.closeModal(); },
@@ -1815,14 +1848,9 @@
                 }, 30000);
             }
         };
-        
+
         app.init().catch(console.error);
         window.app = app;
     </script>
 </body>
 </html>
-
-
-
-
-
