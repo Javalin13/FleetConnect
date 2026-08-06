@@ -390,21 +390,14 @@
     if (sidebarOverlay) sidebarOverlay.addEventListener('click', function(e) { if (e.target === sidebarOverlay) closeMenu(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && sidebarOverlay && sidebarOverlay.classList.contains('active')) closeMenu(); });
     
-    window.__fleetconnectSupabaseReady = new Promise((resolve) => {
-        if (window.SUPABASE_CLIENT) {
-            resolve(window.SUPABASE_CLIENT);
-        } else {
-            window.__fleetconnectResolveSupabase = resolve;
-        }
-    });
-    async function getSupabase() { return await window.__fleetconnectSupabaseReady; }
+    function getSupabase() { return window.SUPABASE_CLIENT || null; }
     
     async function handleLogout() {
         const logoutBtn = document.getElementById('logoutBtn');
         logoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Déconnexion...';
         logoutBtn.disabled = true;
         try {
-            const supabase = await getSupabase();
+            const supabase = getSupabase();
             if (supabase) await supabase.auth.signOut();
             localStorage.clear(); sessionStorage.clear();
             // FIX RC-5: use canonical /PV/ prefix
@@ -604,7 +597,7 @@
         const customerId = `CUST-${em.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
         const bookingId = `T-PV-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${Math.floor(Math.random()*1000)}`;
         const bookingData = { id: bookingId, datetime: datePart, time: timePart, name: `${fn} ${ln}`, email: em, phone: ph, pickup: document.getElementById('pickupInput').value, destination: document.getElementById('dropoffInput').value, flight_number: document.getElementById('flightNumber').value.trim() || "", vehicle: selectedVehicle, extras: getExtrasString(), amount: totalAmount.toString(), payment: payment, status: payment === "Cash" ? "pending" : "pending_payment", customer_id: customerId, form_data: { source: "web-portal" }, created_at: new Date().toISOString(), partner_id: 1, assigned_driver_id: null, payment_status: payment === "Cash" ? "cash_pending" : "unpaid" };
-        const supabase = await getSupabase();
+        const supabase = getSupabase();
         if (!supabase) { showError(5, 'Base de données indisponible'); return; }
         bookingSubmitInProgress = true;
         try {
@@ -641,7 +634,7 @@
         currentUser.phone = document.getElementById('profilePhone').value;
         currentUser.default_pickup_address = document.getElementById('defaultPickup').value;
 
-        const supabase = await getSupabase();
+        const supabase = getSupabase();
         if (supabase) {
             const { error: updateError } = await supabase.from('customers').update({
                 name: currentUser.full_name,
@@ -660,7 +653,7 @@
     });
     
     async function loadUserBookings() {
-        const supabase = await getSupabase();
+        const supabase = getSupabase();
         if (!supabase) return;
         try {
             const customerId = `CUST-${currentUser.email.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
@@ -693,7 +686,7 @@
         const tbody = document.querySelector('#paymentsTable tbody');
         if (!tbody) return;
         tbody.innerHTML = `<tr><td colspan="6">Chargement...</td></tr>`;
-        const supabase = await getSupabase();
+        const supabase = getSupabase();
         if (!supabase) { tbody.innerHTML = `<tr><td colspan="6">Base de données indisponible</td></tr>`; return; }
         try {
             const customerId = `CUST-${currentUser.email.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
