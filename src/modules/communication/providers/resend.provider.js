@@ -42,7 +42,7 @@ export class ResendProvider extends BaseEmailProvider {
             const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
             const fullUrl = `${baseUrl}${cleanFunctionBase}${cleanEndpoint}`;
 
-            const response = await fetch(fullUrl, {
+            let response = await fetch(fullUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,12 +52,37 @@ export class ResendProvider extends BaseEmailProvider {
                 body: JSON.stringify(payload)
             });
 
-            const raw = await response.text();
+            let raw = await response.text();
             let data = {};
             try {
                 data = raw ? JSON.parse(raw) : {};
             } catch (parseError) {
                 data = { error: raw || parseError.message };
+            }
+
+            // Self-healing fallback: If sending via .com failed (e.g. because of unverified domain on Resend), retry via verified .be domain!
+            if ((!response.ok || data.success === false) && payload.from && payload.from.includes('@fleetconnect.com')) {
+                console.warn(`[ResendProvider] Dispatch via .com failed. Retrying with verified .be domain fallback...`);
+                payload.from = payload.from.replace('@fleetconnect.com', '@fleetconnect.be');
+                if (payload.reply_to) payload.reply_to = payload.reply_to.replace('@fleetconnect.com', '@fleetconnect.be');
+                if (payload.cc) payload.cc = payload.cc.map(email => email.replace('@fleetconnect.com', '@fleetconnect.be'));
+                if (payload.bcc) payload.bcc = payload.bcc.map(email => email.replace('@fleetconnect.com', '@fleetconnect.be'));
+
+                response = await fetch(fullUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': supabaseKey,
+                        'Authorization': `Bearer ${supabaseKey}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                raw = await response.text();
+                try {
+                    data = raw ? JSON.parse(raw) : {};
+                } catch (parseError) {
+                    data = { error: raw || parseError.message };
+                }
             }
 
             if (!response.ok || data.success === false) {
