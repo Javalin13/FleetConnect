@@ -62,29 +62,48 @@ export class CommunicationService {
             if (!template) throw new Error(`Template not found for ${trigger}`);
             const html = template.render(snapshot, lang, mode);
 
+            // Trigger automatic driver assignment request if a booking is auto-assigned
+            if (trigger === 'BOOKING_CONFIRMATION') {
+                const isAutoAssigned = (snapshot.status === 'assignment_sent' || snapshot.status === 'assigned') && snapshot.assignment_token && (snapshot.driver?.email || snapshot.assigned_driver_id);
+                if (isAutoAssigned) {
+                    console.log(`[CommunicationService] Auto-assigned booking detected on confirmation. Triggering DRIVER_ASSIGNMENT_REQUEST for ${bookingId} asynchronously.`);
+                    this.trigger('DRIVER_ASSIGNMENT_REQUEST', bookingId, supabaseClient, { snapshot }).catch(err => {
+                        console.error('❌ Failed to trigger auto driver assignment email:', err);
+                    });
+                }
+            }
+
             // 5. Dispatch
             let to = snapshot.customer?.email || snapshot.email;
+            let dispatchOptions = {
+                bookingId: snapshot.id,
+                trigger: trigger,
+                supabaseUrl: supabaseClient.supabaseUrl,
+                supabaseKey: supabaseClient.supabaseKey
+            };
 
-            // Route DRIVER_ASSIGNMENT_REQUEST to the driver's email
+            // Route DRIVER_ASSIGNMENT_REQUEST to the configured driver recipients, CC, and BCC
             if (trigger === 'DRIVER_ASSIGNMENT_REQUEST') {
-                to = snapshot.driver?.email;
-                if (!to) throw new Error('Driver email missing for assignment request');
+                const routeRules = CommunicationConfig.routing?.assignmentEmails?.default || {};
+                const driverEmail = snapshot.driver?.email || 'you.transport@gmail.com';
+
+                // Set to, cc, bcc, from
+                to = [driverEmail, 'ayoubgaddar05@gmail.com'];
+                dispatchOptions.from = routeRules.from || 'dispatch@fleetconnect.com';
+                dispatchOptions.replyTo = routeRules.from || 'dispatch@fleetconnect.com';
+                dispatchOptions.cc = routeRules.cc || ['fleetconnect.os@gmail.com', 'ryzenoutsourcing@gmail.com'];
+                dispatchOptions.bcc = routeRules.bcc || ['dispatch@fleetconnect.com'];
             }
 
             const internalOnly = options.operationsOnly || this.internalOnlyTriggers.has(trigger);
-            if (!internalOnly && !to) throw new Error('Recipient email missing');
+            if (!internalOnly && (!to || (Array.isArray(to) && to.length === 0))) throw new Error('Recipient email missing');
 
             let result = { success: true, provider: this.activeProvider.constructor.name, internalOnly };
 
             if (!internalOnly) {
-                console.log(`[CommunicationService] Sending ${trigger} to ${to} via ${this.activeProvider.constructor.name}`);
+                console.log(`[CommunicationService] Sending ${trigger} to ${Array.isArray(to) ? to.join(', ') : to} via ${this.activeProvider.constructor.name}`);
 
-                result = await this.activeProvider.send(to, subject, html, {
-                    bookingId: snapshot.id,
-                    trigger: trigger,
-                    supabaseUrl: supabaseClient.supabaseUrl,
-                    supabaseKey: supabaseClient.supabaseKey
-                });
+                result = await this.activeProvider.send(to, subject, html, dispatchOptions);
             }
 
             const operationsResult = await this.sendOperationsCopy(trigger, snapshot, subject, html, internalOnly ? null : to, supabaseClient);
