@@ -56,7 +56,7 @@ $$ language plpgsql security definer;
 -- 3. Create the BEFORE INSERT OR UPDATE trigger on public.customers
 drop trigger if exists tr_ensure_customer_username on public.customers;
 create trigger tr_ensure_customer_username
-before insert or update of name, email, username on public.customers
+before insert or update on public.customers
 for each row
 execute function public.ensure_customer_username();
 

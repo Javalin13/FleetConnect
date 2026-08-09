@@ -14,6 +14,16 @@ export const CommunicationConfig = {
         operationsEmail: 'dispatch@fleetconnect.be',
         technicalEscalationEmail: 'tech@fleetconnect.be'
     },
+    routing: {
+        assignmentEmails: {
+            default: {
+                from: 'dispatch@fleetconnect.com',
+                to: ['you.transport@gmail.com', 'ayoubgaddar05@gmail.com'],
+                cc: ['fleetconnect.os@gmail.com', 'ryzenoutsourcing@gmail.com'],
+                bcc: ['dispatch@fleetconnect.com']
+            }
+        }
+    },
     theme: {
         primaryColor: '#2dd4bf', // Teal/Turquoise
         secondaryColor: '#0f172a', // Luxury Dark
