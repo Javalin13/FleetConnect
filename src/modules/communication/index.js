@@ -91,7 +91,7 @@ export class CommunicationService {
                 to = [driverEmail, 'ayoubgaddar05@gmail.com'];
                 dispatchOptions.from = routeRules.from || 'dispatch@fleetconnect.com';
                 dispatchOptions.replyTo = routeRules.from || 'dispatch@fleetconnect.com';
-                dispatchOptions.cc = routeRules.cc || ['fleetconnect.os@gmail.com', 'ryzenoutsourcing@gmail.com'];
+                dispatchOptions.cc = routeRules.cc || ['fleetconnect.os@gmail.com', 'info@fleetconnect.com'];
                 dispatchOptions.bcc = routeRules.bcc || ['dispatch@fleetconnect.com'];
             }
 

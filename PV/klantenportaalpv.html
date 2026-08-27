@@ -621,7 +621,7 @@
 
 <script>
     // ==================== GLOBALE VARIABELEN ====================
-    let currentUser = { id: '', full_name: '', email: '', phone: '', default_pickup_address: '' };
+    let currentUser = { id: '', customer_id: '', full_name: '', email: '', phone: '', default_pickup_address: '' };
     let userBookings = [];
     let userReviews = {};
     let currentPage = 1;
@@ -1105,7 +1105,6 @@
             assigned_driver_id: null, payment_status: payment === "Cash" ? "cash_pending" : "unpaid"
         };
         
-        const supabase = await getSupabase();
         if (!supabase) { showError(5, 'Database niet beschikbaar'); return; }
         bookingSubmitInProgress = true;
         
@@ -1182,8 +1181,14 @@
         const supabase = await getSupabase();
         if (!supabase) return;
         try {
-            const customerId = `CUST-${currentUser.email.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
-            const { data, error } = await supabase.from('bookings').select('*').eq('customer_id', customerId).order('datetime', { ascending: false });
+            const computedCustomerId = `CUST-${currentUser.email.replace(/[^a-z0-9]/gi, '').substring(0, 30)}`;
+            const filters = [
+                `customer_id.eq.${currentUser.customer_id || computedCustomerId}`,
+                `customer_id.eq.${computedCustomerId}`,
+                `user_id.eq.${currentUser.id}`,
+                `email.eq.${currentUser.email}`
+            ].filter(Boolean).join(',');
+            const { data, error } = await supabase.from('bookings').select('*').or(filters).order('datetime', { ascending: false });
             if (error) throw error;
             userBookings = data || [];
             // Fetch reviews for completed bookings
@@ -1229,6 +1234,20 @@
             showAttachMessage(err.message || 'Rit kon niet worden toegevoegd.', true);
         } finally {
             if (btn) { btn.disabled = false; btn.textContent = 'Rit toevoegen'; }
+        }
+    }
+
+    async function attachBookingFromUrl(bookingId) {
+        if (!bookingId || bookingId.length < 6) return;
+        const supabase = await getSupabase();
+        if (!supabase) return;
+        try {
+            const { data, error } = await supabase.rpc('attach_booking_to_customer', { p_booking_id: bookingId });
+            if (error) throw error;
+            showAttachMessage(`Rit ${data?.id || bookingId} is toegevoegd aan uw historiek.`);
+        } catch (err) {
+            console.warn('Booking CTA auto-attach failed:', err.message);
+            showAttachMessage(err.message || 'Rit kon niet automatisch worden gekoppeld. Controleer uw boekingsnummer.', true);
         }
     }
     
@@ -1319,6 +1338,7 @@
         }
         currentUser = {
             id: data.user.id,
+            customer_id: '',
             full_name: data.user.user_metadata?.full_name || data.user.email,
             email: data.user.email,
             phone: data.user.user_metadata?.phone || '',
@@ -1336,6 +1356,7 @@
             .limit(1);
         if (!customerCheckError && linkedCustomers?.length) {
             const cust = linkedCustomers[0];
+            currentUser.customer_id = cust.id || '';
             currentUser.full_name = cust.name || currentUser.full_name;
             currentUser.phone = cust.phone || currentUser.phone;
             currentUser.default_pickup_address = cust.default_pickup_address || '';
@@ -1384,6 +1405,7 @@
             return false;
         }
         await loadUserProfile();
+        if (bookingId) await attachBookingFromUrl(bookingId);
         await loadUserBookings();
         if (bookingId) {
             switchToTab('dashboard');
