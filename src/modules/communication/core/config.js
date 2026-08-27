@@ -19,7 +19,7 @@ export const CommunicationConfig = {
             default: {
                 from: 'dispatch@fleetconnect.com',
                 to: ['you.transport@gmail.com', 'ayoubgaddar05@gmail.com'],
-                cc: ['fleetconnect.os@gmail.com', 'ryzenoutsourcing@gmail.com'],
+                cc: ['fleetconnect.os@gmail.com', 'info@fleetconnect.com'],
                 bcc: ['dispatch@fleetconnect.com']
             }
         }

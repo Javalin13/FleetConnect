@@ -29,6 +29,8 @@ export class ResendProvider extends BaseEmailProvider {
                 trigger: options.trigger
             }
         };
+        if (options.cc) payload.cc = Array.isArray(options.cc) ? options.cc : [options.cc];
+        if (options.bcc) payload.bcc = Array.isArray(options.bcc) ? options.bcc : [options.bcc];
 
         try {
             // Use Supabase credentials from context if available, otherwise fallback to config

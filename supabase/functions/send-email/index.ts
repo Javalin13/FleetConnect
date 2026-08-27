@@ -79,7 +79,7 @@ serve(async (req) => {
     }
 
     const payload = await req.json()
-    const { to, subject, html, from, reply_to, metadata } = payload
+    const { to, subject, html, from, reply_to, cc, bcc, metadata } = payload
 
     // 2. Strict Payload Validation
     if (!to || (Array.isArray(to) && to.length === 0)) {
@@ -95,6 +95,13 @@ serve(async (req) => {
         throw new Error(`Invalid email format: ${email}`)
       }
     }
+    const ccRecipients = cc ? (Array.isArray(cc) ? cc : [cc]) : []
+    const bccRecipients = bcc ? (Array.isArray(bcc) ? bcc : [bcc]) : []
+    for (const email of [...ccRecipients, ...bccRecipients]) {
+      if (!email.includes('@')) {
+        throw new Error(`Invalid email format: ${email}`)
+      }
+    }
 
     console.log(`[Email Dispatch] Trigger: ${metadata?.trigger || 'Unknown'} | To: ${recipients.join(', ')}`);
 
@@ -102,7 +109,7 @@ serve(async (req) => {
     // Allow verified FleetConnect-domain senders, otherwise use the canonical configured sender.
     const senderEnv = Deno.env.get('FLEETCONNECT_EMAIL_FROM')
     const requestedSender = typeof from === 'string' ? from : ''
-    const requestedSenderAllowed = /@fleetconnect\\.be>?$/i.test(requestedSender.trim())
+    const requestedSenderAllowed = /@fleetconnect\.be>?$/i.test(requestedSender.trim())
     const sender = requestedSenderAllowed ? requestedSender : (senderEnv || 'FleetConnect <bookings@fleetconnect.be>')
     const senderFallbackUsed = !requestedSenderAllowed && !senderEnv
     console.log(`[Email Dispatch] FLEETCONNECT_EMAIL_FROM exists: ${senderEnv ? 'yes' : 'no'}`)
@@ -113,6 +120,8 @@ serve(async (req) => {
     const { data, error } = await resend.emails.send({
       from: sender,
       to: to,
+      ...(ccRecipients.length ? { cc: ccRecipients } : {}),
+      ...(bccRecipients.length ? { bcc: bccRecipients } : {}),
       subject: subject,
       html: html,
       reply_to: reply_to || 'support@fleetconnect.be',
