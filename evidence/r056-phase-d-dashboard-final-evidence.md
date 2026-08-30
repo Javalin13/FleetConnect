@@ -181,12 +181,26 @@ These follow-ups are smaller-scope batches per Lux r055 §3 reliability-first di
   - nav-menu structure simplified
   - header buttons removed
   - switch handlers simplified
-  - status filter logic corrected per Lux §2
+  - status filter logic corrected per Lux §2 (Phase D r1 + Phase D Fix #1 in Phase D r2)
   - null-safe i18n setter added
   - cross-business button handlers removed
+  - translation values updated for all 4 languages (Phase D Fix #2 in Phase D r2)
+
+## Phase D r1 + r2 timeline
+
+- **Phase D r1** (commit `2727714d`): Nav-menu + cross-business removal + null-safe i18n + status filter correction (initial)
+- **Phase D r2** (this commit): Per Lux §2 + §3 review corrections — Fix #1 (clock-time expiration must not move unaccepted to History) + Fix #2 (translation values preserve canonical 7-tab semantics across all 4 languages)
+
+## Lux corrections addressed
+
+- **Fix #1**: Unresolved overdue dispatch-attention bookings remain in New Orders until lifecycle resolution (no clock-time disappearance to History)
+- **Fix #2**: Translation values updated for NL/FR/EN/ES so canonical 7-tab semantics survive language switching (Active Orders / Clients/Partners / Settings/Admin / E-mail in all 4 languages)
+
+Detailed verification: `evidence/r056-phase-d-fixes-verification.md`
 
 ## Commit
 
-- SHA: (this commit)
+- SHA: `2727714d7a16b1cf0b986e0a4846a6a15da77057` (Phase D r1)
+- SHA: (this commit) — Phase D r2 corrections
 - Branch: `integration-r056` at base `4cd308e` (r055 head) — preserves r055 auth boundary
 - Push: pending (will be committed + pushed in this round)
