@@ -85,7 +85,13 @@ export class CommunicationService {
             // Route DRIVER_ASSIGNMENT_REQUEST to the configured driver recipients, CC, and BCC
             if (trigger === 'DRIVER_ASSIGNMENT_REQUEST') {
                 const routeRules = CommunicationConfig.routing?.assignmentEmails?.default || {};
-                const driverEmail = snapshot.driver?.email || 'you.transport@gmail.com';
+                // r046 (per Lux §0/§5 Founder clarification): REMOVE fallback Gmail guess.
+// Per Lux §5: "remove only fallback behavior that guesses a personal mailbox because factual routing is missing".
+// If driver email is missing, fail explicitly (no Gmail guess) — booking remains operationally recoverable per Founder lifecycle requirement.
+const driverEmail = snapshot.driver?.email;
+if (!driverEmail) {
+    throw new Error('DRIVER_ASSIGNMENT_REQUEST: driver email missing — cannot derive assignment recipient from current driver record');
+}
 
                 // Set to, cc, bcc, from
                 to = [driverEmail, 'ayoubgaddar05@gmail.com'];
