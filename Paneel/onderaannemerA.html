@@ -454,7 +454,7 @@
         const translations = {
             nl: {
                 sidebarSubtitle: "Operator Paneel", navBookings: "BOEKINGEN", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History", navAgenda: "Agenda",
-                navManagement: "BEHEER", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navAccountRequests: "Accountaanvragen", navFinance: "FINANCI˛N", navFinancial: "Settings / Admin", navSettlements: "Settlements",
+                navManagement: "BEHEER", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navAccountRequests: "Accountaanvragen", navFinance: "FINANCIËN", navFinancial: "Settings / Admin", navSettlements: "Settlements",
                 navInfo: "INFORMATIE", navMailbox: "E-mail", navWiki: "Wiki Agent", switchWoningenText: "Switch naar Woningen", switchDealerText: "Switch naar Operations", logoutText: "Uitloggen",
                 backText: "Terug naar overzicht", headerWoningenText: "Woningen Paneel", headerDealerText: "Switch naar Operations", refreshText: "Vernieuwen",
                 filterOrderId: "Order ID", filterName: "Naam", btnSearch: "Zoeken", btnReset: "Reset", tableId: "ID", tableDatetime: "Datum/Tijd", tableCustomer: "Klant",
@@ -477,7 +477,7 @@
             fr: {
                 sidebarSubtitle: "Panneau Operateur", navBookings: "RÉSERVATIONS", navNewOrders: "Nouvelles Commandes", navOrders: "Commandes Actives", navHistory: "Historique", navAgenda: "Agenda",
                 navManagement: "GESTION", navDrivers: "Chauffeurs", navPartners: "Clients/Partenaires", navCustomers: "Clients/Partenaires", navAccountRequests: "Demandes de compte", navFinance: "FINANCES", navFinancial: "Paramètres / Admin", navSettlements: "Règlements",
-                navInfo: "INFOS", navWiki: "Wiki Agent", switchWoningenText: "Passer aux Logements", switchDealerText: "Passer au Concessionnaire", logoutText: "Déconnexion",
+                navInfo: "INFOS", navMailbox: "E-mail", navWiki: "Wiki Agent", switchWoningenText: "Passer aux Logements", switchDealerText: "Passer au Concessionnaire", logoutText: "Déconnexion",
                 backText: "Retour à l'aperçu", headerWoningenText: "Panneau Logements", headerDealerText: "Passer au Concessionnaire", refreshText: "Actualiser",
                 filterOrderId: "ID Commande", filterName: "Nom", btnSearch: "Chercher", btnReset: "Réinitialiser", tableId: "ID", tableDatetime: "Date/Heure", tableCustomer: "Client",
                 tableRoute: "Trajet", tableVehicle: "Véhicule", tableAmount: "Montant", tableAction: "Action", tableDriver: "Chauffeur", btnViewFiche: "Voir Fiche",
@@ -499,7 +499,7 @@
             en: {
                 sidebarSubtitle: "Operator Panel", navBookings: "BOOKINGS", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History", navAgenda: "Agenda",
                 navManagement: "MANAGEMENT", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navAccountRequests: "Account Requests", navFinance: "FINANCE", navFinancial: "Settings / Admin", navSettlements: "Settlements",
-                navInfo: "INFO", navWiki: "Wiki Agent", switchWoningenText: "Switch to Housing", switchDealerText: "Switch to Operations", logoutText: "Logout",
+                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agent", switchWoningenText: "Switch to Housing", switchDealerText: "Switch to Operations", logoutText: "Logout",
                 backText: "Back to overview", headerWoningenText: "Housing Panel", headerDealerText: "Switch to Operations", refreshText: "Refresh",
                 filterOrderId: "Order ID", filterName: "Name", btnSearch: "Search", btnReset: "Reset", tableId: "ID", tableDatetime: "Date/Time", tableCustomer: "Customer",
                 tableRoute: "Route", tableVehicle: "Vehicle", tableAmount: "Amount", tableAction: "Action", tableDriver: "Driver", btnViewFiche: "View Details",
@@ -521,7 +521,7 @@
             es: {
                 sidebarSubtitle: "Panel Operador", navBookings: "RESERVAS", navNewOrders: "Nuevos Pedidos", navOrders: "Pedidos Activos", navHistory: "Historial", navAgenda: "Agenda",
                 navManagement: "GESTIÓN", navDrivers: "Conductores", navPartners: "Clientes/Socios", navCustomers: "Clientes/Socios", navAccountRequests: "Solicitudes de cuenta", navFinance: "FINANZAS", navFinancial: "Configuración / Admin", navSettlements: "Liquidaciones",
-                navInfo: "INFO", navWiki: "Wiki Agente", switchWoningenText: "Cambiar a Viviendas", switchDealerText: "Cambiar a Concesionario", logoutText: "Cerrar Sesión",
+                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agente", switchWoningenText: "Cambiar a Viviendas", switchDealerText: "Cambiar a Concesionario", logoutText: "Cerrar Sesión",
                 backText: "Volver al resumen", headerWoningenText: "Panel Viviendas", headerDealerText: "Cambiar a Concesionario", refreshText: "Actualizar",
                 filterOrderId: "ID Pedido", filterName: "Nombre", btnSearch: "Buscar", btnReset: "Restablecer", tableId: "ID", tableDatetime: "Fecha/Hora", tableCustomer: "Cliente",
                 tableRoute: "Ruta", tableVehicle: "Vehículo", tableAmount: "Importe", tableAction: "Acción", tableDriver: "Conductor", btnViewFiche: "Ver Ficha",
@@ -610,18 +610,22 @@
             closePartnerModal() { document.getElementById('partnerModal').style.display = 'none'; },
             
             filterAndSortData() {
-                // PRIME r056 Phase D Fix #1 (per Lux r056 Phase D review §2):
-                // Unresolved dispatch-attention bookings remain in New Orders even if scheduled time has passed.
-                // Clock expiration does NOT equal lifecycle resolution.
-                // Only terminal/resolved states move to History.
+                // PRIME r056 Phase D r3 (per Lux r056 Phase D r2 review §2):
+                // ALL lifecycle buckets are STATUS-DRIVEN, not CLOCK-DRIVEN.
+                // Time is a presentation/escalation signal; status transition is the lifecycle source of truth.
+                // - Unresolved dispatch-attention bookings (pending, pending_payment, assignment_sent, reassignment_needed)
+                //   stay in New Orders regardless of clock expiration.
+                // - assigned + accepted stays in Active Orders regardless of clock expiration
+                //   (driver may still be en route or carrying passenger).
+                // - History collects only terminal lifecycle states: completed, cancelled, declined.
                 this.newOrders = this.allBookings.filter(b => this.isNewOrderStatus(b.status));
                 this.expiredOrders = this.allBookings.filter(b => this.isNewOrderStatus(b.status) && this.isExpired(b.datetime, b.time));
                 this.reassignmentOrders = this.allBookings.filter(b => (b.status === 'reassignment_needed' || b.metadata?.requires_reassignment === true));
-                this.ordersList = this.allBookings.filter(b => (b.status === 'assigned' || b.status === 'accepted') && !this.isExpired(b.datetime, b.time));
-                // History = terminal/resolved states ONLY. Do NOT include expired dispatch-attention states.
-                // Per Lux §2: "A ride datetime becoming past does not itself resolve an unaccepted booking.
-                //  An unresolved missed/late booking is precisely the kind of booking dispatch must still see and act on."
-                this.historyOrders = this.allBookings.filter(b => b.status === 'completed' || b.status === 'cancelled' || b.status === 'declined' || (b.status === 'assigned' && this.isExpired(b.datetime, b.time)) || (b.status === 'accepted' && this.isExpired(b.datetime, b.time)));
+                // Active Orders = assigned OR accepted, regardless of clock expiration.
+                // Late/in-progress visual flag (e.g. overdue pickup) belongs in UI, not in this filter.
+                this.ordersList = this.allBookings.filter(b => b.status === 'assigned' || b.status === 'accepted');
+                // History = TERMINAL lifecycle states ONLY. No clock-time derivation.
+                this.historyOrders = this.allBookings.filter(b => b.status === 'completed' || b.status === 'cancelled' || b.status === 'declined');
                 this.ordersList.sort((a,b) => this.parseDate(a.datetime, a.time) - this.parseDate(b.datetime, b.time));
                 this.historyOrders.sort((a,b) => this.parseDate(b.datetime, b.time) - this.parseDate(a.datetime, a.time));
                 this.newOrders.sort((a,b) => this.parseDate(a.datetime, a.time) - this.parseDate(b.datetime, b.time));
