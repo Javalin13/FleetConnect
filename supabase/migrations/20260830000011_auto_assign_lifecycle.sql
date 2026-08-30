@@ -271,10 +271,18 @@ grant execute on function public.current_main_operating_partner_id() to authenti
 revoke all on function public.driver_active_assignment_count(uuid) from public;
 grant execute on function public.driver_active_assignment_count(uuid) to authenticated, anon;
 
+-- r049 (per Lux §4 SECURITY): auto-assignment mutator locked to service_role only.
+-- Ordinary authenticated end users must NOT mutate dispatch state.
+-- Authenticated grant revoked; service_role (privileged backend scheduler/operator) only.
 revoke all on function public.assign_pending_booking_to_driver(text, uuid) from public;
-grant execute on function public.assign_pending_booking_to_driver(text, uuid) to authenticated;
+revoke execute on function public.assign_pending_booking_to_driver(text, uuid) from authenticated;
+revoke execute on function public.assign_pending_booking_to_driver(text, uuid) from anon;
+grant execute on function public.assign_pending_booking_to_driver(text, uuid) to service_role;
 
+-- r049 (per Lux §4 SECURITY): batch auto-assignment mutator locked to service_role only.
 revoke all on function public.auto_assign_pending_bookings(integer) from public;
-grant execute on function public.auto_assign_pending_bookings(integer) to authenticated;
+revoke execute on function public.auto_assign_pending_bookings(integer) from authenticated;
+revoke execute on function public.auto_assign_pending_bookings(integer) from anon;
+grant execute on function public.auto_assign_pending_bookings(integer) to service_role;
 
 commit;

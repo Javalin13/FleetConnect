@@ -197,7 +197,8 @@ if (!driverEmail) {
             collectRecipients(last.bcc);
         }
         // Also include the explicit primaryRecipient passed in (the customer / driver primary)
-        if (primaryRecipient) collectRecipients.add(String(primaryRecipient).toLowerCase());
+        // r049 fix (per Lux §2): collectRecipients is a function not a Set — call it
+        if (primaryRecipient) collectRecipients(primaryRecipient);
 
         const operationsEmailLower = operationsEmail.toLowerCase();
 

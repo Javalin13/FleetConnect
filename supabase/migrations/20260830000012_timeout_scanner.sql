@@ -47,8 +47,13 @@ AS $$
       AND COALESCE((b.metadata ->> 'reassignment_count')::integer, 0) < 3;
 $$;
 
+-- r049 (per Lux §4 SECURITY): remove anon grant from timeout scanner/mutator.
+-- Anonymous web clients must NOT invoke timeout reassignment logic.
+-- Locked to service_role (privileged backend scheduler) only.
 REVOKE EXECUTE ON FUNCTION public.find_expired_assignments(timestamptz) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.find_expired_assignments(timestamptz) TO anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.find_expired_assignments(timestamptz) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.find_expired_assignments(timestamptz) FROM authenticated;
+GRANT EXECUTE ON FUNCTION public.find_expired_assignments(timestamptz) TO service_role;
 
 -- Per-booking timeout handler: marks the expired offer as TIMEOUT_REASSIGN event,
 -- sets the driver as declined in metadata so the immediate reassignment excludes them,
@@ -161,8 +166,11 @@ BEGIN
 END;
 $$;
 
+-- r049 (per Lux §4 SECURITY): timeout mutator locked to service_role only.
 REVOKE EXECUTE ON FUNCTION public.timeout_expired_assignment(text, timestamptz) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.timeout_expired_assignment(text, timestamptz) TO anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.timeout_expired_assignment(text, timestamptz) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.timeout_expired_assignment(text, timestamptz) FROM authenticated;
+GRANT EXECUTE ON FUNCTION public.timeout_expired_assignment(text, timestamptz) TO service_role;
 
 -- Batch timeout scanner: scans for all expired assignments and invokes timeout_expired_assignment
 -- Returns a summary with each booking's result.
@@ -203,5 +211,8 @@ BEGIN
 END;
 $$;
 
+-- r049 (per Lux §4 SECURITY): batch timeout scanner locked to service_role only.
 REVOKE EXECUTE ON FUNCTION public.scan_and_timeout_expired_assignments(timestamptz) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.scan_and_timeout_expired_assignments(timestamptz) TO anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.scan_and_timeout_expired_assignments(timestamptz) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.scan_and_timeout_expired_assignments(timestamptz) FROM authenticated;
+GRANT EXECUTE ON FUNCTION public.scan_and_timeout_expired_assignments(timestamptz) TO service_role;
