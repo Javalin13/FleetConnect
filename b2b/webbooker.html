@@ -144,8 +144,8 @@ const PRICE_PER_KM = null;
       const fare=getFare();
       document.getElementById('distVal').textContent=fare ? fare.distanceKm.toFixed(1) : '-';
       document.getElementById('timeVal').textContent=fare ? String(Math.round(fare.durationMin)) : '-';
-      // PRIME r056: do NOT publish fare arithmetic in UI. Show "Calculated at confirmation" instead.
-      document.getElementById('priceVal').textContent=fare && fare.totalAmount != null ? fare.totalAmount.toFixed(2) : (fare ? 'Calculated at confirmation' : '-');
+      // PRIME r056: do NOT publish fare arithmetic in UI. Show "Price confirmed before booking" instead.
+      document.getElementById('priceVal').textContent=fare && fare.totalAmount != null ? fare.totalAmount.toFixed(2) : (fare ? 'Price confirmed before booking' : '-');
     }
     function validateForm(){ const required=['pickup','destination','date','time','passengerName','passengerPhone','companyName','businessType','contactPerson','contactEmail','contactPhone','paymentMethod']; return required.every(id=>val(id).length >= (id==='pickup'||id==='destination'?3:1)) && document.getElementById('contactEmail').checkValidity(); }
     function makeCustomerId(seed){ return `B2B-${seed.replace(/[^a-z0-9]/gi,'').slice(0,30) || Date.now()}`; }
@@ -170,7 +170,7 @@ const PRICE_PER_KM = null;
         notes:val('notes'),
         payment_method:val('paymentMethod'),
         preferred_language:lang,
-        route_distance_km:fare.distanceKm,
+        route_info_km:fare.distanceKm,
         route_duration_min:fare.durationMin,
         minimum_fare_applied:fare.minimumApplied,
         raw_calculated_amount:rawAmountForPayload,
@@ -190,7 +190,7 @@ const PRICE_PER_KM = null;
         destination:val('destination'),
         pickup_place_id:pickupPlaceId,
         dropoff_place_id:dropoffPlaceId,
-        route_distance_km:fare.distanceKm,
+        route_info_km:fare.distanceKm,
         route_duration_min:fare.durationMin,
         flight_number:val('flightNumber'),
         vehicle:'Business ride',

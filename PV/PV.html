@@ -1187,7 +1187,7 @@
             destination: lastTypedDropoffAddress,
             pickup_place_id: pickupPlaceId,
             dropoff_place_id: dropoffPlaceId,
-            route_distance_km: Number(currentRouteData.distanceKm),
+            route_info_km: Number(currentRouteData.distanceKm),
             route_duration_min: Number(currentRouteData.durationMin),
             flight_number: document.getElementById('flightNumber').value.trim() || "",
             vehicle: selectedVehicle,
@@ -1200,7 +1200,7 @@
             is_roundtrip: currentRoundTrip,
             form_data: {
                 source: "web-booking",
-                route_distance_km: Number(currentRouteData.distanceKm),
+                route_info_km: Number(currentRouteData.distanceKm),
                 route_duration_min: Number(currentRouteData.durationMin),
                 manual_route_required: fare.manualRouteRequired === true,
                 google_places_unavailable: fare.manualRouteRequired === true,
@@ -1225,7 +1225,7 @@
             },
             metadata: {
                 route_calculated: true,
-                route_distance_km: Number(currentRouteData.distanceKm),
+                route_info_km: Number(currentRouteData.distanceKm),
                 route_duration_min: Number(currentRouteData.durationMin),
                 manual_route_required: fare.manualRouteRequired === true,
                 google_places_unavailable: fare.manualRouteRequired === true,
