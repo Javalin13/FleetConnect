@@ -1,5 +1,15 @@
 {
+  "headers": [
+    {
+      "source": "/_archive/(.*)",
+      "headers": [{ "key": "x-robots-tag", "value": "noindex, nofollow" }]
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/_archive/:path*",
+      "destination": "/404.html"
+    },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "portal.fleetconnect.be" }],
