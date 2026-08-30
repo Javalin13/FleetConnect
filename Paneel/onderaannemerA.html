@@ -394,9 +394,18 @@
         }
 
         (function checkAuthentication() {
-            const isLoggedIn = sessionStorage.getItem('horizon_logged_in') === 'true';
-            if (!isLoggedIn) window.location.replace('admin-index.html');
-        })();
+                    // r054: defense in depth. sessionStorage is convenience only.
+                    // The server-derived authorize_admin_role() RPC must confirm the
+                    // session has operator_scope or founder_scope. If not, redirect to
+                    // login. This catches tampered sessionStorage flags.
+                    const isLoggedIn = sessionStorage.getItem('horizon_logged_in') === 'true';
+                    const isOperator = sessionStorage.getItem('horizon_operator_scope') === 'true';
+                    const isFounder = sessionStorage.getItem('horizon_founder_scope') === 'true';
+                    if (!isLoggedIn || !(isOperator || isFounder)) {
+                        sessionStorage.removeItem('horizon_logged_in');
+                        window.location.replace('admin-index.html');
+                    }
+                })();
 
         const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';

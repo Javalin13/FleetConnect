@@ -310,6 +310,31 @@
         function showPanels() {
             loginSection.style.display = 'none';
             panelSelect.classList.add('show');
+
+            // r054: gate panel buttons by server-derived scope.
+            // Founder scope = all 3 panels; operator scope = taxi paneel only;
+            // car-dealer + vacation-rental belong to separate businesses and
+            // are not part of the FleetConnect operator surface.
+            const isFounder = sessionStorage.getItem('horizon_founder_scope') === 'true';
+            const isOperator = sessionStorage.getItem('horizon_operator_scope') === 'true';
+
+            const btnDealer = document.getElementById('btnDealer');
+            const btnTaxi = document.getElementById('btnTaxi');
+            const btnWoningen = document.getElementById('btnWoningen');
+
+            if (btnDealer) btnDealer.style.display = isFounder ? '' : 'none';
+            if (btnTaxi) btnTaxi.style.display = (isFounder || isOperator) ? '' : 'none';
+            if (btnWoningen) btnWoningen.style.display = isFounder ? '' : 'none';
+
+            // Show partner attribution when known
+            const partnerName = sessionStorage.getItem('horizon_partner_name');
+            const isHoofd = sessionStorage.getItem('horizon_partner_is_hoofd') === 'true';
+            const partnerInfo = partnerName ? `<br><small style="color:#94a3b8;">Partner: ${partnerName}${isHoofd ? ' (head)' : ''}</small>` : '';
+            const subtitle = isFounder
+                ? '<i class="fas fa-shield-alt"></i> Founder/power-admin scope'
+                : '<i class="fas fa-user-tie"></i> Operator scope';
+            const welcomeEl = panelSelect.querySelector('p');
+            if (welcomeEl) welcomeEl.innerHTML = subtitle + partnerInfo;
         }
 
         toggleAccountRequest?.addEventListener('click', function() {
@@ -467,7 +492,41 @@
                 if (error) throw error;
 
                 if (data.user) {
+                    // r054: SERVER-DERIVED authorization check (per Lux r053 §1).
+                    // NO LONGER trust browser sessionStorage as authority.
+                    // Call authorize_admin_role() RPC and gate panel rendering
+                    // on its truthful result (founder_scope / operator_scope).
+                    let authz;
+                    try {
+                        const rpcRes = await supabaseClient.rpc('authorize_admin_role');
+                        authz = rpcRes.data;
+                        if (rpcRes.error) throw rpcRes.error;
+                    } catch (rpcErr) {
+                        console.error('Authorization RPC failed:', rpcErr.message);
+                        errorMsg.textContent = 'Login mislukt: autorisatie kon niet worden geverifieerd.';
+                        await supabaseClient.auth.signOut();
+                        return;
+                    }
+
+                    if (!authz || !authz.authorized) {
+                        console.warn('Authorization denied for user:', data.user.email, 'reason=', authz?.reason);
+                        errorMsg.textContent = 'Geen beheerderstoegang. Dit account is niet bevoegd voor het FleetConnect-beheer.';
+                        await supabaseClient.auth.signOut();
+                        return;
+                    }
+
+                    // Authorized. Encode scope flags in sessionStorage for UI rendering
+                    // convenience ONLY (the RPC remains the source of truth on every
+                    // protected page load via re-check).
                     sessionStorage.setItem('horizon_logged_in', 'true');
+                    sessionStorage.setItem('horizon_founder_scope', authz.founder_scope ? 'true' : 'false');
+                    sessionStorage.setItem('horizon_operator_scope', authz.operator_scope ? 'true' : 'false');
+                    sessionStorage.setItem('horizon_role', authz.role || '');
+                    if (authz.partner_scope && authz.partner_scope.partner_id) {
+                        sessionStorage.setItem('horizon_partner_id', String(authz.partner_scope.partner_id));
+                        sessionStorage.setItem('horizon_partner_name', authz.partner_scope.partner_name || '');
+                        sessionStorage.setItem('horizon_partner_is_hoofd', authz.partner_scope.is_hoofd ? 'true' : 'false');
+                    }
                     showPanels();
                 }
             } catch (err) {
