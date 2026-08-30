@@ -90,7 +90,8 @@
     const SUPABASE_URL = 'https://rreqjjrmvytnwnsidmqi.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyZXFqanJtdnl0bnduc2lkbXFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjAxMzcsImV4cCI6MjA5Mzk5NjEzN30.q4M3A6Dix3F_9Im2pw8DUIeE4C-INtUlvImRDM58MTA';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const PRICE_PER_KM = 1.5;
+    // PRIME r056: PRICE_PER_KM hardcode REMOVED — was €1.50 drift vs authoritative €2.00
+const PRICE_PER_KM = null;
     const MIN_PRICE = 15;
     const businessTypes = ['hotel','aparthotel','airbnb','corporate','congress','event','relocation','property-manager','other'];
     const paymentMethods = ['guest_pays','company_invoice','hotel_voucher','cash_card_on_ride','to_be_discussed'];
@@ -121,12 +122,89 @@
     function renderOptions(){ document.getElementById('businessType').innerHTML=businessTypes.map(v=>`<option value="${v}">${opt('types',v)}</option>`).join(''); document.getElementById('paymentMethod').innerHTML=paymentMethods.map(v=>`<option value="${v}">${opt('payments',v)}</option>`).join(''); }
     function setLanguage(next){ lang=langOrder.includes(next)?next:'en'; localStorage.setItem('fleetconnect_language',lang); localStorage.setItem('nh_language',lang); document.documentElement.lang=lang; document.body.dir=lang==='ar'?'rtl':'ltr'; document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=tr(el.dataset.i18n)}); document.getElementById('languageSelect').value=lang; renderOptions(); const active=document.querySelector('.segment-btn.active')?.dataset.segment; if(active) showSegment(active); }
     function isoToFleetDate(date){ if(!date) return ''; const [yyyy,mm,dd]=date.split('-'); return `${dd}-${mm}-${yyyy}`; }
-    function getFare(){ if(!currentRoute) return null; const raw = Number(currentRoute.displayDistanceKm || currentRoute.distanceKm || 0) * PRICE_PER_KM; const total = Math.max(MIN_PRICE, raw); return { distanceKm:Number(currentRoute.displayDistanceKm || currentRoute.distanceKm || 0), durationMin:Number(currentRoute.displayDurationMin || currentRoute.durationMin || 0), rawAmount:raw, totalAmount:total, minimumApplied:raw < MIN_PRICE }; }
-    function updateRouteDisplay(){ const fare=getFare(); document.getElementById('distVal').textContent=fare ? fare.distanceKm.toFixed(1) : '-'; document.getElementById('timeVal').textContent=fare ? String(Math.round(fare.durationMin)) : '-'; document.getElementById('priceVal').textContent=fare ? fare.totalAmount.toFixed(2) : '-'; }
+    // PRIME r056: getFare() no longer computes fare in the browser (was frontend/backend drift).
+    // The actual fare is computed authoritatively by the create_public_booking RPC at submission time.
+    // For the preview UI we only return distance + duration; the price is set at confirmation.
+    function getFare(){
+      if(!currentRoute) return null;
+      const distanceKm = Number(currentRoute.displayDistanceKm || currentRoute.distanceKm || 0);
+      const durationMin = Number(currentRoute.displayDurationMin || currentRoute.durationMin || 0);
+      // Price preview = MIN_PRICE; final price calculated authoritatively by the server at booking submission.
+      // Do NOT publish calculation arithmetic in the UI per Lux r056 §2.
+      return {
+        distanceKm,
+        durationMin,
+        rawAmount: null,
+        totalAmount: null,
+        minimumApplied: false,
+        awaitingAuthoritativeCalc: true
+      };
+    }
+    function updateRouteDisplay(){
+      const fare=getFare();
+      document.getElementById('distVal').textContent=fare ? fare.distanceKm.toFixed(1) : '-';
+      document.getElementById('timeVal').textContent=fare ? String(Math.round(fare.durationMin)) : '-';
+      // PRIME r056: do NOT publish fare arithmetic in UI. Show "Calculated at confirmation" instead.
+      document.getElementById('priceVal').textContent=fare && fare.totalAmount != null ? fare.totalAmount.toFixed(2) : (fare ? 'Calculated at confirmation' : '-');
+    }
     function validateForm(){ const required=['pickup','destination','date','time','passengerName','passengerPhone','companyName','businessType','contactPerson','contactEmail','contactPhone','paymentMethod']; return required.every(id=>val(id).length >= (id==='pickup'||id==='destination'?3:1)) && document.getElementById('contactEmail').checkValidity(); }
     function makeCustomerId(seed){ return `B2B-${seed.replace(/[^a-z0-9]/gi,'').slice(0,30) || Date.now()}`; }
-    function buildPayload(){ const fare=getFare(); const passengerEmail=val('passengerEmail')||val('contactEmail'); const metadata={ booking_source:'b2b', source_route:'/b2b/webbooker', business_type:val('businessType'), company_id:null, company_name:val('companyName'), company_contact_name:val('contactPerson'), company_contact_email:val('contactEmail').toLowerCase(), company_contact_phone:val('contactPhone'), passenger_name:val('passengerName'), passenger_phone:val('passengerPhone'), passenger_email:passengerEmail, flight_number:val('flightNumber'), notes:val('notes'), payment_method:val('paymentMethod'), preferred_language:lang, route_distance_km:fare.distanceKm, route_duration_min:fare.durationMin, minimum_fare_applied:fare.minimumApplied, raw_calculated_amount:Number(fare.rawAmount.toFixed(2)), pickup_place_id:pickupPlaceId, dropoff_place_id:dropoffPlaceId, google_places_selected:true, manual_route_required:false, route_pricing_required:true };
-        return { datetime:isoToFleetDate(val('date')), time:val('time'), name:val('passengerName'), email:passengerEmail, phone:val('passengerPhone'), pickup:val('pickup'), destination:val('destination'), pickup_place_id:pickupPlaceId, dropoff_place_id:dropoffPlaceId, route_distance_km:fare.distanceKm, route_duration_min:fare.durationMin, flight_number:val('flightNumber'), vehicle:'Business ride', extras:val('notes'), amount:fare.totalAmount.toFixed(2), payment:val('paymentMethod'), status:'pending', payment_status:val('paymentMethod')==='guest_pays'||val('paymentMethod')==='cash_card_on_ride'?'cash_pending':'invoice_pending', customer_id:makeCustomerId(passengerEmail||val('contactEmail')), partner_id:1, form_data:{...metadata,source:'b2b-webbooker'}, metadata }; }
+    function buildPayload(){
+      const fare=getFare();
+      const passengerEmail=val('passengerEmail')||val('contactEmail');
+      // PRIME r056: do NOT compute raw_amount in browser — authoritative RPC calculates at submission.
+      const rawAmountForPayload = fare.rawAmount != null ? Number(fare.rawAmount.toFixed(2)) : null;
+      const metadata={
+        booking_source:'b2b',
+        source_route:'/b2b/webbooker',
+        business_type:val('businessType'),
+        company_id:null,
+        company_name:val('companyName'),
+        company_contact_name:val('contactPerson'),
+        company_contact_email:val('contactEmail').toLowerCase(),
+        company_contact_phone:val('contactPhone'),
+        passenger_name:val('passengerName'),
+        passenger_phone:val('passengerPhone'),
+        passenger_email:passengerEmail,
+        flight_number:val('flightNumber'),
+        notes:val('notes'),
+        payment_method:val('paymentMethod'),
+        preferred_language:lang,
+        route_distance_km:fare.distanceKm,
+        route_duration_min:fare.durationMin,
+        minimum_fare_applied:fare.minimumApplied,
+        raw_calculated_amount:rawAmountForPayload,
+        pickup_place_id:pickupPlaceId,
+        dropoff_place_id:dropoffPlaceId,
+        google_places_selected:true,
+        manual_route_required:false,
+        route_pricing_required:true
+      };
+      return {
+        datetime:isoToFleetDate(val('date')),
+        time:val('time'),
+        name:val('passengerName'),
+        email:passengerEmail,
+        phone:val('passengerPhone'),
+        pickup:val('pickup'),
+        destination:val('destination'),
+        pickup_place_id:pickupPlaceId,
+        dropoff_place_id:dropoffPlaceId,
+        route_distance_km:fare.distanceKm,
+        route_duration_min:fare.durationMin,
+        flight_number:val('flightNumber'),
+        vehicle:'Business ride',
+        extras:val('notes'),
+        amount: fare.totalAmount != null ? fare.totalAmount.toFixed(2) : null,
+        payment:val('paymentMethod'),
+        status:'pending',
+        payment_status:val('paymentMethod')==='guest_pays'||val('paymentMethod')==='cash_card_on_ride'?'cash_pending':'invoice_pending',
+        customer_id:makeCustomerId(passengerEmail||val('contactEmail')),
+        partner_id:1,
+        form_data:{...metadata,source:'b2b-webbooker'},
+        metadata
+      };
+    }
     async function initMaps(){ try { const { createBookingMapsController } = await import('/src/modules/maps/booking-maps.js'); mapsController = await createBookingMapsController({ mapId:'map', pickupInputId:'pickup', dropoffInputId:'destination', countryCode:'be', pricePerKm:PRICE_PER_KM, pickupPlaceholder:tr('pickup'), dropoffPlaceholder:tr('destination'), onPlaceSelected:(type, selected)=>{ if(type==='pickup') pickupPlaceId=selected.placeId; else dropoffPlaceId=selected.placeId; currentRoute=null; updateRouteDisplay(); if(mapsController?.hasSelectedAddresses()) mapsController.calculateRoute().then(route=>{ currentRoute=route; updateRouteDisplay(); }); }, onPlaceInputChanged:()=>{ currentRoute=null; updateRouteDisplay(); }, onRouteCalculated:(route)=>{ currentRoute=route; updateRouteDisplay(); }, onRouteFailed:()=>{ currentRoute=null; updateRouteDisplay(); } }); } catch(error) { console.error('B2B Google Maps init failed:', error); setMessage('err', tr('routeRequired')); } }
     async function sendOptionalConfirmation(booking,payload){ if(!payload.email) return; try { const { comms } = await import('../src/modules/communication/index.js'); await comms.trigger('BOOKING_CONFIRMATION', booking.id, supabase, { snapshot:{...payload,id:booking.id,reference:booking.id,preferred_language:lang,customer:{name:payload.name,email:payload.email,phone:payload.phone,preferred_language:lang},is_registered:false} }); } catch(error) { console.warn('B2B optional confirmation email failed:', error?.message || error); } }
     form.addEventListener('submit', async event=>{ event.preventDefault(); message.className='message'; if(!validateForm()){ setMessage('err',tr('required')); return; } if(!mapsController?.hasSelectedAddresses() || !currentRoute || !getFare()){ setMessage('err',tr('routeRequired')); return; } submitBtn.disabled=true; submitBtn.querySelector('span').textContent=tr('submitting'); try { const payload=buildPayload(); const { data,error } = await supabase.rpc('create_public_booking',{payload}); if(error) throw error; await sendOptionalConfirmation(data,payload); setMessage('ok',`${tr('success')} ${data?.id ? `(${data.id})` : ''}`); form.reset(); currentRoute=null; pickupPlaceId=''; dropoffPlaceId=''; mapsController?.reset(); updateRouteDisplay(); renderOptions(); } catch(error) { console.error('B2B WebBooker submit failed:', error); setMessage('err',`${tr('error')} ${error?.message || ''}`.trim()); } finally { submitBtn.disabled=false; submitBtn.querySelector('span').textContent=tr('submit'); } });
