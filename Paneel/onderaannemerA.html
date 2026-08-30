@@ -286,29 +286,22 @@
             <div class="nav-section">
                 <div class="nav-section-title" id="navBookings">BOEKINGEN</div>
                 <div class="nav-item active" data-tab="neworders"><i class="fas fa-clipboard-list"></i><span id="navNewOrders">New Orders</span></div>
-                <div class="nav-item" data-tab="orders"><i class="fas fa-box"></i><span id="navOrders">Orders</span></div>
+                <div class="nav-item" data-tab="orders"><i class="fas fa-box"></i><span id="navOrders">Active Orders</span></div>
                 <div class="nav-item" data-tab="history"><i class="fas fa-history"></i><span id="navHistory">History</span></div>
-                <div class="nav-item" data-tab="agenda"><i class="fas fa-calendar-alt"></i><span id="navAgenda">Agenda</span></div>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title" id="navManagement">BEHEER</div>
                 <div class="nav-item" data-tab="drivers"><i class="fas fa-id-card"></i><span id="navDrivers">Drivers</span></div>
-                <div class="nav-item" data-tab="partners"><i class="fas fa-handshake"></i><span id="navPartners">Mijn Partners</span></div>
-                <div class="nav-item" data-tab="customers"><i class="fas fa-users"></i><span id="navCustomers">Klanten</span></div>
-                <div class="nav-item" data-tab="accountrequests"><i class="fas fa-user-check"></i><span id="navAccountRequests">Accountaanvragen</span></div>
+                <div class="nav-item" data-tab="customers"><i class="fas fa-handshake"></i><span id="navCustomers">Clients/Partners</span></div>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title" id="navFinance">FINANCIËN</div>
-                <div class="nav-item" data-tab="financieel"><i class="fas fa-chart-line"></i><span id="navFinancial">Financieel</span></div>
-                <div class="nav-item" data-tab="settlements"><i class="fas fa-university"></i><span id="navSettlements">Settlements</span></div>
+                <div class="nav-item" data-tab="financieel"><i class="fas fa-chart-line"></i><span id="navFinancial">Settings / Admin</span></div>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title" id="navInfo">INFORMATIE</div>
-                <div class="nav-item" data-tab="mailbox"><i class="fas fa-inbox"></i><span id="navMailbox">Mailbox</span></div>
-                <div class="nav-item" data-tab="wiki"><i class="fas fa-robot"></i><span id="navWiki">Wiki Agent</span></div>
+                <div class="nav-item" data-tab="mailbox"><i class="fas fa-inbox"></i><span id="navMailbox">E-mail</span></div>
             </div>
-            <div class="nav-item switch-item" id="switchWoningenBtn"><i class="fas fa-home"></i><span id="switchWoningenText">Switch naar Woningen</span></div>
-            <div class="nav-item switch-item" id="switchDealerBtn"><i class="fas fa-exchange-alt"></i><span id="switchDealerText">Switch naar Operations</span></div>
             <div class="nav-item logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span id="logoutText">Uitloggen</span></div>
         </div>
     </div>
@@ -324,8 +317,6 @@
                     <button class="lang-btn" data-lang="es">ES</button>
                 </div>
                 <button class="back-btn" id="backBtn"><i class="fas fa-home"></i> <span id="backText">Terug naar overzicht</span></button>
-                <button class="switch-woningen-btn" id="headerWoningenBtn"><i class="fas fa-home"></i> <span id="headerWoningenText">Woningen Paneel</span></button>
-                <button class="switch-btn" id="headerDealerBtn"><i class="fas fa-exchange-alt"></i> <span id="headerDealerText">Switch naar Operations</span></button>
                 <button class="refresh-btn" id="refreshBtn"><i class="fas fa-sync-alt"></i> <span id="refreshText">Vernieuwen</span></button>
             </div>
         </div>
@@ -556,28 +547,22 @@
             const t = translations[currentLang];
             if (!t) return;
             document.getElementById('sidebarSubtitle').textContent = t.sidebarSubtitle;
-            document.getElementById('navBookings').textContent = t.navBookings;
-            document.getElementById('navNewOrders').textContent = t.navNewOrders;
-            document.getElementById('navOrders').textContent = t.navOrders;
-            document.getElementById('navHistory').textContent = t.navHistory;
-            document.getElementById('navAgenda').textContent = t.navAgenda;
-            document.getElementById('navManagement').textContent = t.navManagement;
-            document.getElementById('navDrivers').textContent = t.navDrivers;
-            document.getElementById('navPartners').textContent = t.navPartners;
-            document.getElementById('navCustomers').textContent = t.navCustomers || 'Klanten';
-            document.getElementById('navAccountRequests').textContent = t.navAccountRequests || 'Accountaanvragen';
-            document.getElementById('navFinance').textContent = t.navFinance;
-            document.getElementById('navFinancial').textContent = t.navFinancial;
-            document.getElementById('navSettlements').textContent = t.navSettlements;
-            document.getElementById('navInfo').textContent = t.navInfo;
-            document.getElementById('navWiki').textContent = t.navWiki;
-            document.getElementById('switchWoningenText').textContent = t.switchWoningenText;
-            document.getElementById('switchDealerText').textContent = t.switchDealerText;
-            document.getElementById('logoutText').textContent = t.logoutText;
-            document.getElementById('backText').textContent = t.backText;
-            document.getElementById('headerWoningenText').textContent = t.headerWoningenText;
-            document.getElementById('headerDealerText').textContent = t.headerDealerText;
-            document.getElementById('refreshText').textContent = t.refreshText;
+            // PRIME r056 Phase D: navAgenda + navSettlements + navWiki + navPartners + navAccountRequests elements removed from nav-menu.
+// Wrap in null-safety so language-switch doesn't throw on missing elements.
+            this._setText('navBookings', t.navBookings);
+            this._setText('navNewOrders', t.navNewOrders);
+            this._setText('navOrders', t.navOrders);
+            this._setText('navHistory', t.navHistory);
+            this._setText('navManagement', t.navManagement);
+            this._setText('navDrivers', t.navDrivers);
+            this._setText('navCustomers', t.navCustomers || 'Clients/Partners');
+            this._setText('navFinance', t.navFinance);
+            this._setText('navFinancial', t.navFinancial);
+            this._setText('navInfo', t.navInfo);
+            this._setText('navMailbox', t.navMailbox || 'E-mail');
+            this._setText('backText', t.backText);
+            this._setText('refreshText', t.refreshText);
+            this._setText('logoutText', t.logoutText);
             document.getElementById('ficheTitle').innerHTML = `<i class="fas fa-file-invoice"></i> ${t.ficheTitle}`;
             document.getElementById('partnerModalTitle').innerHTML = `<i class="fas fa-handshake"></i> ${t.partnersTitle}`;
             document.getElementById('savePartnerBtn').textContent = t.btnAddPartner;
@@ -614,9 +599,13 @@
             formatDate(date) { let d = new Date(date); return `${d.getDate().toString().padStart(2,'0')}-${(d.getMonth()+1).toString().padStart(2,'0')}-${d.getFullYear()}`; },
             parseDate(dateStr, timeStr) { let parts = dateStr.split('-'); let timeParts = timeStr ? timeStr.split(':') : ['00','00']; return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0]), parseInt(timeParts[0]), parseInt(timeParts[1])); },
             isExpired(dateStr, timeStr) { return this.parseDate(dateStr, timeStr) < new Date(); },
-            isNewOrderStatus(status) { return ['pending', 'pending_payment', 'accepted', 'assignment_sent', 'reassignment_needed'].includes(status); },
+            // PRIME r056 Phase D: per Lux §2 — only unaccepted dispatch-attention states belong in New Orders.
+// "accepted" status (driver has accepted) belongs in Active Orders, NOT New Orders.
+            isNewOrderStatus(status) { return ['pending', 'pending_payment', 'assignment_sent', 'reassignment_needed'].includes(status); },
             isCustomerAccountRequest(request) { const type = String(request?.account_type || '').toLowerCase(); const scope = String(request?.request_scope || request?.metadata?.request_scope || '').toLowerCase(); const source = String(request?.metadata?.source || '').toLowerCase(); return scope === 'customer' || type === 'client' || type === 'customer' || source === 'customer-registration'; },
             escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); },
+            // PRIME r056 Phase D: null-safe text setter for i18n — does not throw if element was removed from nav.
+            _setText(id, value) { const el = document.getElementById(id); if (el && value !== undefined && value !== null) el.textContent = value; },
             closeModal() { document.getElementById('bookingModal').style.display = 'none'; },
             closePartnerModal() { document.getElementById('partnerModal').style.display = 'none'; },
             
@@ -624,7 +613,9 @@
                 this.newOrders = this.allBookings.filter(b => this.isNewOrderStatus(b.status) && !this.isExpired(b.datetime, b.time));
                 this.expiredOrders = this.allBookings.filter(b => this.isNewOrderStatus(b.status) && this.isExpired(b.datetime, b.time));
                 this.reassignmentOrders = this.allBookings.filter(b => (b.status === 'reassignment_needed' || b.metadata?.requires_reassignment === true) && !this.isExpired(b.datetime, b.time));
-                this.ordersList = this.allBookings.filter(b => b.status === 'assigned' && !this.isExpired(b.datetime, b.time));
+                // PRIME r056 Phase D: per Lux §2 — Active Orders = accepted/current operational rides only.
+// "assigned" + "accepted" status = driver has acknowledged and is working the ride.
+                this.ordersList = this.allBookings.filter(b => (b.status === 'assigned' || b.status === 'accepted') && !this.isExpired(b.datetime, b.time));
                 this.historyOrders = this.allBookings.filter(b => b.status === 'completed' || b.status === 'cancelled' || b.status === 'declined' || (this.isNewOrderStatus(b.status) && this.isExpired(b.datetime, b.time)) || (b.status === 'accepted' && this.isExpired(b.datetime, b.time)) || (b.status === 'assignment_sent' && this.isExpired(b.datetime, b.time)) || (b.status === 'assigned' && this.isExpired(b.datetime, b.time)));
                 this.ordersList.sort((a,b) => this.parseDate(a.datetime, a.time) - this.parseDate(b.datetime, b.time));
                 this.historyOrders.sort((a,b) => this.parseDate(b.datetime, b.time) - this.parseDate(a.datetime, a.time));
@@ -1635,7 +1626,7 @@
                 this.refreshCurrentTab();
             },
             async rejectAccountRequest(requestId) { const t = translations[currentLang]; const request = this.accountRequests.find(r => r.id === requestId); const reason = prompt(t.accountRequestsRejectReason) || ''; const { error } = await supabase.rpc('reject_account_request', { p_request_id: requestId, p_reason: reason }); if (error) { this.showToast(`${t.accountRequestsRejectFailed}: ${error.message}`, true); return; } await this.sendAccountDecisionEmail(request, false, reason); this.showToast(t.accountRequestsRejected); await this.refreshAllData(true); this.refreshCurrentTab(); },
-            refreshCurrentTab() { switch(this.currentTab) { case 'neworders': this.renderNewOrders(); break; case 'orders': this.renderOrders(); break; case 'history': this.renderHistory(); break; case 'agenda': this.renderAgenda(); break; case 'drivers': this.renderDrivers(); break; case 'partners': this.renderPartners(); break; case 'customers': this.renderCustomers(); break; case 'accountrequests': this.renderAccountRequests(); break; case 'financieel': this.renderFinance(); break; case 'settlements': this.renderSettlements(); break; case 'wiki': this.renderWiki(); break; default: this.renderNewOrders(); } },
+            refreshCurrentTab() { switch(this.currentTab) { case 'neworders': this.renderNewOrders(); break; case 'orders': this.renderOrders(); break; case 'history': this.renderHistory(); break; case 'drivers': this.renderDrivers(); break; case 'customers': this.renderCustomers(); break; case 'financieel': this.renderFinance(); break; case 'mailbox': this.renderMailbox(); break; default: this.renderNewOrders(); } },
             switchTab(tabName) { this.currentTab = tabName; document.querySelectorAll('.nav-item').forEach(item => { const itemTab = item.getAttribute('data-tab'); if (itemTab === tabName) item.classList.add('active'); else item.classList.remove('active'); }); this.refreshCurrentTab(); },
             async refreshAllData(silent = false) { let t = translations[currentLang]; if (!silent) this.showToast(t.toastRefreshing); const loaded = await this.loadDashboardData(); if (!loaded) return; this.refreshCurrentTab(); if (!silent) this.showToast(t.toastRefreshed); },
             async logout() { let t = translations[currentLang]; if (confirm(t.confirmLogout)) { sessionStorage.removeItem('horizon_logged_in'); window.location.replace('admin-index.html'); } },
@@ -1648,10 +1639,8 @@
                 if (!loaded) return;
                 this.switchTab('neworders');
                 document.querySelectorAll('.nav-item[data-tab]').forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); const tab = item.getAttribute('data-tab'); if (tab) this.switchTab(tab); }); });
-                document.getElementById('switchWoningenBtn')?.addEventListener('click', () => window.location.href = 'commander.html');
-                document.getElementById('switchDealerBtn')?.addEventListener('click', () => window.location.href = 'autodealerpaneel.html');
-                document.getElementById('headerWoningenBtn')?.addEventListener('click', () => window.location.href = 'commander.html');
-                document.getElementById('headerDealerBtn')?.addEventListener('click', () => window.location.href = 'autodealerpaneel.html');
+                // PRIME r056 Phase D: removed cross-business switch buttons (commander.html, autodealerpaneel.html) per Lux §2
+                // PRIME r056 Phase D: removed headerWoningenBtn + headerDealerBtn handlers (cross-business residue)
                 document.getElementById('refreshBtn')?.addEventListener('click', () => this.refreshAllData());
                 document.getElementById('backBtn')?.addEventListener('click', () => window.location.href = 'admin-index.html');
                 document.getElementById('logoutBtn')?.addEventListener('click', () => this.logout());
