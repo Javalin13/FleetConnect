@@ -1119,7 +1119,34 @@
                 document.getElementById('ficheBody').innerHTML = html;
                 document.getElementById('bookingModal').style.display = 'flex';
             },
-            renderCustomers() {
+            renderClientsPartners() {
+                // PRIME r056 Phase E round 1: merged Clients/Partners view (single tab, 3 sub-sections)
+                // Per Lux r056 §3.3-3.5: single visible surface for customer + partner + account-request workflows
+                const t = translations[currentLang];
+                const activePartners = this.partners.filter(p => !p.archived_at);
+                const archivedPartners = this.partners.filter(p => p.archived_at);
+                const renderPartner = (p) => {
+                    const driversCount = (this.drivers || []).filter(d => d.partner_id === p.id && !d.archived_at).length;
+                    const ordersCount = (this.allBookings || []).filter(b => b.partner_id === p.id).length;
+                    return `<div class="partner-card" data-partner-id="${p.id}" style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center; border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px;">
+                        <div style="flex:1; min-width:240px;">
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                                <strong>${this.escapeHtml(p.name)}</strong>
+                                ${p.is_hoofd ? '<span class="status-badge status-completed">Hoofdpartner</span>' : '<span class="status-badge status-pending">Sub-partner</span>'}
+                                ${p.archived_at ? '<span class="status-badge status-cancelled">Gearchiveerd</span>' : ''}
+                                ${p.user_id ? '<span class="status-badge status-completed" title="Heeft FleetConnect login"><i class="fas fa-key"></i></span>' : '<span class="status-badge status-pending" title="Geen login">Geen login</span>'}
+                            </div>
+                            <div style="color:#64748b; font-size:0.85rem;">${this.escapeHtml(p.contact || '-')} · ${this.escapeHtml(p.email || '-')} · ${this.escapeHtml(p.phone || '-')}</div>
+                            <div style="color:#94a3b8; font-size:0.8rem; margin-top:4px;"><strong>${driversCount}</strong> chauffeur${driversCount !== 1 ? 's' : ''} · <strong>${ordersCount}</strong> rit${ordersCount !== 1 ? 'ten' : ''} · Prefix: <code>${this.escapeHtml(p.prefix || '-')}</code></div>
+                        </div>
+                        <div style="display:flex; gap:6px; align-items:center;">
+                            <button class="action-btn" onclick="app.editPartner(${p.id})" title="Bewerken"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" onclick="app.showPartnerDetails(${p.id})" title="Details"><i class="fas fa-eye"></i></button>
+                            ${p.archived_at ? `<button class="action-btn" onclick="app.unarchivePartner(${p.id})" title="Heractiveren"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.archivePartner(${p.id})" title="Archiveren"><i class="fas fa-archive"></i></button>`}
+                            <button class="delete-btn" onclick="app.deletePartner(${p.id})" title="Verwijderen"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>`;
+                };
                 const active = this.customers.filter(c => c.is_active !== false);
                 const archived = this.customers.filter(c => c.is_active === false);
                 const clientRequests = this.accountRequests.filter(r => this.isCustomerAccountRequest(r));
@@ -1143,19 +1170,28 @@
                     </div>`;
                 };
                 const renderCustomer = (c, archivedMode = false) => `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(c.name || '-')}</strong> <span class="status-badge ${archivedMode ? 'status-cancelled' : 'status-completed'}">${archivedMode ? 'Gearchiveerd' : 'Actief'}</span><br><small>${this.escapeHtml(c.email || '-')} | ${this.escapeHtml(c.phone || '-')}</small><br><small>Standaard ophaaladres: ${this.escapeHtml(c.default_pickup_address || '-')}</small><br><small>Aangemaakt: ${this.formatDashboardTimestamp(c.created_at)} | Auth gekoppeld: ${c.user_id ? 'ja' : 'nee'}</small></div><div class="account-request-actions"><button class="action-btn" onclick="app.showCustomerDetails('${this.escapeHtml(c.id)}')" title="Details"><i class="fas fa-eye"></i></button><button class="action-btn" onclick="app.editCustomer('${this.escapeHtml(c.id)}')" title="Bewerken"><i class="fas fa-edit"></i></button>${archivedMode ? `<button class="action-btn" onclick="app.reactivateCustomer('${this.escapeHtml(c.id)}')" title="Heractiveren"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.archiveCustomer('${this.escapeHtml(c.id)}')" title="Archiveren"><i class="fas fa-archive"></i></button><button class="delete-btn" onclick="app.deleteCustomer('${this.escapeHtml(c.id)}')" title="Verwijderen"><i class="fas fa-trash"></i></button>`}</div></div>`;
-                let html = `<div class="people-card"><h3><i class="fas fa-users"></i> Klanten</h3>
+                let html = `<div class="people-card"><h3><i class="fas fa-handshake"></i> Partners <span class="order-count">${activePartners.length}</span></h3>
+                <button class="add-btn" onclick="app.showAddPartnerForm()">+ Nieuwe partner</button>
+                <div id="partnersList" style="margin-top:16px;">`;
+                if (!activePartners.length) html += `<div class="empty-planning">Geen partners gevonden</div>`;
+                else activePartners.forEach(p => { html += renderPartner(p); });
+                if (archivedPartners.length) {
+                    html += `<details style="margin-top:18px;"><summary style="cursor:pointer; font-weight:700;">Gearchiveerde partners (${archivedPartners.length})</summary><div style="margin-top:12px;">${archivedPartners.map(renderPartner).join('')}</div></details>`;
+                }
+                html += `</div></div><div class="people-card"><h3><i class="fas fa-users"></i> Klanten <span class="order-count">${active.length}</span></h3>
                     <div style="margin-bottom:18px;"><h4 style="margin-bottom:10px;">Client account requests <span class="order-count">${pendingClientRequests.length}</span></h4>`;
                 if (!pendingClientRequests.length) html += `<div class="empty-planning">Geen open client account requests.</div>`;
                 else html += pendingClientRequests.map(renderClientRequest).join('');
                 if (handledClientRequests.length) html += `<details style="margin:12px 0 18px;"><summary style="cursor:pointer; font-weight:700;">Recent afgehandelde client requests (${handledClientRequests.length})</summary><div style="margin-top:12px;">${handledClientRequests.map(renderClientRequest).join('')}</div></details>`;
-                html += `</div><div class="filter-bar"><div class="filter-group"><label>Zoeken</label><input type="text" id="filterCustomers" placeholder="Naam of email"></div><div class="filter-group"><label>Sorteer</label><select id="sortCustomers" onchange="app.applyFiltersCustomers()"><option value="created_desc">Nieuwste eerst</option><option value="created_asc">Oudste eerst</option><option value="name">Naam</option><option value="email">Email</option></select></div><div class="filter-actions"><button class="btn-filter" onclick="app.applyFiltersCustomers()">Zoeken</button><button class="btn-reset" onclick="app.renderCustomers()">Reset</button></div></div><div id="customersList">`;
+                html += `</div><div class="filter-bar"><div class="filter-group"><label>Zoeken</label><input type="text" id="filterCustomers" placeholder="Naam of email"></div><div class="filter-group"><label>Sorteer</label><select id="sortCustomers" onchange="app.applyFiltersCustomers()"><option value="created_desc">Nieuwste eerst</option><option value="created_asc">Oudste eerst</option><option value="name">Naam</option><option value="email">Email</option></select></div><div class="filter-actions"><button class="btn-filter" onclick="app.applyFiltersCustomers()">Zoeken</button><button class="btn-reset" onclick="app.renderClientsPartners()">Reset</button></div></div><div id="customersList">`;
                 if (!active.length) html += `<div class="empty-planning">Geen klanten gevonden</div>`;
                 else active.forEach(c => { html += renderCustomer(c, false); });
                 if (archived.length) html += `<details style="margin-top:18px;"><summary style="cursor:pointer; font-weight:700;">Gearchiveerde klanten (${archived.length})</summary><div style="margin-top:12px;">${archived.map(c => renderCustomer(c, true)).join('')}</div></details>`;
                 html += `</div></div>`;
                 document.getElementById('contentArea').innerHTML = html;
-                document.getElementById('pageTitle').innerHTML = `Klanten <span class="order-count">${active.length}</span>`;
+                document.getElementById('pageTitle').innerHTML = `Clients/Partners <span class="order-count">${activePartners.length + active.length}</span>`;
             },
+            renderCustomers() { this.renderClientsPartners(); },
             renderCustomersList(customers) { const list = document.getElementById('customersList'); if (!list) return; if (!customers.length) { list.innerHTML = `<div class="empty-planning">Geen klanten gevonden</div>`; return; } list.innerHTML = customers.map(c => { const archived = c.is_active === false; return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(c.name || '-')}</strong> ${archived ? '<span class="status-badge status-cancelled">Gearchiveerd</span>' : '<span class="status-badge status-completed">Actief</span>'}<br><small>${this.escapeHtml(c.email || '-')} | ${this.escapeHtml(c.phone || '-')}</small><br><small>Standaard ophaaladres: ${this.escapeHtml(c.default_pickup_address || '-')}</small><br><small>Aangemaakt: ${this.formatDashboardTimestamp(c.created_at)} | Auth gekoppeld: ${c.user_id ? 'ja' : 'nee'}</small></div><div class="account-request-actions"><button class="action-btn" onclick="app.showCustomerDetails('${this.escapeHtml(c.id)}')" title="Details"><i class="fas fa-eye"></i></button><button class="action-btn" onclick="app.editCustomer('${this.escapeHtml(c.id)}')" title="Bewerken"><i class="fas fa-edit"></i></button>${archived ? `<button class="action-btn" onclick="app.reactivateCustomer('${this.escapeHtml(c.id)}')" title="Heractiveren"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.archiveCustomer('${this.escapeHtml(c.id)}')" title="Archiveren"><i class="fas fa-archive"></i></button><button class="delete-btn" onclick="app.deleteCustomer('${this.escapeHtml(c.id)}')" title="Verwijderen"><i class="fas fa-trash"></i></button>`}</div></div>`; }).join(''); },
             applyFiltersCustomers() { const q = document.getElementById('filterCustomers')?.value.toLowerCase() || ''; const sort = document.getElementById('sortCustomers')?.value || 'created_desc'; const filtered = this.customers.filter(c => !q || String(c.name || '').toLowerCase().includes(q) || String(c.email || '').toLowerCase().includes(q)); filtered.sort((a,b) => { if (sort === 'created_asc') return new Date(a.created_at || 0) - new Date(b.created_at || 0); if (sort === 'name') return String(a.name || '').localeCompare(String(b.name || '')); if (sort === 'email') return String(a.email || '').localeCompare(String(b.email || '')); return new Date(b.created_at || 0) - new Date(a.created_at || 0); }); this.renderCustomersList(filtered); },
             renderAccountRequests() {
@@ -1635,7 +1671,7 @@
                 this.refreshCurrentTab();
             },
             async rejectAccountRequest(requestId) { const t = translations[currentLang]; const request = this.accountRequests.find(r => r.id === requestId); const reason = prompt(t.accountRequestsRejectReason) || ''; const { error } = await supabase.rpc('reject_account_request', { p_request_id: requestId, p_reason: reason }); if (error) { this.showToast(`${t.accountRequestsRejectFailed}: ${error.message}`, true); return; } await this.sendAccountDecisionEmail(request, false, reason); this.showToast(t.accountRequestsRejected); await this.refreshAllData(true); this.refreshCurrentTab(); },
-            refreshCurrentTab() { switch(this.currentTab) { case 'neworders': this.renderNewOrders(); break; case 'orders': this.renderOrders(); break; case 'history': this.renderHistory(); break; case 'drivers': this.renderDrivers(); break; case 'customers': this.renderCustomers(); break; case 'financieel': this.renderFinance(); break; case 'mailbox': this.renderMailbox(); break; default: this.renderNewOrders(); } },
+            refreshCurrentTab() { switch(this.currentTab) { case 'neworders': this.renderNewOrders(); break; case 'orders': this.renderOrders(); break; case 'history': this.renderHistory(); break; case 'drivers': this.renderDrivers(); break; case 'customers': this.renderClientsPartners(); break; case 'financieel': this.renderFinance(); break; case 'mailbox': this.renderMailbox(); break; default: this.renderNewOrders(); } },
             switchTab(tabName) { this.currentTab = tabName; document.querySelectorAll('.nav-item').forEach(item => { const itemTab = item.getAttribute('data-tab'); if (itemTab === tabName) item.classList.add('active'); else item.classList.remove('active'); }); this.refreshCurrentTab(); },
             async refreshAllData(silent = false) { let t = translations[currentLang]; if (!silent) this.showToast(t.toastRefreshing); const loaded = await this.loadDashboardData(); if (!loaded) return; this.refreshCurrentTab(); if (!silent) this.showToast(t.toastRefreshed); },
             async logout() { let t = translations[currentLang]; if (confirm(t.confirmLogout)) { sessionStorage.removeItem('horizon_logged_in'); window.location.replace('admin-index.html'); } },
