@@ -98,7 +98,21 @@ if (!driverEmail) {
                 dispatchOptions.from = routeRules.from || 'dispatch@fleetconnect.be';
                 dispatchOptions.replyTo = routeRules.from || 'dispatch@fleetconnect.be';
                 dispatchOptions.cc = routeRules.cc || ['fleetconnect.os@gmail.com', 'info@fleetconnect.com'];
-                dispatchOptions.bcc = routeRules.bcc || ['dispatch@fleetconnect.be'];
+                // r048 (per Lux §0): REMOVE dispatch@fleetconnect.be from BCC because the centralized
+                // sendOperationsCopy() is the canonical archive path. Adding dispatch as BCC here
+                // would produce a duplicate dispatch archive copy (BCC + ops copy = 2 copies).
+                // The exactly-once invariant is enforced in sendOperationsCopy via dedup against
+                // snapshot.communication.lastDispatchOptions populated below.
+                dispatchOptions.bcc = [];
+                // Stash the resolved routing onto the snapshot so the operations-copy dedup can see
+                // which addresses already received a primary copy. This is r048's only mechanism
+                // to enforce exactly-once per trigger.
+                snapshot.communication = snapshot.communication || {};
+                snapshot.communication.lastDispatchOptions = {
+                    to: to,
+                    cc: dispatchOptions.cc,
+                    bcc: dispatchOptions.bcc
+                };
             }
 
             const internalOnly = options.operationsOnly || this.internalOnlyTriggers.has(trigger);
@@ -152,14 +166,49 @@ if (!driverEmail) {
     }
 
     async sendOperationsCopy(trigger, snapshot, subject, html, primaryRecipient, supabaseClient) {
-        const recipients = [CommunicationConfig.brand.operationsEmail]
-            .filter(Boolean)
-            .filter((email) => email !== primaryRecipient);
+        // r048 (per Lux §0 Founder mail doctrine): EXACTLY ONE dispatch archive copy per operational transactional trigger.
+        // The centralized sendOperationsCopy() is the canonical archive path.
+        // To prevent duplicate delivery when dispatch is also in primary routing (TO/CC/BCC),
+        // we deduplicate against the known primary recipients.
 
-        if (!recipients.length) {
+        const operationsEmail = CommunicationConfig.brand.operationsEmail;
+        if (!operationsEmail) {
             return { success: true, skipped: true };
         }
 
+        // Build the set of recipients the primary dispatch already delivered to
+        // (TO + CC + BCC, normalized to lowercase for safe comparison)
+        const primaryRecipients = new Set();
+        const collectRecipients = (value) => {
+            if (!value) return;
+            if (typeof value === 'string') {
+                value.split(',').map(s => s.trim().toLowerCase()).filter(Boolean).forEach(e => primaryRecipients.add(e));
+            } else if (Array.isArray(value)) {
+                value.forEach(v => collectRecipients(v));
+            }
+        };
+        // Also include the dispatchOptions cc/bcc captured at the trigger flow level (r047 snapshot field)
+        if (snapshot && snapshot.communication && snapshot.communication.lastDispatchOptions) {
+            const last = snapshot.communication.lastDispatchOptions;
+            // to / cc / bcc are stored in the CommunicationLogger DB row, but here we only
+            // have the in-process dispatchOptions; reconstruct from the closure-captured values
+            collectRecipients(last.to);
+            collectRecipients(last.cc);
+            collectRecipients(last.bcc);
+        }
+        // Also include the explicit primaryRecipient passed in (the customer / driver primary)
+        if (primaryRecipient) collectRecipients.add(String(primaryRecipient).toLowerCase());
+
+        const operationsEmailLower = operationsEmail.toLowerCase();
+
+        // If dispatch is already a primary recipient (BCC dispatch + ops copy would be 2 copies),
+        // SKIP the operations copy to enforce exactly-once.
+        if (primaryRecipients.has(operationsEmailLower)) {
+            console.log(`[CommunicationService] SKIP operations copy for ${trigger} ${snapshot.id}: dispatch already in primary routing — exactly-once invariant`);
+            return { success: true, skipped: true, reason: 'dispatch_already_in_primary_routing' };
+        }
+
+        const recipients = [operationsEmail];
         const operationsSubject = `[FleetConnect Ops] ${subject || trigger} (${snapshot.id})`;
 
         const result = await this.activeProvider.send(recipients, operationsSubject, html, {

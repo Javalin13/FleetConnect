@@ -28,7 +28,7 @@ export const CommunicationConfig = {
                 from: 'dispatch@fleetconnect.be',
                 to: ['you.transport@gmail.com', 'ayoubgaddar05@gmail.com'],  // INTENTIONAL — Ayoub is deliberate operational recipient
                 cc: ['fleetconnect.os@gmail.com', 'info@fleetconnect.com'],  // INTENTIONAL — explicit operational copy
-                bcc: ['dispatch@fleetconnect.be']
+                bcc: []  // r048 (per Lux §0): dispatch removed from BCC — centralized sendOperationsCopy() is the canonical archive path; exactly-once invariant enforced
             }
         }
     },
