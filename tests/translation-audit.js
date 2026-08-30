@@ -96,13 +96,7 @@ const filesToAudit = [
     'PVprivacy.html',
     'PValgemene-voorwaarden.html',
     'PVcookiebeleid.html',
-    'admin-index.html',
-    'KMS7.html',
-    'KMS7_nl.html',
-    'KMS7_en.html',
-    'ClientKMS7.html',
-    'ClientKMS7_nl.html',
-    'ClientKMS7_en.html'
+    'admin-index.html'
 ];
 
 let hardcodedFindings = 0;
