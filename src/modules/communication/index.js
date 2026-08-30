@@ -93,12 +93,12 @@ if (!driverEmail) {
     throw new Error('DRIVER_ASSIGNMENT_REQUEST: driver email missing — cannot derive assignment recipient from current driver record');
 }
 
-                // Set to, cc, bcc, from
+                // Set to, cc, bcc, from (r047: .com drift → .be per Lux §6, preserve TO/CC intentional recipients)
                 to = [driverEmail, 'ayoubgaddar05@gmail.com'];
-                dispatchOptions.from = routeRules.from || 'dispatch@fleetconnect.com';
-                dispatchOptions.replyTo = routeRules.from || 'dispatch@fleetconnect.com';
+                dispatchOptions.from = routeRules.from || 'dispatch@fleetconnect.be';
+                dispatchOptions.replyTo = routeRules.from || 'dispatch@fleetconnect.be';
                 dispatchOptions.cc = routeRules.cc || ['fleetconnect.os@gmail.com', 'info@fleetconnect.com'];
-                dispatchOptions.bcc = routeRules.bcc || ['dispatch@fleetconnect.com'];
+                dispatchOptions.bcc = routeRules.bcc || ['dispatch@fleetconnect.be'];
             }
 
             const internalOnly = options.operationsOnly || this.internalOnlyTriggers.has(trigger);

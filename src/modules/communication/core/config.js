@@ -21,10 +21,14 @@ export const CommunicationConfig = {
         // with invented alternatives. Remove only fallback guesses / proven drift elsewhere.
         assignmentEmails: {
             default: {
-                from: 'dispatch@fleetconnect.com',  // r046-TODO: verify with Founder whether .com is intentional or drift (PRIME evidence shows .be is canonical in brand.operationsEmail)
+                // r047 (per Lux §6): resolve platform .com sender drift to factual .be
+                // brand.operationsEmail = dispatch@fleetconnect.be is the canonical platform identity
+                // Resend provider uses FleetConnect <bookings@fleetconnect.be> as canonical from
+                // Preserves intentional TO/CC recipients (Ayoub etc.) per Founder §0
+                from: 'dispatch@fleetconnect.be',
                 to: ['you.transport@gmail.com', 'ayoubgaddar05@gmail.com'],  // INTENTIONAL — Ayoub is deliberate operational recipient
                 cc: ['fleetconnect.os@gmail.com', 'info@fleetconnect.com'],  // INTENTIONAL — explicit operational copy
-                bcc: ['dispatch@fleetconnect.com']  // r046-TODO: verify
+                bcc: ['dispatch@fleetconnect.be']
             }
         }
     },

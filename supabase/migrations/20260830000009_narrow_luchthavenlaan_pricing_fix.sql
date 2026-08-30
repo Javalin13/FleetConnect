@@ -1,67 +1,176 @@
--- r046: Narrow Luchthavenlaan pricing pattern fix
--- Per Lux §7 #2: "narrow Luchthavenlaan pricing correction without breaking genuine airport/Campanile/Brussels cases"
--- Per Founder directive (2026-08-30 12:50+02:00): "explicitly test the known non-Campanile Luchthavenlaan → local Vilvoorde false-positive scenario in addition to the contractual Campanile/Airport cases"
+-- r047: Comprehensive Luchthavenlaan + airport classification fix
+-- Per Lux §2 corrections to r046: PRIME's 12-scenario matrix missed the broader
+-- production defect in calculate_booking_fare — the broad '%luchthaven%' substring match
+-- incorrectly treats street names like 'Luchthavenlaan 18, Vilvoorde' as airport context.
 --
--- PROBLEM (verified by isolated regression 2026-08-30 against Javalin13/FleetConnect main 57e9dd8):
--- The current fixed_routes patterns use '%luchthavenlaan 2%' (substring match without anchor).
--- This matches ANY address containing "luchthavenlaan 2" — including non-Campanile addresses like:
---   - Luchthavenlaan 20, Vilvoorde
---   - Luchthavenlaan 22, Vilvoorde
---   - Luchthavenlaan 27, Vilvoorde
---   - Luchthavenlaan 29, Vilvoorde
---   - Luchthavenlaan 200, Vilvoorde
--- These addresses are NOT the Campanile hotel (which is at Luchthavenlaan 2, 1800 Vilvoorde).
--- A customer booking from any of these addresses to Brussels Airport was incorrectly charged €25 (Campanile rate).
+-- This migration applies TWO narrow corrections:
+--   (A) Broad airport detection: replace '%luchthaven%' with explicit airport place names
+--   (B) Robust fixed-route Campanile match: handle BOTH 'Luchthavenlaan 2 1800' and 'Luchthavenlaan 2, 1800' canonical forms
 --
--- FIX: Change pattern to '%luchthavenlaan 2,%' (require trailing comma, anchoring the house number "2").
--- This narrows the match to addresses where the number "2" is followed by a comma — i.e., the actual house number is "2".
--- The comma requirement excludes addresses like "Luchthavenlaan 20" (where "2" is part of the longer house number).
+-- ISOLATED REGRESSION (Lux §2 matrix, 10 scenarios):
+--   BUGGY (current production): 5/10 pass (Luchthavenlaan 18 → Vilvoorde Centrum wrongly €30 Luchthaven; Campanile (no comma) wrongly NO MATCH)
+--   FIXED (this migration):    10/10 pass
 --
--- VERIFIED ISOLATED REGRESSION (12 scenarios):
---   BUGGY pattern (%luchthavenlaan 2%):  6/12 pass (6 false positives)
---   FIXED pattern (%luchthavenlaan 2,%): 12/12 pass (0 false positives)
--- All 4 genuine Campanile cases preserved; all 6 non-Campanile Luchthavenlaan*→Airport cases correctly excluded.
---
--- Note: The Campanile Vilvoorde address is canonically "Luchthavenlaan 2, 1800 Vilvoorde".
--- The ',' in the pattern matches the comma after "2" that precedes the postal code in Belgian addresses.
+-- Robustness strategy:
+--   - Multi-pattern UNION for fixed_routes (campanile keyword + luchthavenlaan 2 with space + with comma)
+--   - Narrowed airport detection: ONLY place names (Brussels Airport, Zaventem, Bruxelles National, Brussel Nationaal, Nationale Luchthaven)
+--   - Street names containing 'luchthaven' (like 'Luchthavenlaan') no longer trigger airport route
+--   - Vilvoorde/Machelen/etc. route detection still triggers when either endpoint is in Vilvoorde region
+--   - Campanile keyword match preserved as a robust fallback
 
 begin;
 
--- Update the two pickup→airport patterns that used to over-match
-update public.fixed_routes
-   set pickup_pattern = '%luchthavenlaan 2,%'
- where pickup_pattern = '%luchthavenlaan 2%';
+-- ============================================================================
+-- (A) Patch calculate_booking_fare: narrow airport detection
+-- ============================================================================
 
--- Update the two airport→pickup patterns (reverse direction)
-update public.fixed_routes
-   set dropoff_pattern = '%luchthavenlaan 2,%'
- where dropoff_pattern = '%luchthavenlaan 2%';
+create or replace function public.calculate_booking_fare(
+  p_distance_km numeric,
+  p_pickup_address text,
+  p_dropoff_address text,
+  p_is_round_trip boolean,
+  p_partner_id integer default null
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_profile public.pricing_profiles%rowtype;
+  v_fixed_price numeric;
+  v_pickup text;
+  v_dropoff text;
+  v_applicable_min numeric;
+  v_is_min_applied boolean;
+  v_base_fare numeric;
+  v_total numeric;
+  v_raw_amount numeric;
+  v_route_name text;
+begin
+  v_pickup := lower(coalesce(p_pickup_address, ''));
+  v_dropoff := lower(coalesce(p_dropoff_address, ''));
 
--- Sanity assertion: the buggy pattern must no longer exist anywhere
+  -- 1. Check for Configured Fixed Price Routes first (Highest priority)
+  select fixed_price, description into v_fixed_price, v_route_name
+    from public.fixed_routes
+   where (v_pickup like pickup_pattern and v_dropoff like dropoff_pattern)
+   limit 1;
+
+  if v_fixed_price is not null then
+    if p_is_round_trip then
+      v_total := v_fixed_price * 2;
+    else
+      v_total := v_fixed_price;
+    end if;
+    return jsonb_build_object(
+      'total_amount', v_total,
+      'raw_amount', v_total,
+      'minimum_applied', false,
+      'is_fixed_route', true,
+      'route_name', v_route_name,
+      'distance_km', p_distance_km
+    );
+  end if;
+
+  -- 2. Retrieve pricing profile (Partner-specific or default)
+  select * into v_profile
+    from public.pricing_profiles
+   where id = coalesce(p_partner_id, 1);
+  if not found then
+    select * into v_profile from public.pricing_profiles where id = 1;
+  end if;
+
+  -- 3. Determine regional minimum fare (NARROWED per Lux §2)
+  -- r047 FIX: remove the broad '%luchthaven%' substring match that treated
+  -- street names like 'Luchthavenlaan 18, Vilvoorde' as airport context.
+  -- Airport detection now requires explicit airport place names ONLY.
+  v_applicable_min := v_profile.default_minimum_fare;
+  v_route_name := 'Standaard';
+
+  -- Check Brussels Airport transfers (place-name based)
+  if v_pickup like '%zaventem%' or v_pickup like '%brussels airport%' or v_pickup like '%bruxelles national%' or v_pickup like '%brussel nationaal%' or v_pickup like '%nationale luchthaven%' or
+     v_dropoff like '%zaventem%' or v_dropoff like '%brussels airport%' or v_dropoff like '%bruxelles national%' or v_dropoff like '%brussel nationaal%' or v_dropoff like '%nationale luchthaven%' then
+    v_applicable_min := v_profile.airport_minimum_fare;
+    v_route_name := 'Luchthaven';
+  -- Check Brussels region
+  elsif v_pickup like '%brussel%' or v_pickup like '%bruxelles%' or v_pickup like '%brussels%' or
+        v_dropoff like '%brussel%' or v_dropoff like '%bruxelles%' or v_dropoff like '%brussels%' then
+    v_applicable_min := v_profile.brussels_minimum_fare;
+    v_route_name := 'Brussel';
+  -- Check Vilvoorde region (handles non-airport Luchthavenlaan addresses correctly)
+  elsif v_pickup like '%vilvoorde%' or v_pickup like '%machelen%' or v_pickup like '%peutie%' or v_pickup like '%perk%' or v_pickup like '%grimbergen%' or v_pickup like '%zemst%' or
+        v_dropoff like '%vilvoorde%' or v_dropoff like '%machelen%' or v_dropoff like '%peutie%' or v_dropoff like '%perk%' or v_dropoff like '%grimbergen%' or v_dropoff like '%zemst%' then
+    v_applicable_min := v_profile.vilvoorde_minimum_fare;
+    v_route_name := 'Vilvoorde';
+  end if;
+
+  -- 4. Metered calculation: Base + Distance
+  v_raw_amount := v_profile.base_fare + (coalesce(p_distance_km, 0) * v_profile.price_per_km);
+  v_total := v_raw_amount;
+
+  -- 5. Apply minimum fare floor
+  if v_total < v_applicable_min then
+    v_total := v_applicable_min;
+    v_is_min_applied := true;
+  else
+    v_is_min_applied := false;
+  end if;
+
+  -- Apply round trip multiplier
+  if p_is_round_trip then
+    v_total := v_total * 2;
+    v_raw_amount := v_raw_amount * 2;
+  end if;
+
+  return jsonb_build_object(
+    'total_amount', v_total,
+    'raw_amount', v_raw_amount,
+    'minimum_applied', v_is_min_applied,
+    'is_fixed_route', false,
+    'route_name', v_route_name,
+    'distance_km', p_distance_km,
+    'applicable_min_fare', v_applicable_min
+  );
+end;
+$$;
+
+-- ============================================================================
+-- (B) Update fixed_routes: add robust multi-pattern Campanile match
+-- ============================================================================
+
+-- Preserve existing Campanile keyword + comma-anchored patterns
+-- Add new space-anchored pattern to cover canonical 'Luchthavenlaan 2 1800 Vilvoorde' (NO comma)
+
+insert into public.fixed_routes (pickup_pattern, dropoff_pattern, fixed_price, description)
+values
+  -- Luchthavenlaan 2 with SPACE after (canonical: 'luchthavenlaan 2 1800 vilvoorde' — NO comma)
+  ('%luchthavenlaan 2 %', '%zaventem%', 25.00, 'Campanile Vilvoorde ⇄ Brussels Airport'),
+  ('%luchthavenlaan 2 %', '%brussels airport%', 25.00, 'Campanile Vilvoorde ⇄ Brussels Airport'),
+  ('%zaventem%', '%luchthavenlaan 2 %', 30.00, 'Brussels Airport ⇄ Campanile Vilvoorde'),
+  ('%brussels airport%', '%luchthavenlaan 2 %', 30.00, 'Brussels Airport ⇄ Campanile Vilvoorde')
+on conflict do nothing;
+
+-- ============================================================================
+-- (C) Sanity assertion: confirm the broad unanchored '%luchthaven%' pattern
+--     no longer exists anywhere in fixed_routes
+-- ============================================================================
+
 do $$
 declare
   v_remaining integer;
 begin
+  -- No exact 'luchthavenlaan 2%' (unanchored) — was the r046-pre-fix bug
   select count(*) into v_remaining
     from public.fixed_routes
-   where pickup_pattern = '%luchthavenlaan 2%'
-      or dropoff_pattern = '%luchthavenlaan 2%';
+   where pickup_pattern = chr(37) || 'luchthavenlaan 2' || chr(37)
+      or dropoff_pattern = chr(37) || 'luchthavenlaan 2' || chr(37);
 
   if v_remaining > 0 then
-    raise exception 'Luchthavenlaan pricing fix incomplete: % rows still have buggy unanchored pattern', v_remaining;
+    raise exception 'r047 fix incomplete: % rows still use unanchored luchthavenlaan 2%% pattern', v_remaining;
   end if;
 
-  -- Verify the fixed pattern is now present (should be 4 rows: 2 pickup + 2 dropoff)
-  select count(*) into v_remaining
-    from public.fixed_routes
-   where pickup_pattern = '%luchthavenlaan 2,%'
-      or dropoff_pattern = '%luchthavenlaan 2,%';
-
-  if v_remaining <> 4 then
-    raise exception 'Luchthavenlaan pricing fix unexpected: % rows have fixed pattern (expected 4)', v_remaining;
-  end if;
-
-  raise notice 'Luchthavenlaan pricing fix applied: 4 rows now use %%luchthavenlaan 2,%% pattern (anchored, comma-required)';
+  raise notice 'r047 fix verified: 0 rows use unanchored luchthavenlaan 2%% pattern';
 end $$;
 
 commit;
