@@ -492,10 +492,11 @@
                 if (error) throw error;
 
                 if (data.user) {
-                    // r054: SERVER-DERIVED authorization check (per Lux r053 §1).
-                    // NO LONGER trust browser sessionStorage as authority.
-                    // Call authorize_admin_role() RPC and gate panel rendering
-                    // on its truthful result (founder_scope / operator_scope).
+                    // r055: SERVER-DERIVED authorization check (per Lux r054 §2).
+                    // - authorize_admin_role() v2 takes NO arguments (signature
+                    //   change from r054 which permitted caller-supplied UUID).
+                    // - Identity is derived STRICTLY from auth.uid().
+                    // - NO browser sessionStorage as authority; only as UI cache.
                     let authz;
                     try {
                         const rpcRes = await supabaseClient.rpc('authorize_admin_role');
@@ -517,7 +518,7 @@
 
                     // Authorized. Encode scope flags in sessionStorage for UI rendering
                     // convenience ONLY (the RPC remains the source of truth on every
-                    // protected page load via re-check).
+                    // protected page load via re-check in ondernemerA.html).
                     sessionStorage.setItem('horizon_logged_in', 'true');
                     sessionStorage.setItem('horizon_founder_scope', authz.founder_scope ? 'true' : 'false');
                     sessionStorage.setItem('horizon_operator_scope', authz.operator_scope ? 'true' : 'false');

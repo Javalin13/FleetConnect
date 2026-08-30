@@ -393,17 +393,67 @@
             };
         }
 
-        (function checkAuthentication() {
-                    // r054: defense in depth. sessionStorage is convenience only.
-                    // The server-derived authorize_admin_role() RPC must confirm the
-                    // session has operator_scope or founder_scope. If not, redirect to
-                    // login. This catches tampered sessionStorage flags.
-                    const isLoggedIn = sessionStorage.getItem('horizon_logged_in') === 'true';
-                    const isOperator = sessionStorage.getItem('horizon_operator_scope') === 'true';
-                    const isFounder = sessionStorage.getItem('horizon_founder_scope') === 'true';
-                    if (!isLoggedIn || !(isOperator || isFounder)) {
-                        sessionStorage.removeItem('horizon_logged_in');
+        (async function checkAuthentication() {
+                    // r055 hardening (per Lux r054 §4): sessionStorage is convenience ONLY.
+                    // The server-derived authorize_admin_role() RPC is the source of truth.
+                    // On every protected page load, we:
+                    //   1. Verify a valid Supabase session exists
+                    //   2. Call authorize_admin_role() with NO args (identity from auth.uid())
+                    //   3. Confirm operator_scope OR founder_scope
+                    //   4. Sign out + redirect if any check fails
+                    // Tampering with sessionStorage alone CANNOT grant access.
+
+                    // First: must have a Supabase session
+                    let sessionOk = false;
+                    try {
+                        const { data, error } = await supabase.auth.getSession();
+                        if (error) throw error;
+                        sessionOk = ! !data?.session?.user;
+                    } catch (e) {
+                        console.error('getSession failed:', e);
+                    }
+                    if (!sessionOk) {
+                        sessionStorage.clear();
                         window.location.replace('admin-index.html');
+                        return;
+                    }
+
+                    // Second: call authorize_admin_role() v2 (NO args; identity from auth.uid())
+                    let authz;
+                    try {
+                        const rpcRes = await supabase.rpc('authorize_admin_role');
+                        if (rpcRes.error) throw rpcRes.error;
+                        authz = rpcRes.data;
+                    } catch (e) {
+                        console.error('authorize_admin_role RPC failed:', e);
+                        await supabase.auth.signOut();
+                        sessionStorage.clear();
+                        window.location.replace('admin-index.html');
+                        return;
+                    }
+
+                    // Third: must have operator or founder scope from server
+                    if (!authz || !(authz.operator_scope || authz.founder_scope)) {
+                        console.warn('Authorization denied on protected page load:', authz?.reason);
+                        await supabase.auth.signOut();
+                        sessionStorage.clear();
+                        window.location.replace('admin-index.html');
+                        return;
+                    }
+
+                    // Fourth (convenience): refresh sessionStorage flags from server result
+                    sessionStorage.setItem('horizon_logged_in', 'true');
+                    sessionStorage.setItem('horizon_founder_scope', authz.founder_scope ? 'true' : 'false');
+                    sessionStorage.setItem('horizon_operator_scope', authz.operator_scope ? 'true' : 'false');
+                    sessionStorage.setItem('horizon_role', authz.role || '');
+                    if (authz.partner_scope && authz.partner_scope.partner_id) {
+                        sessionStorage.setItem('horizon_partner_id', String(authz.partner_scope.partner_id));
+                        sessionStorage.setItem('horizon_partner_name', authz.partner_scope.partner_name || '');
+                        sessionStorage.setItem('horizon_partner_is_hoofd', authz.partner_scope.is_hoofd ? 'true' : 'false');
+                    } else {
+                        sessionStorage.removeItem('horizon_partner_id');
+                        sessionStorage.removeItem('horizon_partner_name');
+                        sessionStorage.removeItem('horizon_partner_is_hoofd');
                     }
                 })();
 
