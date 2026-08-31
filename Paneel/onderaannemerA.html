@@ -187,37 +187,8 @@
         .fiche-btn.assign { background: #f59e0b; color: white; }
         
         .people-card { background: white; border-radius: 16px; padding: 20px; }
-        .calendar-container { background: white; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .calendar-header h2 { font-size: 1.3rem; font-weight: 600; }
-        .calendar-nav { display: flex; gap: 12px; }
-        .calendar-nav button { background: #f1f5f9; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; }
-        .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: 600; padding: 12px 0; border-bottom: 1px solid #e2e8f0; margin-bottom: 8px; }
-        .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-        .calendar-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s ease; position: relative; }
-        .calendar-day:hover { background: #e2e8f0; transform: scale(1.05); }
-        .calendar-day.selected { background: #2dd4bf !important; color: #0f172a !important; font-weight: 700 !important; border: 3px solid #f59e0b !important; box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3) !important; transform: scale(1.02); position: relative; z-index: 2; }
-        .calendar-day.selected::after { content: "OK"; position: absolute; top: 2px; right: 4px; font-size: 10px; color: #f59e0b; font-weight: bold; }
-        .calendar-day.other-month { color: #94a3b8; }
-        .calendar-day.today { border: 2px solid #f59e0b; font-weight: 600; }
-        .calendar-day.has-rides { background: #dbeafe; }
-        .ride-dot { width: 6px; height: 6px; background: #2dd4bf; border-radius: 50%; margin-top: 2px; }
         
-        .dashboard-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-        .info-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; }
-        .mini-flip-container { perspective: 600px; height: 140px; }
-        .mini-flip-card { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.4s; transform-style: preserve-3d; }
-        .mini-flip-card.flipped { transform: rotateY(180deg); }
-        .mini-flip-front, .mini-flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 16px; }
-        .mini-flip-front { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; transform: rotateY(0deg); }
-        .mini-flip-back { background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%); color: #0f172a; transform: rotateY(180deg); }
-        .mini-flip-front .value, .mini-flip-back .value { font-size: 1.8rem; font-weight: 700; margin: 8px 0; }
         
-        .planning-container { margin-top: 20px; background: white; border-radius: 16px; padding: 20px; }
-        .planning-list { max-height: 400px; overflow-y: auto; }
-        .planning-item { background: #f1f5f9; border-radius: 12px; padding: 12px; margin-bottom: 10px; border-left: 4px solid #2dd4bf; }
-        .planning-time { font-weight: 700; color: #0f172a; margin-bottom: 4px; }
-        .planning-ride { font-size: 0.85rem; color: #475569; }
         .empty-planning { text-align: center; padding: 40px; color: #94a3b8; }
         
         .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
@@ -225,10 +196,6 @@
         .kpi-card .value { font-size: 1.8rem; font-weight: 700; }
         .kpi-card .label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-top: 8px; }
         
-        .wiki-container { background: white; border-radius: 16px; padding: 24px; }
-        .wiki-content { text-align: left; max-width: 1000px; margin: 0 auto; line-height: 1.6; }
-        .wiki-content h2 { color: #0f172a; border-bottom: 2px solid #2dd4bf; padding-bottom: 10px; margin-bottom: 20px; }
-        .wiki-content h3 { color: #2dd4bf; margin-top: 20px; margin-bottom: 10px; }
         
         .partner-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 16px; background: #f8fafc; }
         .partner-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
@@ -247,7 +214,6 @@
         .status-cancelled { background: #fee2e2; color: #991b1b; }
 
         @media (max-width: 1200px) {
-            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
             .kpi-grid { grid-template-columns: repeat(2, 1fr); }
             .route-cell { max-width: 200px; }
         }
@@ -264,7 +230,6 @@
         }
         @media (max-width: 480px) {
             .header h1 { font-size: 1rem; }
-            .dashboard-grid { grid-template-columns: 1fr; }
             .route-cell { max-width: 120px; }
         }
     </style>
@@ -449,15 +414,14 @@
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         const translations = {
             nl: {
-                sidebarSubtitle: "Operator Paneel", navBookings: "BOEKINGEN", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History", navAgenda: "Agenda",
-                navManagement: "BEHEER", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navFinance: "FINANCIËN", navFinancial: "Settings / Admin", navSettlements: "Settlements",
-                navInfo: "INFORMATIE", navMailbox: "E-mail", navWiki: "Wiki Agent", logoutText: "Uitloggen",
+                sidebarSubtitle: "Operator Paneel", navBookings: "BOEKINGEN", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History",
+                navManagement: "BEHEER", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navFinance: "FINANCIËN", navFinancial: "Settings / Admin",
+                navInfo: "INFORMATIE", navMailbox: "E-mail", logoutText: "Uitloggen",
                 backText: "Terug naar overzicht", refreshText: "Vernieuwen",
                 filterOrderId: "Order ID", filterName: "Naam", btnSearch: "Zoeken", btnReset: "Reset", tableId: "ID", tableDatetime: "Datum/Tijd", tableCustomer: "Klant",
                 tableRoute: "Route", tableVehicle: "Voertuig", tableAmount: "Bedrag", tableAction: "Actie", tableDriver: "Driver", btnViewFiche: "Bekijk Fiche",
                 statusNew: "Nieuw", statusAccepted: "Geaccepteerd", statusAssigned: "Toegewezen", statusAssignmentSent: "Wachtend op reactie chauffeur", statusCompleted: "Voltooid", statusCancelled: "Geannuleerd", statusUnassigned: "Niet toegewezen",
-                agendaTodayOmzet: "Vandaag Omzet", agendaCash: "Cash Vandaag", agendaCompleted: "Voltooid", agendaFuture: "Toekomstige Ritten", calendarToday: "Vandaag",
-                planningTitle: "Planning voor geselecteerde dag", planningNoRides: "Geen ritten op deze dag", btnAccept: "Accepteren", btnAssign: "Toewijzen", btnCancel: "Annuleren",
+planningNoRides: "Geen ritten op deze dag", btnAccept: "Accepteren", btnAssign: "Toewijzen", btnCancel: "Annuleren",
                 btnClose: "Sluiten", btnAddDriver: "Nieuwe Driver", btnAddPartner: "Nieuwe Partner", btnDelete: "Verwijderen", btnEdit: "Bewerken", btnArchive: "Archiveren",
                 ficheTitle: "Rit Fiche", ficheBookingInfo: "Boekingsinformatie", ficheBookingNumber: "Boekingsnummer", ficheDateTime: "Datum & Tijd",
                 ficheCustomerInfo: "Klantgegevens", ficheName: "Naam", ficheEmail: "Email", ficheRideInfo: "Ritgegevens", fichePickup: "Pickup", ficheDestination: "Destination",
@@ -469,22 +433,20 @@
                 kindLabelClient: "Client", kindLabelAccount: "Account", requestFieldEmail: "Email", requestFieldPhone: "Tel", requestFieldCompany: "Bedrijf", requestFieldVehicle: "Voertuig", requestFieldRegion: "Regio", requestFieldRequested: "Aangevraagd", requestFieldAuthLinked: "Auth gekoppeld", requestActionApprove: "Goedkeuren", requestActionReject: "Afwijzen",
                 search: "Zoeken", searchNameEmail: "Naam of email", sort: "Sorteer", sortNewestFirst: "Nieuwste eerst", sortOldestFirst: "Oudste eerst", sortByName: "Naam", sortByEmail: "Email", btnReset: "Reset",
                 financialTotalRevenue: "Totale Omzet", financialTotalRides: "Totaal Ritten", financialNewOrders: "Nieuwe Orders", financialActiveOrders: "Actieve Orders", financialHistory: "Historie", financialOverviewTitle: "Overzicht", financialOverviewHelp: "Niet-gevoelige KPI's uit de huidige FleetConnect dataset.", adminOperationalTitle: "Operationele configuratie", adminOperationalHelp: "Alleen-lezen informatie voor operator en founder. Wijzigingen gebeuren via geautoriseerde server-side mechanismen.", adminFounderTitle: "Systeemconfiguratie (alleen founder)", adminFounderHelp: "Alleen zichtbaar voor founder-scope. Bevat geen geheimen.", adminPricingProfile: "Pricing profiel", adminBaseFare: "Vaste startprijs", adminPricePerKm: "Prijs per km", adminMailboxStatus: "Mailbox status", adminMailboxNotConnected: "Niet geconfigureerd (Phase F pending)", adminMailboxConnected: "Verbonden", adminOperatorTitle: "Operator status", adminDriversCount: "Drivers (totaal / actief)", adminPartnersCount: "Partners (totaal / hoofdpartner)", adminAuditLogTitle: "Recente operatoracties", adminAuditLogEmpty: "Geen recente acties gelogd.", adminNoSecrets: "Geheimen worden niet in de UI getoond.", adminReadOnly: "Alleen-lezen", adminScopeFounder: "Founder scope", adminScopeOperator: "Operator scope", adminScopeCurrent: "Huidige scope", adminRoleDispatch: "Dispatch / Power admin", adminRoleMoukrim: "Hoofdpartner (Moukrim)", adminSystemHealthy: "Systeem gezond", adminMailboxPlaceholder: "Dispatch mailbox", adminUnavailable: "Niet beschikbaar", adminPricingUnavailable: "Pricing profiel niet geladen", adminScopeUnknown: "Scope onbekend — re-autorisatie vereist", adminDriversActiveNote: "Operationele status (is_active)",
-                settlementsTitle: "Settlements", settlementsText: "Hier komen de Stripe betalingen en refunds",
-                accountRequestsTitle: "Accountaanvragen", accountRequestsHelp: "Aanvragen worden hier beoordeeld. Goedkeuring maakt of actualiseert een klantprofiel en koppelt een bestaande Supabase Auth gebruiker wanneer die al bestaat. Zonder bestaande Auth gebruiker blijft een beveiligde invite/verificatiestap nodig.", accountRequestsEmpty: "Geen open accountaanvragen.", accountRequestsRecent: "Recent afgehandeld", accountRequestsApprove: "Goedkeuren", accountRequestsReject: "Afwijzen", accountRequestsProfile: "Klantprofiel", accountRequestsAuthLinked: "Auth gekoppeld", accountRequestsYes: "ja", accountRequestsNo: "nee", accountRequestsStatusPending: "In behandeling", accountRequestsStatusApproved: "Goedgekeurd", accountRequestsStatusRejected: "Afgewezen", accountRequestsApproveConfirm: "Accountaanvraag goedkeuren?", accountRequestsRejectReason: "Reden voor afwijzing (optioneel):", accountRequestsApproveFailed: "Goedkeuren mislukt", accountRequestsRejectFailed: "Afwijzen mislukt", accountRequestsApprovedLinked: "Accountaanvraag goedgekeurd en gekoppeld", accountRequestsApprovedAuthRequired: "Accountaanvraag goedgekeurd; Auth activatie vereist", accountRequestsRejected: "Accountaanvraag afgewezen",
+accountRequestsHelp: "Aanvragen worden hier beoordeeld. Goedkeuring maakt of actualiseert een klantprofiel en koppelt een bestaande Supabase Auth gebruiker wanneer die al bestaat. Zonder bestaande Auth gebruiker blijft een beveiligde invite/verificatiestap nodig.", accountRequestsRecent: "Recent afgehandeld", accountRequestsStatusPending: "In behandeling", accountRequestsStatusApproved: "Goedgekeurd", accountRequestsStatusRejected: "Afgewezen", accountRequestsApproveConfirm: "Accountaanvraag goedkeuren?", accountRequestsRejectReason: "Reden voor afwijzing (optioneel):", accountRequestsApproveFailed: "Goedkeuren mislukt", accountRequestsRejectFailed: "Afwijzen mislukt", accountRequestsApprovedLinked: "Accountaanvraag goedgekeurd en gekoppeld", accountRequestsApprovedAuthRequired: "Accountaanvraag goedgekeurd; Auth activatie vereist", accountRequestsRejected: "Accountaanvraag afgewezen",
                 toastRefreshing: "Bezig met vernieuwen...", toastRefreshed: "Gegevens vernieuwd", toastAccepted: "Rit geaccepteerd", toastCancelled: "Rit geannuleerd",
                 toastAssigned: "Rit toegewezen aan", toastDeleted: "Verwijderd", toastAdded: "toegevoegd", toastError: "Fout bij",
                 confirmCancel: "Weet u zeker dat u deze rit wilt annuleren?", confirmDelete: "Weet u zeker dat u dit wilt verwijderen?", confirmLogout: "Weet u zeker dat u wilt uitloggen?"
             },
             fr: {
-                sidebarSubtitle: "Panneau Operateur", navBookings: "RÉSERVATIONS", navNewOrders: "Nouvelles Commandes", navOrders: "Commandes Actives", navHistory: "Historique", navAgenda: "Agenda",
-                navManagement: "GESTION", navDrivers: "Chauffeurs", navPartners: "Clients/Partenaires", navCustomers: "Clients/Partenaires", navFinance: "FINANCES", navFinancial: "Paramètres / Admin", navSettlements: "Règlements",
-                navInfo: "INFOS", navMailbox: "E-mail", navWiki: "Wiki Agent", logoutText: "Déconnexion",
+                sidebarSubtitle: "Panneau Operateur", navBookings: "RÉSERVATIONS", navNewOrders: "Nouvelles Commandes", navOrders: "Commandes Actives", navHistory: "Historique",
+                navManagement: "GESTION", navDrivers: "Chauffeurs", navPartners: "Clients/Partenaires", navCustomers: "Clients/Partenaires", navFinance: "FINANCES", navFinancial: "Paramètres / Admin",
+                navInfo: "INFOS", navMailbox: "E-mail", logoutText: "Déconnexion",
                 backText: "Retour à l'aperçu", refreshText: "Actualiser",
                 filterOrderId: "ID Commande", filterName: "Nom", btnSearch: "Chercher", btnReset: "Réinitialiser", tableId: "ID", tableDatetime: "Date/Heure", tableCustomer: "Client",
                 tableRoute: "Trajet", tableVehicle: "Véhicule", tableAmount: "Montant", tableAction: "Action", tableDriver: "Chauffeur", btnViewFiche: "Voir Fiche",
                 statusNew: "Nouveau", statusAccepted: "Accepté", statusAssigned: "Assigné", statusAssignmentSent: "En attente de réponse chauffeur", statusCompleted: "Terminé", statusCancelled: "Annulé", statusUnassigned: "Non assigné",
-                agendaTodayOmzet: "Chiffre Aujourd'hui", agendaCash: "Espèces Aujourd'hui", agendaCompleted: "Terminés", agendaFuture: "Trajets Futurs", calendarToday: "Aujourd'hui",
-                planningTitle: "Planning du jour sélectionné", planningNoRides: "Aucun trajet ce jour", btnAccept: "Accepter", btnAssign: "Assigner", btnCancel: "Annuler",
+planningNoRides: "Aucun trajet ce jour", btnAccept: "Accepter", btnAssign: "Assigner", btnCancel: "Annuler",
                 btnClose: "Fermer", btnAddDriver: "Nouveau Chauffeur", btnAddPartner: "Nouveau Partenaire", btnDelete: "Supprimer", btnEdit: "Modifier", btnArchive: "Archiver",
                 ficheTitle: "Fiche Trajet", ficheBookingInfo: "Infos Réservation", ficheBookingNumber: "Numéro", ficheDateTime: "Date & Heure",
                 ficheCustomerInfo: "Infos Client", ficheName: "Nom", ficheEmail: "Email", ficheRideInfo: "Infos Trajet", fichePickup: "Prise en charge", ficheDestination: "Destination",
@@ -496,22 +458,20 @@
                 kindLabelClient: "Client", kindLabelAccount: "Compte", requestFieldEmail: "Email", requestFieldPhone: "Tél", requestFieldCompany: "Société", requestFieldVehicle: "Véhicule", requestFieldRegion: "Région", requestFieldRequested: "Demandé", requestFieldAuthLinked: "Auth relié", requestActionApprove: "Approuver", requestActionReject: "Refuser",
                 search: "Rechercher", searchNameEmail: "Nom ou email", sort: "Trier", sortNewestFirst: "Plus récent", sortOldestFirst: "Plus ancien", sortByName: "Nom", sortByEmail: "Email", btnReset: "Réinitialiser",
                 financialTotalRevenue: "Chiffre Total", financialTotalRides: "Total Trajets", financialNewOrders: "Nouvelles Commandes", financialActiveOrders: "Commandes Actives", financialHistory: "Historique", financialOverviewTitle: "Vue d'ensemble", financialOverviewHelp: "KPI non sensibles issus des données FleetConnect actuelles.", adminOperationalTitle: "Configuration opérationnelle", adminOperationalHelp: "Informations en lecture seule pour opérateur et fondateur. Les modifications passent par des mécanismes serveur autorisés.", adminFounderTitle: "Configuration système (fondateur uniquement)", adminFounderHelp: "Visible uniquement en scope fondateur. Ne contient aucun secret.", adminPricingProfile: "Profil tarifaire", adminBaseFare: "Prix de départ fixe", adminPricePerKm: "Prix par km", adminMailboxStatus: "État de la boîte mail", adminMailboxNotConnected: "Non configurée (Phase F en attente)", adminMailboxConnected: "Connectée", adminOperatorTitle: "État opérateur", adminDriversCount: "Chauffeurs (total / actifs)", adminPartnersCount: "Partenaires (total / principal)", adminAuditLogTitle: "Actions opérateur récentes", adminAuditLogEmpty: "Aucune action récente enregistrée.", adminNoSecrets: "Les secrets ne sont pas affichés dans l'UI.", adminReadOnly: "Lecture seule", adminScopeFounder: "Scope fondateur", adminScopeOperator: "Scope opérateur", adminScopeCurrent: "Scope actuel", adminRoleDispatch: "Dispatch / Power admin", adminRoleMoukrim: "Partenaire principal (Moukrim)", adminSystemHealthy: "Système sain", adminMailboxPlaceholder: "Boîte mail Dispatch", adminUnavailable: "Non disponible", adminPricingUnavailable: "Profil tarifaire non chargé", adminScopeUnknown: "Scope inconnu — ré-autorisation requise", adminDriversActiveNote: "Statut opérationnel (is_active)",
-                settlementsTitle: "Règlements", settlementsText: "Paiements Stripe et remboursements",
-                accountRequestsTitle: "Demandes de compte", accountRequestsHelp: "Les demandes sont examinées ici. L'approbation crée ou met à jour un profil client et relie un utilisateur Supabase Auth existant lorsqu'il existe. Sans utilisateur Auth existant, une étape sécurisée d'invitation ou de vérification reste nécessaire.", accountRequestsEmpty: "Aucune demande de compte ouverte.", accountRequestsRecent: "Récemment traitées", accountRequestsApprove: "Approuver", accountRequestsReject: "Refuser", accountRequestsProfile: "Profil client", accountRequestsAuthLinked: "Auth relié", accountRequestsYes: "oui", accountRequestsNo: "non", accountRequestsStatusPending: "En attente", accountRequestsStatusApproved: "Approuvée", accountRequestsStatusRejected: "Refusée", accountRequestsApproveConfirm: "Approuver la demande de compte ?", accountRequestsRejectReason: "Raison du refus (optionnel) :", accountRequestsApproveFailed: "Échec de l'approbation", accountRequestsRejectFailed: "Échec du refus", accountRequestsApprovedLinked: "Demande approuvée et reliée", accountRequestsApprovedAuthRequired: "Demande approuvée; activation Auth requise", accountRequestsRejected: "Demande de compte refusée",
+accountRequestsHelp: "Les demandes sont examinées ici. L'approbation crée ou met à jour un profil client et relie un utilisateur Supabase Auth existant lorsqu'il existe. Sans utilisateur Auth existant, une étape sécurisée d'invitation ou de vérification reste nécessaire.", accountRequestsRecent: "Récemment traitées", accountRequestsStatusPending: "En attente", accountRequestsStatusApproved: "Approuvée", accountRequestsStatusRejected: "Refusée", accountRequestsApproveConfirm: "Approuver la demande de compte ?", accountRequestsRejectReason: "Raison du refus (optionnel) :", accountRequestsApproveFailed: "Échec de l'approbation", accountRequestsRejectFailed: "Échec du refus", accountRequestsApprovedLinked: "Demande approuvée et reliée", accountRequestsApprovedAuthRequired: "Demande approuvée; activation Auth requise", accountRequestsRejected: "Demande de compte refusée",
                 toastRefreshing: "Actualisation...", toastRefreshed: "Données actualisées", toastAccepted: "Trajet accepté", toastCancelled: "Trajet annulé",
                 toastAssigned: "Trajet assigné à", toastDeleted: "Supprimé", toastAdded: "ajouté", toastError: "Erreur lors de",
                 confirmCancel: "Voulez-vous vraiment annuler ce trajet ?", confirmDelete: "Voulez-vous vraiment supprimer ?", confirmLogout: "Voulez-vous vraiment vous déconnecter ?"
             },
             en: {
-                sidebarSubtitle: "Operator Panel", navBookings: "BOOKINGS", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History", navAgenda: "Agenda",
-                navManagement: "MANAGEMENT", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navFinance: "FINANCE", navFinancial: "Settings / Admin", navSettlements: "Settlements",
-                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agent", logoutText: "Logout",
+                sidebarSubtitle: "Operator Panel", navBookings: "BOOKINGS", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History",
+                navManagement: "MANAGEMENT", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navFinance: "FINANCE", navFinancial: "Settings / Admin",
+                navInfo: "INFO", navMailbox: "E-mail", logoutText: "Logout",
                 backText: "Back to overview", refreshText: "Refresh",
                 filterOrderId: "Order ID", filterName: "Name", btnSearch: "Search", btnReset: "Reset", tableId: "ID", tableDatetime: "Date/Time", tableCustomer: "Customer",
                 tableRoute: "Route", tableVehicle: "Vehicle", tableAmount: "Amount", tableAction: "Action", tableDriver: "Driver", btnViewFiche: "View Details",
                 statusNew: "New", statusAccepted: "Accepted", statusAssigned: "Assigned", statusAssignmentSent: "Pending driver response", statusCompleted: "Completed", statusCancelled: "Cancelled", statusUnassigned: "Unassigned",
-                agendaTodayOmzet: "Today's Revenue", agendaCash: "Cash Today", agendaCompleted: "Completed", agendaFuture: "Future Rides", calendarToday: "Today",
-                planningTitle: "Planning for selected day", planningNoRides: "No rides on this day", btnAccept: "Accept", btnAssign: "Assign", btnCancel: "Cancel",
+planningNoRides: "No rides on this day", btnAccept: "Accept", btnAssign: "Assign", btnCancel: "Cancel",
                 btnClose: "Close", btnAddDriver: "New Driver", btnAddPartner: "New Partner", btnDelete: "Delete", btnEdit: "Edit", btnArchive: "Archive",
                 ficheTitle: "Ride Details", ficheBookingInfo: "Booking Info", ficheBookingNumber: "Booking Number", ficheDateTime: "Date & Time",
                 ficheCustomerInfo: "Customer Info", ficheName: "Name", ficheEmail: "Email", ficheRideInfo: "Ride Info", fichePickup: "Pickup", ficheDestination: "Destination",
@@ -523,22 +483,20 @@
                 kindLabelClient: "Client", kindLabelAccount: "Account", requestFieldEmail: "Email", requestFieldPhone: "Phone", requestFieldCompany: "Company", requestFieldVehicle: "Vehicle", requestFieldRegion: "Region", requestFieldRequested: "Requested", requestFieldAuthLinked: "Auth linked", requestActionApprove: "Approve", requestActionReject: "Reject",
                 search: "Search", searchNameEmail: "Name or email", sort: "Sort", sortNewestFirst: "Newest first", sortOldestFirst: "Oldest first", sortByName: "Name", sortByEmail: "Email", btnReset: "Reset",
                 financialTotalRevenue: "Total Revenue", financialTotalRides: "Total Rides", financialNewOrders: "New Orders", financialActiveOrders: "Active Orders", financialHistory: "History", financialOverviewTitle: "Overview", financialOverviewHelp: "Non-sensitive KPIs from current FleetConnect dataset.", adminOperationalTitle: "Operational configuration", adminOperationalHelp: "Read-only information for operator and founder. Changes go through authorized server-side mechanisms.", adminFounderTitle: "System configuration (founder only)", adminFounderHelp: "Visible only in founder scope. Contains no secrets.", adminPricingProfile: "Pricing profile", adminBaseFare: "Base fare", adminPricePerKm: "Price per km", adminMailboxStatus: "Mailbox status", adminMailboxNotConnected: "Not configured (Phase F pending)", adminMailboxConnected: "Connected", adminOperatorTitle: "Operator status", adminDriversCount: "Drivers (total / active)", adminPartnersCount: "Partners (total / head partner)", adminAuditLogTitle: "Recent operator actions", adminAuditLogEmpty: "No recent actions logged.", adminNoSecrets: "Secrets are not displayed in the UI.", adminReadOnly: "Read-only", adminScopeFounder: "Founder scope", adminScopeOperator: "Operator scope", adminScopeCurrent: "Current scope", adminRoleDispatch: "Dispatch / Power admin", adminRoleMoukrim: "Head partner (Moukrim)", adminSystemHealthy: "System healthy", adminMailboxPlaceholder: "Dispatch mailbox", adminUnavailable: "Unavailable", adminPricingUnavailable: "Pricing profile not loaded", adminScopeUnknown: "Scope unknown — re-authorization required", adminDriversActiveNote: "Operational status (is_active)",
-                settlementsTitle: "Settlements", settlementsText: "Stripe payments and refunds",
-                accountRequestsTitle: "Account Requests", accountRequestsHelp: "Requests are reviewed here. Approval creates or updates a customer profile and links an existing Supabase Auth user when one exists. Without an existing Auth user, a secure invite or verification step is still required.", accountRequestsEmpty: "No open account requests.", accountRequestsRecent: "Recently handled", accountRequestsApprove: "Approve", accountRequestsReject: "Reject", accountRequestsProfile: "Customer profile", accountRequestsAuthLinked: "Auth linked", accountRequestsYes: "yes", accountRequestsNo: "no", accountRequestsStatusPending: "Pending", accountRequestsStatusApproved: "Approved", accountRequestsStatusRejected: "Rejected", accountRequestsApproveConfirm: "Approve account request?", accountRequestsRejectReason: "Rejection reason (optional):", accountRequestsApproveFailed: "Approval failed", accountRequestsRejectFailed: "Rejection failed", accountRequestsApprovedLinked: "Account request approved and linked", accountRequestsApprovedAuthRequired: "Account request approved; Auth activation required", accountRequestsRejected: "Account request rejected",
+accountRequestsHelp: "Requests are reviewed here. Approval creates or updates a customer profile and links an existing Supabase Auth user when one exists. Without an existing Auth user, a secure invite or verification step is still required.", accountRequestsRecent: "Recently handled", accountRequestsStatusPending: "Pending", accountRequestsStatusApproved: "Approved", accountRequestsStatusRejected: "Rejected", accountRequestsApproveConfirm: "Approve account request?", accountRequestsRejectReason: "Rejection reason (optional):", accountRequestsApproveFailed: "Approval failed", accountRequestsRejectFailed: "Rejection failed", accountRequestsApprovedLinked: "Account request approved and linked", accountRequestsApprovedAuthRequired: "Account request approved; Auth activation required", accountRequestsRejected: "Account request rejected",
                 toastRefreshing: "Refreshing...", toastRefreshed: "Data refreshed", toastAccepted: "Ride accepted", toastCancelled: "Ride cancelled",
                 toastAssigned: "Ride assigned to", toastDeleted: "Deleted", toastAdded: "added", toastError: "Error with",
                 confirmCancel: "Are you sure you want to cancel this ride?", confirmDelete: "Are you sure you want to delete this?", confirmLogout: "Are you sure you want to logout?"
             },
             es: {
-                sidebarSubtitle: "Panel Operador", navBookings: "RESERVAS", navNewOrders: "Nuevos Pedidos", navOrders: "Pedidos Activos", navHistory: "Historial", navAgenda: "Agenda",
-                navManagement: "GESTIÓN", navDrivers: "Conductores", navPartners: "Clientes/Socios", navCustomers: "Clientes/Socios", navFinance: "FINANZAS", navFinancial: "Configuración / Admin", navSettlements: "Liquidaciones",
-                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agente", logoutText: "Cerrar Sesión",
+                sidebarSubtitle: "Panel Operador", navBookings: "RESERVAS", navNewOrders: "Nuevos Pedidos", navOrders: "Pedidos Activos", navHistory: "Historial",
+                navManagement: "GESTIÓN", navDrivers: "Conductores", navPartners: "Clientes/Socios", navCustomers: "Clientes/Socios", navFinance: "FINANZAS", navFinancial: "Configuración / Admin",
+                navInfo: "INFO", navMailbox: "E-mail", logoutText: "Cerrar Sesión",
                 backText: "Volver al resumen", refreshText: "Actualizar",
                 filterOrderId: "ID Pedido", filterName: "Nombre", btnSearch: "Buscar", btnReset: "Restablecer", tableId: "ID", tableDatetime: "Fecha/Hora", tableCustomer: "Cliente",
                 tableRoute: "Ruta", tableVehicle: "Vehículo", tableAmount: "Importe", tableAction: "Acción", tableDriver: "Conductor", btnViewFiche: "Ver Ficha",
                 statusNew: "Nuevo", statusAccepted: "Aceptado", statusAssigned: "Asignado", statusAssignmentSent: "Esperando respuesta del conductor", statusCompleted: "Completado", statusCancelled: "Cancelado", statusUnassigned: "No asignado",
-                agendaTodayOmzet: "Facturación Hoy", agendaCash: "Efectivo Hoy", agendaCompleted: "Completados", agendaFuture: "Viajes Futuros", calendarToday: "Hoy",
-                planningTitle: "Planificación del día seleccionado", planningNoRides: "No hay viajes este día", btnAccept: "Aceptar", btnAssign: "Asignar", btnCancel: "Cancelar",
+planningNoRides: "No hay viajes este día", btnAccept: "Aceptar", btnAssign: "Asignar", btnCancel: "Cancelar",
                 btnClose: "Cerrar", btnAddDriver: "Nuevo Conductor", btnAddPartner: "Nuevo Socio", btnDelete: "Eliminar", btnEdit: "Editar", btnArchive: "Archivar",
                 ficheTitle: "Ficha de Viaje", ficheBookingInfo: "Info Reserva", ficheBookingNumber: "Número", ficheDateTime: "Fecha y Hora",
                 ficheCustomerInfo: "Info Cliente", ficheName: "Nombre", ficheEmail: "Email", ficheRideInfo: "Info Viaje", fichePickup: "Recogida", ficheDestination: "Destino",
@@ -550,8 +508,7 @@
                 kindLabelClient: "Cliente", kindLabelAccount: "Cuenta", requestFieldEmail: "Email", requestFieldPhone: "Teléfono", requestFieldCompany: "Empresa", requestFieldVehicle: "Vehículo", requestFieldRegion: "Región", requestFieldRequested: "Solicitado", requestFieldAuthLinked: "Auth vinculado", requestActionApprove: "Aprobar", requestActionReject: "Rechazar",
                 search: "Buscar", searchNameEmail: "Nombre o email", sort: "Ordenar", sortNewestFirst: "Más reciente", sortOldestFirst: "Más antiguo", sortByName: "Nombre", sortByEmail: "Email", btnReset: "Restablecer",
                 financialTotalRevenue: "Facturación Total", financialTotalRides: "Total Viajes", financialNewOrders: "Nuevos Pedidos", financialActiveOrders: "Pedidos Activos", financialHistory: "Historial", financialOverviewTitle: "Resumen", financialOverviewHelp: "KPI no sensibles del conjunto de datos actual de FleetConnect.", adminOperationalTitle: "Configuración operativa", adminOperationalHelp: "Información de sólo lectura para operador y fundador. Los cambios pasan por mecanismos autorizados del servidor.", adminFounderTitle: "Configuración del sistema (solo fundador)", adminFounderHelp: "Visible solo en scope fundador. No contiene secretos.", adminPricingProfile: "Perfil de tarifas", adminBaseFare: "Tarifa base", adminPricePerKm: "Precio por km", adminMailboxStatus: "Estado del buzón", adminMailboxNotConnected: "No configurado (Phase F pendiente)", adminMailboxConnected: "Conectado", adminOperatorTitle: "Estado del operador", adminDriversCount: "Conductores (total / activos)", adminPartnersCount: "Socios (total / principal)", adminAuditLogTitle: "Acciones recientes del operador", adminAuditLogEmpty: "Sin acciones recientes registradas.", adminNoSecrets: "Los secretos no se muestran en la UI.", adminReadOnly: "Sólo lectura", adminScopeFounder: "Scope fundador", adminScopeOperator: "Scope operador", adminScopeCurrent: "Scope actual", adminRoleDispatch: "Dispatch / Power admin", adminRoleMoukrim: "Socio principal (Moukrim)", adminSystemHealthy: "Sistema sano", adminMailboxPlaceholder: "Buzón Dispatch", adminUnavailable: "No disponible", adminPricingUnavailable: "Perfil de tarifas no cargado", adminScopeUnknown: "Scope desconocido — re-autorización requerida", adminDriversActiveNote: "Estado operativo (is_active)",
-                settlementsTitle: "Liquidaciones", settlementsText: "Pagos de Stripe y reembolsos",
-                accountRequestsTitle: "Solicitudes de cuenta", accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actualiza un perfil de cliente y vincula un usuario Supabase Auth existente cuando existe.", accountRequestsEmpty: "No hay solicitudes abiertas.", accountRequestsRecent: "Gestionadas recientemente", accountRequestsApprove: "Aprobar", accountRequestsReject: "Rechazar", accountRequestsProfile: "Perfil de cliente", accountRequestsAuthLinked: "Auth vinculado", accountRequestsYes: "si", accountRequestsNo: "no", accountRequestsStatusPending: "Pendiente", accountRequestsStatusApproved: "Aprobada", accountRequestsStatusRejected: "Rechazada", accountRequestsApproveConfirm: "Aprobar solicitud de cuenta?", accountRequestsRejectReason: "Motivo del rechazo (opcional):", accountRequestsApproveFailed: "Aprobacion fallida", accountRequestsRejectFailed: "Rechazo fallido", accountRequestsApprovedLinked: "Solicitud aprobada y vinculada", accountRequestsApprovedAuthRequired: "Solicitud aprobada; activacion Auth requerida", accountRequestsRejected: "Solicitud rechazada",
+accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actualiza un perfil de cliente y vincula un usuario Supabase Auth existente cuando existe.", accountRequestsRecent: "Gestionadas recientemente", accountRequestsStatusPending: "Pendiente", accountRequestsStatusApproved: "Aprobada", accountRequestsStatusRejected: "Rechazada", accountRequestsApproveConfirm: "Aprobar solicitud de cuenta?", accountRequestsRejectReason: "Motivo del rechazo (opcional):", accountRequestsApproveFailed: "Aprobacion fallida", accountRequestsRejectFailed: "Rechazo fallido", accountRequestsApprovedLinked: "Solicitud aprobada y vinculada", accountRequestsApprovedAuthRequired: "Solicitud aprobada; activacion Auth requerida", accountRequestsRejected: "Solicitud rechazada",
                 toastRefreshing: "Actualizando...", toastRefreshed: "Datos actualizados", toastAccepted: "Viaje aceptado", toastCancelled: "Viaje cancelado",
                 toastAssigned: "Viaje asignado a", toastDeleted: "Eliminado", toastAdded: "agregado", toastError: "Error con",
                 confirmCancel: "¿Está seguro de que desea cancelar este viaje?", confirmDelete: "¿Está seguro de que desea eliminar esto?", confirmLogout: "¿Está seguro de que desea cerrar sesión?"
@@ -661,7 +618,6 @@
                 this.historyOrders.sort((a,b) => this.parseDate(b.datetime, b.time) - this.parseDate(a.datetime, a.time));
                 this.newOrders.sort((a,b) => this.parseDate(a.datetime, a.time) - this.parseDate(b.datetime, b.time));
             },
-            getRidesByDate(dateStr) { return this.allBookings.filter(b => b.datetime === dateStr); },
             getDriverForBooking(booking) { if (booking.status === 'reassignment_needed' || booking.metadata?.requires_reassignment === true) return null; if (booking.assigned_driver_id) { const driver = this.drivers.find(d => d.id === booking.assigned_driver_id); if (driver) return driver; } if (booking.assigned_driver && booking.assigned_driver.name) return booking.assigned_driver; return null; },
             getDeclinedDriver(booking) { return booking.metadata?.declined_driver || null; },
             getStatusText(booking) { let t = translations[currentLang]; if (booking.status === 'assignment_sent') return t.statusAssignmentSent || 'Wachtend op reactie chauffeur'; if (booking.status === 'assigned') return t.statusAssigned; if (booking.status === 'accepted') return t.statusAccepted; if (booking.status === 'reassignment_needed' || booking.metadata?.requires_reassignment === true) return 'Opnieuw toewijzen'; if (booking.status === 'cancelled') return t.statusCancelled; if (booking.status === 'completed') return t.statusCompleted; return t.statusNew; },
@@ -673,7 +629,6 @@
             getAccountRequestPortalUrl(request) { const accountType = String(request?.account_type || '').toLowerCase(); const isPartnerOrDriver = ['partner', 'driver', 'operations'].includes(accountType) || request?.metadata?.requested_portal === 'partner-app'; return isPartnerOrDriver ? 'https://partners.fleetconnect.be/' : `${window.location.origin}/PV/index.html?email=${encodeURIComponent(request?.email || '')}`; },
             getAccountRequestKindLabel(request) { const accountType = String(request?.account_type || '').toLowerCase(); if (accountType === 'driver') return 'Driver PWA'; if (accountType === 'partner') return 'Partner PWA'; if (accountType === 'operations') return 'Operations'; return this.escapeHtml(request?.account_type || 'Account'); },
             formatDashboardTimestamp(value) { if (!value) return '—'; try { return new Date(value).toLocaleString('nl-BE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); } catch { return value; } },
-            getTodayStats() { let todayStr = this.formatDate(new Date()); let todayRides = this.getRidesByDate(todayStr); let todayTotal = todayRides.reduce((sum, r) => sum + (r.amount || 0), 0); let todayCash = todayRides.filter(r => r.payment === 'Cash').reduce((sum, r) => sum + (r.amount || 0), 0); let nowTime = `${new Date().getHours().toString().padStart(2,'0')}:${new Date().getMinutes().toString().padStart(2,'0')}`; let futureRidesToday = todayRides.filter(r => r.status !== 'completed' && r.status !== 'cancelled' && r.time > nowTime); return { total: todayTotal, cash: todayCash, completed: todayRides.filter(r => r.status === 'completed').length, canceled: todayRides.filter(r => r.status === 'cancelled').length, futureRides: futureRidesToday.length }; },
             
             shortenRoute(pickup, destination) {
                 const shortenAddress = (address) => {
@@ -801,41 +756,6 @@
                 if (orders.length === 0) { tbody.innerHTML = `<tr><td colspan="9" class="empty-planning">${t.planningNoRides}</td></tr>`; return; }
                 tbody.innerHTML = orders.map(o => { const driver = this.getDriverForBooking(o); const driverText = driver ? `${driver.name} (${driver.vehicle})` : t.statusUnassigned; let statusBadge = ''; if (o.status === 'completed') statusBadge = `<br><span class="status-badge status-completed">${t.statusCompleted}</span>`; else if (o.status === 'cancelled') statusBadge = `<br><span class="status-badge status-cancelled">${t.statusCancelled}</span>`; const review = o.status === 'completed' ? this.reviewsByBooking[o.id] : null; const reviewBadge = review ? `<br><span class="status-badge" style="background:#fef9c3; color:#854d0e;" title="${(review.comment || '').replace(/"/g, '&quot;')}">&#9733; ${review.rating}/5${review.comment ? ' &mdash; ' + review.comment.substring(0, 40).replace(/</g, '&lt;').replace(/>/g, '&gt;') + (review.comment.length > 40 ? '&hellip;' : '') : ''}</span>` : ''; const shortRoute = this.shortenRoute(o.pickup, o.destination); const fullRoute = this.getFullRoute(o.pickup, o.destination); const checked = this.selectedRideIds.has(String(o.id)) ? 'checked' : ''; return `<tr><td><input type="checkbox" class="compact-checkbox ride-select" data-booking-id="${this.escapeHtml(o.id)}" onchange="app.toggleRideSelection('${this.escapeHtml(o.id)}', this.checked)" ${checked}></td><td style="white-space: nowrap;"><strong>${o.id}</strong>${statusBadge}${reviewBadge}${this.renderB2BBadge(o)}</td><td style="white-space: nowrap;">${o.datetime} ${o.time}</td><td style="white-space: nowrap;">${this.escapeHtml(o.name)}${this.isB2BBooking(o) ? `<br><small>${this.escapeHtml(this.getBookingMeta(o).company_name || 'B2B WebBooker')}</small>` : ''}</td><td class="route-cell" title="${this.escapeHtml(fullRoute)}" style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${this.escapeHtml(shortRoute)}</span></td><td style="white-space: nowrap;">${o.vehicle}</td><td style="white-space: nowrap;">EUR${(o.amount || 0).toFixed(2)}</span></td><td style="white-space: nowrap;">${driverText}</span></td><td><button class="action-btn" onclick='app.showBookingFiche(${JSON.stringify(o).replace(/'/g, "&#39;")})'>${t.btnViewFiche}</button></td>`; }).join('');
             },
-            renderAgenda() {
-                let t = translations[currentLang];
-                let stats = this.getTodayStats();
-                let html = `<div class="dashboard-grid"><div class="info-card"><div class="mini-flip-container"><div class="mini-flip-card"><div class="mini-flip-front"><i class="fas fa-euro-sign"></i><div class="value">EUR ${stats.total.toFixed(2)}</div><div class="label">${t.agendaTodayOmzet}</div></div></div></div></div><div class="info-card"><div class="mini-flip-container"><div class="mini-flip-card"><div class="mini-flip-front"><i class="fas fa-money-bill-wave"></i><div class="value">EUR ${stats.cash.toFixed(2)}</div><div class="label">${t.agendaCash}</div></div></div></div></div><div class="info-card"><div class="mini-flip-container"><div class="mini-flip-card"><div class="mini-flip-front"><i class="fas fa-check-circle"></i><div class="value">${stats.completed}</div><div class="label">${t.agendaCompleted}</div></div></div></div></div><div class="info-card"><div class="mini-flip-container"><div class="mini-flip-card"><div class="mini-flip-front"><i class="fas fa-clock"></i><div class="value">${stats.futureRides}</div><div class="label">${t.agendaFuture}</div></div></div></div></div></div><div class="calendar-container"><div class="calendar-header"><h2>${this.currentMonth.toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })}</h2><div class="calendar-nav"><button onclick="app.changeMonth(-1)"><i class="fas fa-chevron-left"></i></button><button onclick="app.goToToday()">${t.calendarToday}</button><button onclick="app.changeMonth(1)"><i class="fas fa-chevron-right"></i></button></div></div><div class="calendar-weekdays"><div>Ma</div><div>Di</div><div>Wo</div><div>Do</div><div>Vr</div><div>Za</div><div>Zo</div></div><div class="calendar-days" id="calendarDays"></div></div><div class="planning-container"><h3>${t.planningTitle}</h3><div class="planning-list" id="planningList">${t.planningNoRides}</div></div>`;
-                document.getElementById('contentArea').innerHTML = html;
-                this.renderSimpleCalendar();
-                document.getElementById('pageTitle').innerHTML = t.navAgenda;
-            },
-            renderSimpleCalendar() {
-                let container = document.getElementById('calendarDays');
-                if (!container) return;
-                let year = this.currentMonth.getFullYear(), month = this.currentMonth.getMonth();
-                let firstDay = new Date(year, month, 1), startDay = firstDay.getDay(), daysInMonth = new Date(year, month + 1, 0).getDate();
-                let adjustedStart = startDay === 0 ? 6 : startDay - 1;
-                let html = '';
-                for (let i = adjustedStart - 1; i >= 0; i--) { let prevDate = new Date(year, month, -i); html += `<div class="calendar-day other-month" onclick="app.selectDate(${prevDate.getDate()}, ${prevDate.getMonth()+1}, ${prevDate.getFullYear()})">${prevDate.getDate()}</div>`; }
-                for (let day = 1; day <= daysInMonth; day++) { let dateStr = `${day.toString().padStart(2,'0')}-${(month+1).toString().padStart(2,'0')}-${year}`; let rides = this.getRidesByDate(dateStr); let isToday = (day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()); let isSelected = (this.selectedDate && day === this.selectedDate.getDate() && month === this.selectedDate.getMonth() && year === this.selectedDate.getFullYear()); let classes = 'calendar-day'; if (isToday) classes += ' today'; if (isSelected) classes += ' selected'; if (rides.length > 0) classes += ' has-rides'; html += `<div class="${classes}" onclick="app.selectDate(${day}, ${month+1}, ${year})">${day}${rides.length > 0 ? '<div class="ride-dot"></div>' : ''}</div>`; }
-                let totalCells = Math.ceil((adjustedStart + daysInMonth) / 7) * 7;
-                for (let i = adjustedStart + daysInMonth; i < totalCells; i++) { let nextDate = new Date(year, month + 1, 1); nextDate.setDate(nextDate.getDate() + (i - (adjustedStart + daysInMonth))); html += `<div class="calendar-day other-month" onclick="app.selectDate(${nextDate.getDate()}, ${nextDate.getMonth()+1}, ${nextDate.getFullYear()})">${nextDate.getDate()}</div>`; }
-                container.innerHTML = html;
-                this.renderSimplePlanning();
-            },
-            renderSimplePlanning() {
-                let t = translations[currentLang];
-                let container = document.getElementById('planningList');
-                if (!container) return;
-                let dateStr = `${this.selectedDate.getDate().toString().padStart(2,'0')}-${(this.selectedDate.getMonth()+1).toString().padStart(2,'0')}-${this.selectedDate.getFullYear()}`;
-                let rides = this.getRidesByDate(dateStr).sort((a,b) => a.time.localeCompare(b.time));
-                let formattedDate = this.selectedDate.toLocaleDateString('nl-NL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                if (rides.length === 0) { container.innerHTML = `<div class="empty-planning"> ${t.planningNoRides} ${formattedDate}</div>`; return; }
-                container.innerHTML = `<h4 style="margin-bottom: 15px; color: #2dd4bf;"> ${formattedDate} (${rides.length} ${t.financialTotalRides.toLowerCase()})</h4>` + rides.map(r => `<div class="planning-item"><div class="planning-time"><i class="fas fa-clock"></i> ${r.time} uur</div><div class="planning-ride"><strong>${this.escapeHtml(r.name)}</strong> - ${this.escapeHtml(r.pickup)} -> ${this.escapeHtml(r.destination)}</div><div class="planning-ride"><i class="fas fa-car"></i> ${r.vehicle}</div><div class="planning-ride"><i class="fas fa-euro-sign"></i> EUR${(r.amount || 0).toFixed(2)}</div></div>`).join('');
-            },
-            changeMonth(delta) { this.currentMonth.setMonth(this.currentMonth.getMonth() + delta); this.renderSimpleCalendar(); },
-            goToToday() { this.currentMonth = new Date(); this.selectedDate = new Date(); this.renderSimpleCalendar(); },
-            selectDate(day, month, year) { this.selectedDate = new Date(year, month-1, day); this.currentMonth = new Date(year, month-1, 1); this.renderSimpleCalendar(); setTimeout(() => { const pc = document.querySelector('.planning-container'); if (pc) pc.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100); },
             renderDrivers() {
                 let t = translations[currentLang];
                 let myDrivers = this.drivers.filter(c => { let partner = this.partners.find(p => p.id === c.partner_id); return partner && partner.is_hoofd === true; });
@@ -1254,145 +1174,7 @@
             renderCustomers() { this.renderClientsPartners(); },
             renderCustomersList(customers) { const list = document.getElementById('customersList'); if (!list) return; const t = translations[currentLang]; if (!customers.length) { list.innerHTML = `<div class="empty-planning">${this.escapeHtml(t.noCustomersFound)}</div>`; return; } list.innerHTML = customers.map(c => { const archived = c.is_active === false; return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:12px; margin-bottom:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;"><div><strong>${this.escapeHtml(c.name || '-')}</strong> ${archived ? `<span class="status-badge status-cancelled">${this.escapeHtml(t.customerStatusArchived)}</span>` : `<span class="status-badge status-completed">${this.escapeHtml(t.customerStatusActive)}</span>`}<br><small>${this.escapeHtml(c.email || '-')} | ${this.escapeHtml(c.phone || '-')}</small><br><small>${this.escapeHtml(t.customerDefaultPickup)}: ${this.escapeHtml(c.default_pickup_address || '-')}</small><br><small>${this.escapeHtml(t.customerCreated)}: ${this.formatDashboardTimestamp(c.created_at)} | ${this.escapeHtml(t.customerAuthLinked)}: ${c.user_id ? this.escapeHtml(t.keyYes) : this.escapeHtml(t.keyNo)}</small></div><div class="account-request-actions"><button class="action-btn" onclick="app.showCustomerDetails('${this.escapeHtml(c.id)}')" title="${this.escapeHtml(t.customerActionDetails)}"><i class="fas fa-eye"></i></button><button class="action-btn" onclick="app.editCustomer('${this.escapeHtml(c.id)}')" title="${this.escapeHtml(t.customerActionEdit)}"><i class="fas fa-edit"></i></button>${archived ? `<button class="action-btn" onclick="app.reactivateCustomer('${this.escapeHtml(c.id)}')" title="${this.escapeHtml(t.customerActionReactivate)}"><i class="fas fa-undo"></i></button>` : `<button class="delete-btn" onclick="app.archiveCustomer('${this.escapeHtml(c.id)}')" title="${this.escapeHtml(t.customerActionArchive)}"><i class="fas fa-archive"></i></button><button class="delete-btn" onclick="app.deleteCustomer('${this.escapeHtml(c.id)}')" title="${this.escapeHtml(t.customerActionDelete)}"><i class="fas fa-trash"></i></button>`}</div></div>`; }).join(''); },
             applyFiltersCustomers() { const q = document.getElementById('filterCustomers')?.value.toLowerCase() || ''; const sort = document.getElementById('sortCustomers')?.value || 'created_desc'; const filtered = this.customers.filter(c => !q || String(c.name || '').toLowerCase().includes(q) || String(c.email || '').toLowerCase().includes(q)); filtered.sort((a,b) => { if (sort === 'created_asc') return new Date(a.created_at || 0) - new Date(b.created_at || 0); if (sort === 'name') return String(a.name || '').localeCompare(String(b.name || '')); if (sort === 'email') return String(a.email || '').localeCompare(String(b.email || '')); return new Date(b.created_at || 0) - new Date(a.created_at || 0); }); this.renderCustomersList(filtered); },
-            renderAccountRequests() {
-                const t = translations[currentLang];
-                const requests = this.accountRequests.filter(r => !this.isCustomerAccountRequest(r));
-                const pending = requests.filter(r => r.status === 'pending');
-                const decided = requests.filter(r => r.status !== 'pending').slice(0, 50);
-                const title = t.accountRequestsTitle;
-                const fmtDate = (d) => {
-                    if (!d) return '—';
-                    try {
-                        const dt = new Date(d);
-                        return dt.toLocaleString('nl-BE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-                    } catch { return d; }
-                };
-                const renderRequest = (r) => {
-                    const created = fmtDate(r.created_at);
-                    const isRecent = r.created_at && (Date.now() - new Date(r.created_at).getTime()) < 86400000;
-                    const metadata = r.metadata || {};
-                    const statusClass = r.status === 'approved' ? 'status-completed' : (r.status === 'rejected' ? 'status-cancelled' : 'status-pending');
-                    return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:12px; ${isRecent ? 'border-left:4px solid var(--accent-gold);' : ''}">
-                        <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-                            <div style="flex:1; min-width:280px;">
-                                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
-                                    <strong>${this.escapeHtml(r.name)}</strong>
-                                    <span class="status-badge ${statusClass}">${this.getAccountRequestStatusText(r.status)}</span>
-                                    <span class="status-badge" style="background:#dbeafe; color:#1e40af;">${this.getAccountRequestKindLabel(r)}</span>
-                                    <small style="color:#94a3b8; font-weight:600;">📅 ${created}</small>
-                                    ${isRecent ? '<span style="background:var(--accent-gold); color:white; padding:2px 8px; border-radius:12px; font-size:0.7rem; font-weight:700;">NIEUW</span>' : ''}
-                                </div>
-                                <div style="color:#475569; font-size:0.9rem;">
-                                    <strong>Email:</strong> ${this.escapeHtml(r.email)} ·
-                                    <strong>Tel:</strong> ${this.escapeHtml(r.phone || '-')}
-                                    ${r.company ? ` · <strong>Bedrijf:</strong> ${this.escapeHtml(r.company)}` : ''}
-                                </div>
-                                <div style="color:#64748b; font-size:0.85rem; margin-top:6px;">
-                                    <strong>Voertuig:</strong> ${this.escapeHtml(metadata.vehicle_type || '-')} ·
-                                    <strong>Regio:</strong> ${this.escapeHtml(metadata.operating_area || '-')} ·
-                                    <strong>Taal:</strong> ${this.escapeHtml(metadata.preferred_language || '-')}
-                                </div>
-                                ${r.notes ? `<div style="color:#64748b; font-size:0.85rem; margin-top:6px; padding:8px; background:#f8fafc; border-radius:6px;"><strong>Notities:</strong> ${this.escapeHtml(r.notes)}</div>` : ''}
-                                <div style="color:#94a3b8; font-size:0.75rem; margin-top:6px;">
-                                    ${t.accountRequestsProfile || 'Profiel'}: ${this.escapeHtml(metadata.partner_id || metadata.driver_id || r.customer_id || '-')} · ${t.accountRequestsAuthLinked || 'Auth'}: ${r.user_id ? (t.accountRequestsYes || 'ja') : (t.accountRequestsNo || 'nee')}
-                                </div>
-                            </div>
-                            <div class="account-request-actions">
-                                <button class="action-btn" onclick="app.editAccountRequest('${r.id}')" title="Bewerken"><i class="fas fa-edit"></i> Bewerken</button>
-                                <button class="action-btn" onclick="app.showAccountRequestDetails('${r.id}')" title="Details"><i class="fas fa-eye"></i></button>
-                                ${r.status === 'pending' ? `
-                                    <button class="approve-btn" onclick="app.approveAccountRequest('${r.id}')"><i class="fas fa-check"></i> ${t.accountRequestsApprove || 'Goedkeuren'}</button>
-                                    <button class="delete-btn" onclick="app.rejectAccountRequest('${r.id}')">${t.accountRequestsReject}</button>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>`;
-                };
-                let html = `<div class="people-card"><h3><i class="fas fa-user-check"></i> ${title} <span class="order-count">${pending.length} open</span></h3>
-                <p style="color:#64748b; margin-bottom:16px;">Partner PWA en dashboard-toegangsaanvragen worden hier beoordeeld. Goedkeuring maakt of koppelt het juiste partner-/chauffeursprofiel; privé ritgegevens blijven geblokkeerd tot goedkeuring.</p>
-                <div class="filter-bar">
-                    <div class="filter-group">
-                        <label>Zoeken</label>
-                        <input type="text" id="filterAccountRequests" placeholder="Naam, email, bedrijf…" oninput="app.applyFiltersAccountRequests()">
-                    </div>
-                    <div class="filter-group">
-                        <label>Status</label>
-                        <select id="filterAccountRequestStatus" onchange="app.applyFiltersAccountRequests()">
-                            <option value="all">Alle</option>
-                            <option value="pending" selected>In behandeling</option>
-                            <option value="approved">Goedgekeurd</option>
-                            <option value="rejected">Afgewezen</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Sorteer</label>
-                        <select id="sortAccountRequests" onchange="app.applyFiltersAccountRequests()">
-                            <option value="newest">Nieuwste eerst</option>
-                            <option value="oldest">Oudste eerst</option>
-                            <option value="name">Naam</option>
-                        </select>
-                    </div>
-                    <div class="filter-actions">
-                        <button class="btn-reset" onclick="document.getElementById('filterAccountRequests').value=''; document.getElementById('filterAccountRequestStatus').value='pending'; document.getElementById('sortAccountRequests').value='newest'; app.renderAccountRequests();">Reset</button>
-                    </div>
-                </div>
-                <div id="accountRequestsList" style="margin-top:16px;">`;
-                if (!pending.length) html += `<div class="empty-planning">${t.accountRequestsEmpty}</div>`;
-                else pending.forEach(r => { html += renderRequest(r); });
-                if (decided.length) html += `<div style="margin-top:12px; color:#94a3b8; font-size:0.85rem;">${decided.length} afgehandelde accountaanvraag(en) verborgen uit de dashboardweergave.</div>`;
-                html += `</div></div>`;
-                document.getElementById('contentArea').innerHTML = html;
-                document.getElementById('pageTitle').innerHTML = `${title} <span class="order-count">${pending.length}</span>`;
-            },
 
-            applyFiltersAccountRequests() {
-                const q = (document.getElementById('filterAccountRequests')?.value || '').toLowerCase();
-                const status = document.getElementById('filterAccountRequestStatus')?.value || 'all';
-                const sort = document.getElementById('sortAccountRequests')?.value || 'newest';
-                const all = this.accountRequests.filter(r => !this.isCustomerAccountRequest(r));
-                let filtered = all.filter(r =>
-                    (status === 'all' || r.status === status) &&
-                    (!q || (r.name || '').toLowerCase().includes(q) || (r.email || '').toLowerCase().includes(q) || (r.company || '').toLowerCase().includes(q) || (r.account_type || '').toLowerCase().includes(q))
-                );
-                filtered.sort((a, b) => {
-                    if (sort === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
-                    if (sort === 'oldest') return new Date(a.created_at || 0) - new Date(b.created_at || 0);
-                    if (sort === 'name') return (a.name || '').localeCompare(b.name || '');
-                    return 0;
-                });
-                const list = document.getElementById('accountRequestsList');
-                if (!list) { this.renderAccountRequests(); return; }
-                const fmtDate = (d) => {
-                    if (!d) return '—';
-                    try { return new Date(d).toLocaleString('nl-BE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); } catch { return d; }
-                };
-                const renderRequest = (r) => {
-                    const created = fmtDate(r.created_at);
-                    const isRecent = r.created_at && (Date.now() - new Date(r.created_at).getTime()) < 86400000;
-                    const metadata = r.metadata || {};
-                    const statusClass = r.status === 'approved' ? 'status-completed' : (r.status === 'rejected' ? 'status-cancelled' : 'status-pending');
-                    return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:12px; ${isRecent ? 'border-left:4px solid var(--accent-gold);' : ''}">
-                        <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-                            <div style="flex:1; min-width:280px;">
-                                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
-                                    <strong>${this.escapeHtml(r.name)}</strong>
-                                    <span class="status-badge ${statusClass}">${this.getAccountRequestStatusText(r.status)}</span>
-                                    <span class="status-badge" style="background:#dbeafe; color:#1e40af;">${this.getAccountRequestKindLabel(r)}</span>
-                                    <small style="color:#94a3b8; font-weight:600;">📅 ${created}</small>
-                                </div>
-                                <div style="color:#475569; font-size:0.9rem;">${this.escapeHtml(r.email)} · ${this.escapeHtml(r.phone || '-')}${r.company ? ' · ' + this.escapeHtml(r.company) : ''}</div>
-                                <div style="color:#64748b; font-size:0.85rem; margin-top:6px;">Voertuig: ${this.escapeHtml(metadata.vehicle_type || '-')} · Regio: ${this.escapeHtml(metadata.operating_area || '-')}</div>
-                            </div>
-                            <div class="account-request-actions">
-                                <button class="action-btn" onclick="app.editAccountRequest('${r.id}')"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn" onclick="app.showAccountRequestDetails('${r.id}')"><i class="fas fa-eye"></i></button>
-                                ${r.status === 'pending' ? `<button class="approve-btn" onclick="app.approveAccountRequest('${r.id}')"><i class="fas fa-check"></i> Goedkeuren</button><button class="delete-btn" onclick="app.rejectAccountRequest('${r.id}')">Afwijzen</button>` : ''}
-                            </div>
-                        </div>
-                    </div>`;
-                };
-                list.innerHTML = filtered.length ? filtered.map(renderRequest).join('') : `<div class="empty-planning">Geen accountaanvragen gevonden voor deze filter.</div>`;
-            },
 
             async editAccountRequest(requestId) {
                 const r = this.accountRequests.find(x => String(x.id) === String(requestId));
@@ -1418,7 +1200,7 @@
                 if (error) { this.showToast('Bewerken mislukt: ' + error.message, true); return; }
                 this.showToast('Accountaanvraag bijgewerkt');
                 await this.loadAccountRequests();
-                if (this.currentTab === 'accountrequests') this.renderAccountRequests();
+
             },
 
             async showAccountRequestDetails(requestId) {
@@ -1621,8 +1403,6 @@
                 document.getElementById('contentArea').innerHTML = html;
                 document.getElementById('pageTitle').innerHTML = t.navFinancial;
             },
-            renderSettlements() { let t = translations[currentLang]; document.getElementById('contentArea').innerHTML = `<div class="people-card"><h3>${t.settlementsTitle}</h3><p>${t.settlementsText}</p></div>`; document.getElementById('pageTitle').innerHTML = t.navSettlements; },
-            renderWiki() { let t = translations[currentLang]; document.getElementById('contentArea').innerHTML = `<div class="wiki-container"><div class="wiki-content"><h2><i class="fas fa-robot"></i> ${t.navWiki}</h2><p>${t.wikiWelcome}</p><h3> ${t.navNewOrders}</h3><p>${t.wikiNewOrdersText}</p><h3> ${t.navOrders}</h3><p>${t.wikiOrdersText}</p><h3> ${t.navHistory}</h3><p>${t.wikiHistoryText}</p><h3> ${t.navAgenda}</h3><p>${t.wikiAgendaText}</p><h3> ${t.driversTitle} & ${t.partnersTitle}</h3><p>${t.wikiDriversText}</p></div></div>`; document.getElementById('pageTitle').innerHTML = t.navWiki; },
 
             renderMailbox() {
                 const mailboxes = [
