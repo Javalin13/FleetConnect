@@ -1500,7 +1500,16 @@
                 //        "Unavailable" state, NOT synthetic fallback values.
                 //   §3 (per Lux review): active drivers count must use operational state
                 //        (is_active !== false && !archived_at), NOT user_id link presence.
+                //   §4 (per Lux r2 corrections review): ASYNC stale-render guard.
+                //        If user switches to another tab while authorize_admin_role() RPC
+                //        is in flight, the continuation MUST NOT overwrite the new tab's
+                //        content. Capture render token at entry; verify before DOM writes.
                 const t = translations[currentLang];
+
+                // Capture render token + verify currentTab before any DOM mutation.
+                // If user navigates away during the trusted RPC await, abort silently.
+                const renderTokenAtEntry = this._renderFinanceToken = (this._renderFinanceToken || 0) + 1;
+                const intendedTabAtEntry = this.currentTab;
 
                 // Trusted re-authorization via server-side authorize_admin_role() RPC.
                 // sessionStorage may MIRROR this trusted response, but the gate is the RPC.
@@ -1516,6 +1525,13 @@
                     trustedError = e?.message || String(e);
                     console.warn('renderFinance: trusted re-authorization failed:', trustedError);
                 }
+
+                // STALE-RENDER GUARD: if user has navigated away OR another renderFinance
+                // invocation has started, do NOT mutate DOM.
+                if (this._renderFinanceToken !== renderTokenAtEntry || this.currentTab !== intendedTabAtEntry) {
+                    return;
+                }
+
                 const founderScope = !!(trustedAuthz && trustedAuthz.founder_scope);
                 const operatorScope = !!(trustedAuthz && trustedAuthz.operator_scope);
                 const trustedAuthorized = !!(trustedAuthz && trustedAuthz.authorized);
