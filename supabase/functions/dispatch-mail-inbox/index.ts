@@ -1,35 +1,34 @@
 /**
- * FleetConnect Dispatch Mailbox — Inbox / Folders / Detail / Search adapter
+ * FleetConnect Dispatch Mailbox — Inbox / Folders / Detail / Search
  *
- * Phase F Batch 1 (non-secret review-ready).
+ * Phase F Batch 1 corrections (per Lux 8d5d099 BLOCKER #2 + #3):
  *
- * ARCHITECTURE (per mailbox-audit.md §7b + Lux 68f35b6 §4):
- *   Browser → this edge function → IMAP (imap.kasserver.com:993/TLS) via imapflow
- *   Browser NEVER talks to IMAP directly. NO IMAP credentials in browser/repo/Bridge.
+ *   BLOCKER #2 FIX: single base route + explicit `action` field in body.
+ *     The browser calls `supabase.functions.invoke('dispatch-mail-inbox', { body: { action: ... } })`
+ *     and the function dispatches by `action` value. No subpath required. Base
+ *     route never returns `ok: true` for a no-op — base without action returns
+ *     `{ ok: false, error: 'missing_action' }`.
  *
- * SECURITY:
- *   - CORS: only fleetconnect.be / vercel preview / localhost (same allowlist as other FC edge funcs)
- *   - Auth: Supabase Bearer JWT (authenticated only) + authorize_admin_role() server-derived scope
- *   - Secrets: MAILBOX_IMAP_PASSWORD env var on Supabase edge; never logged, never in DB
- *   - Audit: every read/search/open logged via log_dispatch_mailbox_action() (Phase F migration)
+ *   BLOCKER #3 FIX: ImapFlow `fetch()` returns an async iterable, not an array.
+ *     Use `for await ... of` to collect results. Mailbox lock release uses
+ *     `lock.release()`, NOT `client.unlock(lock)`. Same patterns in /message
+ *     and /search where applicable.
  *
- * SCOPE (Batch 1):
- *   GET  /folders                              — list IMAP folders for the configured mailbox
- *   GET  /inbox?folder=INBOX&limit=50&offset=0 — list cached messages (no IMAP round-trip when possible)
- *   GET  /message?folder=INBOX&uid=1234         — fetch full body + attachment list (IMAP FETCH)
- *   GET  /search?q=<text>&folder=INBOX          — IMAP SEARCH across from/subject/body
+ *   Non-secret behavior: when MAILBOX_IMAP_PASSWORD is unset, the adapter returns
+ *     `{ ok: false, status: 'adapter_unavailable', reason: 'mailbox_credentials_unconfigured' }`
+ *     so the UI can render the friendly unavailable panel.
  *
- * NON-SECRET BATCH 1 BEHAVIOR:
- *   - When MAILBOX_IMAP_PASSWORD is unset OR adapter cannot reach IMAP:
- *     returns 503 SERVICE_UNAVAILABLE with explicit reason and an empty/placeholder payload
- *     + logs a 'denied' or 'inbox_read_failed' audit entry
- *   - This lets Lux review the schema + RPC + edge-function contract WITHOUT exposing secrets.
- *   - Real connection test happens after Founder F-M1 (see evidence/phase-f-mailbox-evidence.md).
+ * ACTIONS supported:
+ *   action='folders'                            → list IMAP folders
+ *   action='inbox'    { folder, limit, offset } → list cached envelope
+ *   action='message'  { folder, uid }           → fetch single message body excerpt
+ *   action='search'   { q, folder }             → IMAP SEARCH by from/subject/body
  *
- * NOT IN SCOPE (this function):
- *   - SMTP send (see dispatch-mail-send)
- *   - Flag toggle (see dispatch-mail-flag)
- *   - Attachment body download (handled inside /message on demand; binary stream)
+ * SECURITY (unchanged from Batch 1):
+ *   - CORS allowlist mirrors other FC edge functions
+ *   - Bearer JWT + authorize_dispatch_mailbox() server-derived scope
+ *   - All actions audited via log_dispatch_mailbox_action()
+ *   - Secrets only in env vars, never logged
  */
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
@@ -71,23 +70,12 @@ function isAllowedFleetConnectOrigin(origin: string | null): boolean {
   }
 }
 
-// ---------- Config (env-driven; NO hardcoded credentials) ----------
-const MAILBOX_HOST        = Deno.env.get('MAILBOX_PROVIDER_HOST') || 'imap.kasserver.com';
-const MAILBOX_IMAP_PORT   = Number(Deno.env.get('MAILBOX_PROVIDER_IMAP_PORT') || '993');
-const MAILBOX_USER        = Deno.env.get('MAILBOX_USER') || 'dispatch@fleetconnect.be';
-const MAILBOX_IMAP_PASS   = Deno.env.get('MAILBOX_IMAP_PASSWORD') || '';
-
-const SUPABASE_URL        = Deno.env.get('SUPABASE_URL') || '';
-const SUPABASE_ANON_KEY   = Deno.env.get('SUPABASE_ANON_KEY') || '';
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
-
-// ---------- Helpers ----------
 function corsHeadersFor(origin: string | null): Record<string, string> {
   const isAllowed = isAllowedFleetConnectOrigin(origin);
   return {
     'Access-Control-Allow-Origin': isAllowed && origin ? origin : ALLOWED_ORIGINS[0],
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Vary': 'Origin',
   };
 }
@@ -99,13 +87,25 @@ function jsonResponse(body: unknown, status: number, headers: Record<string, str
   });
 }
 
-// ---------- Adapter status (returns 503 with explicit reason when IMAP unavailable) ----------
-function adapterStatusPayload(reason: string): { ok: false; reason: string; detail?: string } {
-  // Do NOT leak whether MAILBOX_IMAP_PASSWORD is set vs. unset; just say "adapter unavailable".
-  return { ok: false, reason, detail: 'mailbox_adapter_unavailable_contact_founder_for_F_M1' };
+function unavailable(reason: string) {
+  return {
+    ok: false as const,
+    status: 'adapter_unavailable',
+    reason,
+    detail: 'mailbox_adapter_unavailable_contact_founder_for_F_M1',
+  };
 }
 
-// ---------- Bearer-token Supabase client (user-context) ----------
+// ---------- Config ----------
+const MAILBOX_HOST        = Deno.env.get('MAILBOX_PROVIDER_HOST') || 'imap.kasserver.com';
+const MAILBOX_IMAP_PORT   = Number(Deno.env.get('MAILBOX_PROVIDER_IMAP_PORT') || '993');
+const MAILBOX_USER        = Deno.env.get('MAILBOX_USER') || 'dispatch@fleetconnect.be';
+const MAILBOX_IMAP_PASS   = Deno.env.get('MAILBOX_IMAP_PASSWORD') || '';
+
+const SUPABASE_URL        = Deno.env.get('SUPABASE_URL') || '';
+const SUPABASE_ANON_KEY   = Deno.env.get('SUPABASE_ANON_KEY') || '';
+
+// ---------- User-scoped client ----------
 async function userScopedClient(req: Request) {
   const authHeader = req.headers.get('authorization') || '';
   if (!authHeader.toLowerCase().startsWith('bearer ')) {
@@ -122,7 +122,7 @@ async function userScopedClient(req: Request) {
   return { error: null, userClient, userId: user.id, userEmail: user.email };
 }
 
-// ---------- Authorize (server-derived, reuses r055 RPC) ----------
+// ---------- Authorize ----------
 async function authorizeDispatchMailbox(userClient: ReturnType<typeof createClient>) {
   const { data, error } = await userClient.rpc('authorize_dispatch_mailbox');
   if (error) {
@@ -144,73 +144,96 @@ async function authorizeDispatchMailbox(userClient: ReturnType<typeof createClie
   };
 }
 
-// ---------- Audit helper (uses log_dispatch_mailbox_action RPC) ----------
-async function audit(userClient: ReturnType<typeof createClient>, action: string, payload: {
-  mailbox?: string;
-  folder?: string;
-  uid?: number;
-  metadata?: Record<string, unknown>;
-}) {
+// ---------- Audit ----------
+async function audit(userClient: ReturnType<typeof createClient>, action: string, metadata: Record<string, unknown> = {}) {
   try {
     await userClient.rpc('log_dispatch_mailbox_action', {
       p_action: action,
-      p_mailbox: payload.mailbox ?? null,
-      p_folder: payload.folder ?? null,
-      p_uid: payload.uid ?? null,
-      p_metadata: payload.metadata ?? {},
+      p_metadata: metadata,
     });
   } catch (e) {
     console.warn('[dispatch-mail-inbox] audit log failed (non-blocking):', (e as Error).message);
   }
 }
 
-// ---------- IMAP body (dynamic import — only loaded when secret is present) ----------
-async function tryOpenImap(): Promise<{ ok: true; client: unknown; logout: () => Promise<void> } | { ok: false; reason: string }> {
+// ---------- Folder-name sanitization ----------
+function sanitizeFolder(name: string | null | undefined): string {
+  const cleaned = String(name || 'INBOX').replace(/[^A-Za-z0-9._/-]/g, '');
+  return cleaned || 'INBOX';
+}
+
+// ---------- ImapFlow adapter abstraction (BLOCKER #3 FIX) ----------
+//
+// Test seam: this module can be replaced by a mock in `tests/` for non-secret
+// unit tests. The contract is:
+//   openImap() -> { ok: true, client, withLock(folder, fn) } | { ok: false, reason }
+//   fetchMessages(client, lock, range, opts) -> async iterable of message objects
+//
+// ImapFlow reality:
+//   - client.getMailboxLock(folder) returns a Lock object (has release() method)
+//   - client.fetch(range, opts) returns an AsyncIterable<Message>
+//   - lock.release() releases the lock (NOT client.unlock(lock))
+
+async function tryOpenImap() {
   if (!MAILBOX_IMAP_PASS) {
-    return { ok: false, reason: 'mailbox_credentials_unconfigured' };
+    return { ok: false as const, reason: 'mailbox_credentials_unconfigured' };
   }
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !SUPABASE_SERVICE_ROLE_KEY) {
-    return { ok: false, reason: 'supabase_service_configuration_missing' };
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    return { ok: false as const, reason: 'supabase_service_configuration_missing' };
   }
   try {
-    // Lazy import so Batch 1 (no secret) does NOT pull IMAP library at boot
     const { ImapFlow } = await import('npm:imapflow@1.0.171');
     const client = new ImapFlow({
       host: MAILBOX_HOST,
       port: MAILBOX_IMAP_PORT,
       secure: true,
       auth: { user: MAILBOX_USER, pass: MAILBOX_IMAP_PASS },
-      logger: false, // do not log credentials or message bodies
+      logger: false,
     });
     await client.connect();
     return {
-      ok: true,
+      ok: true as const,
       client,
-      logout: async () => { try { await client.logout(); } catch (_) { /* noop */ } },
+      close: async () => { try { await client.logout(); } catch (_) { /* noop */ } },
     };
   } catch (e) {
-    return { ok: false, reason: 'imap_connect_failed:' + (e as Error).message };
+    return { ok: false as const, reason: 'imap_connect_failed:' + (e as Error).message };
   }
 }
 
-// ---------- Booking-ID extraction (subject/body heuristics) ----------
-function extractBookingId(text: string | null | undefined): string | null {
-  if (!text) return null;
-  // Common booking-id formats in FleetConnect: e.g. "FC-2026-AB1234" or "B-12345"
-  const m = text.match(/\b(?:FC[-_]?\d{4}[-_]?[A-Z0-9]{4,}|\bB[-_]?\d{4,6})\b/i);
-  return m ? m[0].toUpperCase().replace(/[-_]/g, '-') : null;
+// Collect AsyncIterable into array (BLOCKER #3 FIX)
+async function collectIterable<T>(iter: AsyncIterable<T>): Promise<T[]> {
+  const out: T[] = [];
+  for await (const item of iter) {
+    out.push(item);
+  }
+  return out;
 }
 
-// ---------- Route handlers ----------
-async function handleFolders(_userClient: ReturnType<typeof createClient>, _params: URLSearchParams) {
-  const conn = await tryOpenImap();
-  if (!conn.ok) return adapterStatusPayload(conn.reason);
+// Run callback with mailbox lock; release on exit (BLOCKER #3 FIX)
+// deno-lint-ignore no-explicit-any
+async function withMailboxLock<T>(client: any, folder: string, fn: (lock: any) => Promise<T>): Promise<T> {
+  const lock = await client.getMailboxLock(folder);
   try {
-    const client = conn.client as { list: () => Promise<Array<{ path: string; name: string; flags: Set<string>; total: number; unseen: number }>>; logout: () => Promise<void> };
+    return await fn(lock);
+  } finally {
+    try { await lock.release(); } catch (_) { /* noop */ }
+  }
+}
+
+// ---------- Action handlers ----------
+
+async function handleFolders(_userClient: ReturnType<typeof createClient>) {
+  const conn = await tryOpenImap();
+  if (!conn.ok) return unavailable(conn.reason);
+  try {
+    // deno-lint-ignore no-explicit-any
+    const client = conn.client as any;
     const folders = await client.list();
     return {
-      ok: true,
-      folders: folders.map((f) => ({
+      ok: true as const,
+      action: 'folders' as const,
+      folders: folders.map((f: { path: string; name: string; flags: Set<string>; total: number; unseen: number }) => ({
         path: f.path,
         name: f.name,
         flags: Array.from(f.flags || []),
@@ -219,39 +242,35 @@ async function handleFolders(_userClient: ReturnType<typeof createClient>, _para
       })),
     };
   } catch (e) {
-    return adapterStatusPayload('imap_list_failed:' + (e as Error).message);
+    return unavailable('imap_list_failed:' + (e as Error).message);
   } finally {
-    await conn.logout();
+    await conn.close();
   }
 }
 
-async function handleInbox(_userClient: ReturnType<typeof createClient>, params: URLSearchParams) {
-  const folder = (params.get('folder') || 'INBOX').replace(/[^A-Za-z0-9._/-]/g, '');
-  const limit  = Math.min(Math.max(Number(params.get('limit') || 50), 1), 200);
-  const offset = Math.max(Number(params.get('offset') || 0), 0);
+async function handleInbox(_userClient: ReturnType<typeof createClient>, payload: { folder?: string; limit?: number; offset?: number }) {
+  const folder = sanitizeFolder(payload.folder);
+  const limit  = Math.min(Math.max(Number(payload.limit ?? 50), 1), 200);
+  const offset = Math.max(Number(payload.offset ?? 0), 0);
 
   const conn = await tryOpenImap();
-  if (!conn.ok) return adapterStatusPayload(conn.reason);
+  if (!conn.ok) return unavailable(conn.reason);
   try {
-    const client = conn.client as {
-      getMailboxLock: (f: string) => Promise<unknown>;
-      unlock: (lock: unknown) => Promise<void>;
-      fetch: (range: string, opts: Record<string, unknown>) => Promise<unknown>;
-    };
-    const lock = await client.getMailboxLock(folder);
-    try {
-      // status: range search via IMAP SEARCH returns UIDs; then FETCH metadata
-      // imapflow returns envelope (from, to, subject, date) for UID FETCH
+    // deno-lint-ignore no-explicit-any
+    const client = conn.client as any;
+    return await withMailboxLock(client, folder, async () => {
+      // BLOCKER #3 FIX: fetch() is an async iterable; collect with for-await
       const range = `${offset + 1}:${offset + limit}`;
-      // deno-lint-ignore no-explicit-any
-      const messages: any[] = await (client as any).fetch(range, {
+      const iterable = client.fetch(range, {
         uid: true,
         envelope: true,
         flags: true,
         bodyStructure: false,
       });
+      const messages = await collectIterable(iterable);
       return {
-        ok: true,
+        ok: true as const,
+        action: 'inbox' as const,
         folder,
         offset,
         limit,
@@ -267,46 +286,43 @@ async function handleInbox(_userClient: ReturnType<typeof createClient>, params:
           flagged: (m.flags || new Set()).has('\\Flagged'),
         })),
       };
-    } finally {
-      await client.unlock(lock);
-    }
+    });
   } catch (e) {
-    return adapterStatusPayload('imap_inbox_failed:' + (e as Error).message);
+    return unavailable('imap_inbox_failed:' + (e as Error).message);
   } finally {
-    await conn.logout();
+    await conn.close();
   }
 }
 
-async function handleMessage(_userClient: ReturnType<typeof createClient>, params: URLSearchParams) {
-  const folder = (params.get('folder') || 'INBOX').replace(/[^A-Za-z0-9._/-]/g, '');
-  const uidStr = params.get('uid');
-  const uid = uidStr ? Number(uidStr) : NaN;
+async function handleMessage(_userClient: ReturnType<typeof createClient>, payload: { folder?: string; uid: number }) {
+  const folder = sanitizeFolder(payload.folder);
+  const uid = Number(payload.uid);
   if (!Number.isFinite(uid) || uid <= 0) {
-    return { ok: false, reason: 'invalid_uid' };
+    return { ok: false as const, action: 'message' as const, reason: 'invalid_uid' };
   }
 
   const conn = await tryOpenImap();
-  if (!conn.ok) return adapterStatusPayload(conn.reason);
+  if (!conn.ok) return unavailable(conn.reason);
   try {
     // deno-lint-ignore no-explicit-any
     const client = conn.client as any;
-    const lock = await client.getMailboxLock(folder);
-    try {
+    return await withMailboxLock(client, folder, async () => {
+      // fetchOne for single message; returns single Message | null
       const msg = await client.fetchOne(String(uid), {
         uid: true,
         envelope: true,
         flags: true,
         bodyStructure: true,
-        source: { body: true }, // request full body (will truncate HTML bodies for safety)
-      }, { uid: true });
-      if (!msg) return { ok: false, reason: 'message_not_found' };
-
-      // Extract plain-text body excerpt (truncated server-side for safety)
+        source: { body: true },
+      });
+      if (!msg) {
+        return { ok: false as const, action: 'message' as const, reason: 'message_not_found' };
+      }
       const bodyExcerpt = String(msg.source?.body || '').slice(0, 8000);
       const bookingId = extractBookingId(msg.envelope.subject) || extractBookingId(bodyExcerpt);
-
       return {
-        ok: true,
+        ok: true as const,
+        action: 'message' as const,
         message: {
           uid,
           from: msg.envelope.from || [],
@@ -321,51 +337,55 @@ async function handleMessage(_userClient: ReturnType<typeof createClient>, param
           bookingId,
         },
       };
-    } finally {
-      await client.unlock(lock);
-    }
+    });
   } catch (e) {
-    return adapterStatusPayload('imap_fetch_failed:' + (e as Error).message);
+    return unavailable('imap_fetch_failed:' + (e as Error).message);
   } finally {
-    await conn.logout();
+    await conn.close();
   }
 }
 
-async function handleSearch(_userClient: ReturnType<typeof createClient>, params: URLSearchParams) {
-  const q = (params.get('q') || '').slice(0, 200).trim();
-  const folder = (params.get('folder') || 'INBOX').replace(/[^A-Za-z0-9._/-]/g, '');
-  if (!q) return { ok: false, reason: 'missing_query' };
+async function handleSearch(_userClient: ReturnType<typeof createClient>, payload: { q?: string; folder?: string }) {
+  const q = String(payload.q || '').slice(0, 200).trim();
+  const folder = sanitizeFolder(payload.folder);
+  if (!q) {
+    return { ok: false as const, action: 'search' as const, reason: 'missing_query' };
+  }
 
   const conn = await tryOpenImap();
-  if (!conn.ok) return adapterStatusPayload(conn.reason);
+  if (!conn.ok) return unavailable(conn.reason);
   try {
     // deno-lint-ignore no-explicit-any
     const client = conn.client as any;
-    const lock = await client.getMailboxLock(folder);
-    try {
-      // SEARCH across from/subject/body
+    return await withMailboxLock(client, folder, async () => {
       const uids = await client.search({ or: [
         { from: q },
         { subject: q },
         { body: q },
       ] });
       return {
-        ok: true,
+        ok: true as const,
+        action: 'search' as const,
         folder,
         query: q,
         uids: Array.isArray(uids) ? uids : [],
       };
-    } finally {
-      await client.unlock(lock);
-    }
+    });
   } catch (e) {
-    return adapterStatusPayload('imap_search_failed:' + (e as Error).message);
+    return unavailable('imap_search_failed:' + (e as Error).message);
   } finally {
-    await conn.logout();
+    await conn.close();
   }
 }
 
-// ---------- Main serve ----------
+// ---------- Booking-ID extraction ----------
+function extractBookingId(text: string | null | undefined): string | null {
+  if (!text) return null;
+  const m = text.match(/\b(?:FC[-_]?\d{4}[-_]?[A-Z0-9]{4,}|\bB[-_]?\d{4,6})\b/i);
+  return m ? m[0].toUpperCase().replace(/[-_]/g, '-') : null;
+}
+
+// ---------- Main serve (single base route + action dispatch) ----------
 serve(async (req: Request) => {
   const origin = req.headers.get('origin');
   const cors = corsHeadersFor(origin);
@@ -377,8 +397,8 @@ serve(async (req: Request) => {
   if (origin && !isAllowedFleetConnectOrigin(origin)) {
     return jsonResponse({ error: 'Unauthorized origin' }, 403, cors);
   }
-  if (req.method !== 'GET') {
-    return jsonResponse({ error: 'Method not allowed' }, 405, cors);
+  if (req.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed (use POST with action field)' }, 405, cors);
   }
 
   // Auth + scope
@@ -388,35 +408,55 @@ serve(async (req: Request) => {
   }
   const scope = await authorizeDispatchMailbox(auth.userClient);
   if (!scope.authorized) {
-    await audit(auth.userClient, 'denied', { metadata: { path: new URL(req.url).pathname, reason: scope.reason } });
+    await audit(auth.userClient, 'denied', { metadata: { reason: scope.reason } });
     return jsonResponse({ error: 'forbidden', reason: scope.reason }, 403, cors);
   }
 
-  const url = new URL(req.url);
-  const path = url.pathname.replace(/^\/functions\/v1\/dispatch-mail-inbox/, '').replace(/^\//, '');
-
-  let result: unknown;
-  let auditAction: string;
-  if (path === '' || path === '/') {
-    result = { ok: true, hint: 'Phase F dispatch-mail-inbox; sub-routes: /folders /inbox /message /search' };
-    auditAction = 'inbox_read';
-  } else if (path === 'folders') {
-    result = await handleFolders(auth.userClient, url.searchParams);
-    auditAction = 'folders_list';
-  } else if (path === 'inbox') {
-    result = await handleInbox(auth.userClient, url.searchParams);
-    auditAction = 'inbox_read';
-  } else if (path === 'message') {
-    result = await handleMessage(auth.userClient, url.searchParams);
-    auditAction = 'message_open';
-  } else if (path === 'search') {
-    result = await handleSearch(auth.userClient, url.searchParams);
-    auditAction = 'inbox_search';
-  } else {
-    return jsonResponse({ error: 'not_found', path }, 404, cors);
+  // Parse body
+  let body: Record<string, unknown> = {};
+  try {
+    body = await req.json();
+  } catch (_) {
+    return jsonResponse({ ok: false, error: 'invalid_json' }, 400, cors);
   }
 
-  await audit(auth.userClient, auditAction, { metadata: { path, query: Object.fromEntries(url.searchParams) } });
+  const action = String(body.action || '').trim();
+
+  // BLOCKER #2 FIX: no `ok: true` hint on missing action; explicit error instead.
+  if (!action) {
+    return jsonResponse({
+      ok: false,
+      error: 'missing_action',
+      valid_actions: ['folders', 'inbox', 'message', 'search'],
+    }, 400, cors);
+  }
+
+  let result: { ok: boolean; [k: string]: unknown };
+  switch (action) {
+    case 'folders':
+      result = await handleFolders(auth.userClient);
+      break;
+    case 'inbox':
+      result = await handleInbox(auth.userClient, body as { folder?: string; limit?: number; offset?: number });
+      break;
+    case 'message':
+      result = await handleMessage(auth.userClient, body as { folder?: string; uid: number });
+      break;
+    case 'search':
+      result = await handleSearch(auth.userClient, body as { q?: string; folder?: string });
+      break;
+    default:
+      return jsonResponse({
+        ok: false,
+        error: 'unknown_action',
+        action,
+        valid_actions: ['folders', 'inbox', 'message', 'search'],
+      }, 400, cors);
+  }
+
+  // Audit per-action
+  const auditAction = `inbox_${action}`;
+  await audit(auth.userClient, auditAction, { metadata: { action, request: body } });
 
   return jsonResponse(result, 200, cors);
 });

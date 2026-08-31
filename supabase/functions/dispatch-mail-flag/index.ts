@@ -1,15 +1,18 @@
 /**
  * FleetConnect Dispatch Mailbox — Flag toggle + Booking-ID link search
  *
- * Phase F Batch 1 (non-secret review-ready).
+ * Phase F Batch 1 corrections (per Lux 8d5d099 BLOCKER #2 + #3):
+ *   - Single base route + explicit `action` field in body. No subpath required.
+ *   - Block 3: ImapFlow `fetchOne()` is the right primitive; mailbox lock via
+ *     `lock.release()` (NOT client.unlock(lock)). Same `withMailboxLock` pattern
+ *     as dispatch-mail-inbox.
  *
- * SCOPE:
- *   POST /flag    { folder, uid, flags: ['\\Seen', '\\Flagged'] }   — set/unset IMAP flags
- *   GET  /booking-link-search?q=<booking-id>                       — find messages referencing booking
+ * ACTIONS supported:
+ *   action='flag'  { folder, uid, flags: ['\\Seen', ...], op: 'add' | 'remove' }
+ *   action='booking-link-search' { q }
  *
- * Non-secret Batch 1 behavior mirrors dispatch-mail-inbox: returns 503 when
- * MAILBOX_IMAP_PASSWORD is unset. Booking-link search uses cached DB first
- * (no IMAP required) so the UI can wire this today.
+ * Non-secret: returns 'adapter_unavailable' when MAILBOX_IMAP_PASSWORD unset.
+ * Booking-link search uses cached DB first so the UI can wire this without secrets.
  */
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
@@ -55,7 +58,7 @@ function corsHeadersFor(origin: string | null): Record<string, string> {
   return {
     'Access-Control-Allow-Origin': isAllowed && origin ? origin : ALLOWED_ORIGINS[0],
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Vary': 'Origin',
   };
 }
@@ -67,12 +70,26 @@ function jsonResponse(body: unknown, status: number, headers: Record<string, str
   });
 }
 
+function unavailable(reason: string) {
+  return {
+    ok: false as const,
+    status: 'adapter_unavailable',
+    reason,
+    detail: 'mailbox_adapter_unavailable_contact_founder_for_F_M1',
+  };
+}
+
 const MAILBOX_HOST        = Deno.env.get('MAILBOX_PROVIDER_HOST') || 'imap.kasserver.com';
 const MAILBOX_IMAP_PORT   = Number(Deno.env.get('MAILBOX_PROVIDER_IMAP_PORT') || '993');
 const MAILBOX_USER        = Deno.env.get('MAILBOX_USER') || 'dispatch@fleetconnect.be';
 const MAILBOX_IMAP_PASS   = Deno.env.get('MAILBOX_IMAP_PASSWORD') || '';
 const SUPABASE_URL        = Deno.env.get('SUPABASE_URL') || '';
 const SUPABASE_ANON_KEY   = Deno.env.get('SUPABASE_ANON_KEY') || '';
+
+function sanitizeFolder(name: string | null | undefined): string {
+  const cleaned = String(name || 'INBOX').replace(/[^A-Za-z0-9._/-]/g, '');
+  return cleaned || 'INBOX';
+}
 
 async function userScopedClient(req: Request) {
   const authHeader = req.headers.get('authorization') || '';
@@ -95,23 +112,17 @@ async function authorizeDispatchMailbox(userClient: ReturnType<typeof createClie
   return { authorized: !!authz?.authorized, reason: authz?.reason || 'unknown' };
 }
 
-async function audit(userClient: ReturnType<typeof createClient>, action: string, payload: {
-  mailbox?: string; folder?: string; uid?: number; metadata?: Record<string, unknown>;
-}) {
+async function audit(userClient: ReturnType<typeof createClient>, action: string, metadata: Record<string, unknown> = {}) {
   try {
     await userClient.rpc('log_dispatch_mailbox_action', {
       p_action: action,
-      p_mailbox: payload.mailbox ?? null,
-      p_folder: payload.folder ?? null,
-      p_uid: payload.uid ?? null,
-      p_metadata: payload.metadata ?? {},
+      p_metadata: metadata,
     });
   } catch (e) {
     console.warn('[dispatch-mail-flag] audit log failed (non-blocking):', (e as Error).message);
   }
 }
 
-// ---------- IMAP (lazy import) ----------
 async function tryOpenImap() {
   if (!MAILBOX_IMAP_PASS) return { ok: false as const, reason: 'mailbox_credentials_unconfigured' };
   try {
@@ -127,66 +138,85 @@ async function tryOpenImap() {
     return {
       ok: true as const,
       client,
-      logout: async () => { try { await client.logout(); } catch (_) { /* noop */ } },
+      close: async () => { try { await client.logout(); } catch (_) { /* noop */ } },
     };
   } catch (e) {
     return { ok: false as const, reason: 'imap_connect_failed:' + (e as Error).message };
   }
 }
 
+// BLOCKER #3 FIX: use lock.release() (NOT client.unlock(lock))
+// deno-lint-ignore no-explicit-any
+async function withMailboxLock<T>(client: any, folder: string, fn: (lock: any) => Promise<T>): Promise<T> {
+  const lock = await client.getMailboxLock(folder);
+  try {
+    return await fn(lock);
+  } finally {
+    try { await lock.release(); } catch (_) { /* noop */ }
+  }
+}
+
 async function handleFlag(_userClient: ReturnType<typeof createClient>, payload: {
   folder?: string; uid: number; flags: string[]; op?: 'add' | 'remove';
 }) {
-  const folder = String(payload?.folder || 'INBOX').replace(/[^A-Za-z0-9._/-]/g, '');
-  const uid = Number(payload?.uid);
-  const op = payload?.op === 'remove' ? 'remove' : 'add';
-  if (!Number.isFinite(uid) || uid <= 0) return { ok: false, reason: 'invalid_uid' };
-  const flags = Array.isArray(payload?.flags) ? payload.flags.filter((f) => typeof f === 'string') : [];
-  // Whitelist IMAP flag set
+  const folder = sanitizeFolder(payload.folder);
+  const uid = Number(payload.uid);
+  const op = payload.op === 'remove' ? 'remove' : 'add';
+  if (!Number.isFinite(uid) || uid <= 0) {
+    return { ok: false as const, action: 'flag' as const, reason: 'invalid_uid' };
+  }
   const allowed = ['\\Seen', '\\Flagged', '\\Answered', '\\Deleted', '\\Draft'];
-  const safeFlags = flags.filter((f) => allowed.includes(f));
-  if (!safeFlags.length) return { ok: false, reason: 'no_valid_flags' };
+  const safeFlags = (Array.isArray(payload.flags) ? payload.flags : [])
+    .filter((f): f is string => typeof f === 'string')
+    .filter((f) => allowed.includes(f));
+  if (!safeFlags.length) {
+    return { ok: false as const, action: 'flag' as const, reason: 'no_valid_flags' };
+  }
 
   const conn = await tryOpenImap();
-  if (!conn.ok) return { ok: false, reason: conn.reason, status: 'adapter_unavailable' };
+  if (!conn.ok) return unavailable(conn.reason);
   try {
     // deno-lint-ignore no-explicit-any
     const client = conn.client as any;
-    const lock = await client.getMailboxLock(folder);
-    try {
+    return await withMailboxLock(client, folder, async () => {
       if (op === 'add') {
         await client.messageFlagsAdd(String(uid), safeFlags, { uid: true });
       } else {
         await client.messageFlagsRemove(String(uid), safeFlags, { uid: true });
       }
-      // Mirror flag change to cache table for list-view rendering without IMAP round-trip
-      // Note: this writes to DB via service-role client; done in handler caller
-      return { ok: true, op, flags: safeFlags };
-    } finally {
-      await client.unlock(lock);
-    }
+      return { ok: true as const, action: 'flag' as const, op, flags: safeFlags, uid, folder };
+    });
   } catch (e) {
-    return { ok: false, reason: 'imap_flag_failed:' + (e as Error).message };
+    return { ok: false as const, action: 'flag' as const, reason: 'imap_flag_failed:' + (e as Error).message };
   } finally {
-    await conn.logout();
+    await conn.close();
   }
 }
 
-async function handleBookingLinkSearch(userClient: ReturnType<typeof createClient>, q: string) {
-  const cleaned = String(q || '').trim().toUpperCase();
-  if (!cleaned) return { ok: false, reason: 'missing_query' };
+async function handleBookingLinkSearch(userClient: ReturnType<typeof createClient>, payload: { q?: string }) {
+  const cleaned = String(payload.q || '').trim().toUpperCase();
+  if (!cleaned) {
+    return { ok: false as const, action: 'booking-link-search' as const, reason: 'missing_query' };
+  }
   try {
-    // Search cached dispatch_mailbox_messages (no IMAP needed for this lookup)
     const { data, error } = await userClient
       .from('dispatch_mailbox_messages')
       .select('id, mailbox, folder, uid, subject, from_addr, from_name, received_at, seen, flagged, booking_id_referenced')
       .eq('booking_id_referenced', cleaned)
       .order('received_at', { ascending: false })
       .limit(50);
-    if (error) return { ok: false, reason: 'db_query_failed:' + error.message };
-    return { ok: true, bookingId: cleaned, count: data?.length || 0, messages: data || [] };
+    if (error) {
+      return { ok: false as const, action: 'booking-link-search' as const, reason: 'db_query_failed:' + error.message };
+    }
+    return {
+      ok: true as const,
+      action: 'booking-link-search' as const,
+      bookingId: cleaned,
+      count: data?.length || 0,
+      messages: data || [],
+    };
   } catch (e) {
-    return { ok: false, reason: 'search_failed:' + (e as Error).message };
+    return { ok: false as const, action: 'booking-link-search' as const, reason: 'search_failed:' + (e as Error).message };
   }
 }
 
@@ -200,6 +230,9 @@ serve(async (req: Request) => {
   if (origin && !isAllowedFleetConnectOrigin(origin)) {
     return jsonResponse({ error: 'Unauthorized origin' }, 403, cors);
   }
+  if (req.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed (use POST with action field)' }, 405, cors);
+  }
 
   const auth = await userScopedClient(req);
   if (auth.error || !auth.userClient) {
@@ -211,27 +244,44 @@ serve(async (req: Request) => {
     return jsonResponse({ error: 'forbidden', reason: scope.reason }, 403, cors);
   }
 
-  const url = new URL(req.url);
-  const path = url.pathname.replace(/^\/functions\/v1\/dispatch-mail-flag/, '').replace(/^\//, '');
-
-  if (req.method === 'GET' && path === 'booking-link-search') {
-    const q = url.searchParams.get('q') || '';
-    const result = await handleBookingLinkSearch(auth.userClient, q);
-    await audit(auth.userClient, 'booking_link_open', { metadata: { query: q.slice(0, 200), count: result.ok ? result.count : 0 } });
-    return jsonResponse(result, 200, cors);
+  let body: Record<string, unknown> = {};
+  try {
+    body = await req.json();
+  } catch (_) {
+    return jsonResponse({ ok: false, error: 'invalid_json' }, 400, cors);
   }
 
-  if (req.method === 'POST' && path === 'flag') {
-    let body: { folder?: string; uid: number; flags: string[]; op?: 'add' | 'remove' };
-    try { body = await req.json(); } catch (_) { return jsonResponse({ error: 'invalid_json' }, 400, cors); }
-    const result = await handleFlag(auth.userClient, body);
-    const auditAction = body.flags?.includes('\\Seen') ? 'flag_seen' : body.flags?.includes('\\Flagged') ? 'flag_flagged' : 'flag_other';
-    await audit(auth.userClient, auditAction, {
-      folder: body.folder, uid: body.uid,
-      metadata: { flags: body.flags, op: body.op || 'add', reason: result.reason || null },
-    });
-    return jsonResponse(result, 200, cors);
+  const action = String(body.action || '').trim();
+  if (!action) {
+    return jsonResponse({
+      ok: false,
+      error: 'missing_action',
+      valid_actions: ['flag', 'booking-link-search'],
+    }, 400, cors);
   }
 
-  return jsonResponse({ error: 'not_found', path, method: req.method }, 404, cors);
+  let result: { ok: boolean; [k: string]: unknown };
+  switch (action) {
+    case 'flag':
+      result = await handleFlag(auth.userClient, body as { folder?: string; uid: number; flags: string[]; op?: 'add' | 'remove' });
+      break;
+    case 'booking-link-search':
+      result = await handleBookingLinkSearch(auth.userClient, body as { q?: string });
+      break;
+    default:
+      return jsonResponse({
+        ok: false,
+        error: 'unknown_action',
+        action,
+        valid_actions: ['flag', 'booking-link-search'],
+      }, 400, cors);
+  }
+
+  const auditAction = action === 'flag'
+    ? (Array.isArray(body.flags) && body.flags.includes('\\Seen') ? 'flag_seen' :
+       Array.isArray(body.flags) && body.flags.includes('\\Flagged') ? 'flag_flagged' : 'flag_other')
+    : 'booking_link_open';
+  await audit(auth.userClient, auditAction, { metadata: { action, request: body } });
+
+  return jsonResponse(result, 200, cors);
 });

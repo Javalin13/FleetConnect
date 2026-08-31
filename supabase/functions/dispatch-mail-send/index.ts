@@ -1,37 +1,28 @@
 /**
  * FleetConnect Dispatch Mailbox — Compose / Reply / Reply-all / Forward
  *
- * Phase F Batch 1 (non-secret review-ready).
+ * Phase F Batch 1 corrections (per Lux 8d5d099 BLOCKER #2):
+ *   - Single base route + explicit `action` field in body. No subpath required.
+ *   - Base route without action returns { ok: false, error: 'missing_action' }.
+ *   - Each action handler returns its real result (no ok:true hint that UI could
+ *     mistake for a successful send).
  *
- * Per Lux 68f35b6 §4: server-side SMTP adapter; NEVER browser-to-SMTP.
+ * ACTIONS supported:
+ *   action='compose' { to, cc?, bcc?, subject, body, inReplyTo? }
+ *   action='reply'   { uid, originalSubject, originalMessageId?, originalFrom, body }
+ *   action='forward' { uid, originalSubject, originalBody?, to, comment? }
  *
- * Per mailbox-audit.md §7c EXACTLY-ONCE OPERATIONAL ARCHIVE PRESERVATION:
- *   - Manual dispatch mail is treated as DISPATCH communication, NOT as a comms.trigger()
- *   - Subject prefixed with "[Manual dispatch]" (clearly attributable)
+ * Mailbox-audit.md §7c EXACTLY-ONCE ARCHIVE PRESERVATION:
+ *   - Manual dispatch mail is treated as DISPATCH communication, NOT comms.trigger()
+ *   - Subject prefixed with [Manual dispatch] (clearly attributable)
  *   - Sent folder entry appears in IMAP Sent (via SMTP), NOT in Supabase audit-only
  *   - If body references booking ID, the UI gets a booking-link quick-nav
  *   - NO duplication of archive: this edge function does NOT call comms.trigger()
- *
- * SCOPE (Batch 1):
- *   POST /compose   { to, cc?, bcc?, subject, body, inReplyTo?, forwardOfUid? }
- *   POST /reply     { uid, folder?, body }       — sets In-Reply-To + Re: prefix
- *   POST /reply-all { uid, folder?, body }       — replies to all To + Cc + From
- *   POST /forward   { uid, folder?, to, body? }  — forwards with quoted original
- *
- * NON-SECRET BATCH 1 BEHAVIOR (when MAILBOX_SMTP_PASSWORD unset):
- *   - returns 503 SERVICE_UNAVAILABLE with adapter_status="mailbox_credentials_unconfigured"
- *   - does NOT attempt SMTP connection (safe fail-closed)
- *   - logs a 'denied' or 'send_failed' audit entry
- *
- * NOT IN THIS FUNCTION:
- *   - Attachment upload (would need separate endpoint + scope guard)
- *   - Template rendering (out of scope Batch 1)
  */
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// ---------- CORS allowlist ----------
 const ALLOWED_ORIGINS = [
   'https://fleetconnect.be',
   'https://www.fleetconnect.be',
@@ -84,7 +75,15 @@ function jsonResponse(body: unknown, status: number, headers: Record<string, str
   });
 }
 
-// ---------- Config ----------
+function unavailable(reason: string) {
+  return {
+    ok: false as const,
+    status: 'adapter_unavailable',
+    reason,
+    detail: 'mailbox_adapter_unavailable_contact_founder_for_F_M1',
+  };
+}
+
 const MAILBOX_SMTP_HOST  = Deno.env.get('MAILBOX_PROVIDER_HOST') || 'smtp.kasserver.com';
 const MAILBOX_SMTP_PORT  = Number(Deno.env.get('MAILBOX_PROVIDER_SMTP_PORT') || '465');
 const MAILBOX_USER       = Deno.env.get('MAILBOX_USER') || 'dispatch@fleetconnect.be';
@@ -93,7 +92,6 @@ const MAILBOX_SMTP_PASS  = Deno.env.get('MAILBOX_SMTP_PASSWORD') || '';
 const SUPABASE_URL       = Deno.env.get('SUPABASE_URL') || '';
 const SUPABASE_ANON_KEY  = Deno.env.get('SUPABASE_ANON_KEY') || '';
 
-// ---------- User-scoped client ----------
 async function userScopedClient(req: Request) {
   const authHeader = req.headers.get('authorization') || '';
   if (!authHeader.toLowerCase().startsWith('bearer ')) {
@@ -110,7 +108,6 @@ async function userScopedClient(req: Request) {
   return { error: null, userClient, userId: user.id, userEmail: user.email };
 }
 
-// ---------- Authorize ----------
 async function authorizeDispatchMailbox(userClient: ReturnType<typeof createClient>) {
   const { data, error } = await userClient.rpc('authorize_dispatch_mailbox');
   if (error) return { authorized: false, authz: null, reason: 'rpc_error:' + error.message };
@@ -118,27 +115,17 @@ async function authorizeDispatchMailbox(userClient: ReturnType<typeof createClie
   return { authorized: !!authz?.authorized, authz, reason: authz?.reason || 'unknown' };
 }
 
-// ---------- Audit ----------
-async function audit(userClient: ReturnType<typeof createClient>, action: string, payload: {
-  mailbox?: string;
-  folder?: string;
-  uid?: number;
-  metadata?: Record<string, unknown>;
-}) {
+async function audit(userClient: ReturnType<typeof createClient>, action: string, metadata: Record<string, unknown> = {}) {
   try {
     await userClient.rpc('log_dispatch_mailbox_action', {
       p_action: action,
-      p_mailbox: payload.mailbox ?? null,
-      p_folder: payload.folder ?? null,
-      p_uid: payload.uid ?? null,
-      p_metadata: payload.metadata ?? {},
+      p_metadata: metadata,
     });
   } catch (e) {
     console.warn('[dispatch-mail-send] audit log failed (non-blocking):', (e as Error).message);
   }
 }
 
-// ---------- SMTP transporter (lazy import) ----------
 async function tryOpenSmtp() {
   if (!MAILBOX_SMTP_PASS) {
     return { ok: false as const, reason: 'mailbox_credentials_unconfigured' };
@@ -158,34 +145,28 @@ async function tryOpenSmtp() {
   }
 }
 
-// ---------- Booking-ID extraction ----------
 function extractBookingId(text: string | null | undefined): string | null {
   if (!text) return null;
   const m = text.match(/\b(?:FC[-_]?\d{4}[-_]?[A-Z0-9]{4,}|\bB[-_]?\d{4,6})\b/i);
   return m ? m[0].toUpperCase().replace(/[-_]/g, '-') : null;
 }
 
-// ---------- Sanitize (light HTML for plain-text emails) ----------
 function sanitizeBody(body: string): string {
-  // No HTML in Batch 1; convert to plain-text only
   return String(body || '').replace(/<[^>]*>/g, '').slice(0, 16000);
 }
 
-// ---------- Routing ----------
-async function handleCompose(userClient: ReturnType<typeof createClient>, payload: {
-  to: string; cc?: string[]; bcc?: string[]; subject: string; body: string;
-  inReplyTo?: string; forwardOfUid?: number;
+async function handleCompose(_userClient: ReturnType<typeof createClient>, payload: {
+  to: string; cc?: string[]; bcc?: string[]; subject: string; body: string; inReplyTo?: string;
 }) {
-  const to = String(payload?.to || '').trim();
-  const subject = String(payload?.subject || '').trim();
-  const body = sanitizeBody(payload?.body || '');
-  if (!to) return { ok: false, reason: 'missing_to' };
-  if (!subject) return { ok: false, reason: 'missing_subject' };
+  const to = String(payload.to || '').trim();
+  const subject = String(payload.subject || '').trim();
+  const body = sanitizeBody(payload.body);
+  if (!to) return { ok: false as const, action: 'compose' as const, reason: 'missing_to' };
+  if (!subject) return { ok: false as const, action: 'compose' as const, reason: 'missing_subject' };
 
   const smtp = await tryOpenSmtp();
-  if (!smtp.ok) return { ok: false, reason: smtp.reason, status: 'adapter_unavailable' };
+  if (!smtp.ok) return unavailable(smtp.reason);
 
-  // Per Lux §4 / mailbox-audit.md §7c: manual dispatch mail is clearly attributable
   const taggedSubject = subject.toLowerCase().startsWith('[manual dispatch]') ? subject : `[Manual dispatch] ${subject}`;
   const bookingId = extractBookingId(subject) || extractBookingId(body);
 
@@ -193,63 +174,62 @@ async function handleCompose(userClient: ReturnType<typeof createClient>, payloa
     const info = await smtp.transporter.sendMail({
       from: MAILBOX_USER,
       to,
-      cc: payload?.cc || undefined,
-      bcc: payload?.bcc || undefined,
+      cc: payload.cc || undefined,
+      bcc: payload.bcc || undefined,
       subject: taggedSubject,
       text: body,
-      inReplyTo: payload?.inReplyTo || undefined,
-      references: payload?.inReplyTo || undefined,
+      inReplyTo: payload.inReplyTo || undefined,
+      references: payload.inReplyTo || undefined,
       headers: {
         'X-FleetConnect-Manual-Dispatch': '1',
         ...(bookingId ? { 'X-FleetConnect-Booking-Id': bookingId } : {}),
       },
     });
     return {
-      ok: true,
+      ok: true as const,
+      action: 'compose' as const,
+      sent: true,
       messageId: info.messageId,
       subject: taggedSubject,
       bookingId,
     };
   } catch (e) {
-    return { ok: false, reason: 'smtp_send_failed:' + (e as Error).message };
+    return { ok: false as const, action: 'compose' as const, reason: 'smtp_send_failed:' + (e as Error).message };
   } finally {
     try { smtp.transporter.close(); } catch (_) { /* noop */ }
   }
 }
 
-async function handleReply(userClient: ReturnType<typeof createClient>, payload: {
-  uid: number; folder?: string; body: string; replyAll?: boolean;
+async function handleReply(_userClient: ReturnType<typeof createClient>, payload: {
+  uid: number; originalSubject: string; originalMessageId?: string; originalFrom: string; body: string;
 }) {
-  // Per Batch 1 scope: we accept the UID + folder, but DO NOT round-trip to IMAP
-  // to fetch original envelope (would require IMAP credentials). Instead, the
-  // browser UI is expected to pass original envelope metadata in the payload.
-  // This keeps Batch 1 self-contained when MAILBOX_IMAP_PASSWORD is also absent.
-  //
-  // When MAILBOX_IMAP_PASSWORD is later configured (F-M1), this handler can be
-  // extended to fetch the original envelope server-side. The contract stays stable.
-  const originalSubject = String(payload?.originalSubject || '').trim();
-  const originalMessageId = payload?.originalMessageId || '';
-  const originalFrom = String(payload?.originalFrom || '').trim();
-
-  if (!originalFrom) return { ok: false, reason: 'missing_original_from' };
-  if (!originalSubject) return { ok: false, reason: 'missing_original_subject' };
+  const originalSubject = String(payload.originalSubject || '').trim();
+  const originalFrom = String(payload.originalFrom || '').trim();
+  if (!originalFrom) return { ok: false as const, action: 'reply' as const, reason: 'missing_original_from' };
+  if (!originalSubject) return { ok: false as const, action: 'reply' as const, reason: 'missing_original_subject' };
 
   const replySubject = originalSubject.toLowerCase().startsWith('re:') ? originalSubject : `Re: ${originalSubject}`;
-  return await handleCompose(userClient, {
-    to: payload?.replyAll ? originalFrom : originalFrom, // Batch 1: To = From; reply-all would need original To/Cc which browser supplies
+  return await handleCompose(_userClient, {
+    to: originalFrom,
     subject: replySubject,
-    body: String(payload?.body || ''),
-    inReplyTo: originalMessageId || undefined,
+    body: payload.body,
+    inReplyTo: payload.originalMessageId || undefined,
+  }).then((r) => {
+    if ('action' in r && r.action === 'compose') {
+      return { ...r, action: 'reply' as const };
+    }
+    return r;
   });
 }
 
-async function handleForward(userClient: ReturnType<typeof createClient>, payload: {
-  uid: number; folder?: string; to: string; originalSubject?: string;
-  originalBody?: string; comment?: string;
+async function handleForward(_userClient: ReturnType<typeof createClient>, payload: {
+  uid: number; to: string; originalSubject?: string; originalBody?: string; comment?: string;
 }) {
-  const originalSubject = String(payload?.originalSubject || '(geen onderwerp)').trim();
-  const originalBody = sanitizeBody(payload?.originalBody || '');
-  const comment = sanitizeBody(payload?.comment || '');
+  const to = String(payload.to || '').trim();
+  if (!to) return { ok: false as const, action: 'forward' as const, reason: 'missing_to' };
+  const originalSubject = String(payload.originalSubject || '(geen onderwerp)').trim();
+  const originalBody = sanitizeBody(payload.originalBody || '');
+  const comment = sanitizeBody(payload.comment || '');
 
   const fwdSubject = originalSubject.toLowerCase().startsWith('fwd:') ? originalSubject : `Fwd: ${originalSubject}`;
   const quotedBody = [
@@ -261,14 +241,18 @@ async function handleForward(userClient: ReturnType<typeof createClient>, payloa
     originalBody,
   ].join('\n');
 
-  return await handleCompose(userClient, {
-    to: String(payload?.to || ''),
+  return await handleCompose(_userClient, {
+    to,
     subject: fwdSubject,
     body: quotedBody,
+  }).then((r) => {
+    if ('action' in r && r.action === 'compose') {
+      return { ...r, action: 'forward' as const };
+    }
+    return r;
   });
 }
 
-// ---------- Main serve ----------
 serve(async (req: Request) => {
   const origin = req.headers.get('origin');
   const cors = corsHeadersFor(origin);
@@ -276,15 +260,13 @@ serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: cors });
   }
-
   if (origin && !isAllowedFleetConnectOrigin(origin)) {
     return jsonResponse({ error: 'Unauthorized origin' }, 403, cors);
   }
   if (req.method !== 'POST') {
-    return jsonResponse({ error: 'Method not allowed' }, 405, cors);
+    return jsonResponse({ error: 'Method not allowed (use POST with action field)' }, 405, cors);
   }
 
-  // Auth + scope
   const auth = await userScopedClient(req);
   if (auth.error || !auth.userClient) {
     return jsonResponse({ error: auth.error || 'unauthorized' }, 401, cors);
@@ -295,36 +277,44 @@ serve(async (req: Request) => {
     return jsonResponse({ error: 'forbidden', reason: scope.reason }, 403, cors);
   }
 
-  const url = new URL(req.url);
-  const path = url.pathname.replace(/^\/functions\/v1\/dispatch-mail-send/, '').replace(/^\//, '');
-
   let body: Record<string, unknown> = {};
   try {
     body = await req.json();
   } catch (_) {
-    return jsonResponse({ error: 'invalid_json' }, 400, cors);
+    return jsonResponse({ ok: false, error: 'invalid_json' }, 400, cors);
   }
 
-  let result: { ok: boolean; reason?: string; status?: string; messageId?: string; subject?: string; bookingId?: string | null };
-  let auditAction: string;
-  if (path === '' || path === '/') {
-    result = { ok: true, reason: 'use /compose /reply /reply-all /forward' };
-    auditAction = 'send_compose';
-  } else if (path === 'compose') {
-    result = await handleCompose(auth.userClient, body as { to: string; cc?: string[]; bcc?: string[]; subject: string; body: string });
-    auditAction = 'send_compose';
-  } else if (path === 'reply' || path === 'reply-all') {
-    result = await handleReply(auth.userClient, body as { uid: number; folder?: string; body: string; replyAll?: boolean; originalSubject?: string; originalMessageId?: string; originalFrom?: string });
-    auditAction = path === 'reply-all' ? 'send_reply_all' : 'send_reply';
-  } else if (path === 'forward') {
-    result = await handleForward(auth.userClient, body as { uid: number; folder?: string; to: string; originalSubject?: string; originalBody?: string; comment?: string });
-    auditAction = 'send_forward';
-  } else {
-    return jsonResponse({ error: 'not_found', path }, 404, cors);
+  const action = String(body.action || '').trim();
+  if (!action) {
+    return jsonResponse({
+      ok: false,
+      error: 'missing_action',
+      valid_actions: ['compose', 'reply', 'forward'],
+    }, 400, cors);
   }
 
-  await audit(auth.userClient, auditAction, { metadata: { path, bookingId: result.bookingId || null } });
+  let result: { ok: boolean; [k: string]: unknown };
+  switch (action) {
+    case 'compose':
+      result = await handleCompose(auth.userClient, body as { to: string; cc?: string[]; bcc?: string[]; subject: string; body: string; inReplyTo?: string });
+      break;
+    case 'reply':
+      result = await handleReply(auth.userClient, body as { uid: number; originalSubject: string; originalMessageId?: string; originalFrom: string; body: string });
+      break;
+    case 'forward':
+      result = await handleForward(auth.userClient, body as { uid: number; to: string; originalSubject?: string; originalBody?: string; comment?: string });
+      break;
+    default:
+      return jsonResponse({
+        ok: false,
+        error: 'unknown_action',
+        action,
+        valid_actions: ['compose', 'reply', 'forward'],
+      }, 400, cors);
+  }
 
-  // Per Lux: no auto-retry on transient SMTP failure; bubble error to user
+  const auditAction = `send_${action}`;
+  await audit(auth.userClient, auditAction, { metadata: { action, request: body } });
+
   return jsonResponse(result, 200, cors);
 });

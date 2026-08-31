@@ -1410,36 +1410,37 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 document.getElementById('pageTitle').innerHTML = t.navFinancial;
             },
 
+            _mailboxRenderToken: 0,
+
             async renderMailbox() {
-                // Phase F Batch 1: real dispatch mailbox adapter.
-                // - Server-derived scope guard via authorize_dispatch_mailbox()
-                // - Server-side IMAP/SMTP via edge functions (NO browser-side creds)
-                // - Graceful "adapter unavailable" when MAILBOX_IMAP_PASSWORD unset (F-M1)
+                // Phase F Batch 1 corrections (Lux 8d5d099 BLOCKER #2/#3 + secondary):
+                //   - Single base route per edge function + explicit action field in body
+                //   - POST only (supabase.functions.invoke always POSTs)
+                //   - Stale-render guard via _mailboxRenderToken + currentTab check
+                //     (same principle as Settings/Admin r056 E r2 renderFinance guard)
+                //   - Honest single-mailbox labeling (adapter only configured for one
+                //     dispatch@fleetconnect.be account)
+                const renderTokenAtEntry = this._mailboxRenderToken = (this._mailboxRenderToken || 0) + 1;
+                const intendedTabAtEntry = this.currentTab;
+
                 let t = translations[currentLang];
-                const mailboxes = [
-                    { id: 'all',         label: 'Alle mailboxen',          icon: 'fa-inbox' },
-                    { id: 'info',        label: 'info@fleetconnect.be',    icon: 'fa-info-circle' },
-                    { id: 'support',     label: 'support@fleetconnect.be', icon: 'fa-headset' },
-                    { id: 'operations',  label: 'operations@fleetconnect.be', icon: 'fa-cogs' },
-                    { id: 'dispatch',    label: 'dispatch@fleetconnect.be',   icon: 'fa-route' }
-                ];
-                const mailboxNavHtml = mailboxes.map(m =>
-                    `<div class="mailbox-nav-item" data-mailbox="${this.escapeHtml(m.id)}" onclick="app.selectMailbox('${this.escapeHtml(m.id)}')"><i class="fas ${m.icon}"></i> ${this.escapeHtml(m.label)}</div>`
-                ).join('');
                 const html = `
                     <div class="mailbox-container" style="display:grid; grid-template-columns:240px 1fr; gap:16px; min-height:60vh;">
                         <div class="mailbox-sidebar" style="background:white; border-radius:12px; padding:16px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                            <h3 style="font-size:1rem; color:var(--primary); margin-bottom:12px;"><i class="fas fa-inbox"></i> Mailboxen</h3>
-                            <div id="mailboxNavList">${mailboxNavHtml}</div>
-                            <div style="margin-top:16px; padding-top:12px; border-top:1px solid #e2edf7;">
+                            <h3 style="font-size:1rem; color:var(--primary); margin-bottom:12px;"><i class="fas fa-inbox"></i> Mailbox</h3>
+                            <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:12px;">
+                                <i class="fas fa-route"></i> dispatch@fleetconnect.be
+                            </div>
+                            <div style="margin-bottom:12px;">
                                 <button onclick="app.composeMailboxMessage()" style="width:100%; background:var(--primary); color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:600;"><i class="fas fa-pen"></i> Opstellen</button>
                             </div>
+                            <p style="font-size:0.75rem; color:#94a3b8; margin-top:8px;">Eén mailbox gekoppeld; F-M1 secret provisioning vereist voor live data.</p>
                         </div>
                         <div class="mailbox-content" style="background:white; border-radius:12px; padding:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                            <h2 style="color:var(--primary); margin-bottom:16px;"><i class="fas fa-envelope-open-text"></i> Gecentraliseerd e-mailoverzicht</h2>
-                            <p style="color:var(--text-light); margin-bottom:16px;">Alle communicatie via @fleetconnect.be mailboxen op één plek. Selecteer een mailbox links om de berichten te bekijken.</p>
+                            <h2 style="color:var(--primary); margin-bottom:16px;"><i class="fas fa-envelope-open-text"></i> Mailbox dispatch@fleetconnect.be</h2>
+                            <p style="color:var(--text-light); margin-bottom:16px;">Centrale inbox voor dispatch-mail via de server-side adapter (geen browser-credentials).</p>
                             <div style="margin-bottom:12px; display:flex; gap:8px;">
-                                <input id="mailboxSearchInput" type="text" placeholder="Zoek booking-ID..." style="flex:1; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px; font-size:0.9rem;" onkeydown="if(event.key==='Enter'){app.searchMailboxMessages(this.value);}">
+                                <input id="mailboxSearchInput" type="text" placeholder="Zoek booking-ID (bijv. FC-2026-AB1234)..." style="flex:1; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px; font-size:0.9rem;" onkeydown="if(event.key==='Enter'){app.searchMailboxMessages(this.value);}">
                                 <button onclick="app.searchMailboxMessages(document.getElementById('mailboxSearchInput').value)" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-search"></i></button>
                             </div>
                             <div id="mailboxList"><div class="empty-state" style="text-align:center; padding:24px; color:var(--text-light);"><i class="fas fa-spinner fa-spin"></i> Mailbox laden...</div></div>
@@ -1449,18 +1450,23 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 `;
                 document.getElementById('contentArea').innerHTML = html;
                 document.getElementById('pageTitle').innerHTML = t.navMailbox || 'Mailbox';
-                const firstMailbox = document.querySelector('.mailbox-nav-item');
-                if (firstMailbox) firstMailbox.classList.add('active');
                 try {
+                    if (this._mailboxRenderToken !== renderTokenAtEntry || this.currentTab !== intendedTabAtEntry) {
+                        return;
+                    }
                     const { data: scope, error: scopeError } = await supabase.rpc('authorize_dispatch_mailbox');
+                    if (this._mailboxRenderToken !== renderTokenAtEntry || this.currentTab !== intendedTabAtEntry) {
+                        return;
+                    }
                     if (scopeError || !scope?.authorized) {
                         document.getElementById('mailboxList').innerHTML = this.renderMailboxDenied(scope?.reason || scopeError?.message || 'no_admin_role');
                         return;
                     }
-                    await this.selectMailbox('all');
+                    await this.selectMailbox();
                 } catch (e) {
-                    console.error('[renderMailbox] scope guard failed:', e);
-                    document.getElementById('mailboxList').innerHTML = this.renderMailboxAdapterUnavailable('mailbox_scope_check_failed');
+                    console.error('[renderMailbox] failed:', e);
+                    const listEl = document.getElementById('mailboxList');
+                    if (listEl) listEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_scope_check_failed');
                 }
             },
 
@@ -1483,25 +1489,29 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 </div>`;
             },
 
-            async selectMailbox(mailboxId) {
-                document.querySelectorAll('.mailbox-nav-item').forEach(el => el.classList.toggle('active', el.dataset.mailbox === mailboxId));
-                const folder = 'INBOX';
+            async selectMailbox() {
+                // BLOCKER #2 FIX: single base route + explicit action field; POST only.
+                const renderTokenAtEntry = this._mailboxRenderToken;
+                const intendedTabAtEntry = this.currentTab;
                 const listEl = document.getElementById('mailboxList');
                 if (!listEl) return;
                 listEl.innerHTML = '<div class="empty-state" style="text-align:center; padding:24px;"><i class="fas fa-spinner fa-spin"></i> Mailbox laden...</div>';
                 try {
                     const { data, error } = await supabase.functions.invoke('dispatch-mail-inbox', {
-                        method: 'GET',
-                        body: { folder, limit: 50, offset: 0 }
+                        body: { action: 'inbox', folder: 'INBOX', limit: 50, offset: 0 }
                     });
+                    if (this._mailboxRenderToken !== renderTokenAtEntry || this.currentTab !== intendedTabAtEntry) return;
                     if (error || !data?.ok) {
-                        listEl.innerHTML = this.renderMailboxAdapterUnavailable(data?.reason || error?.message || 'mailbox_adapter_unavailable');
+                        const reason = data?.reason || error?.message || 'mailbox_adapter_unavailable';
+                        listEl.innerHTML = this.renderMailboxAdapterUnavailable(reason);
                         return;
                     }
-                    listEl.innerHTML = this.renderMailboxList(data.messages || [], folder);
+                    listEl.innerHTML = this.renderMailboxList(data.messages || [], 'INBOX');
                 } catch (e) {
-                    console.error('[selectMailbox] adapter call failed:', e);
-                    listEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                    console.error('[selectMailbox] failed:', e);
+                    if (listEl && this._mailboxRenderToken === renderTokenAtEntry && this.currentTab === intendedTabAtEntry) {
+                        listEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                    }
                 }
             },
 
@@ -1518,10 +1528,11 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                     const flags = Array.isArray(m.flags) ? m.flags : [];
                     const seen = flags.includes('\Seen');
                     const flagged = flags.includes('\Flagged');
+                    const folderEsc = this.escapeHtml(folder);
                     return `
                     <div style="border-bottom:1px solid #e2edf7; padding:14px 8px; display:flex; gap:12px; align-items:flex-start; ${seen ? '' : 'background:#fef9e7;'}">
                         <div style="width:8px; height:8px; border-radius:50%; margin-top:8px; ${seen ? 'background:transparent;' : 'background:var(--accent-gold);'} flex-shrink:0;"></div>
-                        <div style="flex:1; cursor:pointer;" onclick="app.viewMailboxMessage(${Number(m.uid)}, '${this.escapeHtml(folder)}')">
+                        <div style="flex:1; cursor:pointer;" onclick="app.viewMailboxMessage(${Number(m.uid)}, '${folderEsc}')">
                             <div style="display:flex; justify-content:space-between; gap:12px;">
                                 <strong style="color:${seen ? '#94a3b8' : 'var(--primary)'};">${this.escapeHtml(fromAddr)}</strong>
                                 <small style="color:var(--text-light);">${this.escapeHtml(dateStr)}</small>
@@ -1530,8 +1541,8 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                             <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">${flagged ? '<i class="fas fa-flag" style="color:#dc2626;"></i> ' : ''}uid=${Number(m.uid)}</div>
                         </div>
                         <div style="display:flex; gap:4px; flex-shrink:0;">
-                            <button onclick="app.flagMailboxMessage(${Number(m.uid)},'${this.escapeHtml(folder)}','\\Seen', ${seen ? "'remove'" : "'add'"})" title="${seen ? 'Markeer als ongelezen' : 'Markeer als gelezen'}" style="background:transparent; border:none; color:var(--primary); cursor:pointer;"><i class="fas fa-${seen ? 'envelope-open' : 'envelope'}"></i></button>
-                            <button onclick="app.flagMailboxMessage(${Number(m.uid)},'${this.escapeHtml(folder)}','\\Flagged', ${flagged ? "'remove'" : "'add'"})" title="${flagged ? 'Verwijder vlag' : 'Vlag toevoegen'}" style="background:transparent; border:none; color:${flagged ? '#dc2626' : 'var(--primary)'}; cursor:pointer;"><i class="fas fa-flag"></i></button>
+                            <button onclick="app.flagMailboxMessage(${Number(m.uid)},'${folderEsc}','\\Seen', ${seen ? "'remove'" : "'add'"})" title="${seen ? 'Markeer als ongelezen' : 'Markeer als gelezen'}" style="background:transparent; border:none; color:var(--primary); cursor:pointer;"><i class="fas fa-${seen ? 'envelope-open' : 'envelope'}"></i></button>
+                            <button onclick="app.flagMailboxMessage(${Number(m.uid)},'${folderEsc}','\\Flagged', ${flagged ? "'remove'" : "'add'"})" title="${flagged ? 'Verwijder vlag' : 'Vlag toevoegen'}" style="background:transparent; border:none; color:${flagged ? '#dc2626' : 'var(--primary)'}; cursor:pointer;"><i class="fas fa-flag"></i></button>
                         </div>
                     </div>`;
                 }).join('')}</div>`;
@@ -1541,17 +1552,20 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 if (!Number.isFinite(Number(uid)) || Number(uid) <= 0) {
                     this.showToast('Ongeldige bericht-uid.', true); return;
                 }
+                const renderTokenAtEntry = this._mailboxRenderToken;
+                const intendedTabAtEntry = this.currentTab;
                 const detailEl = document.getElementById('mailboxDetail');
                 if (!detailEl) return;
                 detailEl.style.display = 'block';
                 detailEl.innerHTML = '<div class="empty-state" style="text-align:center; padding:24px;"><i class="fas fa-spinner fa-spin"></i> Bericht laden...</div>';
                 try {
                     const { data, error } = await supabase.functions.invoke('dispatch-mail-inbox', {
-                        method: 'GET',
-                        body: { folder, uid: Number(uid) }
+                        body: { action: 'message', folder, uid: Number(uid) }
                     });
+                    if (this._mailboxRenderToken !== renderTokenAtEntry || this.currentTab !== intendedTabAtEntry) return;
                     if (error || !data?.ok) {
-                        detailEl.innerHTML = this.renderMailboxAdapterUnavailable(data?.reason || error?.message || 'mailbox_adapter_unavailable');
+                        const reason = data?.reason || error?.message || 'mailbox_adapter_unavailable';
+                        detailEl.innerHTML = this.renderMailboxAdapterUnavailable(reason);
                         return;
                     }
                     const msg = data.message || {};
@@ -1560,10 +1574,11 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                     const bookingHtml = msg.bookingId
                         ? `<div style="margin:12px 0; padding:8px 12px; background:#dbeafe; border-radius:8px;"><i class="fas fa-link"></i> <strong>Booking-ID:</strong> ${this.escapeHtml(msg.bookingId)} — <a href="#" onclick="app.openBookingFromMail('${this.escapeHtml(msg.bookingId)}');return false;">Open ritdetails</a></div>`
                         : '';
-                    const subjectEsc = (msg.subject || '').replace(/'/g, "\'");
-                    const messageIdEsc = (msg.messageId || '').replace(/'/g, "\'");
+                    const subjectEsc = String(msg.subject || '').replace(/'/g, "\'");
+                    const messageIdEsc = String(msg.messageId || '').replace(/'/g, "\'");
                     const fromAddrEsc = fromAddr.replace(/'/g, "\'");
-                    const bodyEsc = (msg.bodyExcerpt || '').replace(/'/g, "\'");
+                    const bodyEsc = String(msg.bodyExcerpt || '').replace(/'/g, "\'");
+                    const folderEsc = this.escapeHtml(folder);
                     detailEl.innerHTML = `
                         <div style="margin-top:24px; padding-top:24px; border-top:2px solid #e2edf7;">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
@@ -1572,20 +1587,22 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                             </div>
                             <div style="margin-bottom:8px;"><strong>Van:</strong> ${this.escapeHtml(fromAddr)}</div>
                             <div style="margin-bottom:8px;"><strong>Datum:</strong> ${this.escapeHtml(dateStr)}</div>
-                            <div style="margin-bottom:8px;"><strong>UID:</strong> ${Number(msg.uid)} | <strong>Folder:</strong> ${this.escapeHtml(folder)}</div>
+                            <div style="margin-bottom:8px;"><strong>UID:</strong> ${Number(msg.uid)} | <strong>Folder:</strong> ${folderEsc}</div>
                             ${bookingHtml}
                             <div style="margin:16px 0; padding:16px; background:#f8fafc; border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.85rem; max-height:400px; overflow-y:auto;">${this.escapeHtml(msg.bodyExcerpt || '')}</div>
                             <div style="display:flex; gap:8px;">
-                                <button onclick="app.replyMailboxMessage(${Number(msg.uid)},'${this.escapeHtml(folder)}','${subjectEsc}','${messageIdEsc}','${fromAddrEsc}')" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-reply"></i> Beantwoorden</button>
-                                <button onclick="app.forwardMailboxMessage(${Number(msg.uid)},'${this.escapeHtml(folder)}','${subjectEsc}','${bodyEsc}')" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-share"></i> Doorsturen</button>
-                                <button onclick="app.flagMailboxMessage(${Number(msg.uid)},'${this.escapeHtml(folder)}','\\Flagged','add')" style="background:transparent; border:1px solid var(--primary); color:var(--primary); padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-flag"></i> Vlag</button>
+                                <button onclick="app.replyMailboxMessage(${Number(msg.uid)},'${folderEsc}','${subjectEsc}','${messageIdEsc}','${fromAddrEsc}')" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-reply"></i> Beantwoorden</button>
+                                <button onclick="app.forwardMailboxMessage(${Number(msg.uid)},'${folderEsc}','${subjectEsc}','${bodyEsc}')" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-share"></i> Doorsturen</button>
+                                <button onclick="app.flagMailboxMessage(${Number(msg.uid)},'${folderEsc}','\\Flagged','add')" style="background:transparent; border:1px solid var(--primary); color:var(--primary); padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-flag"></i> Vlag</button>
                             </div>
                         </div>
                     `;
                     this.flagMailboxMessage(Number(msg.uid), folder, '\Seen', 'add').catch(() => {});
                 } catch (e) {
-                    console.error('[viewMailboxMessage] adapter call failed:', e);
-                    detailEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                    console.error('[viewMailboxMessage] failed:', e);
+                    if (detailEl && this._mailboxRenderToken === renderTokenAtEntry && this.currentTab === intendedTabAtEntry) {
+                        detailEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                    }
                 }
             },
 
@@ -1593,7 +1610,7 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 if (!Number.isFinite(Number(uid)) || Number(uid) <= 0) return;
                 try {
                     const { data, error } = await supabase.functions.invoke('dispatch-mail-flag', {
-                        body: { folder, uid: Number(uid), flags: [flag], op: op === 'remove' ? 'remove' : 'add' }
+                        body: { action: 'flag', folder, uid: Number(uid), flags: [flag], op: op === 'remove' ? 'remove' : 'add' }
                     });
                     if (error || !data?.ok) {
                         if (data?.status === 'adapter_unavailable') {
@@ -1604,7 +1621,7 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                         return;
                     }
                     if (this.currentTab === 'mailbox') {
-                        await this.selectMailbox(document.querySelector('.mailbox-nav-item.active')?.dataset.mailbox || 'all');
+                        await this.selectMailbox();
                     }
                 } catch (e) {
                     console.error('[flagMailboxMessage] failed:', e);
@@ -1615,29 +1632,35 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
             async searchMailboxMessages(q) {
                 const cleaned = String(q || '').trim();
                 if (!cleaned) { this.showToast('Voer een booking-ID in.', true); return; }
+                const renderTokenAtEntry = this._mailboxRenderToken;
+                const intendedTabAtEntry = this.currentTab;
                 const listEl = document.getElementById('mailboxList');
                 if (!listEl) return;
                 listEl.innerHTML = '<div class="empty-state" style="text-align:center; padding:24px;"><i class="fas fa-spinner fa-spin"></i> Zoeken...</div>';
                 try {
                     const { data, error } = await supabase.functions.invoke('dispatch-mail-flag', {
-                        method: 'GET',
-                        body: { q: cleaned }
+                        body: { action: 'booking-link-search', q: cleaned }
                     });
+                    if (this._mailboxRenderToken !== renderTokenAtEntry || this.currentTab !== intendedTabAtEntry) return;
                     if (error || !data?.ok) {
-                        listEl.innerHTML = this.renderMailboxAdapterUnavailable(data?.reason || error?.message || 'mailbox_adapter_unavailable');
+                        const reason = data?.reason || error?.message || 'mailbox_adapter_unavailable';
+                        listEl.innerHTML = this.renderMailboxAdapterUnavailable(reason);
                         return;
                     }
+                    const msgs = (data.messages || []).map((m) => ({
+                        uid: m.uid,
+                        subject: m.subject,
+                        from: [{ name: m.from_name || m.from_addr, address: m.from_addr }],
+                        date: m.received_at,
+                        flags: [m.seen ? '\Seen' : '', m.flagged ? '\Flagged' : ''].filter(Boolean),
+                    }));
                     listEl.innerHTML = `<div style="margin-bottom:12px; padding:8px 12px; background:#f1f5f9; border-radius:8px;"><strong>${data.count}</strong> berichten met booking-ID <code>${this.escapeHtml(data.bookingId || cleaned)}</code></div>` +
-                        this.renderMailboxList((data.messages || []).map((m) => ({
-                            uid: m.uid,
-                            subject: m.subject,
-                            from: [{ name: m.from_name || m.from_addr, address: m.from_addr }],
-                            date: m.received_at,
-                            flags: [m.seen ? '\Seen' : '', m.flagged ? '\Flagged' : ''].filter(Boolean),
-                        })), 'INBOX');
+                        this.renderMailboxList(msgs, 'INBOX');
                 } catch (e) {
                     console.error('[searchMailboxMessages] failed:', e);
-                    listEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                    if (listEl && this._mailboxRenderToken === renderTokenAtEntry && this.currentTab === intendedTabAtEntry) {
+                        listEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                    }
                 }
             },
 
@@ -1692,7 +1715,7 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                             <div style="margin-bottom:12px;"><label style="display:block; font-size:0.85rem; color:#475569; margin-bottom:4px;">Bericht</label><textarea id="composeBody" rows="10" style="width:100%; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px; font-family:inherit; resize:vertical;">${this.escapeHtml(isForward ? (opts?.bodyExcerpt || '') : '')}</textarea></div>
                             <div style="display:flex; gap:8px; justify-content:flex-end;">
                                 <button onclick="document.getElementById('mailboxComposeModal')?.remove()" style="background:transparent; border:1px solid #94a3b8; color:#475569; padding:10px 14px; border-radius:8px; cursor:pointer;">Annuleren</button>
-                                <button id="composeSendBtn" onclick="app.submitComposeMail('${mode}', ${Number(opts?.uid) || 0}, '${this.escapeHtml(opts?.folder || 'INBOX')}')" style="background:var(--primary); color:white; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:600;"><i class="fas fa-paper-plane"></i> Versturen</button>
+                                <button id="composeSendBtn" onclick="app.submitComposeMail('${mode}')" style="background:var(--primary); color:white; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:600;"><i class="fas fa-paper-plane"></i> Versturen</button>
                             </div>
                             <p style="font-size:0.75rem; color:#94a3b8; margin-top:12px;">Manual dispatch-mail wordt voorafgegaan door [Manual dispatch] en gelogd in de audit-trail. Geen automatische trigger.</p>
                         </div>
@@ -1701,7 +1724,7 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 document.body.appendChild(modal);
             },
 
-            async submitComposeMail(mode, uid, folder) {
+            async submitComposeMail(mode) {
                 const to = document.getElementById('composeTo')?.value?.trim();
                 const ccRaw = document.getElementById('composeCc')?.value?.trim();
                 const subject = document.getElementById('composeSubject')?.value?.trim();
@@ -1712,22 +1735,31 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 const btn = document.getElementById('composeSendBtn');
                 if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Versturen...'; }
                 try {
-                    let payload = { to, cc, subject, body };
+                    let action = 'compose';
+                    let payload = { action, to, cc, subject, body };
                     if (mode === 'reply') {
-                        payload = { uid, folder, body, originalSubject: subject, originalMessageId: '', originalFrom: to };
+                        action = 'reply';
+                        payload = { action, originalSubject: subject, originalFrom: to, body };
                     }
                     if (mode === 'forward') {
-                        payload = { uid, folder, to, originalSubject: subject, originalBody: body };
+                        action = 'forward';
+                        payload = { action, to, originalSubject: subject, originalBody: body };
                     }
+                    payload.action = action;
                     const { data, error } = await supabase.functions.invoke('dispatch-mail-send', { body: payload });
-                    if (error || !data?.ok) {
-                        this.showToast('Verzenden mislukt: ' + (data?.reason || error?.message || 'onbekend'), true);
+                    if (error || !data?.ok || data?.action !== action) {
+                        const reason = data?.reason || error?.message || 'mailbox_send_failed';
+                        if (data?.status === 'adapter_unavailable') {
+                            this.showToast('Mailbox-adapter niet beschikbaar (F-M1 gewenst).', true);
+                        } else {
+                            this.showToast('Verzenden mislukt: ' + reason, true);
+                        }
                         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Versturen'; }
                         return;
                     }
                     this.showToast('Mail verstuurd (id: ' + (data.messageId || '-') + ')');
                     document.getElementById('mailboxComposeModal')?.remove();
-                    if (this.currentTab === 'mailbox') await this.selectMailbox(document.querySelector('.mailbox-nav-item.active')?.dataset.mailbox || 'all');
+                    if (this.currentTab === 'mailbox') await this.selectMailbox();
                 } catch (e) {
                     console.error('[submitComposeMail] failed:', e);
                     this.showToast('Verzenden mislukt: ' + e.message, true);
