@@ -1410,91 +1410,332 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 document.getElementById('pageTitle').innerHTML = t.navFinancial;
             },
 
-            renderMailbox() {
+            async renderMailbox() {
+                // Phase F Batch 1: real dispatch mailbox adapter.
+                // - Server-derived scope guard via authorize_dispatch_mailbox()
+                // - Server-side IMAP/SMTP via edge functions (NO browser-side creds)
+                // - Graceful "adapter unavailable" when MAILBOX_IMAP_PASSWORD unset (F-M1)
+                let t = translations[currentLang];
                 const mailboxes = [
-                    { id: 'all', label: 'Alle mailboxen', icon: 'fa-inbox' },
-                    { id: 'info', label: 'info@fleetconnect.be', icon: 'fa-info-circle' },
-                    { id: 'support', label: 'support@fleetconnect.be', icon: 'fa-headset' },
-                    { id: 'operations', label: 'operations@fleetconnect.be', icon: 'fa-cogs' },
-                    { id: 'dispatch', label: 'dispatch@fleetconnect.be', icon: 'fa-route' }
+                    { id: 'all',         label: 'Alle mailboxen',          icon: 'fa-inbox' },
+                    { id: 'info',        label: 'info@fleetconnect.be',    icon: 'fa-info-circle' },
+                    { id: 'support',     label: 'support@fleetconnect.be', icon: 'fa-headset' },
+                    { id: 'operations',  label: 'operations@fleetconnect.be', icon: 'fa-cogs' },
+                    { id: 'dispatch',    label: 'dispatch@fleetconnect.be',   icon: 'fa-route' }
                 ];
                 const mailboxNavHtml = mailboxes.map(m =>
-                    `<div class="mailbox-nav-item" data-mailbox="${m.id}" onclick="app.selectMailbox('${m.id}')"><i class="fas ${m.icon}"></i> ${m.label}</div>`
+                    `<div class="mailbox-nav-item" data-mailbox="${this.escapeHtml(m.id)}" onclick="app.selectMailbox('${this.escapeHtml(m.id)}')"><i class="fas ${m.icon}"></i> ${this.escapeHtml(m.label)}</div>`
                 ).join('');
                 const html = `
                     <div class="mailbox-container" style="display:grid; grid-template-columns:240px 1fr; gap:16px; min-height:60vh;">
                         <div class="mailbox-sidebar" style="background:white; border-radius:12px; padding:16px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
                             <h3 style="font-size:1rem; color:var(--primary); margin-bottom:12px;"><i class="fas fa-inbox"></i> Mailboxen</h3>
                             <div id="mailboxNavList">${mailboxNavHtml}</div>
+                            <div style="margin-top:16px; padding-top:12px; border-top:1px solid #e2edf7;">
+                                <button onclick="app.composeMailboxMessage()" style="width:100%; background:var(--primary); color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:600;"><i class="fas fa-pen"></i> Opstellen</button>
+                            </div>
                         </div>
                         <div class="mailbox-content" style="background:white; border-radius:12px; padding:24px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
                             <h2 style="color:var(--primary); margin-bottom:16px;"><i class="fas fa-envelope-open-text"></i> Gecentraliseerd e-mailoverzicht</h2>
                             <p style="color:var(--text-light); margin-bottom:16px;">Alle communicatie via @fleetconnect.be mailboxen op één plek. Selecteer een mailbox links om de berichten te bekijken.</p>
-                            <div id="mailboxList">${this.renderMailboxList('all')}</div>
+                            <div style="margin-bottom:12px; display:flex; gap:8px;">
+                                <input id="mailboxSearchInput" type="text" placeholder="Zoek booking-ID..." style="flex:1; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px; font-size:0.9rem;" onkeydown="if(event.key==='Enter'){app.searchMailboxMessages(this.value);}">
+                                <button onclick="app.searchMailboxMessages(document.getElementById('mailboxSearchInput').value)" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-search"></i></button>
+                            </div>
+                            <div id="mailboxList"><div class="empty-state" style="text-align:center; padding:24px; color:var(--text-light);"><i class="fas fa-spinner fa-spin"></i> Mailbox laden...</div></div>
+                            <div id="mailboxDetail" style="display:none;"></div>
                         </div>
                     </div>
                 `;
                 document.getElementById('contentArea').innerHTML = html;
-                document.getElementById('pageTitle').innerHTML = 'Mailbox';
-                // Highlight 'all' by default
+                document.getElementById('pageTitle').innerHTML = t.navMailbox || 'Mailbox';
                 const firstMailbox = document.querySelector('.mailbox-nav-item');
                 if (firstMailbox) firstMailbox.classList.add('active');
-            },
-
-            selectMailbox(mailboxId) {
-                document.querySelectorAll('.mailbox-nav-item').forEach(el => el.classList.toggle('active', el.dataset.mailbox === mailboxId));
-                document.getElementById('mailboxList').innerHTML = this.renderMailboxList(mailboxId);
-            },
-
-            renderMailboxList(mailboxId) {
-                // Use the most recent account_requests and bookings as placeholder content
-                const messages = [];
-                for (const r of this.accountRequests.slice(0, 25)) {
-                    messages.push({
-                        from: r.email,
-                        fromName: r.name,
-                        subject: `Accountaanvraag: ${r.account_type || 'Onbekend'}`,
-                        snippet: r.notes || `Bedrijf: ${r.company || '-'} | Status: ${r.status}`,
-                        date: r.created_at,
-                        read: r.status !== 'pending',
-                        mailbox: 'info',
-                        kind: 'request'
-                    });
+                try {
+                    const { data: scope, error: scopeError } = await supabase.rpc('authorize_dispatch_mailbox');
+                    if (scopeError || !scope?.authorized) {
+                        document.getElementById('mailboxList').innerHTML = this.renderMailboxDenied(scope?.reason || scopeError?.message || 'no_admin_role');
+                        return;
+                    }
+                    await this.selectMailbox('all');
+                } catch (e) {
+                    console.error('[renderMailbox] scope guard failed:', e);
+                    document.getElementById('mailboxList').innerHTML = this.renderMailboxAdapterUnavailable('mailbox_scope_check_failed');
                 }
-                const filtered = mailboxId === 'all' ? messages : messages.filter(m => m.mailbox === mailboxId);
-                if (!filtered.length) {
+            },
+
+            renderMailboxDenied(reason) {
+                return `<div class="empty-state" style="text-align:center; padding:48px; color:var(--text-light);">
+                    <i class="fas fa-lock" style="font-size:3rem; color:#e2edf7; margin-bottom:16px;"></i>
+                    <p><strong>Geen toegang tot mailbox.</strong></p>
+                    <p style="font-size:0.85rem; margin-top:8px;">Alleen dispatch@fleetconnect.be en hoofdpartners hebben mailbox-toegang.</p>
+                    <p style="font-size:0.75rem; color:#94a3b8; margin-top:8px;">reason: ${this.escapeHtml(reason)}</p>
+                </div>`;
+            },
+
+            renderMailboxAdapterUnavailable(reason) {
+                return `<div class="empty-state" style="text-align:center; padding:48px; color:var(--text-light);">
+                    <i class="fas fa-plug" style="font-size:3rem; color:#e2edf7; margin-bottom:16px;"></i>
+                    <p><strong>Mailbox-adapter niet beschikbaar.</strong></p>
+                    <p style="font-size:0.9rem; margin-top:8px;">De IMAP/SMTP adapter wacht op secret provisioning (F-M1).</p>
+                    <p style="font-size:0.8rem; color:#94a3b8; margin-top:8px;">Geen actie vereist van operator; PRIME wacht op Founder-actie.</p>
+                    <p style="font-size:0.7rem; color:#cbd5e1; margin-top:8px;">reason: ${this.escapeHtml(reason)}</p>
+                </div>`;
+            },
+
+            async selectMailbox(mailboxId) {
+                document.querySelectorAll('.mailbox-nav-item').forEach(el => el.classList.toggle('active', el.dataset.mailbox === mailboxId));
+                const folder = 'INBOX';
+                const listEl = document.getElementById('mailboxList');
+                if (!listEl) return;
+                listEl.innerHTML = '<div class="empty-state" style="text-align:center; padding:24px;"><i class="fas fa-spinner fa-spin"></i> Mailbox laden...</div>';
+                try {
+                    const { data, error } = await supabase.functions.invoke('dispatch-mail-inbox', {
+                        method: 'GET',
+                        body: { folder, limit: 50, offset: 0 }
+                    });
+                    if (error || !data?.ok) {
+                        listEl.innerHTML = this.renderMailboxAdapterUnavailable(data?.reason || error?.message || 'mailbox_adapter_unavailable');
+                        return;
+                    }
+                    listEl.innerHTML = this.renderMailboxList(data.messages || [], folder);
+                } catch (e) {
+                    console.error('[selectMailbox] adapter call failed:', e);
+                    listEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                }
+            },
+
+            renderMailboxList(messages, folder) {
+                if (!messages || !messages.length) {
                     return `<div class="empty-state" style="text-align:center; padding:48px; color:var(--text-light);">
                         <i class="fas fa-inbox" style="font-size:3rem; color:#e2edf7; margin-bottom:16px;"></i>
                         <p>Geen berichten in deze mailbox.</p>
-                        <p style="font-size:0.85rem; margin-top:8px;">Mailbox-architectuur is geconfigureerd. Echte IMAP/SMTP-integratie volgt in een volgende fase.</p>
                     </div>`;
                 }
-                return `<div class="mailbox-message-list">${filtered.map(m => `
-                    <div style="border-bottom:1px solid #e2edf7; padding:14px 8px; display:flex; gap:12px; align-items:flex-start; ${m.read ? '' : 'background:#fef9e7;'}">
-                        <div style="width:8px; height:8px; border-radius:50%; margin-top:8px; ${m.read ? 'background:transparent;' : 'background:var(--accent-gold);'} flex-shrink:0;"></div>
-                        <div style="flex:1;">
+                return `<div class="mailbox-message-list">${messages.map(m => {
+                    const fromAddr = Array.isArray(m.from) && m.from.length ? (m.from[0].name || m.from[0].address || '') : '';
+                    const dateStr = m.date ? new Date(m.date).toLocaleString('nl-BE', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+                    const flags = Array.isArray(m.flags) ? m.flags : [];
+                    const seen = flags.includes('\Seen');
+                    const flagged = flags.includes('\Flagged');
+                    return `
+                    <div style="border-bottom:1px solid #e2edf7; padding:14px 8px; display:flex; gap:12px; align-items:flex-start; ${seen ? '' : 'background:#fef9e7;'}">
+                        <div style="width:8px; height:8px; border-radius:50%; margin-top:8px; ${seen ? 'background:transparent;' : 'background:var(--accent-gold);'} flex-shrink:0;"></div>
+                        <div style="flex:1; cursor:pointer;" onclick="app.viewMailboxMessage(${Number(m.uid)}, '${this.escapeHtml(folder)}')">
                             <div style="display:flex; justify-content:space-between; gap:12px;">
-                                <strong style="color:${m.read ? '#94a3b8' : 'var(--primary)'};">${this.escapeHtml(m.fromName || m.from)}</strong>
-                                <small style="color:var(--text-light);">${m.date ? new Date(m.date).toLocaleString('nl-BE', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—'}</small>
+                                <strong style="color:${seen ? '#94a3b8' : 'var(--primary)'};">${this.escapeHtml(fromAddr)}</strong>
+                                <small style="color:var(--text-light);">${this.escapeHtml(dateStr)}</small>
                             </div>
-                            <div style="font-size:0.9rem; color:#475569; margin-top:2px;">${this.escapeHtml(m.subject)}</div>
-                            <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">${this.escapeHtml(m.snippet)}</div>
+                            <div style="font-size:0.9rem; color:#475569; margin-top:2px;">${this.escapeHtml(m.subject || '(geen onderwerp)')}</div>
+                            <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">${flagged ? '<i class="fas fa-flag" style="color:#dc2626;"></i> ' : ''}uid=${Number(m.uid)}</div>
                         </div>
-                        <div style="display:flex; gap:4px;">
-                            <button onclick="app.viewMailboxMessage('${m.kind}')" title="Openen" style="background:transparent; border:none; color:var(--primary); cursor:pointer;"><i class="fas fa-external-link-alt"></i></button>
+                        <div style="display:flex; gap:4px; flex-shrink:0;">
+                            <button onclick="app.flagMailboxMessage(${Number(m.uid)},'${this.escapeHtml(folder)}','\\Seen', ${seen ? "'remove'" : "'add'"})" title="${seen ? 'Markeer als ongelezen' : 'Markeer als gelezen'}" style="background:transparent; border:none; color:var(--primary); cursor:pointer;"><i class="fas fa-${seen ? 'envelope-open' : 'envelope'}"></i></button>
+                            <button onclick="app.flagMailboxMessage(${Number(m.uid)},'${this.escapeHtml(folder)}','\\Flagged', ${flagged ? "'remove'" : "'add'"})" title="${flagged ? 'Verwijder vlag' : 'Vlag toevoegen'}" style="background:transparent; border:none; color:${flagged ? '#dc2626' : 'var(--primary)'}; cursor:pointer;"><i class="fas fa-flag"></i></button>
                         </div>
-                    </div>
-                `).join('')}</div>`;
+                    </div>`;
+                }).join('')}</div>`;
             },
 
-            viewMailboxMessage(kind) {
-                // PRIME r056 Phase E round 1 corrections: route request placeholders to canonical Clients/Partners tab
-                // (not the removed accountrequests tab — falls through to New Orders and is misleading)
-                if (kind === 'request') { this.currentTab = 'customers'; this.refreshCurrentTab(); return; }
-                if (kind === 'booking' || kind === 'order') { this.currentTab = 'neworders'; this.refreshCurrentTab(); return; }
-                this.showToast('Dit bericht kan nog niet geopend worden in de operator cockpit.');
+            async viewMailboxMessage(uid, folder) {
+                if (!Number.isFinite(Number(uid)) || Number(uid) <= 0) {
+                    this.showToast('Ongeldige bericht-uid.', true); return;
+                }
+                const detailEl = document.getElementById('mailboxDetail');
+                if (!detailEl) return;
+                detailEl.style.display = 'block';
+                detailEl.innerHTML = '<div class="empty-state" style="text-align:center; padding:24px;"><i class="fas fa-spinner fa-spin"></i> Bericht laden...</div>';
+                try {
+                    const { data, error } = await supabase.functions.invoke('dispatch-mail-inbox', {
+                        method: 'GET',
+                        body: { folder, uid: Number(uid) }
+                    });
+                    if (error || !data?.ok) {
+                        detailEl.innerHTML = this.renderMailboxAdapterUnavailable(data?.reason || error?.message || 'mailbox_adapter_unavailable');
+                        return;
+                    }
+                    const msg = data.message || {};
+                    const fromAddr = Array.isArray(msg.from) && msg.from.length ? (msg.from[0].name || msg.from[0].address || '') : '';
+                    const dateStr = msg.date ? new Date(msg.date).toLocaleString('nl-BE') : '';
+                    const bookingHtml = msg.bookingId
+                        ? `<div style="margin:12px 0; padding:8px 12px; background:#dbeafe; border-radius:8px;"><i class="fas fa-link"></i> <strong>Booking-ID:</strong> ${this.escapeHtml(msg.bookingId)} — <a href="#" onclick="app.openBookingFromMail('${this.escapeHtml(msg.bookingId)}');return false;">Open ritdetails</a></div>`
+                        : '';
+                    const subjectEsc = (msg.subject || '').replace(/'/g, "\'");
+                    const messageIdEsc = (msg.messageId || '').replace(/'/g, "\'");
+                    const fromAddrEsc = fromAddr.replace(/'/g, "\'");
+                    const bodyEsc = (msg.bodyExcerpt || '').replace(/'/g, "\'");
+                    detailEl.innerHTML = `
+                        <div style="margin-top:24px; padding-top:24px; border-top:2px solid #e2edf7;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                                <h3 style="color:var(--primary); margin:0;">${this.escapeHtml(msg.subject || '(geen onderwerp)')}</h3>
+                                <button onclick="document.getElementById('mailboxDetail').style.display='none'" style="background:transparent; border:none; cursor:pointer; color:#94a3b8;"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div style="margin-bottom:8px;"><strong>Van:</strong> ${this.escapeHtml(fromAddr)}</div>
+                            <div style="margin-bottom:8px;"><strong>Datum:</strong> ${this.escapeHtml(dateStr)}</div>
+                            <div style="margin-bottom:8px;"><strong>UID:</strong> ${Number(msg.uid)} | <strong>Folder:</strong> ${this.escapeHtml(folder)}</div>
+                            ${bookingHtml}
+                            <div style="margin:16px 0; padding:16px; background:#f8fafc; border-radius:8px; white-space:pre-wrap; font-family:monospace; font-size:0.85rem; max-height:400px; overflow-y:auto;">${this.escapeHtml(msg.bodyExcerpt || '')}</div>
+                            <div style="display:flex; gap:8px;">
+                                <button onclick="app.replyMailboxMessage(${Number(msg.uid)},'${this.escapeHtml(folder)}','${subjectEsc}','${messageIdEsc}','${fromAddrEsc}')" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-reply"></i> Beantwoorden</button>
+                                <button onclick="app.forwardMailboxMessage(${Number(msg.uid)},'${this.escapeHtml(folder)}','${subjectEsc}','${bodyEsc}')" style="background:var(--primary); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-share"></i> Doorsturen</button>
+                                <button onclick="app.flagMailboxMessage(${Number(msg.uid)},'${this.escapeHtml(folder)}','\\Flagged','add')" style="background:transparent; border:1px solid var(--primary); color:var(--primary); padding:8px 14px; border-radius:8px; cursor:pointer;"><i class="fas fa-flag"></i> Vlag</button>
+                            </div>
+                        </div>
+                    `;
+                    this.flagMailboxMessage(Number(msg.uid), folder, '\Seen', 'add').catch(() => {});
+                } catch (e) {
+                    console.error('[viewMailboxMessage] adapter call failed:', e);
+                    detailEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                }
             },
-            applyFiltersNew() { let orderFilter = document.getElementById("filterOrderNew")?.value.toLowerCase() || ""; let nameFilter = document.getElementById("filterNameNew")?.value.toLowerCase() || ""; let sort = document.getElementById("sortNewOrders")?.value || "date_asc"; let filtered = this.newOrders.filter(o => (orderFilter === "" || o.id?.toLowerCase().includes(orderFilter)) && (nameFilter === "" || o.name?.toLowerCase().includes(nameFilter))); this.renderNewOrdersTable(this.sortBookings(filtered, sort)); },
+
+            async flagMailboxMessage(uid, folder, flag, op) {
+                if (!Number.isFinite(Number(uid)) || Number(uid) <= 0) return;
+                try {
+                    const { data, error } = await supabase.functions.invoke('dispatch-mail-flag', {
+                        body: { folder, uid: Number(uid), flags: [flag], op: op === 'remove' ? 'remove' : 'add' }
+                    });
+                    if (error || !data?.ok) {
+                        if (data?.status === 'adapter_unavailable') {
+                            this.showToast('Mailbox-adapter niet beschikbaar (F-M1 gewenst).', true);
+                        } else {
+                            this.showToast('Vlag wijzigen mislukt: ' + (data?.reason || error?.message || 'onbekend'), true);
+                        }
+                        return;
+                    }
+                    if (this.currentTab === 'mailbox') {
+                        await this.selectMailbox(document.querySelector('.mailbox-nav-item.active')?.dataset.mailbox || 'all');
+                    }
+                } catch (e) {
+                    console.error('[flagMailboxMessage] failed:', e);
+                    this.showToast('Vlag wijzigen mislukt: ' + e.message, true);
+                }
+            },
+
+            async searchMailboxMessages(q) {
+                const cleaned = String(q || '').trim();
+                if (!cleaned) { this.showToast('Voer een booking-ID in.', true); return; }
+                const listEl = document.getElementById('mailboxList');
+                if (!listEl) return;
+                listEl.innerHTML = '<div class="empty-state" style="text-align:center; padding:24px;"><i class="fas fa-spinner fa-spin"></i> Zoeken...</div>';
+                try {
+                    const { data, error } = await supabase.functions.invoke('dispatch-mail-flag', {
+                        method: 'GET',
+                        body: { q: cleaned }
+                    });
+                    if (error || !data?.ok) {
+                        listEl.innerHTML = this.renderMailboxAdapterUnavailable(data?.reason || error?.message || 'mailbox_adapter_unavailable');
+                        return;
+                    }
+                    listEl.innerHTML = `<div style="margin-bottom:12px; padding:8px 12px; background:#f1f5f9; border-radius:8px;"><strong>${data.count}</strong> berichten met booking-ID <code>${this.escapeHtml(data.bookingId || cleaned)}</code></div>` +
+                        this.renderMailboxList((data.messages || []).map((m) => ({
+                            uid: m.uid,
+                            subject: m.subject,
+                            from: [{ name: m.from_name || m.from_addr, address: m.from_addr }],
+                            date: m.received_at,
+                            flags: [m.seen ? '\Seen' : '', m.flagged ? '\Flagged' : ''].filter(Boolean),
+                        })), 'INBOX');
+                } catch (e) {
+                    console.error('[searchMailboxMessages] failed:', e);
+                    listEl.innerHTML = this.renderMailboxAdapterUnavailable('mailbox_adapter_exception');
+                }
+            },
+
+            openBookingFromMail(bookingId) {
+                const cleaned = String(bookingId || '').trim().toUpperCase();
+                if (!cleaned) return;
+                this.currentTab = 'neworders';
+                this.refreshCurrentTab();
+                setTimeout(() => {
+                    const booking = (this.allBookings || []).find(b => String(b.id || '').toUpperCase() === cleaned);
+                    if (booking) {
+                        this.showBookingFiche(booking);
+                        this.showToast('Rit ' + cleaned + ' geopend.');
+                    } else {
+                        this.showToast('Rit ' + cleaned + ' niet gevonden in huidige dataset.');
+                    }
+                }, 300);
+            },
+
+            composeMailboxMessage() {
+                this.showComposeModal({ mode: 'compose' });
+            },
+
+            replyMailboxMessage(uid, folder, subject, messageId, fromAddr) {
+                this.showComposeModal({ mode: 'reply', uid, folder, subject, messageId, fromAddr });
+            },
+
+            forwardMailboxMessage(uid, folder, subject, bodyExcerpt) {
+                this.showComposeModal({ mode: 'forward', uid, folder, subject, bodyExcerpt });
+            },
+
+            showComposeModal(opts) {
+                const mode = opts?.mode || 'compose';
+                const isReply = mode === 'reply';
+                const isForward = mode === 'forward';
+                const defaultSubject = isReply ? (String(opts?.subject || '').toLowerCase().startsWith('re:') ? opts.subject : 'Re: ' + (opts?.subject || '')) :
+                                       isForward ? (String(opts?.subject || '').toLowerCase().startsWith('fwd:') ? opts.subject : 'Fwd: ' + (opts?.subject || '')) :
+                                       '';
+                const modal = document.createElement('div');
+                modal.id = 'mailboxComposeModal';
+                modal.style.cssText = 'position:fixed; inset:0; background:rgba(15,23,42,0.6); display:flex; align-items:center; justify-content:center; z-index:10000;';
+                modal.innerHTML = `
+                    <div style="background:white; border-radius:12px; width:min(640px, 95vw); max-height:90vh; overflow-y:auto; box-shadow:0 10px 40px rgba(0,0,0,0.2);">
+                        <div style="padding:20px; border-bottom:1px solid #e2edf7; display:flex; justify-content:space-between; align-items:center;">
+                            <h3 style="margin:0; color:var(--primary);"><i class="fas fa-${isReply ? 'reply' : isForward ? 'share' : 'pen'}"></i> ${isReply ? 'Beantwoorden' : isForward ? 'Doorsturen' : 'Nieuw bericht'}</h3>
+                            <button onclick="document.getElementById('mailboxComposeModal')?.remove()" style="background:transparent; border:none; cursor:pointer; color:#94a3b8;"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div style="padding:20px;">
+                            <div style="margin-bottom:12px;"><label style="display:block; font-size:0.85rem; color:#475569; margin-bottom:4px;">Aan</label><input id="composeTo" type="text" value="${this.escapeHtml(isReply ? (opts?.fromAddr || '') : '')}" style="width:100%; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px;"></div>
+                            <div style="margin-bottom:12px;"><label style="display:block; font-size:0.85rem; color:#475569; margin-bottom:4px;">CC (komma-gescheiden, optioneel)</label><input id="composeCc" type="text" value="" style="width:100%; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px;"></div>
+                            <div style="margin-bottom:12px;"><label style="display:block; font-size:0.85rem; color:#475569; margin-bottom:4px;">Onderwerp</label><input id="composeSubject" type="text" value="${this.escapeHtml(defaultSubject)}" style="width:100%; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px;"></div>
+                            <div style="margin-bottom:12px;"><label style="display:block; font-size:0.85rem; color:#475569; margin-bottom:4px;">Bericht</label><textarea id="composeBody" rows="10" style="width:100%; padding:8px 12px; border:1px solid #e2edf7; border-radius:8px; font-family:inherit; resize:vertical;">${this.escapeHtml(isForward ? (opts?.bodyExcerpt || '') : '')}</textarea></div>
+                            <div style="display:flex; gap:8px; justify-content:flex-end;">
+                                <button onclick="document.getElementById('mailboxComposeModal')?.remove()" style="background:transparent; border:1px solid #94a3b8; color:#475569; padding:10px 14px; border-radius:8px; cursor:pointer;">Annuleren</button>
+                                <button id="composeSendBtn" onclick="app.submitComposeMail('${mode}', ${Number(opts?.uid) || 0}, '${this.escapeHtml(opts?.folder || 'INBOX')}')" style="background:var(--primary); color:white; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:600;"><i class="fas fa-paper-plane"></i> Versturen</button>
+                            </div>
+                            <p style="font-size:0.75rem; color:#94a3b8; margin-top:12px;">Manual dispatch-mail wordt voorafgegaan door [Manual dispatch] en gelogd in de audit-trail. Geen automatische trigger.</p>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            },
+
+            async submitComposeMail(mode, uid, folder) {
+                const to = document.getElementById('composeTo')?.value?.trim();
+                const ccRaw = document.getElementById('composeCc')?.value?.trim();
+                const subject = document.getElementById('composeSubject')?.value?.trim();
+                const body = document.getElementById('composeBody')?.value;
+                const cc = ccRaw ? ccRaw.split(',').map((s) => s.trim()).filter(Boolean) : [];
+                if (!to) { this.showToast('Aan-veld is verplicht.', true); return; }
+                if (!subject) { this.showToast('Onderwerp is verplicht.', true); return; }
+                const btn = document.getElementById('composeSendBtn');
+                if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Versturen...'; }
+                try {
+                    let payload = { to, cc, subject, body };
+                    if (mode === 'reply') {
+                        payload = { uid, folder, body, originalSubject: subject, originalMessageId: '', originalFrom: to };
+                    }
+                    if (mode === 'forward') {
+                        payload = { uid, folder, to, originalSubject: subject, originalBody: body };
+                    }
+                    const { data, error } = await supabase.functions.invoke('dispatch-mail-send', { body: payload });
+                    if (error || !data?.ok) {
+                        this.showToast('Verzenden mislukt: ' + (data?.reason || error?.message || 'onbekend'), true);
+                        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Versturen'; }
+                        return;
+                    }
+                    this.showToast('Mail verstuurd (id: ' + (data.messageId || '-') + ')');
+                    document.getElementById('mailboxComposeModal')?.remove();
+                    if (this.currentTab === 'mailbox') await this.selectMailbox(document.querySelector('.mailbox-nav-item.active')?.dataset.mailbox || 'all');
+                } catch (e) {
+                    console.error('[submitComposeMail] failed:', e);
+                    this.showToast('Verzenden mislukt: ' + e.message, true);
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Versturen'; }
+                }
+            },
+
+                        applyFiltersNew() { let orderFilter = document.getElementById("filterOrderNew")?.value.toLowerCase() || ""; let nameFilter = document.getElementById("filterNameNew")?.value.toLowerCase() || ""; let sort = document.getElementById("sortNewOrders")?.value || "date_asc"; let filtered = this.newOrders.filter(o => (orderFilter === "" || o.id?.toLowerCase().includes(orderFilter)) && (nameFilter === "" || o.name?.toLowerCase().includes(nameFilter))); this.renderNewOrdersTable(this.sortBookings(filtered, sort)); },
             resetFiltersNew() { if (document.getElementById("sortNewOrders")) document.getElementById("sortNewOrders").value = "date_asc"; this.renderNewOrdersTable(this.sortBookings(this.newOrders, "date_asc")); },
             applyFiltersOrders() { let orderFilter = document.getElementById("filterOrderOrders")?.value.toLowerCase() || ""; let nameFilter = document.getElementById("filterNameOrders")?.value.toLowerCase() || ""; let sort = document.getElementById("sortOrders")?.value || "date_asc"; let filtered = this.ordersList.filter(o => (orderFilter === "" || o.id?.toLowerCase().includes(orderFilter)) && (nameFilter === "" || o.name?.toLowerCase().includes(nameFilter))); this.renderOrdersTable(this.sortBookings(filtered, sort)); },
             resetFiltersOrders() { if (document.getElementById("sortOrders")) document.getElementById("sortOrders").value = "date_asc"; this.renderOrdersTable(this.sortBookings(this.ordersList, "date_asc")); },
