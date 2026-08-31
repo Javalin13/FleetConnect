@@ -77,7 +77,7 @@ BEGIN
     v_authorized := COALESCE((v_authz ->> 'authorized')::boolean, false);
     v_role := COALESCE(v_authz ->> 'role', '');
     v_is_admin := COALESCE((v_authz ->> 'is_admin')::boolean, false);
-    v_partner_scope := COALESCE(v_authz ->> 'partner_scope', '{}'::jsonb);
+    v_partner_scope := COALESCE(v_authz -> 'partner_scope', '{}'::jsonb);
 
     IF NOT v_authorized THEN
         v_reason := 'no_admin_role';
