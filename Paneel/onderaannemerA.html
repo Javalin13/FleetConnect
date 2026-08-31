@@ -118,7 +118,7 @@
         }
         .header h1 { font-size: 1.5rem; font-weight: 600; }
         .header-right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .switch-btn, .switch-woningen-btn, .refresh-btn, .back-btn {
+        .refresh-btn, .back-btn {
             padding: 8px 16px;
             border-radius: 40px;
             font-weight: 600;
@@ -129,10 +129,6 @@
             gap: 8px;
             border: none;
         }
-        .switch-btn { background: #f59e0b; color: #0f172a; }
-        .switch-btn:hover { background: #d97706; }
-        .switch-woningen-btn { background: #10b981; color: white; }
-        .switch-woningen-btn:hover { background: #059669; }
         .refresh-btn { background: #2dd4bf; color: #0f172a; }
         .refresh-btn:hover { background: #14b8a6; }
         .back-btn { background: #e2e8f0; color: #0f172a; }
@@ -454,9 +450,9 @@
         const translations = {
             nl: {
                 sidebarSubtitle: "Operator Paneel", navBookings: "BOEKINGEN", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History", navAgenda: "Agenda",
-                navManagement: "BEHEER", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navAccountRequests: "Accountaanvragen", navFinance: "FINANCIËN", navFinancial: "Settings / Admin", navSettlements: "Settlements",
-                navInfo: "INFORMATIE", navMailbox: "E-mail", navWiki: "Wiki Agent", switchWoningenText: "Switch naar Woningen", switchDealerText: "Switch naar Operations", logoutText: "Uitloggen",
-                backText: "Terug naar overzicht", headerWoningenText: "Woningen Paneel", headerDealerText: "Switch naar Operations", refreshText: "Vernieuwen",
+                navManagement: "BEHEER", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navFinance: "FINANCIËN", navFinancial: "Settings / Admin", navSettlements: "Settlements",
+                navInfo: "INFORMATIE", navMailbox: "E-mail", navWiki: "Wiki Agent", logoutText: "Uitloggen",
+                backText: "Terug naar overzicht", refreshText: "Vernieuwen",
                 filterOrderId: "Order ID", filterName: "Naam", btnSearch: "Zoeken", btnReset: "Reset", tableId: "ID", tableDatetime: "Datum/Tijd", tableCustomer: "Klant",
                 tableRoute: "Route", tableVehicle: "Voertuig", tableAmount: "Bedrag", tableAction: "Actie", tableDriver: "Driver", btnViewFiche: "Bekijk Fiche",
                 statusNew: "Nieuw", statusAccepted: "Geaccepteerd", statusAssigned: "Toegewezen", statusAssignmentSent: "Wachtend op reactie chauffeur", statusCompleted: "Voltooid", statusCancelled: "Geannuleerd", statusUnassigned: "Niet toegewezen",
@@ -481,9 +477,9 @@
             },
             fr: {
                 sidebarSubtitle: "Panneau Operateur", navBookings: "RÉSERVATIONS", navNewOrders: "Nouvelles Commandes", navOrders: "Commandes Actives", navHistory: "Historique", navAgenda: "Agenda",
-                navManagement: "GESTION", navDrivers: "Chauffeurs", navPartners: "Clients/Partenaires", navCustomers: "Clients/Partenaires", navAccountRequests: "Demandes de compte", navFinance: "FINANCES", navFinancial: "Paramètres / Admin", navSettlements: "Règlements",
-                navInfo: "INFOS", navMailbox: "E-mail", navWiki: "Wiki Agent", switchWoningenText: "Passer aux Logements", switchDealerText: "Passer au Concessionnaire", logoutText: "Déconnexion",
-                backText: "Retour à l'aperçu", headerWoningenText: "Panneau Logements", headerDealerText: "Passer au Concessionnaire", refreshText: "Actualiser",
+                navManagement: "GESTION", navDrivers: "Chauffeurs", navPartners: "Clients/Partenaires", navCustomers: "Clients/Partenaires", navFinance: "FINANCES", navFinancial: "Paramètres / Admin", navSettlements: "Règlements",
+                navInfo: "INFOS", navMailbox: "E-mail", navWiki: "Wiki Agent", logoutText: "Déconnexion",
+                backText: "Retour à l'aperçu", refreshText: "Actualiser",
                 filterOrderId: "ID Commande", filterName: "Nom", btnSearch: "Chercher", btnReset: "Réinitialiser", tableId: "ID", tableDatetime: "Date/Heure", tableCustomer: "Client",
                 tableRoute: "Trajet", tableVehicle: "Véhicule", tableAmount: "Montant", tableAction: "Action", tableDriver: "Chauffeur", btnViewFiche: "Voir Fiche",
                 statusNew: "Nouveau", statusAccepted: "Accepté", statusAssigned: "Assigné", statusAssignmentSent: "En attente de réponse chauffeur", statusCompleted: "Terminé", statusCancelled: "Annulé", statusUnassigned: "Non assigné",
@@ -508,9 +504,9 @@
             },
             en: {
                 sidebarSubtitle: "Operator Panel", navBookings: "BOOKINGS", navNewOrders: "New Orders", navOrders: "Active Orders", navHistory: "History", navAgenda: "Agenda",
-                navManagement: "MANAGEMENT", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navAccountRequests: "Account Requests", navFinance: "FINANCE", navFinancial: "Settings / Admin", navSettlements: "Settlements",
-                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agent", switchWoningenText: "Switch to Housing", switchDealerText: "Switch to Operations", logoutText: "Logout",
-                backText: "Back to overview", headerWoningenText: "Housing Panel", headerDealerText: "Switch to Operations", refreshText: "Refresh",
+                navManagement: "MANAGEMENT", navDrivers: "Drivers", navPartners: "Clients/Partners", navCustomers: "Clients/Partners", navFinance: "FINANCE", navFinancial: "Settings / Admin", navSettlements: "Settlements",
+                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agent", logoutText: "Logout",
+                backText: "Back to overview", refreshText: "Refresh",
                 filterOrderId: "Order ID", filterName: "Name", btnSearch: "Search", btnReset: "Reset", tableId: "ID", tableDatetime: "Date/Time", tableCustomer: "Customer",
                 tableRoute: "Route", tableVehicle: "Vehicle", tableAmount: "Amount", tableAction: "Action", tableDriver: "Driver", btnViewFiche: "View Details",
                 statusNew: "New", statusAccepted: "Accepted", statusAssigned: "Assigned", statusAssignmentSent: "Pending driver response", statusCompleted: "Completed", statusCancelled: "Cancelled", statusUnassigned: "Unassigned",
@@ -535,9 +531,9 @@
             },
             es: {
                 sidebarSubtitle: "Panel Operador", navBookings: "RESERVAS", navNewOrders: "Nuevos Pedidos", navOrders: "Pedidos Activos", navHistory: "Historial", navAgenda: "Agenda",
-                navManagement: "GESTIÓN", navDrivers: "Conductores", navPartners: "Clientes/Socios", navCustomers: "Clientes/Socios", navAccountRequests: "Solicitudes de cuenta", navFinance: "FINANZAS", navFinancial: "Configuración / Admin", navSettlements: "Liquidaciones",
-                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agente", switchWoningenText: "Cambiar a Viviendas", switchDealerText: "Cambiar a Concesionario", logoutText: "Cerrar Sesión",
-                backText: "Volver al resumen", headerWoningenText: "Panel Viviendas", headerDealerText: "Cambiar a Concesionario", refreshText: "Actualizar",
+                navManagement: "GESTIÓN", navDrivers: "Conductores", navPartners: "Clientes/Socios", navCustomers: "Clientes/Socios", navFinance: "FINANZAS", navFinancial: "Configuración / Admin", navSettlements: "Liquidaciones",
+                navInfo: "INFO", navMailbox: "E-mail", navWiki: "Wiki Agente", logoutText: "Cerrar Sesión",
+                backText: "Volver al resumen", refreshText: "Actualizar",
                 filterOrderId: "ID Pedido", filterName: "Nombre", btnSearch: "Buscar", btnReset: "Restablecer", tableId: "ID", tableDatetime: "Fecha/Hora", tableCustomer: "Cliente",
                 tableRoute: "Ruta", tableVehicle: "Vehículo", tableAmount: "Importe", tableAction: "Acción", tableDriver: "Conductor", btnViewFiche: "Ver Ficha",
                 statusNew: "Nuevo", statusAccepted: "Aceptado", statusAssigned: "Asignado", statusAssignmentSent: "Esperando respuesta del conductor", statusCompleted: "Completado", statusCancelled: "Cancelado", statusUnassigned: "No asignado",
