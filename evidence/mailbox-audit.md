@@ -40,11 +40,17 @@ DNS lookup for `fleetconnect.be`:
 ### Architecture decision
 
 Since All-Inkl does NOT publish a documented mailbox API, the smallest maintainable integration is:
-- **Read path**: server-side IMAP adapter (Node.js / Python) with `imapflow` or `imaplib` library, connecting to `imap.all-inkl.com:993/TLS`
-- **Send path**: server-side SMTP adapter (Node.js / Python) with `nodemailer` or `aiosmtpd`, connecting to `smtp.all-inkl.com:587/STARTTLS` (port 465 also supported but unreliable from some VPS providers)
+- **Read path**: server-side IMAP adapter (Node.js / Python) with `imapflow` or `imaplib` library, connecting to the account-specific KAS host (`w021ae07.kasserver.com:993/IMAPS`)
+- **Send path**: server-side SMTP adapter (Node.js / Python) with `nodemailer` or `aiosmtpd`, connecting to the same KAS host (`w021ae07.kasserver.com:465/SMTPS` implicit TLS, or `:587/STARTTLS`)
 - **Authentication**: standard IMAP LOGIN with `dispatch@fleetconnect.be` + password (password from env var)
 
-> **Note (r056 Batch 2 factual correction)**: The earlier audit (r053) cited `imap.kasserver.com` / `smtp.kasserver.com`. DNS verification (via VPS resolver + Google DNS-over-HTTPS) returns NXDOMAIN for both subdomains globally. The actual All-Inkl IMAP/SMTP hostnames are `imap.all-inkl.com` / `smtp.all-inkl.com`. Edge function defaults updated accordingly. The `kasserver.com` apex zone and `ns5/ns6.kasserver.com` authoritative nameservers DO resolve; the `imap.*` / `smtp.*` subdomains were never registered.
+> **Note (r056 Batch 2 host correction)**: ALL-INKL documentation specifies the **account-specific KAS hostname** (e.g. `w0123456.kasserver.com`) for both incoming and outgoing mail, NOT generic `imap.*` / `smtp.*` subdomains. The FleetConnect KAS hostname is `w021ae07.kasserver.com`, confirmed via:
+> - DNS resolution: 3x AAAA records + 1x A record (`85.13.168.235`)
+> - MX record for `fleetconnect.be`: `10 w021ae07.kasserver.com.`
+> - SPF include: `include:spf.kasserver.com`
+> - TLS cert: `*.kasserver.com` wildcard (Sectigo CA)
+>
+> The hostname is used for BOTH IMAP and SMTP (single `MAILBOX_PROVIDER_HOST` env var). Earlier audit (r053) and r056 commit `eb4a9bf` both used wrong default subdomains (`imap.kasserver.com` / `imap.all-inkl.com`); corrected in r056 commit `<pending>`.
 
 ---
 

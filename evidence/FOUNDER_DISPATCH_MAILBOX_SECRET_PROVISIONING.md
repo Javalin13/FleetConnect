@@ -27,9 +27,9 @@ Per mailbox-audit.md §7f:
 | Env var | Default | When to override |
 |---|---|---|
 | `MAILBOX_USER` | `dispatch@fleetconnect.be` | If using a different mailbox identity |
-| `MAILBOX_PROVIDER_HOST` | `imap.all-inkl.com` for IMAP / `smtp.all-inkl.com` for SMTP | If migrating off All-Inkl (note: `*.kasserver.com` no longer resolves; must use `*.all-inkl.com`) |
-| `MAILBOX_PROVIDER_IMAP_PORT` | `993` | If All-Inkl changes port (unlikely) |
-| `MAILBOX_PROVIDER_SMTP_PORT` | `587` (STARTTLS) | All-Inkl also supports port `465` (implicit TLS); default `587` because VPS reachability to port 465 is unreliable |
+| `MAILBOX_PROVIDER_HOST` | `w021ae07.kasserver.com` (FleetConnect's account-specific KAS login; same host for IMAP and SMTP per ALL-INKL documentation) | If migrating off ALL-INKL or if FleetConnect's KAS account changes. Verify the new host via DNS + MX record before changing. |
+| `MAILBOX_PROVIDER_IMAP_PORT` | `993` (IMAPS) | If ALL-INKL changes port (unlikely) |
+| `MAILBOX_PROVIDER_SMTP_PORT` | `465` (SMTPS / implicit TLS) | ALL-INKL also supports `587` (STARTTLS); choose based on Supabase Edge runtime connectivity test after deploy |
 
 ---
 

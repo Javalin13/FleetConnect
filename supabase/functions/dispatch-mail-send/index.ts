@@ -84,8 +84,8 @@ function unavailable(reason: string) {
   };
 }
 
-const MAILBOX_SMTP_HOST  = Deno.env.get('MAILBOX_PROVIDER_HOST') || 'smtp.all-inkl.com';
-const MAILBOX_SMTP_PORT  = Number(Deno.env.get('MAILBOX_PROVIDER_SMTP_PORT') || '587');
+const MAILBOX_SMTP_HOST  = Deno.env.get('MAILBOX_PROVIDER_HOST') || 'w021ae07.kasserver.com';
+const MAILBOX_SMTP_PORT  = Number(Deno.env.get('MAILBOX_PROVIDER_SMTP_PORT') || '465');
 const MAILBOX_USER       = Deno.env.get('MAILBOX_USER') || 'dispatch@fleetconnect.be';
 const MAILBOX_SMTP_PASS  = Deno.env.get('MAILBOX_SMTP_PASSWORD') || '';
 
