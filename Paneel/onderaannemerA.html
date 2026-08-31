@@ -1200,6 +1200,12 @@ accountRequestsHelp: "Las solicitudes se revisan aqui. La aprobacion crea o actu
                 if (error) { this.showToast('Bewerken mislukt: ' + error.message, true); return; }
                 this.showToast('Accountaanvraag bijgewerkt');
                 await this.loadAccountRequests();
+                // PRIME r056 Phase E r3 review follow-up (Lux 6f52df4):
+                // editAccountRequest is reachable from the canonical Clients/Partners
+                // surface. After editing we must refresh that visible surface so the
+                // card is not stale. Do NOT restore the removed renderAccountRequests
+                // or the removed 'accountrequests' tab.
+                if (this.currentTab === 'customers') this.renderClientsPartners();
 
             },
 
