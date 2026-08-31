@@ -19,17 +19,17 @@ Per mailbox-audit.md §7f:
 
 | Env var | What it is | How to obtain |
 |---|---|---|
-| `MAILBOX_IMAP_PASSWORD` | IMAP password for `dispatch@fleetconnect.be` | All-Inkl/Kasserver webmail → Settings → Email accounts → dispatch@fleetconnect.be → password (or reset) |
-| `MAILBOX_SMTP_PASSWORD` | SMTP submission password (may equal IMAP password) | Same as above (All-Inkl/Kasserver uses the same mailbox password for both IMAP and SMTP submission by default) |
+| `MAILBOX_IMAP_PASSWORD` | IMAP password for `dispatch@fleetconnect.be` | All-Inkl webmail → Settings → Email accounts → dispatch@fleetconnect.be → password (or reset) |
+| `MAILBOX_SMTP_PASSWORD` | SMTP submission password (may equal IMAP password) | Same as above (All-Inkl uses the same mailbox password for both IMAP and SMTP submission by default) |
 
 ### Optional (defaults already set)
 
 | Env var | Default | When to override |
 |---|---|---|
 | `MAILBOX_USER` | `dispatch@fleetconnect.be` | If using a different mailbox identity |
-| `MAILBOX_PROVIDER_HOST` | `imap.kasserver.com` for IMAP / `smtp.kasserver.com` for SMTP | If migrating off All-Inkl/Kasserver |
+| `MAILBOX_PROVIDER_HOST` | `imap.all-inkl.com` for IMAP / `smtp.all-inkl.com` for SMTP | If migrating off All-Inkl (note: `*.kasserver.com` no longer resolves; must use `*.all-inkl.com`) |
 | `MAILBOX_PROVIDER_IMAP_PORT` | `993` | If All-Inkl changes port (unlikely) |
-| `MAILBOX_PROVIDER_SMTP_PORT` | `465` | If All-Inkl changes port (unlikely; alternate is `587/STARTTLS`) |
+| `MAILBOX_PROVIDER_SMTP_PORT` | `587` (STARTTLS) | All-Inkl also supports port `465` (implicit TLS); default `587` because VPS reachability to port 465 is unreliable |
 
 ---
 
