@@ -50,7 +50,7 @@ Since All-Inkl does NOT publish a documented mailbox API, the smallest maintaina
 > - SPF include: `include:spf.kasserver.com`
 > - TLS cert: `*.kasserver.com` wildcard (Sectigo CA)
 >
-> The hostname is used for BOTH IMAP and SMTP (single `MAILBOX_PROVIDER_HOST` env var). Earlier audit (r053) and r056 commit `eb4a9bf` both used wrong default subdomains (`imap.kasserver.com` / `imap.all-inkl.com`); corrected in r056 commit `<pending>`.
+> The hostname is used for BOTH IMAP and SMTP (single `MAILBOX_PROVIDER_HOST` env var). Earlier audit (r053) and r056 commit `eb4a9bf` both used wrong default subdomains (`imap.kasserver.com` / `imap.all-inkl.com`); corrected in r056 commit `f64b6a8`.
 
 ---
 
