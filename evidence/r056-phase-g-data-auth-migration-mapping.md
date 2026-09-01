@@ -1,4 +1,4 @@
-# r056 Phase G — Data + Auth Migration Mapping
+# r056 Phase G — Data + Auth Migration Mapping (SUPERSEDED — G-I canonical)
 
 **Date:** 2026-08-31
 **Author:** PRIME (autonomous, post Lux 2195825 acceptance)
@@ -7,10 +7,62 @@
 
 ---
 
-## Purpose
+## ⚠️ SUPERSEDED — DO NOT FOLLOW
+
+**This document is the Phase G initial auth/data migration draft.**
+It has been **SUPERSEDED** by:
+
+- **`evidence/r056-phase-g-i-data-auth-migration-mapping.md`** —
+  canonical application data + auth migration mapping (G-I)
+- **`evidence/r056-phase-g-j-correction-summary.md`** — G-J auth-
+  contract correction (CREATE-first, no direct SQL inserts into
+  Supabase-managed `auth.users` / `auth.identities`)
+- **`evidence/r056-phase-g-k-correction-summary.md`** — G-K
+  correction removing Option C2 entirely (per Lux 39ca1a0 §5)
+
+**Why this doc is superseded:**
+
+1. The §3 "Auth users mapping" section previously prescribed direct
+   SQL `COPY auth.users` / `COPY auth.identities` from a CSV
+   exported from the legacy project. This is exactly the raw
+   `auth.users` / `auth.identities` import path that was rejected
+   in Lux 7aac5aa §8, Lux f0626bd §3, and Lux 39ca1a0 §5.
+2. The §3.2 "Option A" (hash export + import) and §3.4 (COPY
+   auth.users from CSV) re-introduce manual handling of
+   `encrypted_password` and direct writes to Supabase-managed
+   auth internals.
+3. The §3.3 "INSERT-as-SELECT ... because the literal UUID is
+   copied" assumes legacy UUID portability, which Lux 39ca1a0 §6
+   explicitly rejects ("do not assume legacy ID portability;
+   target-created ID is authoritative").
+4. The §4 import procedure starts with "Auth users FIRST" and
+   uses `\COPY auth.users` + `\COPY auth.identities`. This is the
+   rejected path. The correct order is: CREATE auth users in
+   the new project (Dashboard) → SEND recovery → CAPTURE new
+   IDs → APPLY old→new mapping → IMPORT application data.
+
+**What still applies from this doc (sections 1, 2, 3.1, 4.2.2-4.2.4):**
+
+- §1 — Application data table-by-table mapping (13 core tables)
+  is still directionally correct. Use the new canonical auth
+  re-onboarding flow (G-I) for `user_id` linking.
+- §2 — FK dependency order for application data is still correct
+  for the import-after-re-onboarding phase.
+- §3.1 — Description of `auth.users` columns is informational
+  only; do not use this as a migration spec.
+- §4.2.2-4.2.4 — Application data `\copy` import commands
+  (reference data, master data, operational data) are still
+  correct; the auth section (§4.2.1) is REJECTED.
+
+**DO NOT use this document's §3 or §4.2.1 for any auth-related
+operation. Use the G-I canonical doc instead.**
+
+---
+
+## Purpose (historical)
 
 Per Lux 2195825 §8: PRIME cannot directly export from the legacy project
-(no service_role key for it). This document is the **canonical mapping**
+(no service_role key for it). This document was the **canonical mapping**
 that the Founder (or a one-shot script using the Founder-provided
 service_role key) follows to export + import data + auth users from
 legacy to new.
@@ -23,7 +75,7 @@ legacy to new.
   per-table spec for the import.
 - The auth user migration is the highest-risk part (it carries the
   password hashes). It is split into a separate procedure with extra
-  safeguards.
+  safeguards. *(This section is SUPERSEDED — see warning above.)*
 
 ---
 

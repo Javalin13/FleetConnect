@@ -59,6 +59,14 @@ batch.
      email + auto-confirm checked
    - **Option C2 (alternative):** Founder-authenticated SQL
      Editor: `INSERT INTO auth.users ...; INSERT INTO auth.identities ...;`
+   - ***UPDATE 2026-09-01 (Lux 39ca1a0 §5): Option C2 REMOVED.***
+     Direct INSERT into Supabase-managed `auth.users` /
+     `auth.identities` is not acceptable as a canonical or
+     fallback re-onboarding path. The authenticated Dashboard
+     session does not make it a supported auth lifecycle
+     operation. Dashboard (Option C1) is the ONLY canonical
+     create-user path now. See G-K correction summary
+     `evidence/r056-phase-g-k-correction-summary.md`.
 4. **THEN** send invite / recovery / reset for the newly created
    account
 5. **Capture the resulting NEW `auth.users.id`** at create time
