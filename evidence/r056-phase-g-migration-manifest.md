@@ -9,13 +9,17 @@ Per Lux 2195825 §3 + §4: the historical SQL set is NOT a complete greenfield b
 
 ## File Count
 
-**51 SQL files** in `supabase/migrations/`:
-- 1 NEW canonical greenfield baseline (r056 Phase G-A)
-- 48 pre-existing timestamped migrations (May 2026 → Aug 2026)
+**File count:** 51 historical / existing SQL files in
+`supabase/migrations/`:
+- 1 NEW canonical greenfield baseline (added in this round, cc10c8f)
+- 48 pre-existing timestamped migrations
 - 1 unprefixed `phase4_identity_closure.sql`
-- 1 Phase F migration (`20260831000001_phase_f_dispatch_mailbox.sql`)
+- 1 Phase F migration
 
-(Previous assessment commit `c98bff3` said "50"; corrected to 51 in this manifest.)
+**Total reconstruction steps = 52** (51 historical + 1 new baseline).
+The term "51-file manifest" used in earlier evidence is shorthand
+for the 51 historical files; the new baseline is added at position
+0 in the apply order, making the full chain 52 steps.
 
 ## Canonical Apply Order
 

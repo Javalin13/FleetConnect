@@ -215,11 +215,23 @@ CREATE INDEX IF NOT EXISTS idx_drivers_partner_id ON public.drivers(partner_id);
 CREATE INDEX IF NOT EXISTS idx_drivers_user_id ON public.drivers(user_id);
 CREATE INDEX IF NOT EXISTS idx_drivers_is_active ON public.drivers(is_active);
 
--- 3b. Foundational table: onderaannemers
--- Dutch synonym for partners. Referenced by 20260616020000
--- onderaannemers_policies.sql (RLS policy migration). Production
--- schema in legacy used BIGSERIAL id, with primary_dispatch_driver_id
--- being UUID (matching drivers.id).
+-- 3b. Foundational table: onderaannemers (COMPATIBILITY / DORMANT)
+-- Dutch synonym for partners. Referenced by
+-- `20260616020000_onderaannemers_policies.sql` which adds RLS
+-- policies on this table.
+--
+-- LABEL: COMPATIBILITY / DORMANT
+-- This table is created to satisfy the historical migration chain's
+-- references. It is NOT independently proven to be active in legacy
+-- production. If authenticated legacy schema introspection later
+-- confirms it is dormant in production, no action is needed — the
+-- RLS policies are harmless on an empty table. If authenticated
+-- introspection later confirms it is active in production, this
+-- baseline correctly reproduces the expected schema (BIGSERIAL id
+-- + UUID primary_dispatch_driver_id, matching partners/driver types).
+--
+-- Production schema in legacy used BIGSERIAL id, with
+-- primary_dispatch_driver_id being UUID (matching drivers.id).
 CREATE TABLE IF NOT EXISTS public.onderaannemers (
     id BIGSERIAL PRIMARY KEY,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -325,14 +337,18 @@ CREATE INDEX IF NOT EXISTS idx_booking_lifecycle_events_driver_id
 CREATE INDEX IF NOT EXISTS idx_booking_lifecycle_events_partner_id
     ON public.booking_lifecycle_events(partner_id);
 
--- 6. Grants: anon/authenticated can NOT directly read/write foundational
--- tables without RLS policies. RLS is enabled by later migrations
--- (phase4_identity_closure.sql for customers/bookings; r055/r056 for
--- partners/drivers/onderaannemers). Default behavior without RLS is
--- deny (Supabase default), so anon gets nothing.
---
--- Note: this file does NOT issue explicit GRANTs because that would
--- bypass RLS. The migration chain handles all grants.
+-- 6. Access model: this file does NOT issue explicit GRANTs on the
+-- foundational tables, because that would bypass any later RLS. The
+-- migration chain handles all grants. In Supabase, when a table has
+-- RLS enabled and a role has no explicit GRANT, access is denied; this
+-- is the desired default. When RLS is NOT yet enabled (e.g. on a
+-- freshly-created table before phase4_identity_closure runs the
+-- ENABLE ROW LEVEL SECURITY statements), access is governed by the
+-- standard PostgreSQL privilege system, which by default is also
+-- deny for non-owners — but PRIME does not generalize that
+-- "no RLS = deny" because PostgreSQL privilege semantics are not the
+-- same as RLS semantics. The chain enables RLS on every foundational
+-- table via later migrations; the no-RLS interim is brief.
 
 -- Done
 -- This file MUST be applied BEFORE any timestamped migration file
