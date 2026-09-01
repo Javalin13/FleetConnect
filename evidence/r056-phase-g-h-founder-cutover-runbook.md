@@ -311,13 +311,28 @@ NOT a `sed` workflow.**
 
 1. PRIME works on a new branch `cutover-r057` (or similar) forked
    from current `integration-r056` head
-2. PRIME updates the 11 HTML files (8 Paneel + 3 b2b) in the repo:
-   - Replaces `rreqjjrmvytnwnsidmqi.supabase.co` →
-     `wjbxrgbyhqpiujifwqcf.supabase.co`
-   - Replaces the `eyJhbG...8MTA` placeholder with the **real
-     new-project anon key** (read from Founder's local secret store
-     via a Founder-supplied local file or environment variable;
-     **NOT** from chat/Telegram)
+2. PRIME updates the 11 HTML files (8 Paneel + 3 b2b) in the repo
+   in **two stages**:
+   - **Stage A (this round, symbolic, no key handling):** URL
+     replacements only — replaces
+     `rreqjjrmvytnwnsidmqi.supabase.co` →
+     `wjbxrgbyhqpiujifwqcf.supabase.co` in all 11 files. The
+     `eyJhbG...8MTA` placeholder is left UNTOUCHED in this
+     stage.
+   - **Stage B (separate reviewed commit, after Stage A review):**
+     the real new-project anon key is supplied to PRIME through
+     an appropriate Founder-controlled workflow (PRIME does NOT
+     claim access to Founder's local secret store; PRIME does
+     NOT receive the literal key via chat/Telegram/Bridge).
+     Possible Founder-controlled mechanisms:
+     - Founder pastes the literal key into a Founder-private
+       PRIME-readable file at a known path; PRIME reads, applies
+       the replacement locally, then does NOT commit the
+       intermediate file
+     - Founder opens a separate PR with the final key
+       replacements
+     - Founder applies the key replacements themselves and
+       pushes the final commit
 3. The real anon key is the Supabase publishable key. It is
    intentionally client-visible. It may be committed where the raw
    static app architecture requires it (e.g. `Paneel/*.html`). It
@@ -351,21 +366,36 @@ NOT a `sed` workflow.**
 3. Vercel auto-redeploys the branch (if Vercel is configured for
    `integration-r056`)
 
-**Step 4: Founder performs the external cutover**
+**Step 4: Founder performs the external cutover (no Supabase DNS move)**
 
-1. **Domain / DNS update:** in Founder's domain registrar, update
-   DNS records to point at the new project's endpoints. (Or
-   configure Supabase custom domain in the new project's Dashboard,
-   then point DNS to Supabase's load balancer.)
-2. **Stripe webhook URL update:** in Stripe Dashboard → Webhooks →
-   FleetConnect endpoint, update URL to
-   `https://wjbxrgbyhqpiujifwqcf.functions.supabase.co/stripe-webhook`.
+**Architectural note (per Lux f0626bd §4):** FleetConnect
+application hosting remains on Vercel. The Supabase project is
+the backend only. This cutover does NOT move `fleetconnect.be`
+DNS from Vercel to Supabase. The only external endpoints that
+change are the Supabase URL embedded in the static client
+(wired via PR in Step 1-2) and the Stripe webhook endpoint.
+
+1. **No Vercel DNS change required.** `fleetconnect.be` (and
+   `*.fleetconnect.be`) remain on Vercel. The Vercel deployment
+   is the same deployment — only the static `SUPABASE_URL` +
+   anon key change inside the bundled HTML/JS, not the hosting.
+2. **Stripe webhook URL update:** in Stripe Dashboard → Webhooks
+   → FleetConnect endpoint, update URL to
+   `https://wjbxrgbyhqpiujifwqcf.supabase.co/functions/v1/stripe-webhook`
+   (per official Supabase Edge Functions deployment contract at
+   https://supabase.com/docs/guides/functions/deploy and
+   https://supabase.com/docs/guides/functions/quickstart).
    Copy the new signing secret back into the new project's
    `STRIPE_WEBHOOK_SECRET` (Wave 3 above).
 3. **Resend sender domain verification:** in Resend Dashboard →
    Domains, verify the sender domain for `dispatch@fleetconnect.be`
-   is configured for the new project. (Usually no action needed if
-   domain ownership is independent of Supabase project.)
+   is configured for the new project. (Usually no action needed
+   if domain ownership is independent of Supabase project.)
+4. **Supabase custom domain (optional, separate operation):** if
+   the Founder later decides to use a Supabase custom domain
+   (e.g. `db.fleetconnect.be`), treat it as a separate reviewed
+   operation with its own evidence batch. It is NOT part of this
+   backend cutover by default.
 
 **Step 5: Founder first-real-booking verification**
 

@@ -49,13 +49,29 @@ Verified by `grep -n "rreqjjrmvytnwnsidmqi" Paneel/*.html b2b/*.html`:
 - `Paneel/onderaannemerA.html` — `'eyJhbG...8MTA'` (truncated, same)
 
 **The real anon key for `wjbxrgbyhqpiujifwqcf` is not yet in the repo.**
-The cutover patch references it symbolically as `WJBX_ANON_KEY` — the
-Founder (or a CI runner) substitutes the literal value at apply time.
+The cutover patch handles it in two stages per Lux f0626bd §6:
+
+- **Stage A (URL replacement, this round):** symbolic,
+  `eyJhbG...8MTA` placeholder is left UNTOUCHED. PRIME does NOT
+  receive the literal anon key from any source.
+- **Stage B (anon-key replacement, separate reviewed commit):**
+  the real new-project anon key is supplied to PRIME through an
+  appropriate Founder-controlled workflow. PRIME does NOT claim
+  access to Founder's local secret store; PRIME does NOT receive
+  the literal key via chat/Telegram/Bridge.
+
+Possible Stage B Founder-controlled mechanisms:
+- Founder pastes the literal key into a Founder-private
+  PRIME-readable file at a known path; PRIME reads, applies the
+  replacement locally, then does NOT commit the intermediate file
+- Founder opens a separate PR with the final key replacements
+- Founder applies the key replacements themselves and pushes the
+  final commit
 
 **Note on `eyJhbG...8MTA`:** this is a redacted placeholder that
-appears in the repo today. It is NOT a valid JWT. Per Lux 2195825 §5.5,
-this redaction pattern should be replaced with the real anon key at
-cutover time.
+appears in the repo today. It is NOT a valid JWT. Per Lux 2195825 §5.5
++ Lux f0626bd §6, the redaction pattern should be replaced with the
+real anon key via Stage B at cutover time.
 
 ---
 

@@ -57,7 +57,7 @@ secret is mapped to:
 
 **Set via:** Supabase Dashboard → Project `wjbxrgbyhqpiujifwqcf` → Edge Functions → `send-email` → Secrets → Add secret `RESEND_API_KEY` → paste value → Save.
 
-**Verify:** `curl -X POST https://wjbxrgbyhqpiujifwqcf.functions.supabase.co/send-email -H "Authorization: Bearer $JWT" -H "Content-Type: application/json" -d '{"to":"verify@resend.dev","subject":"smoke","html":"smoke"}'` → expect 200 or 422 (Resend accepts the request). If the function returns 500 with `RESEND_API_KEY not configured`, secret was not set.
+**Verify:** `curl -X POST https://wjbxrgbyhqpiujifwqcf.supabase.co/functions/v1/send-email -H "Authorization: Bearer ***" -H "Content-Type: application/json" -d '{"to":"verify@resend.dev","subject":"smoke","html":"smoke"}'` → expect 200 or 422 (Resend accepts the request). If the function returns 500 with `RESEND_API_KEY not configured`, secret was not set.
 
 **Rotate:** Dashboard → Secrets → edit → save. No redeploy needed.
 
@@ -79,7 +79,7 @@ secret is mapped to:
 
 **Set via:** Dashboard → Edge Functions → `stripe-webhook` → Secrets → Add `STRIPE_WEBHOOK_SECRET` → paste the value from Stripe Dashboard → Webhooks → FleetConnect endpoint → Signing secret.
 
-**Verify:** `curl -X POST https://wjbxrgbyhqpiujifwqcf.functions.supabase.co/stripe-webhook -H "stripe-signature: t=0,v1=0" -d '{}'` → expect 400 `Webhook Error: No signatures found matching the expected signature for payload`. If 400 with that message, the secret is loaded (signature just doesn't match the test payload).
+**Verify:** `curl -X POST https://wjbxrgbyhqpiujifwqcf.supabase.co/functions/v1/stripe-webhook -H "stripe-signature: t=0,v1=0" -d '{}'` → expect 400 `Webhook Error: No signatures found matching the expected signature for payload`. If 400 with that message, the secret is loaded (signature just doesn't match the test payload).
 
 **Rollback:** Dashboard → Secrets → delete. The function will reject every Stripe callback with 400 (signature missing) until the secret is re-set.
 

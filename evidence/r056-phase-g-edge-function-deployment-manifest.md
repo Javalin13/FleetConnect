@@ -90,11 +90,15 @@ supabase functions deploy stripe-webhook       --project-ref wjbxrgbyhqpiujifwqc
 
 ## 4. Per-function verify command (post-deploy HTTP probe)
 
-Each function has a known endpoint `https://wjbxrgbyhqpiujifwqcf.functions.supabase.co/<name>`.
+Each function has a known endpoint (per official Supabase Edge
+Functions deployment contract at
+https://supabase.com/docs/guides/functions/deploy and
+https://supabase.com/docs/guides/functions/quickstart):
+`https://wjbxrgbyhqpiujifwqcf.supabase.co/functions/v1/<name>`.
 
 | # | Function | Verify probe | Expected |
 |---|----------|--------------|----------|
-| F1 | `send-email` | `curl -i -X POST https://wjbxrgbyhqpiujifwqcf.functions.supabase.co/send-email` | `401` (no JWT) |
+| F1 | `send-email` | `curl -i -X POST https://wjbxrgbyhqpiujifwqcf.supabase.co/functions/v1/send-email` | `401` (no JWT) |
 | F2 | `create-checkout-session` | `curl -i -X POST .../create-checkout-session` | `401` (no JWT) |
 | F3 | `process-refund` | `curl -i -X POST .../process-refund` | `401` (no JWT) |
 | F4 | `stripe-webhook` | `curl -i -X POST .../stripe-webhook` | `400` (missing signature, not 401 — verify_jwt is off) |
