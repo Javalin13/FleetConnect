@@ -1,5 +1,5 @@
 -- =====================================================================
--- r056 Phase G-A: CANONICAL GREENFIELD BASELINE
+-- r056 Phase G-A: CANONICAL GREENFIELD BASELINE (PRODUCTION-SAFE)
 -- =====================================================================
 --
 -- PURPOSE:
@@ -13,126 +13,114 @@
 --     - Frontend code (`Paneel/onderaannemerA.html`)
 --     - 4 edge functions (bookings, customers, partners, drivers)
 --
--- WHY THIS FILE:
---   Lux 2195825 §3: the historical SQL set is NOT a complete greenfield
---   bootstrap. Phase 4 identity closure assumes `customers` and
---   `bookings` exist. The full migration chain fails on empty database.
---   This file provides the canonical schema for those tables.
+-- PRODUCTION-SAFE DESIGN (per Lux d3a5d92 §2):
+--   This file creates ONLY FleetConnect-owned application objects. It
+--   does NOT create or modify:
+--     - `auth.users` (Supabase platform manages)
+--     - `auth.uid()` / `auth.jwt()` / `auth.role()` (Supabase helpers)
+--     - `anon` / `authenticated` / `service_role` roles (Supabase
+--       platform manages; this file relies on them existing)
+--   On real Supabase, these platform objects already exist when this
+--   migration runs.
 --
--- PROVENANCE:
---   Column lists + types inferred from:
---     (a) Production REST probe of `rreqjjrmvytnwnsidmqi`
---         (anon-readable columns verified via PostgREST select=* probe)
+--   The local-harness auth stubs (auth.users, auth.uid(), roles) live
+--   in `supabase/local_harness/00_local_auth_stubs.sql` and are applied
+--   ONLY by the local test harness, NEVER by the production apply
+--   manifest.
+--
+-- WHY THIS FILE (per Lux 2195825 §3):
+--   The historical SQL set is NOT a complete greenfield bootstrap.
+--   Phase 4 identity closure assumes `customers` and `bookings` exist.
+--   The full migration chain fails on empty database without these
+--   foundational tables.
+--
+-- PROVENANCE (per Lux d3a5d92 §3):
+--   Column lists + types verified from:
+--     (a) Production REST probe of `rreqjjrmvytnwnsidmqi` (anon-readable
+--         columns verified via PostgREST select=* probe)
 --     (b) `phase4_identity_closure.sql` ALTER TABLE statements
 --     (c) Cross-reference with all migration file column references
---         (qualified `<table>.<col>` syntax + TEXT/UUID type checks)
+--         (qualified `<table>.<col>` syntax + type checks)
+--     (d) FK column type verification: `bookings.assigned_driver_id =
+--         v_driver.id` (where v_driver is `public.drivers`) →
+--         bookings.assigned_driver_id MUST match drivers.id
+--     (e) bookings.partner_id references partners.id (BIGSERIAL) →
+--         bookings.partner_id MUST be BIGINT
 --   See `evidence/r056-phase-g-canonical-baseline-provenance.md` for
 --   full column-by-column provenance.
 --
--- CRITICAL TYPE NOTES (from migration cross-reference):
---   - customers.id, partners.id, drivers.id, bookings.id are ALL TEXT
---     (migrations reference them as `booking_id TEXT REFERENCES bookings(id)`)
---   - user_id is UUID (phase4_identity_closure adds UUID column)
---   - assigned_driver_id is TEXT (bookings.assigned_driver_id column
---     in migration 20260612040000_phase_a444_live_blocker_hardening.sql
---     is set as `v_driver.id` which is drivers.id TEXT)
---   - customer_id, partner_id in bookings are TEXT (FK to TEXT PKs)
---   - booking_lifecycle_events.id + .booking_id + .driver_id + .partner_id
---     + .previous_driver_id are TEXT (consistent with referenced table PKs)
+-- FOUNDATIONAL ID/TYPE DOCTRINE (per Lux d3a5d92 §3 — corrected):
+--   Foundational PKs use MIXED types, not all TEXT:
+--     - `customers.id`  : TEXT         (e.g. "CUST-2024-001")
+--     - `partners.id`   : BIGSERIAL    (auto-incrementing int8)
+--     - `drivers.id`    : UUID         (extensions.gen_random_uuid())
+--     - `bookings.id`   : TEXT         (e.g. "BK-2024-001234")
+--   FK columns MUST match the PK type they reference:
+--     - `bookings.customer_id`            : TEXT     -> customers.id
+--     - `bookings.partner_id`             : BIGINT   -> partners.id
+--     - `bookings.assigned_driver_id`     : UUID     -> drivers.id
+--     - `bookings.user_id`                : UUID     -> auth.users.id
+--     - `drivers.partner_id`              : BIGINT   -> partners.id
+--     - `drivers.user_id`                 : UUID     -> auth.users.id
+--     - `customers.user_id`               : UUID     -> auth.users.id
+--     - `partners.user_id`                : UUID     -> auth.users.id
+--     - `onderaannemers.user_id`          : UUID     -> auth.users.id
+--     - `onderaannemers.primary_dispatch_driver_id` : UUID -> drivers.id
+--     - `booking_lifecycle_events.booking_id`        : TEXT    -> bookings.id
+--     - `booking_lifecycle_events.driver_id`         : UUID    -> drivers.id
+--     - `booking_lifecycle_events.partner_id`        : BIGINT  -> partners.id
+--     - `booking_lifecycle_events.previous_driver_id`: UUID    -> drivers.id
 --
 -- SCOPE (this file ONLY creates):
---   1. pgcrypto extension (for gen_random_uuid)
---   2. auth.users / auth.uid() / auth.jwt() / auth.role() bootstrap stubs
---   3. anon / authenticated / service_role roles
---   4. public.customers (TEXT id, with required columns + RLS-ready)
---   5. public.partners (TEXT id, with required columns + RLS-ready)
---   6. public.drivers (TEXT id, with required columns + RLS-ready)
---   7. public.bookings (TEXT id, with required columns + RLS-ready)
---   8. public.booking_lifecycle_events (TEXT id, for migration chain
---      consistency — referenced by 20260830000012_timeout_scanner.sql)
+--   1. extensions schema + pgcrypto (safe on Supabase; idempotent)
+--   2. public.customers        (TEXT id)
+--   3. public.partners         (BIGSERIAL id)
+--   4. public.drivers          (UUID id)
+--   5. public.onderaannemers   (BIGSERIAL id; synonym for partners;
+--                                referenced by 20260616020000 RLS policy)
+--   6. public.bookings         (TEXT id, with FKs to customers/partners/drivers)
+--   7. public.booking_lifecycle_events (TEXT id; referenced by
+--                                20260830000012_timeout_scanner.sql)
 --
--- DOES NOT CREATE (created by later migrations):
---   - All 15 tables that ARE created by timestamped migrations
+-- DOES NOT CREATE (created by later migrations or platform-managed):
+--   - auth.users / auth.uid() / auth.jwt() / auth.role()  — Supabase platform
+--   - anon / authenticated / service_role roles             — Supabase platform
+--   - All 15+ tables that ARE created by timestamped migrations
 --   - All RPCs
 --   - All RLS policies
 --
 -- COLUMN UNKNOWNS (flagged separately, NOT guessed):
 --   - bookings: 30 confirmed columns; some legacy fields like
 --     `form_data`, `metadata`, `extras`, `flight_number` JSONB shape
---     not verified; defaulted to jsonb
---   - customers: 7 confirmed columns
---   - partners: 7 confirmed columns + additional from authorize_admin_role
---   - drivers: 10 confirmed columns
+--     not exhaustively verified; defaulted to jsonb
+--   - customers: ~20 columns (includes account lifecycle flags from r055+)
+--   - partners: ~17 columns (includes authorize_admin_role scopes + dispatch)
+--   - drivers: ~14 columns (includes partner FK + dispatch driver code)
 --   - booking_lifecycle_events: shape inferred from migration
---     `20260830000012_timeout_scanner.sql` reference (booking_id,
---     driver_id, partner_id, previous_driver_id, event_type, metadata)
+--     `20260830000012_timeout_scanner.sql` reference
 --
 -- IDEMPOTENT: yes (CREATE TABLE IF NOT EXISTS, CREATE INDEX IF NOT EXISTS,
 -- ALTER TABLE ... ADD COLUMN IF NOT EXISTS)
 --
--- AUTHOR: PRIME (r056 Phase G, post Lux 2195825 acceptance)
--- DATE: 2026-08-31
+-- DEPENDENCIES:
+--   This file assumes auth.users exists (REFERENCES auth.users(id)).
+--   On real Supabase: auth.users is platform-managed and exists.
+--   On local harness: supabase/local_harness/00_local_auth_stubs.sql
+--   must run FIRST.
+--
+-- AUTHOR: PRIME (r056 Phase G-H, post Lux d3a5d92)
+-- DATE: 2026-09-01
 -- =====================================================================
 
--- 0. Extensions schema + pgcrypto
--- Real Supabase has `extensions` schema; create it locally for harness compatibility
+-- 0. Extensions schema + pgcrypto (Supabase-safe; idempotent)
+-- Real Supabase has `extensions` schema + pgcrypto; CREATE IF NOT EXISTS
+-- is safe in both production and local harness.
 CREATE SCHEMA IF NOT EXISTS extensions;
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
 
--- 1. Supabase auth schema bootstrap (mock — real Supabase creates these
---    automatically; included for local/non-prod harness compatibility)
---    DO NOT include in production apply (Supabase already provides these).
-CREATE SCHEMA IF NOT EXISTS auth;
-
--- Create minimal auth.users stub for local harness only
--- Real Supabase has full auth schema; this is for disposable local testing
-DO $$
-BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
-    CREATE ROLE anon NOLOGIN;
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
-    CREATE ROLE authenticated NOLOGIN;
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'service_role') THEN
-    CREATE ROLE service_role NOLOGIN BYPASSRLS;
-  END IF;
-END
-$$;
-
--- auth.users stub for local harness (real Supabase provides full table)
-CREATE TABLE IF NOT EXISTS auth.users (
-    id UUID PRIMARY KEY DEFAULT extensions.gen_random_uuid(),
-    email TEXT UNIQUE,
-    encrypted_password TEXT,
-    raw_app_meta_data JSONB DEFAULT '{}'::jsonb,
-    raw_user_meta_data JSONB DEFAULT '{}'::jsonb,
-    created_at TIMESTAMPTZ DEFAULT now(),
-    updated_at TIMESTAMPTZ DEFAULT now(),
-    email_confirmed_at TIMESTAMPTZ,
-    last_sign_in_at TIMESTAMPTZ
-);
-
--- auth.uid() / auth.jwt() / auth.role() stub functions for local harness
--- Real Supabase provides these; these stubs make local harness self-sufficient.
-CREATE OR REPLACE FUNCTION auth.uid() RETURNS UUID
-LANGUAGE sql STABLE AS $$
-    SELECT NULLIF(current_setting('request.jwt.claim.sub', true), '')::UUID
-$$;
-
-CREATE OR REPLACE FUNCTION auth.jwt() RETURNS JSONB
-LANGUAGE sql STABLE AS $$
-    SELECT COALESCE(NULLIF(current_setting('request.jwt.claims', true), '')::jsonb, '{}'::jsonb)
-$$;
-
-CREATE OR REPLACE FUNCTION auth.role() RETURNS TEXT
-LANGUAGE sql STABLE AS $$
-    SELECT COALESCE(NULLIF(current_setting('request.jwt.claim.role', true), ''), 'anon')
-$$;
-
--- 2. Foundational table: customers
--- id is TEXT (per migration cross-reference: payments.booking_id TEXT REFERENCES bookings(id)
--- implies customers.id is TEXT too because customer_id is referenced as TEXT)
+-- 1. Foundational table: customers
+-- PK: TEXT (e.g. "CUST-2024-001")
+-- FK: user_id UUID REFERENCES auth.users(id) (Supabase platform-managed)
 CREATE TABLE IF NOT EXISTS public.customers (
     id TEXT PRIMARY KEY,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -168,8 +156,9 @@ CREATE INDEX IF NOT EXISTS idx_customers_user_id ON public.customers(user_id);
 CREATE INDEX IF NOT EXISTS idx_customers_email ON public.customers(email);
 CREATE INDEX IF NOT EXISTS idx_customers_phone ON public.customers(phone);
 
--- 3. Foundational table: partners
--- id is TEXT (per migration cross-reference)
+-- 2. Foundational table: partners
+-- PK: BIGSERIAL (auto-incrementing int8; primary key for partner rows)
+-- FK: user_id UUID REFERENCES auth.users(id) (Supabase platform-managed)
 CREATE TABLE IF NOT EXISTS public.partners (
     id BIGSERIAL PRIMARY KEY,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -190,15 +179,20 @@ CREATE TABLE IF NOT EXISTS public.partners (
     kind TEXT,
     operations JSONB DEFAULT '{}'::jsonb,
     pending_request JSONB,
-    primary_dispatch_driver_id TEXT
+    primary_dispatch_driver_id UUID  -- UUID, NOT TEXT (matches drivers.id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_partners_user_id ON public.partners(user_id);
 CREATE INDEX IF NOT EXISTS idx_partners_email ON public.partners(email);
 CREATE INDEX IF NOT EXISTS idx_partners_is_hoofd ON public.partners(is_hoofd);
 
--- 4. Foundational table: drivers
--- id is TEXT (per migration cross-reference: bookings.assigned_driver_id is set to v_driver.id which is TEXT)
+-- 3. Foundational table: drivers
+-- PK: UUID DEFAULT extensions.gen_random_uuid()
+-- FK: partner_id BIGINT REFERENCES public.partners(id)
+--     user_id  UUID    REFERENCES auth.users(id)
+-- PROVENANCE: v_driver.id is `public.drivers.id` (UUID); all
+--     `bookings.assigned_driver_id` and lifecycle event driver_id
+--     columns are UUID to match this PK type.
 CREATE TABLE IF NOT EXISTS public.drivers (
     id UUID PRIMARY KEY DEFAULT extensions.gen_random_uuid(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -221,13 +215,11 @@ CREATE INDEX IF NOT EXISTS idx_drivers_partner_id ON public.drivers(partner_id);
 CREATE INDEX IF NOT EXISTS idx_drivers_user_id ON public.drivers(user_id);
 CREATE INDEX IF NOT EXISTS idx_drivers_is_active ON public.drivers(is_active);
 
--- 4b. onderaannemers table (Dutch synonym for partners — referenced by
---     20260616020000_onderaannemers_policies.sql which adds RLS policies).
---     Created here as a stub with the same schema as partners.
---     NOTE: this table does NOT exist in legacy production; the
---     migration assumes it does. Including it here so the chain
---     applies with zero SQL errors. If real production never had this
---     table, the RLS policies are harmless.
+-- 3b. Foundational table: onderaannemers
+-- Dutch synonym for partners. Referenced by 20260616020000
+-- onderaannemers_policies.sql (RLS policy migration). Production
+-- schema in legacy used BIGSERIAL id, with primary_dispatch_driver_id
+-- being UUID (matching drivers.id).
 CREATE TABLE IF NOT EXISTS public.onderaannemers (
     id BIGSERIAL PRIMARY KEY,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -253,8 +245,13 @@ CREATE TABLE IF NOT EXISTS public.onderaannemers (
 CREATE INDEX IF NOT EXISTS idx_onderaannemers_user_id ON public.onderaannemers(user_id);
 CREATE INDEX IF NOT EXISTS idx_onderaannemers_email ON public.onderaannemers(email);
 
--- 5. Foundational table: bookings
--- id is TEXT (per migration cross-reference: bookings.id is referenced as TEXT in payments.booking_id)
+-- 4. Foundational table: bookings
+-- PK: TEXT (e.g. "BK-2024-001234")
+-- FKs:
+--   customer_id        TEXT    -> public.customers(id)
+--   partner_id         BIGINT  -> public.partners(id)
+--   assigned_driver_id UUID    -> public.drivers(id)
+--   user_id            UUID    -> auth.users(id)
 CREATE TABLE IF NOT EXISTS public.bookings (
     id TEXT PRIMARY KEY,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -269,7 +266,7 @@ CREATE TABLE IF NOT EXISTS public.bookings (
     phone TEXT,
     notes TEXT,
     payment_status TEXT,
-    assigned_driver TEXT,  -- legacy text field (driver name or JSON)
+    assigned_driver JSONB DEFAULT '{}'::jsonb,  -- legacy text/jsonb snapshot
     assigned_driver_id UUID REFERENCES public.drivers(id),
     route_distance_km NUMERIC,
     route_duration_min INTEGER,
@@ -299,12 +296,17 @@ CREATE INDEX IF NOT EXISTS idx_bookings_user_id ON public.bookings(user_id);
 CREATE INDEX IF NOT EXISTS idx_bookings_status ON public.bookings(status);
 CREATE INDEX IF NOT EXISTS idx_bookings_created_at ON public.bookings(created_at);
 
--- 6. Foundational table: booking_lifecycle_events
--- Referenced by migration 20260830000012_timeout_scanner.sql but
--- does NOT exist in legacy production. Created here for migration
--- chain consistency. Will be populated by trigger in timeout_scanner.
--- All id/booking_id/driver_id/partner_id/previous_driver_id are TEXT
--- (consistent with referenced table PKs being TEXT).
+-- 5. Foundational table: booking_lifecycle_events
+-- PK: TEXT (default extensions.gen_random_uuid()::text — generates UUID
+--     then casts to text, preserving the textual PK convention used
+--     elsewhere in the lifecycle tables)
+-- FKs (MIXED types to match parent tables):
+--   booking_id         TEXT    -> public.bookings(id)
+--   driver_id          UUID    -> public.drivers(id)
+--   partner_id         BIGINT  -> public.partners(id)
+--   previous_driver_id UUID    -> public.drivers(id)
+-- PROVENANCE: this table is referenced by 20260830000012_timeout_scanner.sql
+-- and is populated by the timeout scanner's INSERT.
 CREATE TABLE IF NOT EXISTS public.booking_lifecycle_events (
     id TEXT PRIMARY KEY DEFAULT extensions.gen_random_uuid()::text,
     booking_id TEXT REFERENCES public.bookings(id),
@@ -323,12 +325,23 @@ CREATE INDEX IF NOT EXISTS idx_booking_lifecycle_events_driver_id
 CREATE INDEX IF NOT EXISTS idx_booking_lifecycle_events_partner_id
     ON public.booking_lifecycle_events(partner_id);
 
--- 7. Grants: anon/authenticated can NOT directly read/write foundational tables
--- (RLS will be enabled by phase4_identity_closure.sql for customers/bookings;
---  partners/drivers RLS will be enabled by r056 r055 migrations; RLS default
--- behavior is deny so anon gets nothing by default)
+-- 6. Grants: anon/authenticated can NOT directly read/write foundational
+-- tables without RLS policies. RLS is enabled by later migrations
+-- (phase4_identity_closure.sql for customers/bookings; r055/r056 for
+-- partners/drivers/onderaannemers). Default behavior without RLS is
+-- deny (Supabase default), so anon gets nothing.
+--
+-- Note: this file does NOT issue explicit GRANTs because that would
+-- bypass RLS. The migration chain handles all grants.
 
 -- Done
--- This file must be applied BEFORE any timestamped migration file
+-- This file MUST be applied BEFORE any timestamped migration file
 -- (including the unprefixed phase4_identity_closure.sql and the
 -- Phase F 20260831000001 mail migration).
+--
+-- On real Supabase: apply via Supabase CLI migration push or Dashboard
+-- SQL Editor. Supabase provides auth.users, auth.uid/jwt/role, and
+-- the standard roles. This file's REFERENCES auth.users(id) is valid.
+--
+-- On local harness: apply supabase/local_harness/00_local_auth_stubs.sql
+-- FIRST (creates the stubs this file depends on), then this file.

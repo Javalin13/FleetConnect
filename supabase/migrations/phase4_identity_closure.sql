@@ -66,5 +66,10 @@ BEFORE INSERT ON bookings
 FOR EACH ROW EXECUTE FUNCTION sync_booking_user_id();
 
 -- 6. Grant access to service_role for system operations
+-- PRIME r056 Phase G-H (per Lux d3a5d92 §4 authorized minimal additive fix):
+-- add DROP POLICY IF EXISTS so this migration is idempotent on re-apply
+-- to a populated DB. Semantic policy unchanged: full access for service_role.
+DROP POLICY IF EXISTS "Service role full access on bookings" ON bookings;
 CREATE POLICY "Service role full access on bookings" ON bookings FOR ALL TO service_role USING (true);
+DROP POLICY IF EXISTS "Service role full access on customers" ON customers;
 CREATE POLICY "Service role full access on customers" ON customers FOR ALL TO service_role USING (true);

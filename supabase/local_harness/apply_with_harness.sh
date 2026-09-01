@@ -1,39 +1,54 @@
 #!/bin/bash
-# r056 Phase G apply_manifest.sh (PRODUCTION-SAFE)
-# Apply FleetConnect migrations in canonical deterministic order with strict fail-fast.
-# Generated 2026-08-31; updated 2026-09-01 (Phase G-H per Lux d3a5d92).
+# r056 Phase G local-harness apply_with_harness.sh (TEST ONLY)
+# Apply FleetConnect migrations WITH local Supabase auth stubs.
+# Generated 2026-09-01 (Phase G-H per Lux d3a5d92).
 #
-# PRODUCTION-SAFE (per Lux d3a5d92 §2):
-#   This manifest applies the production-safe baseline first, then the
-#   historical migration chain. It does NOT include the local-harness
-#   auth stubs (auth.users / auth.uid() / auth.jwt() / auth.role() /
-#   anon / authenticated / service_role), which live in
-#   supabase/local_harness/00_local_auth_stubs.sql.
+# TEST-ONLY SCRIPT.
+# DO NOT USE FOR PRODUCTION APPLY.
+# Production apply uses ../apply_manifest.sh.
 #
-#   On real Supabase, these platform objects are managed by Supabase and
-#   already exist when this script runs. The baseline's REFERENCES
-#   auth.users(id) is satisfied by Supabase's auth schema.
+# What this script does (in order):
+#   1. Apply local-harness auth stubs (auth.users / auth.uid/jwt/role /
+#      anon / authenticated / service_role) — these are MOCK objects
+#      that satisfy the production baseline's REFERENCES auth.users(id).
+#   2. Source ../apply_manifest.sh's MANIFEST array and apply each in
+#      canonical deterministic order.
+#
+# This proves the entire greenfield reconstruction runs on a clean
+# empty database with the platform objects stubbed out. If the chain
+# works here, it will work on real Supabase (where the platform objects
+# are real).
 #
 # Usage:
-#   DB_URL="<postgres-connection-string>" ./apply_manifest.sh
-#
-# For local harness apply (with stubs), use:
-#   supabase/local_harness/apply_with_harness.sh
+#   DB_URL="postgresql://postgres:postgres@localhost:5432/fleetconnect_test" \
+#     ./apply_with_harness.sh
 #
 # Exit codes:
 #   0 = all migrations applied successfully
 #   non-zero = first migration that failed
+
 set -euo pipefail
 
 if [ -z "${DB_URL:-}" ]; then
   echo "ERROR: DB_URL environment variable required"
-  echo "Example: DB_URL=postgresql://user:pass@localhost:5432/fleetconnect_test ./apply_manifest.sh"
+  echo "Example: DB_URL=postgresql://postgres:postgres@localhost:5432/fleetconnect_test ./apply_with_harness.sh"
   exit 1
 fi
 
 PSQL="psql ${DB_URL} -v ON_ERROR_STOP=1 --no-psqlrc -X -q"
 
-# Canonical apply order (per evidence/r056-phase-g-migration-manifest.md)
+# Find the manifest script (relative to this script)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MANIFEST_SCRIPT="${SCRIPT_DIR}/../apply_manifest.sh"
+
+if [ ! -f "$MANIFEST_SCRIPT" ]; then
+  echo "ERROR: $MANIFEST_SCRIPT not found"
+  exit 1
+fi
+
+# MANIFEST array mirrors ../apply_manifest.sh so this script is
+# self-contained (the manifest script is a runner, not a library).
+# If ../apply_manifest.sh ever adds/removes files, mirror that here.
 MANIFEST=(
   "20260831000000_phase_g_canonical_greenfield_baseline.sql"
   "20260521000000_phase3_payments.sql"
@@ -89,19 +104,29 @@ MANIFEST=(
   "20260831000001_phase_f_dispatch_mailbox.sql"
 )
 
-for f in "${MANIFEST[@]}"; do
-  if [ ! -f "supabase/migrations/$f" ]; then
-    echo "ERROR: missing file: supabase/migrations/$f"
-    exit 1
-  fi
-done
+# 1. Apply local-harness auth stubs first
+echo "Step 1/2: Applying local-harness auth stubs..."
+$PSQL -f "${SCRIPT_DIR}/00_local_auth_stubs.sql" 2>&1 | tail -3
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "FAILED at local-harness auth stubs"
+  echo "Aborting with strict fail-fast (ON_ERROR_STOP=1)"
+  exit 1
+fi
+echo "Local-harness auth stubs applied OK."
+echo ""
 
-echo "Applying ${#MANIFEST[@]} migrations in canonical order with strict fail-fast..."
+# 2. Apply production-safe manifest
+echo "Step 2/2: Applying ${#MANIFEST[@]} migrations in canonical order..."
 echo ""
 
 for f in "${MANIFEST[@]}"; do
+  if [ ! -f "${SCRIPT_DIR}/../migrations/$f" ]; then
+    echo "ERROR: missing file: ${SCRIPT_DIR}/../migrations/$f"
+    exit 1
+  fi
   echo "[$(date +%H:%M:%S)] Applying: $f"
-  $PSQL -f "supabase/migrations/$f" 2>&1 | tail -3
+  $PSQL -f "${SCRIPT_DIR}/../migrations/$f" 2>&1 | tail -3
   if [ $? -ne 0 ]; then
     echo ""
     echo "FAILED at: $f"
@@ -112,5 +137,5 @@ done
 
 echo ""
 echo "=========================================="
-echo "All ${#MANIFEST[@]} migrations applied successfully."
+echo "All ${#MANIFEST[@]} migrations applied successfully (with local harness)."
 echo "=========================================="
