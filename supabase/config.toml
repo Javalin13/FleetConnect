@@ -1,0 +1,229 @@
+# FleetConnect Supabase Project Config — Greenfield Target
+# r056 Phase G Cutover — bound to project_id wjbxrgbyhqpiujifwqcf
+# Date: 2026-08-31
+# Author: PRIME (autonomous, post Lux 2195825 acceptance)
+#
+# SCOPE: this file is the canonical Supabase CLI config for the FleetConnect
+# greenfield project. It replaces the historical Supabase reference
+# rreqjjrmvytnwnsidmqi, which is now legacy/read-only.
+#
+# WHAT THIS FILE DOES:
+#   - Pins project_id so `supabase` CLI commands (db push, functions deploy,
+#     link, status) target the new project by default.
+#   - Declares all 7 edge functions + their verify_jwt + import_map settings
+#     so the CLI deploys them consistently.
+#   - Sets the API port + studio settings (local-only).
+#   - Disables any feature that could leak credentials (analytics on by
+#     default — explicitly OFF for this project; no inbucket local mail).
+#
+# WHAT THIS FILE DOES NOT DO (Founder action required):
+#   - It does NOT store the project DB password, service_role key, anon key,
+#     Supabase access token, or any edge function secret. Secrets stay in:
+#       * ~/.supabase/ (CLI session)        — set via `supabase login` + link
+#       * Supabase Dashboard → Edge Functions → Secrets
+#       * Deployment env (CI)                — never in this repo
+#   - It does NOT trigger any remote write. It is a declarative config.
+
+project_id = "wjbxrgbyhqpiujifwqcf"
+
+# -----------------------------------------------------------------------------
+# [api] — REST + Realtime gateway settings
+# Real Supabase always exposes port 3000 for the API; this section is for
+# `supabase start` (local dev). Production traffic goes through the platform
+# gateway, not this port.
+# -----------------------------------------------------------------------------
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+# -----------------------------------------------------------------------------
+# [db] — Postgres connection (local dev only)
+# Production: Supabase platform owns the connection. The [db] section here
+# documents the local-only port + shadow DB port; nothing in this section
+# authenticates against production.
+# -----------------------------------------------------------------------------
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+# -----------------------------------------------------------------------------
+# [db.pooler] — Supavisor pooler settings (production-side; informational)
+# -----------------------------------------------------------------------------
+[db.pooler]
+enabled = false
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+# -----------------------------------------------------------------------------
+# [realtime] — Realtime websocket
+# -----------------------------------------------------------------------------
+[realtime]
+enabled = true
+
+# -----------------------------------------------------------------------------
+# [studio] — Supabase Studio (local dev only)
+# -----------------------------------------------------------------------------
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+# -----------------------------------------------------------------------------
+# [inbucket] — Local mail capture (DISABLED in production deploy)
+# -----------------------------------------------------------------------------
+[inbucket]
+enabled = false
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
+
+# -----------------------------------------------------------------------------
+# [storage] — Supabase Storage (S3-compatible object store)
+# -----------------------------------------------------------------------------
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+image_transformation = { enabled = true }
+
+# -----------------------------------------------------------------------------
+# [auth] — GoTrue auth server
+# Settings here are local-dev defaults; production auth is owned by the
+# Supabase platform. The site_url + additional_redirect_urls are
+# documentation of the expected production topology; the actual values
+# are set in Supabase Dashboard → Auth → URL Configuration.
+# -----------------------------------------------------------------------------
+[auth]
+enabled = true
+site_url = "https://fleetconnect.be"
+additional_redirect_urls = [
+  "https://www.fleetconnect.be",
+  "https://portal.fleetconnect.be",
+  "https://client.fleetconnect.be",
+  "https://partners.fleetconnect.be",
+  "https://fleetconnectfork.vercel.app",
+  "https://fleet-connect-fork.vercel.app",
+  "http://localhost:3000",
+  "http://127.0.0.1:5500",
+]
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true
+
+# -----------------------------------------------------------------------------
+# [auth.email.template.<event>] — Production email templates
+# Placeholders documented; actual subject/body lives in Supabase Dashboard.
+# -----------------------------------------------------------------------------
+[auth.email.template.confirmation]
+subject = "Confirm your FleetConnect account"
+[auth.email.template.recovery]
+subject = "Reset your FleetConnect password"
+[auth.email.template.magic_link]
+subject = "Your FleetConnect sign-in link"
+[auth.email.template.email_change]
+subject = "Confirm your new FleetConnect email"
+[auth.email.template.invite]
+subject = "You've been invited to FleetConnect"
+
+# -----------------------------------------------------------------------------
+# [edge_runtime] — Deno-based edge function runtime
+# -----------------------------------------------------------------------------
+[edge_runtime]
+enabled = true
+policy = "oneshot"
+inspector_port = 8083
+# Supabase auto-injects SUPABASE_URL + SUPABASE_ANON_KEY + SUPABASE_SERVICE_ROLE_KEY
+# at deploy time. We do NOT set them here.
+
+# -----------------------------------------------------------------------------
+# [analytics] — Disabled for this project
+# Per Lux 2195825 §6: "analytics on by default is fine; no inbucket local mail"
+# — but we explicitly disable because FleetConnect does not want the
+# Supabase analytics beacon hitting any third-party endpoint.
+# -----------------------------------------------------------------------------
+[analytics]
+enabled = false
+backend = "postgres"
+port = 54327
+
+# =============================================================================
+# EDGE FUNCTIONS — All 7 declared here for `supabase functions deploy <name>`.
+# Each entry is the canonical name (matches `supabase/functions/<name>/index.ts`).
+# Order matches the Phase G deployment manifest in
+# `evidence/r056-phase-g-edge-function-deployment-manifest.md`.
+#
+# The `verify_jwt` flag is the SECURITY boundary. Functions that hold a user
+# JWT (browser) and must reject unauthenticated calls = verify_jwt = true.
+# Webhook functions that authenticate via signature instead of JWT
+# (stripe-webhook) = verify_jwt = false; the function itself does the
+# signature check.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# F1: send-email (r056 Phase E r2)
+# Browser → Resend API proxy. JWT-protected (only authenticated operators
+# may send operational email).
+# -----------------------------------------------------------------------------
+[functions.send-email]
+verify_jwt = true
+
+# -----------------------------------------------------------------------------
+# F2: create-checkout-session (Stripe)
+# Browser → Stripe Checkout Session. JWT-protected (authenticated user
+# must be present, anon cannot create checkouts).
+# -----------------------------------------------------------------------------
+[functions.create-checkout-session]
+verify_jwt = true
+
+# -----------------------------------------------------------------------------
+# F3: process-refund (Stripe)
+# Operator-only refund issuance. JWT-protected + authorize_admin_role()
+# server-derived scope check inside.
+# -----------------------------------------------------------------------------
+[functions.process-refund]
+verify_jwt = true
+
+# -----------------------------------------------------------------------------
+# F4: stripe-webhook
+# Stripe → server (inbound). Authenticated via `stripe-signature` header,
+# NOT JWT — Supabase must NOT enforce JWT (would break Stripe callbacks).
+# -----------------------------------------------------------------------------
+[functions.stripe-webhook]
+verify_jwt = false
+
+# -----------------------------------------------------------------------------
+# F5: dispatch-mail-inbox (r056 Phase F)
+# Authenticated operator (or driver, scoped by authorize_dispatch_mailbox()).
+# JWT-protected.
+# -----------------------------------------------------------------------------
+[functions.dispatch-mail-inbox]
+verify_jwt = true
+
+# -----------------------------------------------------------------------------
+# F6: dispatch-mail-send (r056 Phase F)
+# Authenticated operator composing outbound mailbox message.
+# JWT-protected.
+# -----------------------------------------------------------------------------
+[functions.dispatch-mail-send]
+verify_jwt = true
+
+# -----------------------------------------------------------------------------
+# F7: dispatch-mail-flag (r056 Phase F)
+# Authenticated operator setting flag/state on mailbox message.
+# JWT-protected.
+# -----------------------------------------------------------------------------
+[functions.dispatch-mail-flag]
+verify_jwt = true
+
+# =============================================================================
+# END of config.toml
+# =============================================================================
