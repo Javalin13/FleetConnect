@@ -1,7 +1,7 @@
 #!/bin/bash
 # r056 Phase G apply_manifest.sh (PRODUCTION-SAFE)
 # Apply FleetConnect migrations in canonical deterministic order with strict fail-fast.
-# Generated 2026-08-31; updated 2026-09-01 (Phase G-H per Lux d3a5d92).
+# Generated 2026-08-31; updated 2026-09-01 (Phase G-H per Lux d3a5d92), 2026-09-02 (Phase G-L exclusion per Lux cfb0e9b §9).
 #
 # PRODUCTION-SAFE (per Lux d3a5d92 §2):
 #   This manifest applies the production-safe baseline first, then the
@@ -13,6 +13,18 @@
 #   On real Supabase, these platform objects are managed by Supabase and
 #   already exist when this script runs. The baseline's REFERENCES
 #   auth.users(id) is satisfied by Supabase's auth schema.
+#
+# WAVE 1-3 EXPLICIT EXCLUSION (per Lux cfb0e9b §9):
+#   The Phase G-L Wave-4 additive migration
+#   (20260902000001_phase_g_l_additive_legacy_user_id_audit_column.sql)
+#   is NOT part of the Wave-1 manifest. It must be applied ONLY as part of
+#   the Founder-authenticated Wave-4 sequence per
+#   supabase/operations/phase_g_l_wave4/evidence/r056-phase-g-l-founder-execution-runbook.md.
+#   The Wave-1 manifest stops at phase4_identity_closure.sql /
+#   20260831000001_phase_f_dispatch_mailbox.sql as previously reviewed.
+#   All other Wave-4 operational files live under
+#   supabase/operations/phase_g_l_wave4/ and are NOT auto-applied by this
+#   manifest.
 #
 # Usage:
 #   DB_URL="<postgres-connection-string>" ./apply_manifest.sh

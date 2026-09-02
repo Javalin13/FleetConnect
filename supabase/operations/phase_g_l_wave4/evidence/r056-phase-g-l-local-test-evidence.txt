@@ -1,0 +1,138 @@
+===========================================
+Phase G-L Wave 4 strict local test harness
+===========================================
+
+Runner: /home/prime/fleetconnect-integration-r056/supabase/operations/phase_g_l_wave4/runner/run_wave4.sh
+
+================================================================
+POSITIVE FIXTURE: 11 rows, all should pass
+================================================================
+
+[pos/0] Resetting disposable test DB phase_g_l_wave4_test...
+DROP DATABASE
+CREATE DATABASE
+[pos/1] Applying harness stubs + Phase G baseline + G-L additive migration...
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+[pos/2] Generating positive fixtures...
+Generated positive fixtures in /tmp/phase_g_l_test_stage
+  customers.csv: 26 header cols
+[pos/3] Running Founder runner (PHASE 1 + PHASE 2)...
+
+--- BEGIN run_wave4.sh output (positive fixture) ---
+Phase G-L Wave 4 — Founder runner
+================================================================
+
+PHASE 1: staging-transform import
+  NEW_DB_URL:    postgresql://postgres@/phase_g_l_wave4_test?host=/var/run/postgresql
+  FC_CSV_DIR:    /tmp/phase_g_l_test_stage
+
+psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:31: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:32: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:33: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:179: NOTICE:  Phase G-L staging-create OK: staging.customers/partners/drivers/bookings present, empty
+psql:phase_g_l_staging_transform.sql:322: NOTICE:  Phase G-L staging-transform OK: all preflights passed, all rows inserted, V1+V3+V-pre-mapping invariants green
+WARNING:  there is no transaction in progress
+PHASE 1 OK: staging-transform committed
+PHASE 1 committed OK.
+
+PHASE 2: mapping apply
+  FC_MAPPING_CSV: /tmp/phase_g_l_test_stage/mapping.csv
+
+psql:phase_g_l_mapping_apply.sql:192: NOTICE:  Phase G-L mapping-apply OK: V2 + V4 + V5 invariants all green
+PHASE 2 OK: mapping-apply committed
+PHASE 2 committed OK.
+
+PHASE 3: staging cleanup
+PHASE 3 OK: staging dropped.
+
+================================================================
+Phase G-L Wave 4 Founder runner: ALL PHASES OK
+================================================================
+--- END run_wave4.sh output ---
+
+[pos/4] Post-runner verification...
+  Row counts (customers,partners,drivers,bookings): 3,2,2,4
+  Linked (both legacy+target): 3,2,2,4
+  Auth-FK orphans: 0 (expect 0)
+  Dual-link (legacy==target): 0 (expect 0)
+POSITIVE FIXTURE PASS
+
+================================================================
+NEGATIVE FIXTURE 1: duplicate partner email must ABORT
+================================================================
+
+DROP DATABASE
+CREATE DATABASE
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+Generated neg1 fixtures in /tmp/phase_g_l_test_stage
+  neg1 partners.csv rows: 2
+[neg1] Running Founder runner with duplicate-email partners (expect ABORT)...
+  NEW_DB_URL:    postgresql://postgres@/phase_g_l_wave4_test?host=/var/run/postgresql
+  FC_CSV_DIR:    /tmp/phase_g_l_test_stage
+
+psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:31: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:32: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:33: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:179: NOTICE:  Phase G-L staging-create OK: staging.customers/partners/drivers/bookings present, empty
+psql:phase_g_l_staging_transform.sql:68: ERROR:  Phase G-L preflight FAILED: 1 staging.partners duplicate email groups (cannot resolve partner mapping deterministically)
+CONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE
+NEGATIVE FIXTURE 1 PASS (runner aborted at A.2 preflight)
+
+================================================================
+NEGATIVE FIXTURE 2: orphan driver.partner_legacy_pk must ABORT
+================================================================
+
+DROP DATABASE
+CREATE DATABASE
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+Generated neg2 fixtures in /tmp/phase_g_l_test_stage
+  neg2 drivers.csv partner_legacy_pk: 999
+[neg2] Running Founder runner with orphan driver.partner_legacy_pk (expect ABORT)...
+  NEW_DB_URL:    postgresql://postgres@/phase_g_l_wave4_test?host=/var/run/postgresql
+  FC_CSV_DIR:    /tmp/phase_g_l_test_stage
+
+psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:31: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:32: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:33: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:179: NOTICE:  Phase G-L staging-create OK: staging.customers/partners/drivers/bookings present, empty
+psql:phase_g_l_staging_transform.sql:82: ERROR:  Phase G-L preflight FAILED: 1 staging.drivers rows have partner_legacy_pk not resolvable to staging.partners
+CONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE
+NEGATIVE FIXTURE 2 PASS (runner aborted at A.3 preflight)
+
+================================================================
+NEGATIVE FIXTURE 3: mapping row with bogus new_user_id must ABORT
+================================================================
+
+DROP DATABASE
+CREATE DATABASE
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+Generated neg3 fixtures in /tmp/phase_g_l_test_stage
+  neg3 mapping.csv last row: 77777777-7777-7777-7777-777777777777,7a7a7a7a-7a7a-7a7a-7a7a-7a7a7a7a7a7a,CREATED
+[neg3] Running Founder runner with bogus new_user_id in mapping (expect ABORT at PHASE 2)...
+psql:phase_g_l_staging_transform.sql:322: NOTICE:  Phase G-L staging-transform OK: all preflights passed, all rows inserted, V1+V3+V-pre-mapping invariants green
+WARNING:  there is no transaction in progress
+PHASE 1 OK: staging-transform committed
+PHASE 1 committed OK.
+
+PHASE 2: mapping apply
+  FC_MAPPING_CSV: /tmp/phase_g_l_test_stage/mapping.csv
+
+psql:phase_g_l_mapping_apply.sql:43: ERROR:  Phase G-L mapping-apply ABORT: 1 mapping rows reference non-existent new_user_id
+CONTEXT:  PL/pgSQL function inline_code_block line 8 at RAISE
+  Phase 1 rows persisted after Phase 2 abort: 11 (expect 11)
+NEGATIVE FIXTURE 3 PASS (runner aborted at mapping preflight; PHASE 1 rows preserved)
+
+================================================================
+ALL Phase G-L Wave 4 tests PASSED
+  - positive fixture: 11 rows imported + mapped, V0-V5 all zero, idempotent
+  - negative fixture 1: duplicate partner email -> ABORT at preflight A.2
+  - negative fixture 2: orphan driver.partner_legacy_pk -> ABORT at preflight A.3
+  - negative fixture 3: bogus mapping new_user_id -> ABORT at mapping preflight
+================================================================
