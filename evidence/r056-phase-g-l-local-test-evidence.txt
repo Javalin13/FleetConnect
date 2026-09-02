@@ -1,0 +1,129 @@
+===========================================
+Phase G-L Wave 4 strict local test harness
+===========================================
+
+Step 0: Recreating disposable test DB phase_g_l_wave4_test...
+DROP DATABASE
+CREATE DATABASE
+
+Step 1: Applying local-harness stubs + Phase G baseline + G-L additive...
+psql:/tmp/phase_g_l_test_stage/baseline.sql:118: NOTICE:  schema "extensions" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+  G-L additive migration rc=0
+
+Step 2: V0 verification (additive migration sanity)...
+   table_name   |  column_name   | data_type | is_nullable 
+----------------+----------------+-----------+-------------
+ bookings       | legacy_user_id | uuid      | YES
+ customers      | legacy_user_id | uuid      | YES
+ drivers        | legacy_user_id | uuid      | YES
+ onderaannemers | legacy_user_id | uuid      | YES
+ partners       | legacy_user_id | uuid      | YES
+(5 rows)
+
+V0 PASS
+
+Step 3: Loading legacy-ID fixtures into staging tables...
+CREATE SCHEMA
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+COPY 3
+COPY 2
+COPY 2
+COPY 4
+  Fixture row counts:
+    tbl    | count 
+-----------+-------
+ bookings  |     4
+ customers |     3
+ drivers   |     2
+ partners  |     2
+(4 rows)
+
+
+Step 4: Running staging-transform import...
+  Post-import row count: 11 (3 customers + 2 partners + 2 drivers + 4 bookings = 11, MATCH)
+
+Step 5: V1, V3, V5 verification (post-import)...
+  V1 row counts (expect: customers=3, partners=2, drivers=2, bookings=4):
+    tbl    | count 
+-----------+-------
+ bookings  |     4
+ customers |     3
+ drivers   |     2
+ partners  |     2
+(4 rows)
+
+  V3 business-FK orphans (expect all 0):
+               issue               | count 
+-----------------------------------+-------
+ orphan booking.assigned_driver_id |     0
+ orphan booking.customer_id        |     0
+ orphan booking.partner_id         |     0
+ orphan driver.partner_id          |     0
+(4 rows)
+
+  V5 dual-link (expect all 0):
+        issue        | count 
+---------------------+-------
+ dual-link bookings  |     0
+ dual-link customers |     0
+ dual-link drivers   |     0
+ dual-link partners  |     0
+(4 rows)
+
+V1/V3/V5 PASS
+
+Step 6: Simulate Dashboard user creation, apply mapping, verify...
+INSERT 0 7
+UPDATE 2
+UPDATE 4
+COMMIT
+
+Step 7: V2/V4 verification (post-mapping)...
+  V2 auth-orphan FKs (expect all 0):
+          issue           | count 
+--------------------------+-------
+ orphan bookings.user_id  |     0
+ orphan customers.user_id |     0
+ orphan drivers.user_id   |     0
+ orphan partners.user_id  |     0
+(4 rows)
+
+  V4 unmapped legacy_user_id (expect all 0):
+               issue               | count 
+-----------------------------------+-------
+ unmapped bookings.legacy_user_id  |     0
+ unmapped customers.legacy_user_id |     0
+ unmapped drivers.legacy_user_id   |     0
+ unmapped partners.legacy_user_id  |     0
+(4 rows)
+
+  Mapping transaction committed.
+
+Step 8: Final assertions...
+  customers final: 3|3 (expect '3|3')
+  partners final: 2|2 (expect '2|2')
+  drivers final: 2|2 (expect '2|2')
+  bookings final: 4|4 (expect '4|4')
+
+Step 9: Idempotency check...
+  Idempotency update returned 0 rows (expect 0)
+
+===========================================
+ALL Phase G-L Wave 4 tests PASSED
+===========================================
+Summary:
+  - customers: 3 imported, 3 mapped (100% link)
+  - partners:  2 imported, 2 mapped (100% link)
+  - drivers:   2 imported, 2 mapped, 2 partner_id resolved via email
+  - bookings:  4 imported, 4 mapped, 4 customer_id+partner_id+assigned_driver_id resolved
+  - V0/V1/V2/V3/V4/V5 all PASS
+  - zero auth-orphan FKs
+  - zero business-FK orphans
+  - zero unmapped legacy_user_id
+  - zero dual-link
+  - idempotency verified
+===========================================
