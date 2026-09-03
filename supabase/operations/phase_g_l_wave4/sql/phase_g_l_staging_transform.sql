@@ -131,6 +131,46 @@ SELECT
 FROM staging.customers s
 ON CONFLICT (id) DO NOTHING;
 
+-- ===========================================================================
+-- B.1.5: OPTIONAL test-only failure injection (Lux ee52b1a §6.12)
+-- Reads pg_temp.g_n_test_inject_flag injected by the Founder runner when
+-- G_N_TEST_INJECT_FAIL=after_first_insert. If the marker row exists, RAISE
+-- EXCEPTION after B.1 has committed at least one canonical row to
+-- public.customers. The Founder runner's BEGIN/COMMIT transaction must roll
+-- back the B.1 INSERT so that a verification query afterwards shows zero
+-- customers with legacy_user_id IS NOT NULL.
+--
+-- Why a temp table marker instead of a psql variable / GUC:
+--   - psql -v sets psql substitution variables, NOT PostgreSQL GUCs.
+--   - current_setting('fc_g_n_test_inject_fail', true) returns NULL/empty
+--     even when -v was supplied.
+--   - The temp table marker is a single boolean check inside an existing
+--     transaction, doesn't leak between sessions, and survives the heredoc
+--     boundary.
+--
+-- Production runs leave G_N_TEST_INJECT_FAIL UNSET, the runner does not
+-- create the marker row, the IF returns false, B.2 runs normally. The
+-- production runner explicitly does NOT touch pg_temp.g_n_test_inject_flag.
+--
+-- The variable is set ONLY by the local test harness, NEVER by
+-- run_wave4_import.sh in any production invocation.
+-- ===========================================================================
+DO $$
+DECLARE
+  marker_table regclass;
+  marker_value TEXT;
+BEGIN
+  -- to_regclass returns NULL when the table doesn't exist (instead of raising),
+  -- so production runs (no marker) take the IF branch is false and proceed.
+  marker_table := to_regclass('pg_temp.g_n_test_inject_flag');
+  IF marker_table IS NOT NULL THEN
+    SELECT flag INTO marker_value FROM pg_temp.g_n_test_inject_flag WHERE flag = 'after_first_insert' LIMIT 1;
+    IF marker_value = 'after_first_insert' THEN
+      RAISE EXCEPTION 'Phase G-N TEST INJECTION: deliberate post-write failure after customers INSERT; transaction MUST roll back. Lux ee52b1a §6.12';
+    END IF;
+  END IF;
+END$$;
+
 -- B.2: partners
 INSERT INTO public.partners (
     created_at, updated_at,

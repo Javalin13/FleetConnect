@@ -1,0 +1,177 @@
+===========================================
+Phase G-N Wave 4 strict local test harness
+===========================================
+
+Import runner: /home/prime/fleetconnect-integration-r056/supabase/operations/phase_g_l_wave4/runner/run_wave4_import.sh
+Apply runner:  /home/prime/fleetconnect-integration-r056/supabase/operations/phase_g_l_wave4/runner/run_wave4_apply.sh
+Old runner:    /home/prime/fleetconnect-integration-r056/supabase/operations/phase_g_l_wave4/runner/run_wave4.sh (deprecation shim)
+
+================================================================
+DEPRECATION SHIM CHECK: old run_wave4.sh must refuse execution
+================================================================
+[shim] Using deprecation shim with test-harness URL (trust-auth local socket)
+  Old: ./run_wave4.sh [import|import-and-apply]   <- REMOVED
+  New: ./run_wave4_import.sh                      <- PHASE 1 only
+  New: ./run_wave4_apply.sh                       <- PHASE 2 only
+
+See: supabase/operations/phase_g_l_wave4/evidence/r056-phase-g-n-founder-execution-runbook.md
+DEPRECATION SHIM CHECK PASS (old runner rejected with code 70)
+
+================================================================
+POSITIVE FIXTURE: 11 rows, all should pass (run_wave4_import.sh + run_wave4_apply.sh)
+================================================================
+
+[pos/0] Resetting disposable test DB phase_g_l_wave4_test...
+DROP DATABASE
+CREATE DATABASE
+[pos/1] Applying harness stubs + Phase G baseline + G-L additive migration...
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+[pos/2] Generating positive fixtures...
+Generated positive fixtures in /tmp/phase_g_l_test_stage
+[pos/3a] Pre-creating 7 new auth.users rows (simulating Dashboard Option C1 user creation)...
+
+[pos/3b] Running run_wave4_import.sh (PHASE 1)...
+Phase G-N Wave 4 import runner: PHASE 1 OK
+
+NEXT FOUNDER STEP (NOT THIS SCRIPT):
+  1. Create target users in Supabase Dashboard (Option C1 only).
+  2. Build FC_MAPPING_CSV (legacy_user_id, new_user_id).
+  3. Run PHASE 2 separately:  ./run_wave4_apply.sh
+
+DO NOT re-run PHASE 1 after success.
+DO NOT pass any argument to this script.
+================================================================
+  Phase 1 row counts (customers,partners,drivers,bookings): 3,2,2,4
+  staging schema count after import cleanup: 0 (expect 0)
+  [secrets] import log: clean (no credential values printed)
+
+[pos/3c] Running run_wave4_apply.sh (PHASE 2)...
+  NEW_DB_URL:      [set]             <- NEVER print the value (Lux ee52b1a §4)
+  FC_MAPPING_CSV:  /tmp/phase_g_l_test_stage/mapping.csv (dir only, not contents)
+
+psql:phase_g_l_mapping_apply.sql:192: NOTICE:  Phase G-L mapping-apply OK: V2 + V4 + V5 invariants all green
+PHASE 2 OK: mapping-apply committed
+PHASE 2 committed OK.
+
+================================================================
+Phase G-N Wave 4 apply runner: PHASE 2 OK
+================================================================
+  [secrets] apply log: clean (no credential values printed)
+
+[pos/4] Post-runner verification...
+  Linked (both legacy+target): 3,2,2,4
+  Auth-FK orphans: 0 (expect 0)
+  Dual-link (legacy==target): 0 (expect 0)
+POSITIVE FIXTURE PASS
+
+================================================================
+NEGATIVE FIXTURE 1: duplicate partner email must ABORT (PHASE 1 preflight A.2)
+================================================================
+
+DROP DATABASE
+CREATE DATABASE
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+Generated neg1 fixtures in /tmp/phase_g_l_test_stage
+[neg1] Running run_wave4_import.sh with duplicate-email partners (expect ABORT)...
+  NEW_DB_URL: [set]                 <- NEVER print the value (Lux ee52b1a §4)
+  FC_CSV_DIR: /tmp/phase_g_l_test_stage
+
+psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:31: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:32: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:33: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:179: NOTICE:  Phase G-L staging-create OK: staging.customers/partners/drivers/bookings present, empty
+psql:phase_g_l_staging_transform.sql:68: ERROR:  Phase G-L preflight FAILED: 1 staging.partners duplicate email groups (cannot resolve partner mapping deterministically)
+CONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE
+  Canonical rows after neg1 abort: 0 (expect 0; transaction must roll back)
+NEGATIVE FIXTURE 1 PASS (runner aborted at A.2 preflight; transaction rolled back; 0 canonical rows)
+
+================================================================
+NEGATIVE FIXTURE 2: orphan driver.partner_legacy_pk must ABORT (PHASE 1 preflight A.3)
+================================================================
+
+DROP DATABASE
+CREATE DATABASE
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+Generated neg2 fixtures in /tmp/phase_g_l_test_stage
+[neg2] Running run_wave4_import.sh with orphan driver.partner_legacy_pk (expect ABORT)...
+  NEW_DB_URL: [set]                 <- NEVER print the value (Lux ee52b1a §4)
+  FC_CSV_DIR: /tmp/phase_g_l_test_stage
+
+psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:31: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:32: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:33: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:179: NOTICE:  Phase G-L staging-create OK: staging.customers/partners/drivers/bookings present, empty
+psql:phase_g_l_staging_transform.sql:82: ERROR:  Phase G-L preflight FAILED: 1 staging.drivers rows have partner_legacy_pk not resolvable to staging.partners
+CONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE
+  Canonical rows after neg2 abort: 0 (expect 0; transaction must roll back)
+NEGATIVE FIXTURE 2 PASS (runner aborted at A.3 preflight; transaction rolled back; 0 canonical rows)
+
+================================================================
+NEGATIVE FIXTURE 3: bogus mapping new_user_id must ABORT (PHASE 2 mapping preflight)
+================================================================
+
+DROP DATABASE
+CREATE DATABASE
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+Generated neg3 fixtures in /tmp/phase_g_l_test_stage
+[neg3a] Running run_wave4_import.sh (PHASE 1 must succeed)...
+  3. Run PHASE 2 separately:  ./run_wave4_apply.sh
+
+DO NOT re-run PHASE 1 after success.
+DO NOT pass any argument to this script.
+================================================================
+[neg3b] Running run_wave4_apply.sh (PHASE 2 must ABORT at mapping preflight)...
+================================================================
+Phase G-N Wave 4 - Founder apply runner (PHASE 2 only)
+================================================================
+
+PHASE 2: mapping apply (transactional)
+  NEW_DB_URL:      [set]             <- NEVER print the value (Lux ee52b1a §4)
+  FC_MAPPING_CSV:  /tmp/phase_g_l_test_stage/mapping.csv (dir only, not contents)
+
+psql:phase_g_l_mapping_apply.sql:43: ERROR:  Phase G-L mapping-apply ABORT: 1 mapping rows reference non-existent new_user_id
+CONTEXT:  PL/pgSQL function inline_code_block line 8 at RAISE
+  Phase 1 rows persisted after Phase 2 abort: 11 (expect 11)
+NEGATIVE FIXTURE 3 PASS (runner aborted at mapping preflight; PHASE 1 rows preserved)
+
+================================================================
+NEGATIVE FIXTURE 4 (G-N): post-write PHASE 1 failure -> transaction rollback -> 0 canonical rows
+================================================================
+
+DROP DATABASE
+CREATE DATABASE
+psql:/tmp/phase_g_l_test_stage/baseline.sql:119: NOTICE:  extension "pgcrypto" already exists, skipping
+psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive migration OK: legacy_user_id present on customers, partners, drivers, onderaannemers, bookings
+Generated positive fixtures in /tmp/phase_g_l_test_stage
+[neg4] Running run_wave4_import.sh with G_N_TEST_INJECT_FAIL=after_first_insert (expect ABORT after customers INSERT)...
+  NEW_DB_URL: [set]                 <- NEVER print the value (Lux ee52b1a §4)
+  FC_CSV_DIR: /tmp/phase_g_l_test_stage
+
+psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:31: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:32: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:33: NOTICE:  schema "staging" does not exist, skipping
+psql:phase_g_l_staging_create.sql:179: NOTICE:  Phase G-L staging-create OK: staging.customers/partners/drivers/bookings present, empty
+psql:phase_g_l_staging_transform.sql:172: ERROR:  Phase G-N TEST INJECTION: deliberate post-write failure after customers INSERT; transaction MUST roll back. Lux ee52b1a §6.12
+CONTEXT:  PL/pgSQL function inline_code_block line 12 at RAISE
+  Canonical rows after neg4 post-write rollback: 0 (expect 0)
+  public.customers rows after neg4 rollback: 0 (expect 0; the customers INSERT was rolled back)
+  [secrets] neg4 log: clean (no credential values printed)
+NEGATIVE FIXTURE 4 PASS (post-write failure -> transaction rolled back -> 0 canonical rows)
+
+================================================================
+ALL Phase G-N Wave 4 tests PASSED
+  - deprecation shim: old run_wave4.sh rejected with code 70
+  - positive fixture: 11 rows imported (run_wave4_import.sh) + mapped (run_wave4_apply.sh), all V0-V5 zero
+  - negative fixture 1: duplicate partner email -> ABORT at A.2 preflight; 0 canonical rows
+  - negative fixture 2: orphan driver.partner_legacy_pk -> ABORT at A.3 preflight; 0 canonical rows
+  - negative fixture 3: bogus mapping new_user_id -> ABORT at PHASE 2 mapping preflight; PHASE 1 rows preserved (11)
+  - negative fixture 4 (G-N §6.12): post-write failure -> PHASE 1 transaction rolled back -> 0 canonical rows
+  - secrets-leakage scan: every runner log clean (no NEW_DB_URL credential value printed)
+================================================================

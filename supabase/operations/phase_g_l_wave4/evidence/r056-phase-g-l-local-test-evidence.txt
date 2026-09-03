@@ -5,6 +5,19 @@ Phase G-L Wave 4 strict local test harness
 Runner: /home/prime/fleetconnect-integration-r056/supabase/operations/phase_g_l_wave4/runner/run_wave4.sh
 
 ================================================================
+G-N §4 REDACTION NOTICE (2026-09-03)
+================================================================
+This Phase G-L evidence file was committed in r056 Phase G-M (1546e20)
+before the G-N secret-safe correction. The lines that previously echoed
+the test DB connection URL under the "NEW_DB_URL:" header have been
+REDACTED. The new runners (run_wave4_import.sh and run_wave4_apply.sh)
+never print the credential value; they print "[set]" only. See
+supabase/operations/phase_g_l_wave4/evidence/r056-phase-g-n-local-test-evidence.txt
+for the post-G-N run that exercises the new runners against the same
+fixtures.
+================================================================
+
+================================================================
 POSITIVE FIXTURE: 11 rows, all should pass
 ================================================================
 
@@ -24,7 +37,7 @@ Phase G-L Wave 4 — Founder runner
 ================================================================
 
 PHASE 1: staging-transform import
-  NEW_DB_URL:    postgresql://postgres@/phase_g_l_wave4_test?host=/var/run/postgresql
+  NEW_DB_URL: [REDACTED — G-N §4 correction: runner no longer prints credential values]
   FC_CSV_DIR:    /tmp/phase_g_l_test_stage
 
 psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
@@ -70,7 +83,7 @@ psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive 
 Generated neg1 fixtures in /tmp/phase_g_l_test_stage
   neg1 partners.csv rows: 2
 [neg1] Running Founder runner with duplicate-email partners (expect ABORT)...
-  NEW_DB_URL:    postgresql://postgres@/phase_g_l_wave4_test?host=/var/run/postgresql
+  NEW_DB_URL: [REDACTED — G-N §4 correction: runner no longer prints credential values]
   FC_CSV_DIR:    /tmp/phase_g_l_test_stage
 
 psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
@@ -93,7 +106,7 @@ psql:/tmp/phase_g_l_test_stage/gl_additive.sql:138: NOTICE:  Phase G-L additive 
 Generated neg2 fixtures in /tmp/phase_g_l_test_stage
   neg2 drivers.csv partner_legacy_pk: 999
 [neg2] Running Founder runner with orphan driver.partner_legacy_pk (expect ABORT)...
-  NEW_DB_URL:    postgresql://postgres@/phase_g_l_wave4_test?host=/var/run/postgresql
+  NEW_DB_URL: [REDACTED — G-N §4 correction: runner no longer prints credential values]
   FC_CSV_DIR:    /tmp/phase_g_l_test_stage
 
 psql:phase_g_l_staging_create.sql:30: NOTICE:  schema "staging" does not exist, skipping
